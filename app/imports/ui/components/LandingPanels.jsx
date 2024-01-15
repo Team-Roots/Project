@@ -15,15 +15,12 @@ const LandingPanel = () => {
     <Container id={PAGE_IDS.LANDING} className="py-3">
       <Nav variant="underline" defaultActiveKey="/home">
         <Nav.Item>
-          {/* Call handleButtonClick function when Home link is clicked */}
           <Nav.Link href="" onClick={() => handleButtonClick('home')}>Home</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          {/* Call handleButtonClick function when Give Help link is clicked */}
           <Nav.Link onClick={() => handleButtonClick('giveHelp')}>Give Help</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          {/* Call handleButtonClick function when Need Help link is clicked */}
           <Nav.Link onClick={() => handleButtonClick('needHelp')}>Need Help</Nav.Link>
         </Nav.Item>
       </Nav>
