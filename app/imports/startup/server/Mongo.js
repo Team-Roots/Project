@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/StuffCollection';
+
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
@@ -15,3 +16,4 @@ if (Stuffs.count() === 0) {
     Meteor.settings.defaultData.forEach(data => addData(data));
   }
 }
+
