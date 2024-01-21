@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Container, Col, Button, Nav, NavItem } from 'react-bootstrap';
+import { Container, Col, Row, Nav } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import BarGraph from './BarGraph';
 
-/** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const LandingPanel = () => {
   const [activePanel, setActivePanel] = useState('home');
 
-  {/* SetActivePanel utilizes useState. Used to update the state variable activePanel with a new value (other panels) */}
+  /* SetActivePanel utilizes useState. Used to update the state variable activePanel with a new value (other panels) */
   const handleButtonClick = (panel) => {
     setActivePanel(panel);
   };
 
   return (
-    <Container id={PAGE_IDS.LANDING} className="py-3">
+    <Container id={PAGE_IDS.LANDING} className="py-1">
       <Nav variant="underline" defaultActiveKey="/home">
         <Nav.Item>
           <Nav.Link href="" onClick={() => handleButtonClick('home')}>Home</Nav.Link>
@@ -28,10 +28,30 @@ const LandingPanel = () => {
         <div style={{ position: 'relative', height: '200px' }} className="pt-3">
           {/* Home Panel */}
           {activePanel === 'home' && (
-            <div style={{ position: 'absolute', zIndex: 3 }}>
-              <h2>Home Panel</h2>
-              <p>DASHBOARD HERE</p>
-            </div>
+            <Container style={{ position: 'absolute', zIndex: 3 }}>
+              <h2>Welcome back, (USER NAME)!</h2>
+              <Row className="pt-3">
+                <Col>
+                  <h5>Your Volunteer Stats</h5>
+                  <p>
+                    Total Hours Served: #<br />
+                    Organizations Helped: #<br />
+
+                  </p>
+                </Col>
+                <Col>
+                  <BarGraph />
+                </Col>
+                <Col>
+                  <h5>Upcoming Events</h5>
+                  <p>
+                    Events in the upcoming week: <br />
+                    Link to calendar for more information <br />
+
+                  </p>
+                </Col>
+              </Row>
+            </Container>
           )}
 
           {/* Get Help Panel */}
