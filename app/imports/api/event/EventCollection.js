@@ -1,9 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import BaseCollection from '../base/BaseCollection';
 import { Roles } from 'meteor/alanning:roles';
+import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+
+export const eventPublications = {
+  event: 'Event',
+  eventAdmin: 'EventAdmin',
+};
 
 class EventCollection extends BaseCollection {
   constructor() {
@@ -78,6 +83,15 @@ class EventCollection extends BaseCollection {
       });
     }
   }
+
+  subscribeEvent() {
+    if (Meteor.isClient) {
+      // Choose the correct publication name based on your requirement
+      return Meteor.subscribe('allEvents');
+    }
+    return null;
+  }
+
 }
 
 export const Events = new EventCollection();
