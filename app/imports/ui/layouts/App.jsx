@@ -7,9 +7,10 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
+import ListEvent from '../pages/ListEvent';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
-import MyAccount from '../pages/MyAccount';
 import AddStuff from '../pages/AddStuff';
+import AddEvent from '../pages/AddEvent';
 import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
@@ -40,8 +41,9 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
+          <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-          <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
+          <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
