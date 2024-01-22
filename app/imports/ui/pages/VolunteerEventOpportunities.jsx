@@ -1,6 +1,8 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, FormCheck } from 'react-bootstrap';
 // import { RadioField, AutoForm } from 'uniforms-bootstrap5';
+import FormCheckInput from 'react-bootstrap/FormCheckInput';
+import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import EventCard from '../components/EventCard';
 
 const VolunteerEventOpportunities = () => (
@@ -10,21 +12,47 @@ const VolunteerEventOpportunities = () => (
     </Row>
     <Row>
       <Col md={2} lg={2}>
-        <h3>Filter By:</h3>
+        <h3>Filter By</h3>
         <h4>Location</h4>
-        <p>Within 1 Mile</p>
-        <p>Within 5 Miles</p>
-        <p>Within 10 Miles</p>
+        <FormCheck>
+          <FormCheckInput type="radio" />
+          <FormCheckLabel>Within 1 Mile</FormCheckLabel>
+        </FormCheck>
+        <FormCheck>
+          <FormCheckInput type="radio" />
+          <FormCheckLabel>Within 5 Miles</FormCheckLabel>
+        </FormCheck>
+        <FormCheck>
+          <FormCheckInput type="radio" />
+          <FormCheckLabel>Within 10 Miles</FormCheckLabel>
+        </FormCheck>
         <h4>Category</h4>
-        <p>Animal Shelter</p>
-        <p>Clean Up</p>
-        <p>Food Distribution</p>
-        <h4>Need Background Check</h4>
+        <FormCheck>
+          <FormCheckInput type="checkbox" />
+          <FormCheckLabel>Animal Shelter</FormCheckLabel>
+        </FormCheck>
+        <FormCheck>
+          <FormCheckInput type="checkbox" />
+          <FormCheckLabel>Clean Up</FormCheckLabel>
+        </FormCheck>
+        <FormCheck>
+          <FormCheckInput type="checkbox" />
+          <FormCheckLabel>Food Distribution</FormCheckLabel>
+        </FormCheck>
+        <br />
+        <FormCheck>
+          <FormCheckInput type="checkbox" />
+          <FormCheckLabel>
+            <h5>Need Background Check</h5>
+          </FormCheckLabel>
+        </FormCheck>
       </Col>
       <Col>
-        <Row md={2} lg={2}>
+        <Row md={2} lg={2} className="m-1">
           <EventCard />
           <EventCard />
+        </Row>
+        <Row md={2} lg={2} className="m-1">
           <EventCard />
           <EventCard />
         </Row>
