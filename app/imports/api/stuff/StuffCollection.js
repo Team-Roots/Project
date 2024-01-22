@@ -56,7 +56,7 @@ class StuffCollection extends BaseCollection {
     if (name) {
       updateData.name = name;
     }
-    // if (quantity) { NOTE: 0 is falsy so we need to check if the quantity is a number.
+    // if (quantity) { NOTE: 0 is falsy, so we need to check if the quantity is a number.
     if (_.isNumber(quantity)) {
       updateData.quantity = quantity;
     }

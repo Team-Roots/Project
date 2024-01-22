@@ -1,9 +1,11 @@
 export const COMPONENT_IDS = {
   LIST_STUFF_EDIT: 'list-stuff-edit',
-  MANAGE_DATABASE_DUMP: 'manage-database-dump',
-  NAVBAR_MY_ACCOUNT: 'navbar-my-account',
+  LIST_EVENT_EDIT: 'list-event-edit',
+  MANGAGE_DATABASE_DUMP: 'manage-database-dump',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
+  NAVBAR_ADD_EVENT: 'navbar-add-event',
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
+  NAVBAR_LIST_EVENT: 'navbar-list-event',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
