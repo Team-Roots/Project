@@ -1,7 +1,7 @@
 import React from 'react';
 import swal from 'sweetalert';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, HiddenField, DateField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Col, Container, Row } from 'react-bootstrap';
+import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
@@ -15,7 +15,7 @@ const bridge = new SimpleSchema2Bridge(Events._schema);
 /* Renders the EditEvent page for editing a single event document. */
 const EditEvent = () => {
   const { _id } = useParams();
-  const { doc, ready } = useTracker(() => {
+  const { ready } = useTracker(() => {
     const subscription = Events.subscribeEvents();
     const rdy = subscription.ready();
     const document = Events.findOne(_id);
@@ -39,18 +39,15 @@ const EditEvent = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8}>
           <h2 className="text-center">Edit Event</h2>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-            <Card>
-              <Card.Body>
-                <TextField name="eventName" />
-                <DateField name="eventDate" />
-                <TextField name="eventLocation" />
-                <LongTextField name="eventDescription" />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-                <HiddenField name="owner" />
-              </Card.Body>
-            </Card>
+          <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
+            <TextField name="eventName" placeholder="Event Name" />
+            <LongTextField name="eventDescription" placeholder="Event Description" />
+            <TextField name="eventLocation" placeholder="Event Location" />
+            <TextField name="eventCoordinatorName" placeholder="Coordinator's Name" />
+            <TextField name="eventCoordinatorContact" placeholder="Coordinator's Contact Info" />
+            <LongTextField name="specialInstructions" placeholder="Special Instructions (Optional)" />
+            <SubmitField value="Submit" />
+            <ErrorsField />
           </AutoForm>
         </Col>
       </Row>

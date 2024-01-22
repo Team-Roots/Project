@@ -16,4 +16,3 @@ if (Stuffs.count() === 0) {
     Meteor.settings.defaultData.forEach(data => addData(data));
   }
 }
-

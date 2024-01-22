@@ -13,43 +13,40 @@ export const eventPublications = {
 class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
-      eventName: String,
-      eventDescription: String,
-      eventDates: {
-        type: Array,
-        optional: true,
-      },
-      'eventDates.$': {
-        type: Date,
-      },
-      eventTimeStart: Date,
-      eventTimeEnd: Date,
-      eventLocation: String,
-      eventCoordinator: {
-        type: Object,
-        optional: true,
-      },
-      'eventCoordinator.name': String,
-      'eventCoordinator.contactInfo': String,
-      specialInstructions: {
-        type: String,
-        optional: true,
-      },
+      name: String,
+      description: String,
+      owner: String,
+      location: String,
+      eventDate: Date,
     }));
   }
 
-  define({ eventName, eventDescription, eventDates, eventTimeStart, eventTimeEnd, eventLocation, eventCoordinator, specialInstructions }) {
+  define({ name, description, owner, location, eventDate }) {
     const docID = this._collection.insert({
-      eventName,
-      eventDescription,
-      eventDates,
-      eventTimeStart,
-      eventTimeEnd,
-      eventLocation,
-      eventCoordinator,
-      specialInstructions,
+      name,
+      description,
+      owner,
+      location,
+      eventDate,
     });
     return docID;
+  }
+
+  update(docID, { name, description, location, eventDate }) {
+    const updateData = {};
+    if (name) {
+      updateData.name = name;
+    }
+    if (description) {
+      updateData.description = description;
+    }
+    if (location) {
+      updateData.location = location;
+    }
+    if (eventDate) {
+      updateData.eventDate = eventDate;
+    }
+    this._collection.update(docID, { $set: updateData });
   }
 
   removeIt(docID) {
@@ -65,17 +62,15 @@ class EventCollection extends BaseCollection {
   publish() {
     if (Meteor.isServer) {
       const instance = this;
-
-      // Publish all events
-      Meteor.publish('allEvents', function publish() {
+      Meteor.publish(eventPublications.event, function publish() {
         if (this.userId) {
-          return instance._collection.find();
+          const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find({ owner: username });
         }
         return this.ready();
       });
 
-      // Publish events based on specific roles, like Admin
-      Meteor.publish('adminEvents', function publish() {
+      Meteor.publish(eventPublications.eventAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -86,12 +81,31 @@ class EventCollection extends BaseCollection {
 
   subscribeEvent() {
     if (Meteor.isClient) {
-      // Choose the correct publication name based on your requirement
-      return Meteor.subscribe('allEvents');
+      return Meteor.subscribe(eventPublications.event);
     }
     return null;
   }
 
+  subscribeEventAdmin() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(eventPublications.eventAdmin);
+    }
+    return null;
+  }
+
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.USER]);
+  }
+
+  dumpOne(docID) {
+    const doc = this.findDoc(docID);
+    const name = doc.name;
+    const description = doc.description;
+    const location = doc.location;
+    const owner = doc.owner;
+    const eventDate = doc.eventDate;
+    return { name, description, location, owner, eventDate };
+  }
 }
 
 export const Events = new EventCollection();
