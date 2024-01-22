@@ -14,37 +14,79 @@ class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
-      description: String,
-      owner: String,
-      location: String,
       eventDate: Date,
+      description: String,
+      category: String,
+      location: String,
+      startTime: String,
+      endTime: String,
+      coordinator: String,
+      amountVolunteersNeeded: Number,
+      specialInstructions: {
+        type: String,
+        optional: true,
+      },
+      restrictions: {
+        type: Object,
+        optional: true,
+        blackbox: true,
+      },
+      owner: String,
     }));
   }
 
-  define({ name, description, owner, location, eventDate }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
     const docID = this._collection.insert({
       name,
+      eventDate,
       description,
       owner,
+      category,
       location,
-      eventDate,
+      startTime,
+      endTime,
+      coordinator,
+      amountVolunteersNeeded,
+      specialInstructions,
+      restrictions,
     });
     return docID;
   }
 
-  update(docID, { name, description, location, eventDate }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
     }
+    if (eventDate) {
+      updateData.eventDate = eventDate;
+    }
     if (description) {
       updateData.description = description;
+    }
+    if (category) {
+      updateData.category = category;
     }
     if (location) {
       updateData.location = location;
     }
-    if (eventDate) {
-      updateData.eventDate = eventDate;
+    if (startTime) {
+      updateData.startTime = startTime;
+    }
+    if (endTime) {
+      updateData.endTime = endTime;
+    }
+    if (coordinator) {
+      updateData.coordinator = coordinator;
+    }
+    if (amountVolunteersNeeded) {
+      updateData.amountVolunteersNeeded = amountVolunteersNeeded;
+    }
+    if (specialInstructions) {
+      updateData.specialInstructions = specialInstructions;
+    }
+    if (restrictions) {
+      updateData.restrictions = restrictions;
     }
     this._collection.update(docID, { $set: updateData });
   }

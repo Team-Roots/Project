@@ -3,31 +3,44 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-/** Renders a single row in the List Event table. */
+/** Renders a single row in the List Event table with Bootstrap styling. */
 const EventItem = ({ event }) => {
-  console.log(event);
-  // Check if eventDate is a valid date and convert it to a string.
   const displayDate = event.eventDate instanceof Date ? event.eventDate.toDateString() : 'N/A';
+  const displayStartTime = event.startTime || 'N/A';
+  const displayEndTime = event.endTime || 'N/A';
+  const displayVolunteers = event.amountVolunteersNeeded !== undefined ? event.amountVolunteersNeeded : 'N/A';
 
   return (
     <tr>
       <td>{event.name}</td>
       <td>{displayDate}</td>
+      <td>{event.category}</td>
+      <td>{displayStartTime}</td>
+      <td>{displayEndTime}</td>
       <td>{event.location}</td>
+      <td>{event.coordinator}</td>
+      <td>{displayVolunteers}</td>
+      <td>{event.specialInstructions}</td>
       <td>
-        <Link className={COMPONENT_IDS.LIST_EVENT_EDIT} to={`/edit-event/${event._id}`}>Edit</Link>
+        <Link className={`btn btn-sm btn-primary ${COMPONENT_IDS.LIST_EVENT_EDIT}`} to={`/edit-event/${event._id}`}>Edit</Link>
       </td>
     </tr>
   );
 };
 
-// Require a document to be passed to this component.
 EventItem.propTypes = {
   event: PropTypes.shape({
-    eventName: PropTypes.string.isRequired,
-    eventDate: PropTypes.instanceOf(Date),
-    eventLocation: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    eventDate: PropTypes.instanceOf(Date),
+    category: PropTypes.string.isRequired,
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+    location: PropTypes.string.isRequired,
+    coordinator: PropTypes.string.isRequired,
+    amountVolunteersNeeded: PropTypes.number,
+    specialInstructions: PropTypes.string,
+    restrictions: PropTypes.object,
   }).isRequired,
 };
 

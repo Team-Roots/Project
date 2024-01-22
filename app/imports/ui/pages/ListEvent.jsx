@@ -9,7 +9,7 @@ const ListEvent = () => {
   const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
-    const eventItems = Events.find({}, { sort: { eventName: 1 } }).fetch();
+    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch(); // Assuming the sort field is `name`
     return {
       events: eventItems,
       ready: rdy,
@@ -35,16 +35,21 @@ const ListEvent = () => {
           <h2 className="text-center">List Events</h2>
           <Table striped bordered hover>
             <thead>
-            <tr>
-              <th>Event Name</th>
-              <th>Event Date</th>
-              <th>Event Location</th>
-              <th>Event Description</th>
-              <th>Edit</th>
-            </tr>
+              <tr>
+                <th>Event Name</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Coordinator</th>
+                <th>Volunteers Needed</th>
+                <th>Special Instructions</th>
+                <th>Edit</th>
+              </tr>
             </thead>
             <tbody>
-            {events.map((event) => <EventItem key={event._id} event={event} />)}
+              {events.map((event) => <EventItem key={event._id} event={event} />)}
             </tbody>
           </Table>
         </Col>

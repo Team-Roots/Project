@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { AutoForm, TextField, DateField, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
+import { AutoForm, TextField, DateField, SubmitField, ErrorsField, NumField } from 'uniforms-bootstrap5';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -12,9 +12,23 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
   name: String,
+  eventDate: Date,
   description: String,
+  category: String,
   location: String,
-  eventDate: Date, // Added field for event date
+  startTime: String,
+  endTime: String,
+  coordinator: String,
+  amountVolunteersNeeded: Number,
+  specialInstructions: {
+    type: String,
+    optional: true,
+  },
+  restrictions: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -25,10 +39,10 @@ const AddEvent = () => {
 
   // On submit, insert the data.
   const submit = (data) => {
-    const { name, description, location, eventDate } = data; // Include eventDate
+    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions } = data;
     const owner = Meteor.user().username;
     const collectionName = Events.getCollectionName();
-    const definitionData = { name, description, location, eventDate, owner }; // Include eventDate
+    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, owner };
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
@@ -46,9 +60,15 @@ const AddEvent = () => {
               <h2 className="text-center">Add Event</h2>
               <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
                 <TextField name="name" placeholder="Event Name" />
-                <TextField name="description" placeholder="Event Description" />
-                <TextField name="location" placeholder="Event Location" />
                 <DateField name="eventDate" placeholder="Event Date" />
+                <TextField name="description" placeholder="Event Description" />
+                <TextField name="category" placeholder="Category" />
+                <TextField name="location" placeholder="Event Location" />
+                <TextField name="startTime" placeholder="Start Time" />
+                <TextField name="endTime" placeholder="End Time" />
+                <TextField name="coordinator" placeholder="Event Coordinator" />
+                <NumField name="amountVolunteersNeeded" placeholder="Amount of Volunteers Needed" />
+                <TextField name="specialInstructions" placeholder="Special Instructions" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </AutoForm>

@@ -36,7 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-utils": "^3.0.0",
     "faker": "^5.5.3",
-    "fast-check": "^3.11.0",
+    "fast-check": "^3.15.0",
     "puppeteer": "^19.11.1",
     "testcafe": "^3.0.1"
   },
