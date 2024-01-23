@@ -11,6 +11,7 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { BsEnvelopeAtFill } from "react-icons/bs";
 // eslint-disable-next-line react/forbid-prop-types
 import { BsFillFileLockFill } from "react-icons/bs";
+import {Button} from 'react-bootstrap';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
