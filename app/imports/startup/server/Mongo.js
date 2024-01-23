@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/StuffCollection';
+
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
