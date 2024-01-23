@@ -7,6 +7,10 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+// eslint-disable-next-line react/forbid-prop-types
+import { BsEnvelopeAtFill } from "react-icons/bs";
+// eslint-disable-next-line react/forbid-prop-types
+import { BsFillFileLockFill } from "react-icons/bs";
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
@@ -47,12 +51,14 @@ const SignIn = () => {
       <Row className="justify-content-center">
         <Col xs={5}>
           <Col className="text-center">
-            <h2>Login to your account</h2>
+            <h2>Welcome to Voluntree Login to your account</h2>
           </Col>
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
               <Card.Body>
+                <BsEnvelopeAtFill />
                 <TextField id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL} name="email" placeholder="E-mail address" />
+                <BsFillFileLockFill />
                 <TextField id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
                 <ErrorsField />
                 <SubmitField id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT} />
