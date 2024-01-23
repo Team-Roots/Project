@@ -1,17 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'fast-check';
+import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 
 Meteor.methods({
-  'events.remove'(eventId) {
+  'events.delete'(eventId) {
     check(eventId, String);
 
-    // Perform security checks here (like if the user is allowed to delete)
-
-    Events.remove(eventId);
+    Events.collection.remove(eventId);
   },
 });
+
 // Initialize the database with a default data document.
 function addData(data) {
   console.log(`  Adding: ${data.name} (${data.owner})`);

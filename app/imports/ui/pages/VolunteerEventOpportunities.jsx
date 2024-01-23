@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, FormCheck } from 'react-bootstrap';
+import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -8,6 +9,10 @@ import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const VolunteerEventOpportunities = () => {
+  const navigate = useNavigate();
+  const handleAddEventClick = () => {
+    navigate('/add-event'); // Navigate to the add-event page
+  };
   const { events, ready } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
@@ -34,8 +39,17 @@ const VolunteerEventOpportunities = () => {
   }
   return (
     <Container className="py-3">
-      <Row>
-        <h2 className="text-center">Volunteer Event Opportunities</h2>
+      <Row className="justify-content-center">
+        <Col xs="auto">
+          <Button
+            variant="primary"
+            className="rounded-circle d-flex justify-content-center align-items-center"
+            style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
+            onClick={handleAddEventClick}
+          >
+            <i className="fas fa-plus" />
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Col md={2} lg={2}>

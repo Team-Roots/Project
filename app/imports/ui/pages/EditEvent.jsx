@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Col, Container, Row, Button } from 'react-bootstrap';
 import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, SelectField, DateField } from 'uniforms-bootstrap5';
@@ -14,7 +14,7 @@ const bridge = new SimpleSchema2Bridge(Events._schema);
 
 const EditEvent = () => {
   const { _id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { doc, ready } = useTracker(() => {
     const subscription = Events.subscribeEvent();
@@ -50,7 +50,7 @@ const EditEvent = () => {
               swal('Error', error.reason, 'error');
             } else {
               swal('Your event has been deleted!', { icon: 'success' });
-              history.push('/events'); // Redirect to the events list or another appropriate path
+              navigate.push('/events'); // Redirect to the events list or another appropriate path
             }
           });
         }
