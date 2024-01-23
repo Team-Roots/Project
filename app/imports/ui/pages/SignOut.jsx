@@ -12,7 +12,7 @@ const SignOut = () => {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh', // This makes the div take the full height of the viewport
-      marginTop: '-380px',
+      marginTop: '-320px',
     }}
     >
       <Card style={{ width: '18rem' }}>
