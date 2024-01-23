@@ -55,11 +55,11 @@ const SignIn = () => {
             <Card>
               <Card.Body>
                 <BsEnvelopeAtFill />
-                <TextField id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL} name="email" placeholder="E-mail address" />
+                <TextField id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL} name="email" placeholder="Type your E-mail address" />
                 <BsFillFileLockFill />
-                <TextField id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
+                <TextField id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD} name="password" placeholder="Type your Password" type="password" />
                 <ErrorsField />
-                <SubmitField id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT} />
+                <SubmitField id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT} value="LOGIN" />
               </Card.Body>
             </Card>
           </AutoForm>
