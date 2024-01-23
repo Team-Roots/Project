@@ -7,11 +7,8 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-// eslint-disable-next-line react/forbid-prop-types
 import { BsEnvelopeAtFill } from "react-icons/bs";
-// eslint-disable-next-line react/forbid-prop-types
 import { BsFillFileLockFill } from "react-icons/bs";
-import {Button} from 'react-bootstrap';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
