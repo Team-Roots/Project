@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric'
+    year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
 
   return (
