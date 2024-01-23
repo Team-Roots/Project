@@ -40,6 +40,7 @@ EventItem.propTypes = {
     coordinator: PropTypes.string.isRequired,
     amountVolunteersNeeded: PropTypes.number,
     specialInstructions: PropTypes.string,
+    // eslint-disable-next-line no-unused-vars,react/forbid-prop-types
     restrictions: PropTypes.object,
   }).isRequired,
 };
