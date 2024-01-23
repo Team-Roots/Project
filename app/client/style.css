@@ -26,3 +26,28 @@ body {
   padding-top: 10px;
   padding-bottom: 20px;
 }
+
+.card.accountcard {
+  --bs-card-border-color: #02B5A6;
+  --bs-body-bg: #02B5A6;
+  --bs-body-color: white;
+  --bs-card-title-color: white;
+}
+
+.card-title.accountcardtitle {
+  font-size: 30px;
+}
+
+.card-subtitle.accountcardsubtitle {
+  font-size: 20px;
+}
+
+.btn.accountbutton {
+  background-color: #005C6D;
+  border-color: #005C6D;
+  --bs-btn-hover-bg: #00839c;
+  --bs-btn-hover-border-color: #00839c;
+  --bs-btn-active-border-color: #005C6D;
+  --bs-btn-active-bg: #005C6D;
+}
+

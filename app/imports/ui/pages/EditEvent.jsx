@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import { Col, Container, Row, Button } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, SelectField, DateField } from 'uniforms-bootstrap5';
+import { Col, Container, Row } from 'react-bootstrap';
+// eslint-disable-next-line no-unused-vars
+import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField, SelectField, BoolField, DateField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { Meteor } from 'meteor/meteor';
@@ -18,6 +19,12 @@ const EditEvent = () => {
 
   const { doc, ready } = useTracker(() => {
     const subscription = Events.subscribeEvent();
+  // eslint-disable-next-line no-unused-vars
+  const [formRef, setFormRef] = useState(null);
+  const { ready, doc } = useTracker(() => {
+    const subscription = Events.subscribeEvents();
+    const rdy = subscription.ready();
+    const document = Events.findOne(_id);
     return {
       doc: Events.findOne(_id),
       ready: subscription.ready(),

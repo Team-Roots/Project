@@ -1,6 +1,6 @@
 import React from 'react';
+import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
