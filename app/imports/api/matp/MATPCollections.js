@@ -3,6 +3,7 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { Skills } from '../skill/SkillCollection';
+import { UserStats } from '../user/UserStatsCollection';
 
 class MATPClass {
   collections;
@@ -18,6 +19,7 @@ class MATPClass {
       Stuffs,
       UserProfiles,
       Skills,
+      UserStats,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -27,6 +29,7 @@ class MATPClass {
       UserProfiles,
       Stuffs,
       Skills,
+      UserStats,
     ];
 
     /*

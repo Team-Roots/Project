@@ -6,9 +6,8 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const SkillConditions = ['excellent', 'good', 'fair', 'poor'];
 export const SkillPublications = {
-  Skill: 'Skill',
+  skill: 'Skill',
 };
 
 class SkillCollection extends BaseCollection {
@@ -67,15 +66,12 @@ class SkillCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{owner: (*|number), condition: *, quantity: *, name}}
+   * @return {{name}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const name = doc.name;
-    const quantity = doc.quantity;
-    const condition = doc.condition;
-    const owner = doc.owner;
-    return { name, quantity, condition, owner };
+    return { name };
   }
 }
 
