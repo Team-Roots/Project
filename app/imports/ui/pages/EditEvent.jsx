@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import swal from 'sweetalert';
 import { Col, Container, Row } from 'react-bootstrap';
+// eslint-disable-next-line no-unused-vars
 import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField, SelectField, BoolField, DateField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -15,6 +16,7 @@ const bridge = new SimpleSchema2Bridge(Events._schema);
 /* Renders the EditEvent page for editing a single event document. */
 const EditEvent = () => {
   const { _id } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [formRef, setFormRef] = useState(null);
   const { ready, doc } = useTracker(() => {
     const subscription = Events.subscribeEvents();

@@ -141,4 +141,9 @@ class UserSkillsCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const UserSkillsCollection = new UserSkillsCollection();
+
+/**
+ * export const UserSkillsCollection = new UserSkillsCollection();
+ */
+
+export const UserSkills = new UserSkillsCollection();
