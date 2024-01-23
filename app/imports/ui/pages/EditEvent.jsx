@@ -9,17 +9,21 @@ import { Events } from '../../api/event/EventCollection';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import { Stuffs } from '../../api/stuff/StuffCollection';
 
 const bridge = new SimpleSchema2Bridge(Events._schema);
 
 /* Renders the EditEvent page for editing a single event document. */
 const EditEvent = () => {
   const { _id } = useParams();
-  const [formRef, setFormRef] = useState(null);
-  const { ready, doc } = useTracker(() => {
-    const subscription = Events.subscribeEvents();
+  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  const { doc, ready } = useTracker(() => {
+    // Get access to Stuff documents.
+    const subscription = Events.subscribeEvent();
+    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    const document = Events.findOne(_id);
+    // Get the document
+    const document = Events.findDoc(_id);
     return {
       doc: document,
       ready: rdy,
@@ -40,7 +44,7 @@ const EditEvent = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8}>
           <h2 className="text-center">Edit Event</h2>
-          <AutoForm model={doc} ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
+          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
             <TextField name="name" placeholder="Event Name" />
             <DateField name="eventDate" placeholder="Event Date" />
             <TextField name="category" placeholder="Category" />
