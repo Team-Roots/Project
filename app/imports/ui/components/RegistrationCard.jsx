@@ -3,6 +3,7 @@ import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-boots
 import { Link } from 'react-router-dom';
 
 const RegistrationCard = () => {
+
   return (
     <Container>
       <Row className="justify-content-center align-items-center my-5">
@@ -12,10 +13,10 @@ const RegistrationCard = () => {
         <Col md={9} >
           <Card className="mt-5">
             <Card.Header className="bg-transparent border-0 text-center">
-              <h1>Event Name</h1>
+              <h1>EVENT NAME</h1>
             </Card.Header>
             <Card.Body className="text-end">
-              <Button as={Link} to="/volunteerform" variant="danger" size="lg" className="mb-3">
+              <Button as={Link} to="/registrationform" variant="danger" size="lg" className="mb-3">
                 I Want to Help
               </Button>
               <ListGroup variant="flush" className="text-start">
@@ -26,8 +27,6 @@ const RegistrationCard = () => {
                 <ListGroup.Item><strong>DATE POSTED: </strong></ListGroup.Item>
                 <ListGroup.Item><strong>DESCRIPTION: </strong></ListGroup.Item>
               </ListGroup>
-              <Card className="mt-3">
-              </Card>
             </Card.Body>
           </Card>
         </Col>

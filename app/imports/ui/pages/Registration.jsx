@@ -1,8 +1,9 @@
 import React from 'react';
-import RegistrationCard from '../components/RegistrationCard';
 import { Container, Row } from 'react-bootstrap';
+import RegistrationCard from '../components/RegistrationCard';
 
 const Registration = () => {
+
   return (
     <Container>
       <Row>
