@@ -1,35 +1,43 @@
 import React from 'react';
-import { Button, Card, Image, Row, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const EventCard = () => (
-  <Card className="h-100">
-    <Card.Header>
-      <Row>
-        <Col className="justify-content-start">
-          <Image src="https://static.wikia.nocookie.net/aesthetics/images/0/0e/Green.jpg/revision/latest?cb=20200723215419" width="100" />
-        </Col>
-        <Col className="justify-content-end">
-          <Card.Title>Event Name</Card.Title>
-          <Card.Subtitle>
-            Organization<br />
-            Location<br />
-            Date and Time<br />
-          </Card.Subtitle>
-        </Col>
-      </Row>
-    </Card.Header>
-    <Card.Body>
-      <Card.Text>Description</Card.Text>
-      <Row>
-        <Col className="justify-content-start">
-          <Button>Connect</Button>
-        </Col>
-        <Col className="justify-content-end">
-          <Button>Commit</Button>
-        </Col>
-      </Row>
-    </Card.Body>
-  </Card>
-);
+const EventCard = ({ event }) => {
+  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  }) : 'Date not set';
+
+  return (
+    <Card className="mb-3">
+      <Card.Body>
+        <Card.Title>{event.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
+        <Card.Text>
+          {event.description}
+        </Card.Text>
+        <Card.Text>
+          Location: {event.location}
+        </Card.Text>
+        <Card.Text>
+          Coordinator: {event.coordinator}
+        </Card.Text>
+        {/* Replace the button with a Link component for navigation */}
+        <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
+      </Card.Body>
+    </Card>
+  );
+};
+
+EventCard.propTypes = {
+  event: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    eventDate: PropTypes.instanceOf(Date),
+    description: PropTypes.string,
+    location: PropTypes.string,
+    coordinator: PropTypes.string,
+  }).isRequired,
+};
 
 export default EventCard;

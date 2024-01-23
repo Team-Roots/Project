@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Container, Row, Card, Image, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Stuffs } from '../../api/stuff/StuffCollection';
+// eslint-disable-next-line no-unused-vars
 import StuffItem from '../components/StuffItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -9,6 +10,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const MyAccount = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  // eslint-disable-next-line no-unused-vars
   const { ready, stuffs } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
