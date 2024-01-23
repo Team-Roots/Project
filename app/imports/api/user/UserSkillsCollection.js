@@ -1,53 +1,35 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const userStatsPublications = {
-  userStats: 'UserStats',
-  userStatsAdmin: 'UserStatsAdmin',
+export const userSkillsPublications = {
+  userSkills: 'UserSkillsCollection',
+  userSkillsAdmin: 'UserSkillsAdmin',
 };
 
-class UserStatsCollection extends BaseCollection {
+class UserSkillsCollection extends BaseCollection {
   constructor() {
-    super('UserStats', new SimpleSchema({
-      userEmail: { type: String, unique: true },
-      completedHours: [
-        {
-          Jan: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Feb: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Mar: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Apr: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          May: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Jun: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Jul: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Aug: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Sep: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Oct: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Nov: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Dec: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-        },
-      ],
-      personsHelped: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+    super('userSkills', new SimpleSchema({
+      userEmail: String,
+      skillName: String,
     }));
   }
 
   /**
-   * Defines a new UserStats item.
+   * Defines a new UserSkillsCollection item.
    * @param userEmail email of the user
-   * @param completedHours completed volunteer hours in the past 12 months
-   * @param personsHelped cumulative number of people helped
+   * @param skillName name of the skill
    */
-  define({ userEmail, completedHours, personsHelped }) {
-    // error checking if there already exists a userStats object with this email
+  define({ userEmail, skillName }) {
+    // error checking if there already exists a userSkill object with this email
     if (!this.findOne({ userEmail: userEmail }, {})) {
       const docID = this._collection.insert({
         userEmail,
-        completedHours,
-        personsHelped,
+        skillName,
       });
       return docID;
     }
@@ -59,20 +41,15 @@ class UserStatsCollection extends BaseCollection {
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param userEmail email of the user
-   * @param completedHours completed volunteer hours in the past 12 months
-   * @param personsHelped cumulative number of people helped
+   * @param skillName name of the skill
    */
-  update(docID, { userEmail, completedHours, personsHelped }) {
+  update(docID, { userEmail, skillName }) {
     const updateData = {};
     if (userEmail) {
       updateData.userEmail = userEmail;
     }
-    // TODO: fix completed hours error checking, may need to wait until we figure how to completed hours graph
-    if (completedHours) {
-      updateData.completedHours = completedHours;
-    }
-    if (_.isNumber(personsHelped)) {
-      updateData.personsHelped = personsHelped;
+    if (skillName) {
+      updateData.skillName = skillName;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -91,14 +68,14 @@ class UserStatsCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the userStats associated with a user.
+   * It publishes the entire collection for admin and just the userSkills associated with a user.
    */
   publish() {
     if (Meteor.isServer) {
-      // get the UserStatsCollection instance.
+      // get the UserSkillsCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(userStatsPublications.userStats, function publish() {
+      Meteor.publish(userSkillsPublications.userSkills, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).name;
           return instance._collection.find({ userEmail: username });
@@ -107,7 +84,7 @@ class UserStatsCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(userStatsPublications.userStatsAdmin, function publish() {
+      Meteor.publish(userSkillsPublications.userSkillsAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -117,11 +94,11 @@ class UserStatsCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for userStats for the current user.
+   * Subscription method for userSkills for the current user.
    */
-  subscribeUserStats() {
+  subscribeUserSkills() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(userStatsPublications.userStats);
+      return Meteor.subscribe(userSkillsPublications.userSkills);
     }
     return null;
   }
@@ -130,9 +107,9 @@ class UserStatsCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeUserStatsAdmin() {
+  subscribeUserSkillsAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(userStatsPublications.userStatsAdmin);
+      return Meteor.subscribe(userSkillsPublications.userSkillsAdmin);
     }
     return null;
   }
@@ -164,4 +141,4 @@ class UserStatsCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const UserStats = new UserStatsCollection();
+export const UserSkillsCollection = new UserSkillsCollection();

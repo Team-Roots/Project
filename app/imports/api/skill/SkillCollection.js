@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
-import { Roles } from 'meteor/alanning:roles';
+// import { _ } from 'meteor/underscore';
+// import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
@@ -13,17 +13,17 @@ export const SkillPublications = {
 class SkillCollection extends BaseCollection {
   constructor() {
     super('Skills', new SimpleSchema({
-      name: String,
+      skillName: String,
     }));
   }
 
   /**
    * Defines a new Skill item.
-   * @param name the name of the item.
+   * @param skillName the name of the item.
    */
-  define({ name }) {
+  define({ skillName }) {
     const docID = this._collection.insert({
-      name,
+      skillName,
     });
     return docID;
   }
@@ -31,12 +31,12 @@ class SkillCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
+   * @param skillName the new skillName (optional).
    */
-  update(docID, { name }) {
+  update(docID, { skillName }) {
     const updateData = {};
-    if (name) {
-      updateData.name = name;
+    if (skillName) {
+      updateData.skillName = skillName;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -66,12 +66,12 @@ class SkillCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{name}}
+   * @return {{skillName}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const name = doc.name;
-    return { name };
+    const skillName = doc.skillName;
+    return { skillName };
   }
 }
 
