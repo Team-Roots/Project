@@ -1,50 +1,72 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import { Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField, SelectField, BoolField, DateField } from 'uniforms-bootstrap5';
+import { Col, Container, Row, Button } from 'react-bootstrap';
+import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, SelectField, DateField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { useParams } from 'react-router';
+import { Meteor } from 'meteor/meteor';
 import { Events } from '../../api/event/EventCollection';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import { Stuffs } from '../../api/stuff/StuffCollection';
 
 const bridge = new SimpleSchema2Bridge(Events._schema);
 
-/* Renders the EditEvent page for editing a single event document. */
 const EditEvent = () => {
   const { _id } = useParams();
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  const history = useHistory();
+
   const { doc, ready } = useTracker(() => {
-    // Get access to Stuff documents.
     const subscription = Events.subscribeEvent();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the document
-    const document = Events.findDoc(_id);
     return {
-      doc: document,
-      ready: rdy,
+      doc: Events.findOne(_id),
+      ready: subscription.ready(),
     };
   }, [_id]);
 
   const submit = (data) => {
     const { name, eventDate, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions } = data;
-    const collectionName = Events.getCollectionName();
-    const updateData = { id: _id, name, eventDate, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions };
-    updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Event updated successfully', 'success'));
+    Meteor.call('events.update', _id, { name, eventDate, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Success', 'Event updated successfully', 'success');
+      }
+    });
   };
 
-  return ready ? (
+  const handleDelete = () => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this event!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          Meteor.call('events.remove', _id, (error) => {
+            if (error) {
+              swal('Error', error.reason, 'error');
+            } else {
+              swal('Your event has been deleted!', { icon: 'success' });
+              history.push('/events'); // Redirect to the events list or another appropriate path
+            }
+          });
+        }
+      });
+  };
+
+  if (!ready) {
+    return <LoadingSpinner />;
+  }
+
+  return (
     <Container id={PAGE_IDS.EDIT_EVENT} className="py-3">
       <Row className="justify-content-center">
         <Col xs={12} md={8}>
           <h2 className="text-center">Edit Event</h2>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
+          <AutoForm schema={bridge} onSubmit={submit} model={doc}>
             <TextField name="name" placeholder="Event Name" />
             <DateField name="eventDate" placeholder="Event Date" />
             <TextField name="category" placeholder="Category" />
@@ -54,14 +76,14 @@ const EditEvent = () => {
             <TextField name="coordinator" placeholder="Coordinator's Name" />
             <SelectField name="amountVolunteersNeeded" placeholder="Amount of Volunteers Needed" />
             <LongTextField name="specialInstructions" placeholder="Special Instructions (Optional)" />
-            {/* Add fields for restrictions if needed */}
             <SubmitField value="Submit" />
             <ErrorsField />
+            <Button variant="danger" onClick={handleDelete}>Delete Event</Button>
           </AutoForm>
         </Col>
       </Row>
     </Container>
-  ) : <LoadingSpinner />;
+  );
 };
 
 export default EditEvent;
