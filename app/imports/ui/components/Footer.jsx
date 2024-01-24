@@ -1,21 +1,41 @@
 import React from 'react';
-import { Container, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 
-/** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-const Footer = () => {
-  const divStyle = { paddingTop: '15px' };
-  return (
-    <footer className="mt-auto bg-light">
-      <Container style={divStyle}>
-        <Col className="text-center">
-          Department of Information and Computer Sciences <br />
-          University of Hawaii<br />
-          Honolulu, HI 96822 <br />
-          <a href="http://ics-software-engineering.github.io/meteor-application-template-production">Template Home Page</a>
+const Footer = () => (
+  <footer className="mt-auto py-3 bg-light">
+    <Container>
+      <Row>
+        <Col className="footer-center" xs={12} md={4}>
+          <h5>Resources</h5>
+          <a href="https://www.google.com/?client=safari">About Us</a>
+          <br />
+          <a href="https://www.google.com/?client=safari">Contact Us</a>
         </Col>
-      </Container>
-    </footer>
-  );
-};
+
+        {/* Right Section */}
+        <Col className="footer-right" xs={12} md={4}>
+          <h5>Grow the Community</h5>
+          <a href="https://www.google.com/?client=safari">Home</a>
+          <br />
+          <a href="https://www.google.com/?client=safari">Volunteer</a>
+          <br />
+          <a href="https://www.google.com/?client=safari">Post an Event</a>
+        </Col>
+
+        <Col className="footer-left" xs={12} md={4}>
+          <h5>Voluntree</h5>
+          <p>
+            Where individuals come together, plant the seeds of compassion, and watch as the collective efforts grow into a flourishing forest of shared impact.
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} className="px-3 text-center">
+          <p>© 2024 Voluntree</p>
+        </Col>
+      </Row>
+    </Container>
+  </footer>
+);
 
 export default Footer;
