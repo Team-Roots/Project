@@ -6,7 +6,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
+import ListStuff from '../pages/ListStuff';
 import VolunteerEventOpportunities from '../pages/VolunteerEventOpportunities';
+import ListStuffAdmin from '../pages/ListStuffAdmin';
+import AddStuff from '../pages/AddStuff';
 import AddEvent from '../pages/AddEvent';
 import EditEvent from '../pages/EditEvent';
 import NotFound from '../pages/NotFound';
@@ -40,12 +43,16 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
           <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
+          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
+          <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
