@@ -25,14 +25,30 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>
+
+                <NavDropdown id="login-dropdown" title="Help">
+                  <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions">
+                    FAQ
+                  </NavDropdown.Item>
+                  <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
+                    Contact Us
+                  </NavDropdown.Item>
+                </NavDropdown>
               </>
             )}
-            {currentUser ? ([
+            {currentUser ? ([ // Show these items only when user is logged in
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
+              <NavDropdown id="login-dropdown" title="Help">
+                <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions">
+                  FAQ
+                </NavDropdown.Item>
+                <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
+                  Contact Us
+                </NavDropdown.Item>
+              </NavDropdown>
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,

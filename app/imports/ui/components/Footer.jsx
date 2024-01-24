@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <footer className="mt-auto py-3 bg-light">
@@ -7,16 +8,18 @@ const Footer = () => (
       <Row>
         <Col className="footer-center" xs={12} md={4}>
           <h5>Resources</h5>
-          <a href="https://www.google.com/?client=safari">About Us</a>
+          <Link to="/aboutus">About Us</Link>
+          <br />
+          <Link to="/questions">FAQ</Link>
           <br />
           <a href="https://www.google.com/?client=safari">Contact Us</a>
         </Col>
 
         <Col className="footer-right" xs={12} md={4}>
           <h5>Grow the Community</h5>
-          <a href="https://www.google.com/?client=safari">Home</a>
+          <Link to="Home">Home</Link>
           <br />
-          <a href="https://www.google.com/?client=safari">Volunteer</a>
+          <Link to="/eventopportunities">Volunteer</Link>
           <br />
           <a href="https://www.google.com/?client=safari">Post an Event</a>
           <br />

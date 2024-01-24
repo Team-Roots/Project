@@ -22,6 +22,7 @@ import ListEvent from '../pages/ListEvent';
 import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
+import AboutUs from '../pages/AboutUs';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
+          <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
