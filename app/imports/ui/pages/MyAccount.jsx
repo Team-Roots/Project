@@ -55,8 +55,14 @@ const MyAccount = () => {
         <Col>
           <Card fluid className="accountcard text-center mt-2">
             <Card.Body>
-              <Card.Title className="py-2 accountcardtitle">My Interests</Card.Title>
-              <Button className="align-bottom accountbutton">Edit Interests</Button>
+              <Card.Title className="py-2 pb-5 accountcardtitle">My Interests</Card.Title>
+
+              <ul className="list-unstyled">
+                <li><h3>Animal Shelter</h3></li>
+                <li><h3>Clean ups</h3></li>
+                <li><h3>Food Distribution</h3></li>
+              </ul>
+              <Button className="align-bottom accountbutton mt-5">Edit Interests</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -64,8 +70,14 @@ const MyAccount = () => {
         <Col>
           <Card fluid className="accountcard text-center m-2">
             <Card.Body>
-              <Card.Title className="py-2 accountcardtitle">My Stats</Card.Title>
-              <Button className="align-bottom accountbutton">Print Stats PDF</Button>
+              <Card.Title className="py-2 pb-5 accountcardtitle">My Stats</Card.Title>
+              <h1>256</h1>
+              <h3>Hours Volunteered</h3>
+              <h1>12</h1>
+              <h3>Communities Reached</h3>
+              <h1>12</h1>
+              <h3>Persons Served</h3>
+              <Button className="align-bottom accountbutton mt-5">Print Stats PDF</Button>
             </Card.Body>
           </Card>
         </Col>
