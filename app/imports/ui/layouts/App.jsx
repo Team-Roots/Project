@@ -6,11 +6,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import ListStuff from '../pages/ListStuff';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import MyAccount from '../pages/MyAccount';
-import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
+import VolunteerEventOpportunities from '../pages/VolunteerEventOpportunities';
+import AddEvent from '../pages/AddEvent';
+import EditEvent from '../pages/EditEvent';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
@@ -20,6 +18,9 @@ import NotAuthorized from '../pages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ManageDatabase from '../pages/ManageDatabase';
+import ListEvent from '../pages/ListEvent';
+import Registration from '../pages/Registration';
+import RegistrationForm from '../pages/RegistrationForm';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -39,11 +40,12 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-          <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
-          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
-          <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
+          <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
+          <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
+          <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
+          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
+          <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />

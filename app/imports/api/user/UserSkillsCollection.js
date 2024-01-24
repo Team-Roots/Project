@@ -1,67 +1,55 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const stuffConditions = ['excellent', 'good', 'fair', 'poor'];
-export const stuffPublications = {
-  stuff: 'Stuff',
-  stuffAdmin: 'StuffAdmin',
+export const userSkillsPublications = {
+  userSkills: 'UserSkillsCollection',
+  userSkillsAdmin: 'UserSkillsAdmin',
 };
 
-class StuffCollection extends BaseCollection {
+class UserSkillsCollection extends BaseCollection {
   constructor() {
-    super('Stuffs', new SimpleSchema({
-      name: String,
-      quantity: Number,
-      owner: String,
-      condition: {
-        type: String,
-        allowedValues: stuffConditions,
-        defaultValue: 'good',
-      },
+    super('userSkills', new SimpleSchema({
+      userEmail: String,
+      skillName: String,
     }));
   }
 
   /**
-   * Defines a new Stuff item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
-   * @return {String} the docID of the new document.
+   * Defines a new UserSkillsCollection item.
+   * @param userEmail email of the user
+   * @param skillName name of the skill
    */
-  define({ name, quantity, owner, condition }) {
-    const docID = this._collection.insert({
-      name,
-      quantity,
-      owner,
-      condition,
-    });
-    return docID;
+  define({ userEmail, skillName }) {
+    // error checking if there already exists a userSkill object with this email
+    if (!this.findOne({ userEmail: userEmail }, {})) {
+      const docID = this._collection.insert({
+        userEmail,
+        skillName,
+      });
+      return docID;
+    }
+    // TODO: either return undefined/null or throw an error. should probably throw error, will figure out later
+    return undefined;
   }
 
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param userEmail email of the user
+   * @param skillName name of the skill
    */
-  update(docID, { name, quantity, condition }) {
+  update(docID, { userEmail, skillName }) {
     const updateData = {};
-    if (name) {
-      updateData.name = name;
+    if (userEmail) {
+      updateData.userEmail = userEmail;
     }
-    // if (quantity) { NOTE: 0 is falsy, so we need to check if the quantity is a number.
-    if (_.isNumber(quantity)) {
-      updateData.quantity = quantity;
-    }
-    if (condition) {
-      updateData.condition = condition;
+    if (skillName) {
+      updateData.skillName = skillName;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -80,23 +68,23 @@ class StuffCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * It publishes the entire collection for admin and just the userSkills associated with a user.
    */
   publish() {
     if (Meteor.isServer) {
-      // get the StuffCollection instance.
+      // get the UserSkillsCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(stuffPublications.stuff, function publish() {
+      Meteor.publish(userSkillsPublications.userSkills, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          const username = Meteor.users.findOne(this.userId).name;
+          return instance._collection.find({ userEmail: username });
         }
         return this.ready();
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(stuffPublications.stuffAdmin, function publish() {
+      Meteor.publish(userSkillsPublications.userSkillsAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -106,11 +94,11 @@ class StuffCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for stuff owned by the current user.
+   * Subscription method for userSkills for the current user.
    */
-  subscribeStuff() {
+  subscribeUserSkills() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(stuffPublications.stuff);
+      return Meteor.subscribe(userSkillsPublications.userSkills);
     }
     return null;
   }
@@ -119,9 +107,9 @@ class StuffCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeStuffAdmin() {
+  subscribeUserSkillsAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(stuffPublications.stuffAdmin);
+      return Meteor.subscribe(userSkillsPublications.userSkillsAdmin);
     }
     return null;
   }
@@ -143,15 +131,19 @@ class StuffCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const name = doc.name;
-    const quantity = doc.quantity;
-    const condition = doc.condition;
-    const owner = doc.owner;
-    return { name, quantity, condition, owner };
+    const userEmail = doc.userEmail;
+    const completedHours = doc.completedHours;
+    const personsHelped = doc.personsHelped;
+    return { userEmail, completedHours, personsHelped };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Stuffs = new StuffCollection();
+
+/**
+ * export const UserSkillsCollection = new UserSkillsCollection();
+ */
+
+export const UserSkills = new UserSkillsCollection();

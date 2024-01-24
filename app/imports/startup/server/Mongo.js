@@ -1,6 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
-/* eslint-disable no-console */
+import { Events } from '../../api/event/EventCollection';
+
+Meteor.methods({
+  'events.delete'(eventId) {
+    check(eventId, String);
+
+    Events.collection.remove(eventId);
+  },
+});
 
 // Initialize the database with a default data document.
 function addData(data) {

@@ -1,8 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../stuff/StuffCollection';
+import { Events } from '../event/EventCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { Organization } from '../organization/OrganizationCollection';
+import { Skills } from '../skill/SkillCollection';
+import { UserStats } from '../user/UserStatsCollection';
 
 class MATPClass {
   collections;
@@ -16,8 +19,11 @@ class MATPClass {
     this.collections = [
       AdminProfiles,
       Stuffs,
+      Events,
       UserProfiles,
       Organization,
+      Skills,
+      UserStats,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -27,6 +33,9 @@ class MATPClass {
       UserProfiles,
       Stuffs,
       Organization,
+      Skills,
+      UserStats,
+      Events,
     ];
 
     /*
