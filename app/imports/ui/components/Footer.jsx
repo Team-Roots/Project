@@ -12,7 +12,6 @@ const Footer = () => (
           <a href="https://www.google.com/?client=safari">Contact Us</a>
         </Col>
 
-        {/* Right Section */}
         <Col className="footer-right" xs={12} md={4}>
           <h5>Grow the Community</h5>
           <a href="https://www.google.com/?client=safari">Home</a>
@@ -32,7 +31,7 @@ const Footer = () => (
         </Col>
       </Row>
       <Row>
-        <Col xs={12} className="px-3 text-center">
+        <Col xs={12} className="px-3 bi-text-left">
           <p>© 2024 Voluntree</p>
         </Col>
       </Row>
