@@ -9,6 +9,11 @@ const ListEvent = () => {
   const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
+    if (!subscription.ready()) {
+      console.log('Subscription is not ready yet.');
+    } else {
+      console.log('Subscription is ready.');
+    }
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch(); // Assuming the sort field is `name`
     return {
       events: eventItems,
