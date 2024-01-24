@@ -20,6 +20,8 @@ const Footer = () => (
           <a href="https://www.google.com/?client=safari">Volunteer</a>
           <br />
           <a href="https://www.google.com/?client=safari">Post an Event</a>
+          <br />
+          <a href="https://www.google.com/?client=safari">Community Groups</a>
         </Col>
 
         <Col className="footer-left" xs={12} md={4}>
