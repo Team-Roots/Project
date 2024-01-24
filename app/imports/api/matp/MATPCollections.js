@@ -3,6 +3,7 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { Events } from '../event/EventCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
+import { Organization } from '../organization/OrganizationCollection';
 import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
 
@@ -20,6 +21,7 @@ class MATPClass {
       Stuffs,
       Events,
       UserProfiles,
+      Organization,
       Skills,
       UserStats,
     ];
@@ -30,6 +32,7 @@ class MATPClass {
       AdminProfiles,
       UserProfiles,
       Stuffs,
+      Organization,
       Skills,
       UserStats,
       Events,
