@@ -52,20 +52,20 @@ const MyAccount = () => {
             </Card>
           </Col>
 
-          <Col>
-            <Card fluid className="accountcard text-center mt-2">
-              <Card.Body>
-                <Card.Title className="py-2 pb-5 accountcardtitle">My Interests</Card.Title>
+        <Col>
+          <Card fluid className="accountcard text-center mt-2">
+            <Card.Body>
+              <Card.Title className="py-2 pb-5 accountcardtitle">My Interests</Card.Title>
 
-                <ul className="list-unstyled">
-                  <li><h3>Animal Shelter</h3></li>
-                  <li><h3>Clean ups</h3></li>
-                  <li><h3>Food Distribution</h3></li>
-                </ul>
-                <Button className="align-bottom accountbutton mt-5">Edit Interests</Button>
-              </Card.Body>
-            </Card>
-          </Col>
+              <ul className="list-unstyled">
+                <li><h3>Animal Shelter</h3></li>
+                <li><h3>Clean ups</h3></li>
+                <li><h3>Food Distribution</h3></li>
+              </ul>
+              <Button className="align-bottom accountbutton mt-5">Edit Interests</Button>
+            </Card.Body>
+          </Card>
+        </Col>
 
           <Col>
             <Card fluid className="accountcard text-center m-2">
