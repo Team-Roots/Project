@@ -13,7 +13,7 @@ export const organizationPublications = {
 
 class OrganizationAdminCollection extends BaseCollection {
   constructor() {
-    super('Organizations', new SimpleSchema({
+    super('OrganizationAdmins', new SimpleSchema({
       employee: {
         type: String,
         required: true,

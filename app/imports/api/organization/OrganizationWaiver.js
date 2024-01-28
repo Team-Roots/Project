@@ -13,7 +13,7 @@ export const organizationPublications = {
 
 class OrganizationWaiverCollection extends BaseCollection {
   constructor() {
-    super('Organizations', new SimpleSchema({
+    super('OrganizationWaiver', new SimpleSchema({
       waiver: {
         type: String,
         required: true,
