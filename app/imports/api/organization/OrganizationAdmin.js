@@ -11,7 +11,7 @@ export const organizationPublications = {
   organizationAdmin: 'OrganizationAdmin',
 };
 
-class OrganizationCollection extends BaseCollection {
+class OrganizationAdminCollection extends BaseCollection {
   constructor() {
     super('Organizations', new SimpleSchema({
       employee: {
@@ -151,4 +151,4 @@ class OrganizationCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Organization = new OrganizationCollection();
+export const OrganizationAdmin = new OrganizationAdminCollection();
