@@ -220,7 +220,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *}}
+   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -232,7 +232,9 @@ class OrganizationCollection extends BaseCollection {
     const visible = doc.visible;
     const onboarded = doc.onboarded;
     const owner = doc.owner;
-    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner };
+    const backgroundCheck = doc.backgroundCheck;
+    const ageRange = doc.ageRange;
+    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner, backgroundCheck, ageRange };
   }
 }
 

@@ -44,10 +44,6 @@ class OrganizationAdminCollection extends BaseCollection {
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
-   * @param backgroundCheck bool check
-   * @param ageRange the range of age for the job
    */
 
   // we dont want users to update : hence the
@@ -132,19 +128,14 @@ class OrganizationAdminCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *}}
+   * @return {{employee: *, orgID: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const website = doc.website;
-    const profit = doc.profit;
-    const location = doc.location;
-    const organizationOwner = doc.organizationOwner;
-    const organizationWaiverId = doc.organizationWaiverId;
-    const visible = doc.visible;
-    const onboarded = doc.onboarded;
+    const employee = doc.employee;
+    const orgID = doc.orgID;
     const owner = doc.owner;
-    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner };
+    return { employee, orgID, owner };
   }
 }
 
