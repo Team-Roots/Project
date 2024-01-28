@@ -7,6 +7,7 @@ import { Organization } from '../organization/OrganizationCollection';
 import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
 import { OrganizationAdmin } from '../organization/OrganizationAdmin';
+import { OrganizationWaiver } from '../organization/OrganizationWaiver';
 
 class MATPClass {
   collections;
@@ -24,6 +25,7 @@ class MATPClass {
       UserProfiles,
       Organization,
       OrganizationAdmin,
+      OrganizationWaiver,
       Skills,
       UserStats,
     ];
@@ -36,6 +38,7 @@ class MATPClass {
       Stuffs,
       Organization,
       OrganizationAdmin,
+      OrganizationWaiver,
       Skills,
       UserStats,
       Events,
