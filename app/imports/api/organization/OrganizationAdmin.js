@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
@@ -15,70 +14,13 @@ export const organizationPublications = {
 class OrganizationCollection extends BaseCollection {
   constructor() {
     super('Organizations', new SimpleSchema({
-      website: {
+      employee: {
         type: String,
-        defaultValue: 'Change Me!',
-      },
-      location: {
-        type: String,
-        defaultValue: 'Change Me!',
-        required: true,
-      },
-      organizationOwner: {
-        type: String,
-        defaultValue: 'empty@gmail.com',
-        required: true,
-        unique: true,
-      },
-      // I think that we only need to store the ID of the waiver
-      // this means that when we cross ref the other schema, we pull the
-      // contents from there
-      OrganizationWaiverId: {
-        type: String,
-        unique: true,
-      },
-      visible: {
-        type: Boolean,
-        defaultValue: false,
-        required: true,
-      },
-      onboarded: {
-        type: Boolean,
-        defaultValue: false,
-        required: true,
-      },
-      backgroundCheck: {
-        type: Boolean,
-        defaultValue: false,
-        required: true,
-      },
-      // age range looks like
-      // {
-      // min: x
-      //  max: y
-      //  }
-      ageRange: {
-        type: Object,
-        required: true,
-      },
-      'ageRange.min': {
-        type: SimpleSchema.Integer,
-        required: true,
-      },
-      'ageRange.max': {
-        type: SimpleSchema.Integer,
         required: true,
       },
       orgID: {
         type: SimpleSchema.Integer,
-        autoValue() { // not secure
-          if (this.isInsert) {
-            const lastOrganization = this.constructor._collection.findOne({}, { sort: { orgID: -1 } });
-            const newOrgID = lastOrganization ? lastOrganization.orgID + 1 : 1;
-            return newOrgID; // starts at 1
-          }
-          return this.unset();
-        },
+        required: true,
         unique: true,
       },
     }));
@@ -86,34 +28,18 @@ class OrganizationCollection extends BaseCollection {
 
   /**
    * Defines a new Stuff item.
-   * @param website the link to the webpage
-   * @param profit indication of non-profit or for profit $$$$$$$$$$$$$$
-   * @param organizationOwner the owner of the organization
-   * @param organizationWaiverId Id of the waiver held in the waiver collection class
-   * @param visible idk even f**king remember
-   * @param onboarded indication of scraped data vs inputted data
-   * @param location the location of the event
-   * @param backgroundCheck check if org has a background check
-   * @param ageRange is the age range the individual needs to be in
+   * @return {employee}
+   * @return {orgID}
    * @return {String} the docID of the new document.
    */
-  define({ website, profit, organizationOwner, organizationWaiverId,
-    visible, onboarded, location, backgroundCheck, ageRange }) {
+  define({ employee, orgID }) {
     const docID = this._collection.insert({
-      website,
-      profit,
-      location,
-      organizationOwner,
-      organizationWaiverId,
-      visible,
-      onboarded,
-      backgroundCheck,
-      ageRange,
+      employee,
+      orgID,
     });
     return docID;
   }
-  // TODO: Talk to truman about what/can be updated
-  // I need to come back to this after I talk to truman
+
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
@@ -124,25 +50,11 @@ class OrganizationCollection extends BaseCollection {
    * @param ageRange the range of age for the job
    */
 
-  update(docID, { name, quantity, condition, backgroundCheck, ageRange }) {
+  // we dont want users to update : hence the
+  // eslint blockage
+  // eslint-disable-next-line no-empty-pattern
+  update(docID, { }) {
     const updateData = {};
-    if (name) {
-      updateData.name = name;
-    }
-    // if (quantity) { NOTE: 0 is falsy so we need to check if the quantity is a number.
-    if (_.isNumber(quantity)) {
-      updateData.quantity = quantity;
-    }
-    if (condition) {
-      updateData.condition = condition;
-    }
-
-    if (backgroundCheck !== undefined) {
-      updateData.backgroundCheck = backgroundCheck;
-    }
-    if (ageRange) {
-      updateData.ageRange = ageRange;
-    }
 
     this._collection.update(docID, { $set: updateData });
   }
