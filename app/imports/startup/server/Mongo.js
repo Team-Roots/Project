@@ -4,6 +4,29 @@ import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 
 Meteor.methods({
+  'events.update'(id, eventData) {
+    check(id, String);
+    check(updateData, {
+      name: String,
+      eventDate: Date,
+      category: String,
+      location: String,
+      startTime: String, // Adjust the type based on your actual data structure
+      endTime: String, // Same as above
+      coordinator: String,
+      amountVolunteersNeeded: Number, // Or String if it's not a numerical value
+      specialInstructions: String, // Or whatever type is appropriate
+      // eslint-disable-next-line no-undef
+      restrictions: Match.Maybe(Object), // Use Match.Maybe if it's optional
+    });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    // Update the event in the database
+    Events.update(id, { $set: eventData });
+  },
   'events.delete'(eventId) {
     check(eventId, String);
 
