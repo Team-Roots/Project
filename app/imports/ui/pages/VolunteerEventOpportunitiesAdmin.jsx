@@ -9,7 +9,7 @@ import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-const VolunteerEventOpportunities = () => {
+const VolunteerEventOpportunitiesAdmin = () => {
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
@@ -106,4 +106,4 @@ const VolunteerEventOpportunities = () => {
   );
 };
 
-export default VolunteerEventOpportunities;
+export default VolunteerEventOpportunitiesAdmin;

@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import VolunteerEventOpportunities from '../pages/VolunteerEventOpportunities';
+import VolunteerEventOpportunitiesAdmin from '../pages/VolunteerEventOpportunitiesAdmin';
 import AddEvent from '../pages/AddEvent';
 import EditEvent from '../pages/EditEvent';
 import NotFound from '../pages/NotFound';
@@ -47,7 +47,7 @@ const App = () => {
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
-          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/eventopportunitiesadmin" element={<ProtectedRoute><VolunteerEventOpportunitiesAdmin /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
