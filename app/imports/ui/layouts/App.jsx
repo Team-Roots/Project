@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import VolunteerEventOpportunitiesAdmin from '../pages/VolunteerEventOpportunitiesAdmin';
+import VolunteerEventOpportunities from '../pages/VolunteerEventOpportunities';
 import AddEvent from '../pages/AddEvent';
 import EditEvent from '../pages/EditEvent';
 import NotFound from '../pages/NotFound';
@@ -23,11 +23,8 @@ import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
-<<<<<<< Updated upstream
-
-=======
 import Events from '../pages/Events';
->>>>>>> Stashed changes
+
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
   const { ready } = useTracker(() => {
@@ -51,12 +48,9 @@ const App = () => {
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
-<<<<<<< Updated upstream
-          <Route path="/eventopportunitiesadmin" element={<ProtectedRoute><VolunteerEventOpportunitiesAdmin /></ProtectedRoute>} />
-=======
+          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
->>>>>>> Stashed changes
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
