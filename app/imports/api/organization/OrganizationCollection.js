@@ -47,6 +47,40 @@ class OrganizationCollection extends BaseCollection {
         defaultValue: false,
         required: true,
       },
+      backgroundCheck: {
+        type: Boolean,
+        defaultValue: false,
+        required: true,
+      },
+      // age range looks like
+      // {
+      // min: x
+      //  max: y
+      //  }
+      ageRange: {
+        type: Object,
+        required: true,
+      },
+      'ageRange.min': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
+      'ageRange.max': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
+      orgID: {
+        type: SimpleSchema.Integer,
+        autoValue() { // not secure
+          if (this.isInsert) {
+            const lastOrganization = this.constructor._collection.findOne({}, { sort: { orgID: -1 } });
+            const newOrgID = lastOrganization ? lastOrganization.orgID + 1 : 1;
+            return newOrgID; // starts at 1
+          }
+          return this.unset();
+        },
+        unique: true,
+      },
     }));
   }
 
@@ -59,10 +93,12 @@ class OrganizationCollection extends BaseCollection {
    * @param visible idk even f**king remember
    * @param onboarded indication of scraped data vs inputted data
    * @param location the location of the event
+   * @param backgroundCheck check if org has a background check
+   * @param ageRange is the age range the individual needs to be in
    * @return {String} the docID of the new document.
    */
   define({ website, profit, organizationOwner, organizationWaiverId,
-    visible, onboarded, location }) {
+    visible, onboarded, location, backgroundCheck, ageRange }) {
     const docID = this._collection.insert({
       website,
       profit,
@@ -71,6 +107,8 @@ class OrganizationCollection extends BaseCollection {
       organizationWaiverId,
       visible,
       onboarded,
+      backgroundCheck,
+      ageRange,
     });
     return docID;
   }
@@ -82,9 +120,11 @@ class OrganizationCollection extends BaseCollection {
    * @param name the new name (optional).
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
+   * @param backgroundCheck bool check
+   * @param ageRange the range of age for the job
    */
 
-  update(docID, { name, quantity, condition }) {
+  update(docID, { name, quantity, condition, backgroundCheck, ageRange }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -96,6 +136,14 @@ class OrganizationCollection extends BaseCollection {
     if (condition) {
       updateData.condition = condition;
     }
+
+    if (backgroundCheck !== undefined) {
+      updateData.backgroundCheck = backgroundCheck;
+    }
+    if (ageRange) {
+      updateData.ageRange = ageRange;
+    }
+
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -172,7 +220,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *}}
+   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -184,7 +232,9 @@ class OrganizationCollection extends BaseCollection {
     const visible = doc.visible;
     const onboarded = doc.onboarded;
     const owner = doc.owner;
-    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner };
+    const backgroundCheck = doc.backgroundCheck;
+    const ageRange = doc.ageRange;
+    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner, backgroundCheck, ageRange };
   }
 }
 
