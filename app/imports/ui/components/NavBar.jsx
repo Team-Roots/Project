@@ -20,16 +20,14 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
         <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
           <Nav className="me-auto justify-content-end">
-            {!currentUser && ( // Show these items only when user is logged out
+            {!currentUser && (
               <>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
 
                 <NavDropdown id="login-dropdown" title="Help">
-                  <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions">
-                    FAQ
-                  </NavDropdown.Item>
+                  <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
                   <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
                     Contact Us
                   </NavDropdown.Item>
@@ -48,7 +46,7 @@ const NavBar = () => {
                 <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
                   Contact Us
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown>,
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,
