@@ -13,16 +13,9 @@ const EventCard = ({ event }) => {
       <Card.Body>
         <Card.Title>{event.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
-        <Card.Text>
-          {event.description}
-        </Card.Text>
-        <Card.Text>
-          Location: {event.location}
-        </Card.Text>
-        <Card.Text>
-          Coordinator: {event.coordinator}
-        </Card.Text>
-        {/* Replace the button with a Link component for navigation */}
+        <Card.Text>{event.description}</Card.Text>
+        <Card.Text>Location: {event.location}</Card.Text>
+        <Card.Text>Coordinator: {event.coordinator}</Card.Text>
         <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
       </Card.Body>
     </Card>

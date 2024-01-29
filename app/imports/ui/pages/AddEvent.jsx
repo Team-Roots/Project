@@ -33,10 +33,9 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
-/* Renders the AddEvent page for adding an event. */
+// Renders the AddEvent page for adding an event.
 const AddEvent = () => {
   const [formRef, setFormRef] = useState(null);
-
   // On submit, insert the data.
   const submit = (data) => {
     const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions } = data;
@@ -50,7 +49,6 @@ const AddEvent = () => {
         formRef.reset();
       });
   };
-
   return (
     <Container id={PAGE_IDS.ADD_EVENT} className="py-3">
       <Row className="justify-content-center">
