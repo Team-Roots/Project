@@ -47,7 +47,6 @@ const LandingPanel = () => {
                   <p>
                     Events in the upcoming week: <br />
                     Link to calendar for more information <br />
-
                   </p>
                 </Col>
               </Row>

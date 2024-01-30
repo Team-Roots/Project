@@ -36,12 +36,12 @@ class MATPClass {
       AdminProfiles,
       UserProfiles,
       Stuffs,
-      Organization,
-      OrganizationAdmin,
-      OrganizationWaiver,
       Skills,
       UserStats,
       Events,
+      Organization,
+      OrganizationAdmin,
+      OrganizationWaiver,
     ];
 
     /*

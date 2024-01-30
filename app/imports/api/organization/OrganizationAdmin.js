@@ -6,9 +6,9 @@ import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
-export const organizationPublications = {
-  organization: 'Organization',
-  organizationAdmin: 'OrganizationAdmin',
+export const organizationAdminPublications = {
+  organizationAdminScheme: 'OrganizationAdminScheme',
+  organizationAdminAdminScheme: 'OrganizationAdminAdminScheme',
 };
 
 class OrganizationAdminCollection extends BaseCollection {
@@ -76,7 +76,7 @@ class OrganizationAdminCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(organizationPublications.organization, function publish() {
+      Meteor.publish(organizationAdminPublications.organizationAdminScheme, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -85,7 +85,7 @@ class OrganizationAdminCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationPublications.organizationAdmin, function publish() {
+      Meteor.publish(organizationAdminPublications.organizationAdminAdminScheme, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -99,7 +99,7 @@ class OrganizationAdminCollection extends BaseCollection {
    */
   subscribeStuff() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organization);
+      return Meteor.subscribe(organizationAdminPublications.organizationAdminScheme);
     }
     return null;
   }
@@ -110,7 +110,7 @@ class OrganizationAdminCollection extends BaseCollection {
    */
   subscribeStuffAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organizationAdmin);
+      return Meteor.subscribe(organizationAdminPublications.organizationAdminAdminScheme);
     }
     return null;
   }

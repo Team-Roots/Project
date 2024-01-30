@@ -5,6 +5,8 @@ import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { OrganizationAdmin } from './OrganizationAdmin';
+import { OrganizationWaiver } from './OrganizationWaiver';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
@@ -19,6 +21,11 @@ class OrganizationCollection extends BaseCollection {
         type: String,
         defaultValue: 'Change Me!',
       },
+      profit: {
+        type: Boolean,
+        defaultValue: false,
+        required: true,
+      },
       location: {
         type: String,
         defaultValue: 'Change Me!',
@@ -28,13 +35,6 @@ class OrganizationCollection extends BaseCollection {
         type: String,
         defaultValue: 'empty@gmail.com',
         required: true,
-        unique: true,
-      },
-      // I think that we only need to store the ID of the waiver
-      // this means that when we cross ref the other schema, we pull the
-      // contents from there
-      OrganizationWaiverId: {
-        type: String,
         unique: true,
       },
       visible: {
@@ -52,11 +52,6 @@ class OrganizationCollection extends BaseCollection {
         defaultValue: false,
         required: true,
       },
-      // age range looks like
-      // {
-      // min: x
-      //  max: y
-      //  }
       ageRange: {
         type: Object,
         required: true,
@@ -71,48 +66,35 @@ class OrganizationCollection extends BaseCollection {
       },
       orgID: {
         type: SimpleSchema.Integer,
-        autoValue() { // not secure
-          if (this.isInsert) {
-            const lastOrganization = this.constructor._collection.findOne({}, { sort: { orgID: -1 } });
-            const newOrgID = lastOrganization ? lastOrganization.orgID + 1 : 1;
-            return newOrgID; // starts at 1
-          }
-          return this.unset();
-        },
         unique: true,
+        required: true,
       },
     }));
   }
 
   /**
-   * Defines a new Stuff item.
+   * Defines a new Org item.
    * @param website the link to the webpage
    * @param profit indication of non-profit or for profit $$$$$$$$$$$$$$
    * @param organizationOwner the owner of the organization
-   * @param organizationWaiverId Id of the waiver held in the waiver collection class
    * @param visible idk even f**king remember
    * @param onboarded indication of scraped data vs inputted data
    * @param location the location of the event
    * @param backgroundCheck check if org has a background check
    * @param ageRange is the age range the individual needs to be in
+   * @param orgID autoincrement ID
    * @return {String} the docID of the new document.
    */
-  define({ website, profit, organizationOwner, organizationWaiverId,
-    visible, onboarded, location, backgroundCheck, ageRange }) {
-    const docID = this._collection.insert({
-      website,
-      profit,
-      location,
-      organizationOwner,
-      organizationWaiverId,
-      visible,
-      onboarded,
-      backgroundCheck,
-      ageRange,
-    });
+  define({ website, profit, organizationOwner,
+    visible, onboarded, location, backgroundCheck, ageRange, orgID }) {
+    const newDoc = { website, profit, organizationOwner, visible, onboarded, location, backgroundCheck, ageRange, orgID };
+    const docID = this._collection.insert(newDoc);
+    const waiverDoc = { waiver: 'test', orgID: orgID };
+    OrganizationWaiver.define(waiverDoc);
+    const adminDoc = { employee: organizationOwner, orgID: orgID };
+    OrganizationAdmin.define(adminDoc);
     return docID;
   }
-  // TODO: Talk to truman about what/can be updated
   // I need to come back to this after I talk to truman
   /**
    * Updates the given document.
@@ -189,7 +171,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeStuff() {
+  subscribeOrg() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationPublications.organization);
     }
@@ -200,7 +182,7 @@ class OrganizationCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeStuffAdmin() {
+  subscribeOrgAdmin() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationPublications.organizationAdmin);
     }
@@ -220,7 +202,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{website: *, profit: *, location: *, organizationOwner: *, organizationWaiverId: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *,}}
+   * @return {{website: *, profit: *, location: *, organizationOwner: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -228,13 +210,12 @@ class OrganizationCollection extends BaseCollection {
     const profit = doc.profit;
     const location = doc.location;
     const organizationOwner = doc.organizationOwner;
-    const organizationWaiverId = doc.organizationWaiverId;
     const visible = doc.visible;
     const onboarded = doc.onboarded;
     const owner = doc.owner;
     const backgroundCheck = doc.backgroundCheck;
     const ageRange = doc.ageRange;
-    return { website, profit, location, organizationOwner, organizationWaiverId, visible, onboarded, owner, backgroundCheck, ageRange };
+    return { website, profit, location, organizationOwner, visible, onboarded, owner, backgroundCheck, ageRange };
   }
 }
 

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
+import { Organization } from '../../api/organization/OrganizationCollection';
 
 Meteor.methods({
   'events.update'(id, eventData) {
@@ -40,10 +41,34 @@ function addData(data) {
   Stuffs.define(data);
 }
 
+function addOrgData(data) {
+  Organization.define(data);
+}
+
 // Initialize the StuffsCollection if empty.
 if (Stuffs.count() === 0) {
   if (Meteor.settings.defaultData) {
     console.log('Creating default data.');
     Meteor.settings.defaultData.forEach(data => addData(data));
+  }
+}
+
+if (Organization.count() === 0) {
+  if (Meteor.settings.defaultOrg) {
+    console.log('Creating default org');
+    Meteor.settings.defaultOrg.forEach(org => {
+      const newDoc = {
+        website: org.website,
+        profit: org.profit,
+        organizationOwner: org.organizationOwner,
+        visible: org.visible,
+        onboarded: org.onboarded,
+        location: org.location,
+        backgroundCheck: org.backgroundCheck,
+        ageRange: org.ageRange,
+        orgID: (Organization.count() + 1),
+      };
+      addOrgData(newDoc);
+    });
   }
 }

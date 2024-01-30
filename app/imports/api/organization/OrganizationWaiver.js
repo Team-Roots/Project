@@ -6,9 +6,9 @@ import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
-export const organizationPublications = {
-  organization: 'Organization',
-  organizationAdmin: 'OrganizationAdmin',
+export const organizationWaiverPublications = {
+  organizationWaiver: 'OrganizationWaiver',
+  organizationWaiverAdmin: 'OrganizationWaiverAdmin',
 };
 
 class OrganizationWaiverCollection extends BaseCollection {
@@ -77,7 +77,7 @@ class OrganizationWaiverCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(organizationPublications.organization, function publish() {
+      Meteor.publish(organizationWaiverPublications.organizationWaiver, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -86,7 +86,7 @@ class OrganizationWaiverCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationPublications.organizationAdmin, function publish() {
+      Meteor.publish(organizationWaiverPublications.organizationWaiverAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -100,7 +100,7 @@ class OrganizationWaiverCollection extends BaseCollection {
    */
   subscribeStuff() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organization);
+      return Meteor.subscribe(organizationWaiverPublications.organizationWaiver);
     }
     return null;
   }
@@ -111,7 +111,7 @@ class OrganizationWaiverCollection extends BaseCollection {
    */
   subscribeStuffAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organizationAdmin);
+      return Meteor.subscribe(organizationWaiverPublications.organizationWaiverAdmin);
     }
     return null;
   }
