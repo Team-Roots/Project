@@ -4,8 +4,10 @@ import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 
 Meteor.methods({
+  // eslint-disable-next-line meteor/audit-argument-checks
   'events.update'(id, eventData) {
     check(id, String);
+    // eslint-disable-next-line no-undef
     check(updateData, {
       name: String,
       eventDate: Date,

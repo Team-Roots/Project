@@ -48,6 +48,7 @@ const NavBar = () => {
                 </NavDropdown.Item>
               </NavDropdown>,
             ]) : ''}
+            {/* eslint-disable-next-line no-undef */}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN} title="Manage" key="manage-dropdown">
