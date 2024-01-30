@@ -8,6 +8,7 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { Events } from '../../api/event/EventCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import UploadWidget from '../components/UploadWidget';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -24,11 +25,6 @@ const formSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  restrictions: {
-    type: Object,
-    optional: true,
-    blackbox: true,
-  },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -36,19 +32,41 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 /* Renders the AddEvent page for adding an event. */
 const AddEvent = () => {
   const [formRef, setFormRef] = useState(null);
+  const [cloudinaryUrl, setCloudinaryUrl] = useState('');
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
+
+  const handleCloudinaryUrlUpdate = (url) => {
+    console.log('Uploaded Image URL:', url); // Debugging
+    setCloudinaryUrl(url);
+    setIsImageUploaded(!!url);
+    console.log('After in handleCloudinaryUrlUpdate:', url);
+  };
 
   // On submit, insert the data.
   const submit = (data) => {
-    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions } = data;
-    const owner = Meteor.user().username;
+    console.log('Image URL:', cloudinaryUrl);
+    console.log('Is Image Uploaded:', isImageUploaded);
+    if (!isImageUploaded) {
+      swal('Error', 'Please upload an image before submitting', 'error');
+      return;
+    }
+
+    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions } = data;
+    const imageUrl = cloudinaryUrl;
+    const owner = Meteor.user()?.username;
     const collectionName = Events.getCollectionName();
-    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, owner };
+    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image: imageUrl, owner };
+    console.log('Submitting Image URL:', imageUrl);
+    console.log("Definition Data:", definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'))
+      .catch(error => console.error('Insertion error:', error))
       .then(() => {
         swal('Success', 'Event added successfully', 'success');
         formRef.reset();
-      });
+        setIsImageUploaded(false); // Reset the image uploaded state
+        setCloudinaryUrl(''); // Reset the cloudinary URL
+      })
+      .catch(error => swal('Error', error.message, 'error'));
   };
 
   return (
@@ -69,6 +87,7 @@ const AddEvent = () => {
                 <TextField name="coordinator" placeholder="Event Coordinator" />
                 <NumField name="amountVolunteersNeeded" placeholder="Amount of Volunteers Needed" />
                 <TextField name="specialInstructions" placeholder="Special Instructions" />
+                <UploadWidget setUrl={handleCloudinaryUrlUpdate} name="image" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </AutoForm>

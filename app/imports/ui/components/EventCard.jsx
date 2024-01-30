@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Container, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric'
+    year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
 
   return (
@@ -22,6 +22,9 @@ const EventCard = ({ event }) => {
         <Card.Text>
           Coordinator: {event.coordinator}
         </Card.Text>
+        <Container>
+          <Image src={event.image} alt="Post" fluid />
+        </Container>
         {/* Replace the button with a Link component for navigation */}
         <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
       </Card.Body>
@@ -37,6 +40,7 @@ EventCard.propTypes = {
     description: PropTypes.string,
     location: PropTypes.string,
     coordinator: PropTypes.string,
+    image: PropTypes.string,
   }).isRequired,
 };
 

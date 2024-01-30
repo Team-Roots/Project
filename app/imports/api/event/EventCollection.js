@@ -26,21 +26,21 @@ class EventCollection extends BaseCollection {
         type: String,
         optional: true,
       },
-      restrictions: {
-        type: Object,
-        optional: true,
-        blackbox: true,
+      image: {
+        type: String,
+        optional: false,
+        defaultValue: '',
       },
       owner: String,
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, owner }) {
+    console.log("Inserting the image:", image);
     const docID = this._collection.insert({
       name,
       eventDate,
       description,
-      owner,
       category,
       location,
       startTime,
@@ -48,12 +48,13 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
-      restrictions,
+      image,
+      owner,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, owner }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -85,8 +86,11 @@ class EventCollection extends BaseCollection {
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
     }
-    if (restrictions) {
-      updateData.restrictions = restrictions;
+    if (image) {
+      updateData.image = image;
+    }
+    if (owner) {
+      updateData.owner = owner;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -146,7 +150,8 @@ class EventCollection extends BaseCollection {
     const location = doc.location;
     const owner = doc.owner;
     const eventDate = doc.eventDate;
-    return { name, description, location, owner, eventDate };
+    const image = doc.image;
+    return { name, description, location, owner, eventDate, image };
   }
 }
 
