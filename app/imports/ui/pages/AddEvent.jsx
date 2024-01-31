@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { AutoForm, TextField, DateField, SubmitField, ErrorsField, NumField } from 'uniforms-bootstrap5';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { AutoForm, TextField, SelectField, SubmitField, ErrorsField, NumField } from 'uniforms-bootstrap5';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -10,6 +13,7 @@ import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import UploadWidget from '../components/UploadWidget';
 import AddressInput from '../components/AddressInput';
+import { Categories } from '/imports/api/category/CategoryCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -41,6 +45,31 @@ const AddEvent = () => {
     longitude: null,
   });
 
+  const categories = useTracker(() => {
+    Meteor.subscribe('Categories');
+    const fetchedCategories = Categories.find().fetch();
+    console.log(fetchedCategories); // Check what's being fetched
+    return fetchedCategories;
+  }, []);
+
+  const categoryOptions = categories.map((category) => ({
+    label: category.name,
+    value: category.name,
+  }));
+  // eslint-disable-next-line react/prop-types,react/no-unstable-nested-components
+  const CustomDateField = ({ placeholder }) => {
+    const [startDate, setStartDate] = useState(new Date());
+
+    return (
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        dateFormat="yyyy/MM/dd" // You can customize the format
+        placeholderText={placeholder}
+      />
+    );
+  };
+
   const handleAddressSelect = (address, { lat, lng }) => {
     setFormData({
       ...formData,
@@ -71,7 +100,7 @@ const AddEvent = () => {
     const collectionName = Events.getCollectionName();
     const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image: imageUrl, owner };
     console.log('Submitting Image URL:', imageUrl);
-    console.log("Definition Data:", definitionData);
+    console.log('Definition Data:', definitionData);
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => console.error('Insertion error:', error))
       .then(() => {
@@ -92,9 +121,9 @@ const AddEvent = () => {
               <h2 className="text-center">Add Event</h2>
               <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
                 <TextField name="name" placeholder="Event Name" />
-                <DateField name="eventDate" placeholder="Event Date" />
+                <CustomDateField name="eventDate" placeholder="Event Date" />
                 <TextField name="description" placeholder="Event Description" />
-                <TextField name="category" placeholder="Category" />
+                <SelectField name="category" placeholder="Category" options={categoryOptions} />
                 <AddressInput onAddressSelect={handleAddressSelect} />
                 <TextField name="startTime" placeholder="Start Time" />
                 <TextField name="endTime" placeholder="End Time" />
