@@ -20,6 +20,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
+      "orgID": 0,
       "ageRange": { "min": 18, "max": 99 }
     }
   ],

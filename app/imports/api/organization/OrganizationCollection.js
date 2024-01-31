@@ -17,6 +17,10 @@ export const organizationPublications = {
 class OrganizationCollection extends BaseCollection {
   constructor() {
     super('Organizations', new SimpleSchema({
+      name: {
+        type: String,
+        defaultValue: 'John Doe Save The Turtles INC',
+      },
       website: {
         type: String,
         defaultValue: 'Change Me!',
@@ -52,6 +56,11 @@ class OrganizationCollection extends BaseCollection {
         defaultValue: false,
         required: true,
       },
+      orgID: {
+        type: SimpleSchema.Integer,
+        unique: true,
+        required: true,
+      },
       ageRange: {
         type: Object,
         required: true,
@@ -62,11 +71,6 @@ class OrganizationCollection extends BaseCollection {
       },
       'ageRange.max': {
         type: SimpleSchema.Integer,
-        required: true,
-      },
-      orgID: {
-        type: SimpleSchema.Integer,
-        unique: true,
         required: true,
       },
     }));
@@ -83,12 +87,23 @@ class OrganizationCollection extends BaseCollection {
    * @param backgroundCheck check if org has a background check
    * @param ageRange is the age range the individual needs to be in
    * @param orgID autoincrement ID
+   * @param name org name
    * @return {String} the docID of the new document.
    */
-  define({ website, profit, organizationOwner,
+  define({ name, website, profit, organizationOwner,
     visible, onboarded, location, backgroundCheck, ageRange, orgID }) {
-    const newDoc = { website, profit, organizationOwner, visible, onboarded, location, backgroundCheck, ageRange, orgID };
-    const docID = this._collection.insert(newDoc);
+    const docID = this._collection.insert({
+      name,
+      website,
+      profit,
+      organizationOwner,
+      visible,
+      onboarded,
+      location,
+      backgroundCheck,
+      ageRange,
+      orgID,
+    });
     const waiverDoc = { waiver: 'test', orgID: orgID };
     OrganizationWaiver.define(waiverDoc);
     const adminDoc = { employee: organizationOwner, orgID: orgID };
@@ -202,7 +217,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{website: *, profit: *, location: *, organizationOwner: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *,}}
+   * @return {{website: *, profit: *, location: *, organizationOwner: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *, orgID: *, name: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -215,11 +230,13 @@ class OrganizationCollection extends BaseCollection {
     const owner = doc.owner;
     const backgroundCheck = doc.backgroundCheck;
     const ageRange = doc.ageRange;
-    return { website, profit, location, organizationOwner, visible, onboarded, owner, backgroundCheck, ageRange };
+    const orgID = doc.orgID;
+    const name = doc.name;
+    return { name, website, profit, location, organizationOwner, visible, onboarded, owner, backgroundCheck, ageRange, orgID };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Organization = new OrganizationCollection();
+export const Organizations = new OrganizationCollection();

@@ -3,7 +3,7 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { Events } from '../event/EventCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
-import { Organization } from '../organization/OrganizationCollection';
+import { Organizations } from '../organization/OrganizationCollection';
 import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
 import { OrganizationAdmin } from '../organization/OrganizationAdmin';
@@ -23,7 +23,7 @@ class MATPClass {
       Stuffs,
       Events,
       UserProfiles,
-      Organization,
+      Organizations,
       OrganizationAdmin,
       OrganizationWaiver,
       Skills,
@@ -33,15 +33,15 @@ class MATPClass {
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
      */
     this.collectionLoadSequence = [
+      Organizations,
+      OrganizationAdmin,
+      OrganizationWaiver,
       AdminProfiles,
       UserProfiles,
       Stuffs,
       Skills,
       UserStats,
       Events,
-      Organization,
-      OrganizationAdmin,
-      OrganizationWaiver,
     ];
 
     /*

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Col, Row, Nav } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import OrganizationCard from './OrganizationCard';
 import BarGraph from './BarGraph';
 
-const LandingPanel = () => {
+const LandingPanel = ({ orgs }) => {
   const [activePanel, setActivePanel] = useState('home');
 
   /* SetActivePanel utilizes useState. Used to update the state variable activePanel with a new value (other panels) */
@@ -55,23 +57,39 @@ const LandingPanel = () => {
 
           {/* Get Help Panel */}
           {activePanel === 'giveHelp' && (
-            <div style={{ position: 'absolute', zIndex: 3 }}>
+            <Container style={{ position: 'absolute', zIndex: 3 }}>
               <h2>Give Help Panel</h2>
               <p>A SEARCH + Buttons/Cards for interesting groups</p>
-            </div>
+              <Container>
+                {orgs.map((org) => <OrganizationCard key={org._id} org={org} />)}
+              </Container>
+            </Container>
           )}
 
           {/* Need Help Panel */}
           {activePanel === 'needHelp' && (
-            <div style={{ position: 'absolute', zIndex: 3 }}>
+            <Container style={{ position: 'absolute', zIndex: 3 }}>
               <h2>Need Help Panel</h2>
               <p>ALL HELP REQUEST RELATED INFO</p>
-            </div>
+            </Container>
           )}
         </div>
       </div>
     </Container>
   );
+};
+
+LandingPanel.propTypes = {
+  orgs: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      website: PropTypes.string.isRequired,
+      organizationOwner: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      ageRange: PropTypes.instanceOf(Object).isRequired,
+    }),
+  ).isRequired,
 };
 
 export default LandingPanel;
