@@ -5,6 +5,7 @@
 
 .event-image-container {
   height: 200px; /* Fixed height for images */
+  width: 200px;
   overflow: hidden; /* Ensures the image doesn't exceed the container */
 }
 

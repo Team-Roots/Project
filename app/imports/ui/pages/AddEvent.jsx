@@ -9,6 +9,7 @@ import { Events } from '../../api/event/EventCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import UploadWidget from '../components/UploadWidget';
+import AddressInput from '../components/AddressInput';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -34,7 +35,20 @@ const AddEvent = () => {
   const [formRef, setFormRef] = useState(null);
   const [cloudinaryUrl, setCloudinaryUrl] = useState('');
   const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [formData, setFormData] = useState({
+    location: '',
+    latitude: null,
+    longitude: null,
+  });
 
+  const handleAddressSelect = (address, { lat, lng }) => {
+    setFormData({
+      ...formData,
+      location: address,
+      latitude: lat,
+      longitude: lng,
+    });
+  };
   const handleCloudinaryUrlUpdate = (url) => {
     console.log('Uploaded Image URL:', url); // Debugging
     setCloudinaryUrl(url);
@@ -81,7 +95,7 @@ const AddEvent = () => {
                 <DateField name="eventDate" placeholder="Event Date" />
                 <TextField name="description" placeholder="Event Description" />
                 <TextField name="category" placeholder="Category" />
-                <TextField name="location" placeholder="Event Location" />
+                <AddressInput onAddressSelect={handleAddressSelect} />
                 <TextField name="startTime" placeholder="Start Time" />
                 <TextField name="endTime" placeholder="End Time" />
                 <TextField name="coordinator" placeholder="Event Coordinator" />
