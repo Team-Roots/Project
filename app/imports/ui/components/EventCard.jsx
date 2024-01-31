@@ -9,24 +9,17 @@ const EventCard = ({ event }) => {
   }) : 'Date not set';
 
   return (
-    <Card className="mb-3">
-      <Card.Body>
+    <Card className="event-card mb-3">
+      <Container className="event-image-container">
+        <Image src={event.image} alt="Event Image" fluid />
+      </Container>
+      <Card.Body className="event-card-body">
         <Card.Title>{event.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
-        <Card.Text>
-          {event.description}
-        </Card.Text>
-        <Card.Text>
-          Location: {event.location}
-        </Card.Text>
-        <Card.Text>
-          Coordinator: {event.coordinator}
-        </Card.Text>
-        <Container>
-          <Image src={event.image} alt="Post" fluid />
-        </Container>
-        {/* Replace the button with a Link component for navigation */}
-        <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
+        <Card.Text>{event.description}</Card.Text>
+        <Card.Text>Location: {event.location}</Card.Text>
+        <Card.Text>Coordinator: {event.coordinator}</Card.Text>
+        <Link to={`/edit-event/${event._id}`} className="btn btn-primary event-card-link">Edit</Link>
       </Card.Body>
     </Card>
   );

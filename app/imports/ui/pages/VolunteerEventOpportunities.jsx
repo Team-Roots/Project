@@ -7,6 +7,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Events } from '../../api/event/EventCollection'; // Import your EventCollection
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import '../css/VolunteerEventOpportunities.css';
 
 const VolunteerEventOpportunities = () => {
   const navigate = useNavigate();

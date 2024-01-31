@@ -22,8 +22,8 @@ const EventItem = ({ event }) => {
       <td>{event.coordinator}</td>
       <td>{displayVolunteers}</td>
       <td>{event.specialInstructions}</td>
-      <Container>
-        <Image src={event.image} alt="Post" fluid />
+      <Container className="image-container">
+        <Image src={event.image} alt="Event Image" fluid />
       </Container>
       <td>
         <Link className={`btn btn-sm btn-primary ${COMPONENT_IDS.LIST_EVENT_EDIT}`} to={`/edit-event/${event._id}`}>Edit</Link>
