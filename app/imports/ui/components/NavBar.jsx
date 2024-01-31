@@ -35,10 +35,10 @@ const NavBar = () => {
               </>
             )}
             {currentUser ? ([ // Show these items only when user is logged in
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>,
+              <Nav.Link as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
+              <Nav.Link as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
+              <Nav.Link as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
               <NavDropdown id="login-dropdown" title="Help">
                 <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions">
                   FAQ
