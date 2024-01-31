@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { _ } from 'meteor/underscore';
-import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
@@ -11,7 +10,6 @@ import { OrganizationWaiver } from './OrganizationWaiver';
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
   organization: 'Organization',
-  organizationAdmin: 'OrganizationAdmin',
 };
 
 class OrganizationCollection extends BaseCollection {
@@ -167,19 +165,11 @@ class OrganizationCollection extends BaseCollection {
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
-        }
-        return this.ready();
-      });
-
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationPublications.organizationAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
         return this.ready();
       });
+
     }
   }
 
@@ -189,17 +179,6 @@ class OrganizationCollection extends BaseCollection {
   subscribeOrg() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationPublications.organization);
-    }
-    return null;
-  }
-
-  /**
-   * Subscription method for admin users.
-   * It subscribes to the entire collection.
-   */
-  subscribeOrgAdmin() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organizationAdmin);
     }
     return null;
   }

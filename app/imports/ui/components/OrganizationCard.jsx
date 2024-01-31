@@ -16,10 +16,10 @@ const OrganizationCard = ({ org }) => {
           Location: {org.location}
         </Card.Text>
         <Card.Text>
-          Coordinator: {org.ageRange}
+          Age Range: {org.ageRange.min} - {org.ageRange.max}
         </Card.Text>
         {/* Replace the button with a Link component for navigation */}
-        <Link to={`/edit-event/${org._id}`} className="btn btn-primary">Edit</Link>
+        {/* <Link to={`/edit-event/${org._id}`} className="btn btn-primary">Edit</Link> */}
       </Card.Body>
     </Card>
   );
