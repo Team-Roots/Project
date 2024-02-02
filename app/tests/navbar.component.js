@@ -30,6 +30,24 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_ADD_EVENT}`);
   }
 
+  async gotoFAQPage() {
+    await t.click(`#${COMPONENT_IDS.NAVBAR_HELP_DROPDOWN}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_FAQ}`);
+  }
+
+  async gotoContactPage() {
+    await t.click(`#${COMPONENT_IDS.NAVBAR_HELP_DROPDOWN}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_CONTACT_US}`);
+  }
+
+  async gotoMyAccount() {
+    await t.click(`#${COMPONENT_IDS.NAVBAR_MY_ACCOUNT}`);
+  }
+
+  async gotoAboutUs(){
+    await t.click(`#${COMPONENT_IDS.NAVBAR_ABOUT_US}`);
+  }
+
   /* Check that the specified user is currently logged in. */
   async isLoggedIn(username) {
     const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;

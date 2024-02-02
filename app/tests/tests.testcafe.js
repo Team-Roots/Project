@@ -6,6 +6,8 @@ import { signUpPage } from './signup.page';
 import { navBar } from './navbar.component';
 import { myEventPage } from './MyEvent.page';
 import { myAddEventPage } from './AddEvent.page';
+import { myAccountPage } from './MyAccount.page';
+import { myAboutUsPage } from './AboutUs.page';
 // import { COMPONENT_IDS } from '../imports/ui/utilities/ComponentIDs';
 
 /* global fixture:false, test:false */
@@ -13,6 +15,7 @@ import { myAddEventPage } from './AddEvent.page';
 /** Credentials for one of the sample users defined in settings.development.json. */
 const credentials = { username: 'john@foo.com', password: 'changeme' };
 // const adminCredentials = { username: 'admin@foo.com', password: 'changeme' };
+// no admin specific pages yet :)
 const newCredentials = { username: 'jane@foo.com', password: 'changeme' };
 
 fixture('meteor-application-template-production localhost test with default db')
@@ -73,6 +76,24 @@ test('Test that addEventPage works', async () => {
   await myEventPage.isDisplayed();
   await navBar.gotoAddEventPage();
   await myAddEventPage.isDisplayed();
+});
+
+test('Test that myAccountPage works', async () => {
+  await navBar.gotoSignUpPage();
+  await signUpPage.isDisplayed();
+  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
+  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoMyAccount();
+  await myAccountPage.isDisplayed();
+});
+
+test('Test that aboutUsPage works', async () => {
+  await navBar.gotoSignUpPage();
+  await signUpPage.isDisplayed();
+  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
+  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoAboutUs();
+  await myAboutUsPage.isDisplayed();
 });
 
 // test('Test that admin pages show up', async () => {

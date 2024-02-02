@@ -35,15 +35,15 @@ const NavBar = () => {
               </>
             )}
             {currentUser ? ([ // Show these items only when user is logged in
-              <Nav.Link as={NavLink} to="/aboutus">About Us</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
-              <Nav.Link as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
-              <Nav.Link as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
-              <NavDropdown id="login-dropdown" title="Help">
-                <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions">
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
+              <NavDropdown id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
+                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/questions">
                   FAQ
                 </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
+                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_CONTACT_US} as={NavLink} to="/contactus">
                   Contact Us
                 </NavDropdown.Item>
               </NavDropdown>,

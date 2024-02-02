@@ -1,8 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { PAGE_IDS } from '../utilities/PageIDs';
 
 const AboutUs = () => (
-  <Container className="my-5">
+  <Container id={PAGE_IDS.ABOUT_US} className="my-5">
     <Row>
       <Col>
         <h2 className="text-center mb-4">About Us</h2>

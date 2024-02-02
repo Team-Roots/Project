@@ -1,9 +1,13 @@
 /** Define ids for each page. */
 export const PAGE_IDS = {
+  ABOUT_US: 'about-us',
   ADD_STUFF: 'add-stuff',
   ADD_EVENT: 'add-event',
+  COMMUNITY_GROUPS: 'community-groups',
+  CONTACT_US: 'contact-us',
   EDIT_STUFF: 'edit-stuff',
   EDIT_EVENT: 'edit-event',
+  FAQ: 'faq',
   LANDING: 'landing',
   LIST_STUFF: 'list-stuff',
   LIST_EVENT: 'list-event',
