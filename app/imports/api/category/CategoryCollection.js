@@ -14,6 +14,11 @@ Categories.schema = new SimpleSchema({
 Categories.attachSchema(Categories.schema);
 
 if (Meteor.isServer) {
+  // Publish the categories data
+  Meteor.publish('Categories', function publish() {
+    return Categories.find();
+  });
+
   // Default categories for volunteer events
   const defaultCategories = [
     'Community Service',

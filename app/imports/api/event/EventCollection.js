@@ -1,158 +1,58 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { check } from 'meteor/check';
-import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
-import { ROLE } from '../role/Role';
 
-export const eventPublications = {
-  event: 'Event',
-  eventAdmin: 'EventAdmin',
+export const categoryPublications = {
+  category: 'Category',
+  categoryAdmin: 'CategoryAdmin',
 };
 
-class EventCollection extends BaseCollection {
+class CategoryCollection extends BaseCollection {
   constructor() {
-    super('Events', new SimpleSchema({
+    const name = 'Categories';
+    const schema = new SimpleSchema({
       name: String,
-      eventDate: Date,
-      description: String,
-      category: String,
-      location: String,
-      startTime: String,
-      endTime: String,
-      coordinator: String,
-      amountVolunteersNeeded: Number,
-      specialInstructions: {
-        type: String,
-        optional: true,
-      },
-      image: {
-        type: String,
-        optional: false,
-        defaultValue: '',
-      },
-      owner: String,
-    }));
-  }
-
-  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, owner }) {
-    console.log("Inserting the image:", image);
-    const docID = this._collection.insert({
-      name,
-      eventDate,
-      description,
-      category,
-      location,
-      startTime,
-      endTime,
-      coordinator,
-      amountVolunteersNeeded,
-      specialInstructions,
-      image,
-      owner,
     });
-    return docID;
-  }
+    super(name, schema);
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, owner }) {
-    const updateData = {};
-    if (name) {
-      updateData.name = name;
-    }
-    if (eventDate) {
-      updateData.eventDate = eventDate;
-    }
-    if (description) {
-      updateData.description = description;
-    }
-    if (category) {
-      updateData.category = category;
-    }
-    if (location) {
-      updateData.location = location;
-    }
-    if (startTime) {
-      updateData.startTime = startTime;
-    }
-    if (endTime) {
-      updateData.endTime = endTime;
-    }
-    if (coordinator) {
-      updateData.coordinator = coordinator;
-    }
-    if (amountVolunteersNeeded) {
-      updateData.amountVolunteersNeeded = amountVolunteersNeeded;
-    }
-    if (specialInstructions) {
-      updateData.specialInstructions = specialInstructions;
-    }
-    if (image) {
-      updateData.image = image;
-    }
-    if (owner) {
-      updateData.owner = owner;
-    }
-    this._collection.update(docID, { $set: updateData });
-  }
+    // Default categories for volunteer events
+    this.defaultCategories = [
+      'Community Service',
+      'Environmental Conservation',
+      'Healthcare Support',
+      'Animal Welfare',
+      'Youth Mentorship',
+      'Elderly Assistance',
+      'Disaster Relief',
+      'Cultural Preservation',
+      'Homeless Support',
+      'Educational Programs',
+    ];
 
-  removeIt(docID) {
-    check(docID, String);
-    const doc = this._collection.findOne(docID);
-    if (!doc) {
-      throw new Meteor.Error('Event not found', 'Cannot remove a non-existent event.');
+    if (Meteor.isServer) {
+      this.publish();
     }
-    this._collection.remove(docID);
-    return true;
   }
 
   publish() {
     if (Meteor.isServer) {
-      const instance = this;
-      Meteor.publish(eventPublications.event, function publish() {
-        if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
-        }
-        return this.ready();
-      });
-
-      Meteor.publish(eventPublications.eventAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
+      Meteor.publish(categoryPublications.category, () => this._collection.find());
+      // Additional publication logic for admin can be added here
     }
   }
 
-  subscribeEvent() {
+  subscribeCategory() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(eventPublications.event);
+      return Meteor.subscribe(categoryPublications.category);
     }
     return null;
   }
 
-  subscribeEventAdmin() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(eventPublications.eventAdmin);
-    }
-    return null;
+  define({ name }) {
+    return this._collection.insert({ name });
   }
 
-  assertValidRoleForMethod(userId) {
-    this.assertRole(userId, [ROLE.ADMIN, ROLE.USER]);
-  }
-
-  dumpOne(docID) {
-    const doc = this.findDoc(docID);
-    const name = doc.name;
-    const description = doc.description;
-    const location = doc.location;
-    const owner = doc.owner;
-    const eventDate = doc.eventDate;
-    const image = doc.image;
-    return { name, description, location, owner, eventDate, image };
-  }
+  // Implement any additional methods needed for CategoryCollection
 }
 
-export const Events = new EventCollection();
+export const Categories = new CategoryCollection();
