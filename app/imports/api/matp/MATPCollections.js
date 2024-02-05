@@ -19,11 +19,11 @@ class MATPClass {
     this.collections = [
       AdminProfiles,
       Stuffs,
-      Events,
-      Categories,
       UserProfiles,
       Skills,
       UserStats,
+      Events,
+      Categories,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.

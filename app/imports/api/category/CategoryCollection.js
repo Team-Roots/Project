@@ -1,42 +1,76 @@
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
+import BaseCollection from '../base/BaseCollection';
+import { ROLE } from '../role/Role';
 
-export const Categories = new Mongo.Collection('categories');
+export const categoryPublications = {
+  category: 'Category',
+  categoryAdmin: 'CategoryAdmin',
+};
 
-Categories.schema = new SimpleSchema({
-  name: {
-    type: String,
-    unique: true,
-  },
-});
+class CategoryCollection extends BaseCollection {
+  constructor() {
+    super('Categories');
+    this.collection = new Mongo.Collection('categories');
+    this.schema = new SimpleSchema({
+      name: String,
+    }, { check });
+    this.collection.attachSchema(this.schema);
 
-Categories.attachSchema(Categories.schema);
+    if (Meteor.isServer) {
+      this.publish();
+      this.prefillCategories();
+    }
+  }
 
-if (Meteor.isServer) {
-  // Publish the categories data
-  Meteor.publish('Categories', function publish() {
-    return Categories.find();
-  });
+  define(categoryData) {
+    const { name } = categoryData;
+    const existingCategory = this.collection.findOne({ name });
+    if (existingCategory) {
+      return existingCategory._id;
+    }
+    return this.collection.insert({ name });
+  }
 
-  // Default categories for volunteer events
-  const defaultCategories = [
-    'Community Service',
-    'Environmental Conservation',
-    'Healthcare Support',
-    'Animal Welfare',
-    'Youth Mentorship',
-    'Elderly Assistance',
-    'Disaster Relief',
-    'Cultural Preservation',
-    'Homeless Support',
-    'Educational Programs',
-  ];
+  prefillCategories() {
+    const defaultCategories = [
+      'Community Service',
+      'Environmental Conservation',
+      'Healthcare Support',
+      'Animal Welfare',
+      'Youth Mentorship',
+      'Elderly Assistance',
+      'Disaster Relief',
+      'Cultural Preservation',
+      'Homeless Support',
+      'Educational Programs',
+    ];
 
-  // Prefill the collection with default categories
-  if (Categories.find().count() === 0) {
-    defaultCategories.forEach(categoryName => {
-      Categories.insert({ name: categoryName });
+    defaultCategories.forEach((categoryName) => {
+      const existingCategory = this.collection.findOne({ name: categoryName });
+      if (!existingCategory) {
+        this.collection.insert({ name: categoryName });
+      }
     });
   }
+
+  publish() {
+    if (Meteor.isServer) {
+      Meteor.publish(categoryPublications.category, function publish() {
+        return Categories.collection.find();
+      });
+
+      Meteor.publish(categoryPublications.categoryAdmin, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+          return Categories.collection.find();
+        }
+        return this.ready();
+      });
+    }
+  }
 }
+
+export const Categories = new CategoryCollection();
