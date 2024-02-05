@@ -24,6 +24,7 @@ import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import Events from '../pages/Events';
+import OrgManagement from '../pages/OrgManagement';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
+          <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
