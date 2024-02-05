@@ -42,7 +42,7 @@ const LandingPanel = ({ orgs }) => {
                   </p>
                 </Col>
                 <Col>
-                  <BarGraph />
+                  <BarGraph fluid />
                 </Col>
                 <Col>
                   <h5>Upcoming Events</h5>
