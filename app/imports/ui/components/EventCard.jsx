@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
-  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
+  const formattedDate = event.eventDate ? event.eventDate.toDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
 
@@ -28,8 +28,13 @@ EventCard.propTypes = {
     name: PropTypes.string.isRequired,
     eventDate: PropTypes.instanceOf(Date),
     description: PropTypes.string,
+    category: PropTypes.string,
     location: PropTypes.string,
     coordinator: PropTypes.string,
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+    amountVolunteersNeeded: PropTypes.number,
+    owner: PropTypes.string,
   }).isRequired,
 };
 
