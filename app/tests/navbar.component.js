@@ -44,7 +44,7 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_MY_ACCOUNT}`);
   }
 
-  async gotoAboutUs(){
+  async gotoAboutUs() {
     await t.click(`#${COMPONENT_IDS.NAVBAR_ABOUT_US}`);
   }
 
