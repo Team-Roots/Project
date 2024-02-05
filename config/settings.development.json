@@ -24,6 +24,44 @@
       "ageRange": { "min": 18, "max": 99 }
     }
   ],
+  "defaultEvents": [
+    {
+      "name":  "Ala Moana Beach Clean Up",
+      "eventDate": "2024-03-04",
+      "description": "Come down to help clean!",
+      "owner":  "john@foo.com",
+      "category":  "Clean Up",
+      "location":  "Ala Moana Beach Park",
+      "startTime":  "8:00 AM",
+      "endTime":  "11:00 AM",
+      "coordinator":  "john@foo.com",
+      "amountVolunteersNeeded": 20
+    },
+    {
+      "name":  "Hawaii Food Bank Donation Drive",
+      "eventDate": "2024-02-24",
+      "description": "Food donation drive! Donate!",
+      "owner":  "john@foo.com",
+      "category":  "Donations",
+      "location":  "UH Mānoa",
+      "startTime":  "9:00 AM",
+      "endTime":  "3:00 PM",
+      "coordinator":  "john@foo.com",
+      "amountVolunteersNeeded": 200
+    },
+    {
+      "name":  "Oahu SPCA Adoption Event",
+      "eventDate": "2024-02-31",
+      "description": "Helpers needed to help with the adoption event.",
+      "owner":  "john@foo.com",
+      "category":  "Animal Shelter",
+      "location":  "Petco Pearl City",
+      "startTime":  "10:00 AM",
+      "endTime":  "2:00 PM",
+      "coordinator":  "john@foo.com",
+      "amountVolunteersNeeded": 5
+    }
+  ],
   "public": {
     "development": true
   }
