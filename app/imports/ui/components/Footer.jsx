@@ -11,6 +11,7 @@ const Footer = () => (
           <Link to="/aboutus">About Us</Link>
           <br />
           <Link to="/questions">FAQ</Link>
+          <Link to="/faq">FAQ</Link>
           <br />
           <a href="https://www.google.com/?client=safari">Contact Us</a>
         </Col>
