@@ -1,6 +1,5 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { Alert, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import { PAGE_IDS } from '../utilities/PageIDs';
