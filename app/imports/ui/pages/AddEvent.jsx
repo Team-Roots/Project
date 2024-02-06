@@ -13,7 +13,7 @@ import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import UploadWidget from '../components/UploadWidget';
 import AddressInput from '../components/AddressInput';
-import { Categories } from '/imports/api/category/CategoryCollection';
+import { Categories } from '../../api/category/CategoryCollection';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -36,6 +36,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 /* Renders the AddEvent page for adding an event. */
 const AddEvent = () => {
+  const subscription = Categories.subscribe();
   const [formRef, setFormRef] = useState(null);
   const [cloudinaryUrl, setCloudinaryUrl] = useState('');
   const [isImageUploaded, setIsImageUploaded] = useState(false);
@@ -52,10 +53,7 @@ const AddEvent = () => {
     return fetchedCategories;
   }, []);
 
-  const categoryOptions = categories.map((category) => ({
-    label: category.name,
-    value: category.name,
-  }));
+  const categoryOptions = categories.map(({ name }) => ({ label: name, value: name }));
   // eslint-disable-next-line react/prop-types,react/no-unstable-nested-components
   const CustomDateField = ({ placeholder }) => {
     const [startDate, setStartDate] = useState(new Date());
@@ -123,7 +121,7 @@ const AddEvent = () => {
                 <TextField name="name" placeholder="Event Name" />
                 <CustomDateField name="eventDate" placeholder="Event Date" />
                 <TextField name="description" placeholder="Event Description" />
-                <SelectField name="category" placeholder="Category" options={categoryOptions} />
+                <SelectField name="category" options={categoryOptions} />
                 <AddressInput onAddressSelect={handleAddressSelect} />
                 <TextField name="startTime" placeholder="Start Time" />
                 <TextField name="endTime" placeholder="End Time" />
