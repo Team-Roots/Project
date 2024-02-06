@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 
 const exampleInfo = {
-  name: "John",
-  email: "John@foo.com",
-  phone: "123-456-7890",
-  availability: "Weekends",
-  skills: "First Aid, Communication",
+  name: 'John',
+  email: 'John@foo.com',
+  phone: '123-456-7890',
+  availability: 'Weekends',
+  skills: 'First Aid, Communication',
 };
 
 const RegistrationForm = () => {
