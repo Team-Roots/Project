@@ -25,7 +25,7 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faqq">FAQ</Nav.Link>
 
                 <NavDropdown id="login-dropdown" title="Help">
                   <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
