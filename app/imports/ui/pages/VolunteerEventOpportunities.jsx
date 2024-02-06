@@ -1,4 +1,5 @@
 import React from 'react';
+// import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
@@ -11,6 +12,8 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 // import PropTypes from 'prop-types';
 
 const VolunteerEventOpportunities = () => {
+  // const user = Meteor.user();
+  // const owner = user ? user.username : null;
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
@@ -45,7 +48,7 @@ const VolunteerEventOpportunities = () => {
       name: 'Ala Moana Beach Clean Up',
       eventDate: new Date('2023-12-07T13:00:00.000Z'),
       description: 'Come down to help clean!',
-      owner: 'john@foo.com',
+      owner: 'admin@foo.com',
       category: 'Clean Up',
       location: 'Ala Moana Beach Park',
       startTime: '8:00 AM',
@@ -98,20 +101,20 @@ const VolunteerEventOpportunities = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={2} lg={2}>
+        <Col lg={2}>
           <h3>Filter By</h3>
           <h4>Location</h4>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 1 Mile</FormCheckLabel>
+            <FormCheckLabel>Honolulu, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 5 Miles</FormCheckLabel>
+            <FormCheckLabel>Pearl City, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 10 Miles</FormCheckLabel>
+            <FormCheckLabel>Waimanalo</FormCheckLabel>
           </FormCheck>
           <h4>Category</h4>
           <FormCheck>
@@ -134,12 +137,12 @@ const VolunteerEventOpportunities = () => {
             </FormCheckLabel>
           </FormCheck>
         </Col>
-        <Col>
+        <Col lg={8}>
           {!ready ? (
             <div>Loading Events...</div>
           ) : (
             eventData.map(event => (
-              <Row key={event} className="m-1">
+              <Row key={event} className="m-1" lg={2}>
                 <EventCard event={event} />
               </Row>
             ))

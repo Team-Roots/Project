@@ -1,12 +1,15 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Meteor } from 'meteor/meteor';
+import { Card, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
   const formattedDate = event.eventDate ? event.eventDate.toDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
+  const user = Meteor.user();
+  const owner = user ? user.username : null;
 
   return (
     <Card className="mb-3">
@@ -16,7 +19,9 @@ const EventCard = ({ event }) => {
         <Card.Text>{event.description}</Card.Text>
         <Card.Text>Location: {event.location}</Card.Text>
         <Card.Text>Coordinator: {event.coordinator}</Card.Text>
-        <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
+        {/* <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link> */}
+        {event.owner === owner && <Button href={`/edit-event/${event._id}`} variant="outline-success" className="mx-1">Edit Event</Button>}
+        {event.owner === owner && <Button className="mx-1" variant="danger">Delete Event</Button>}
       </Card.Body>
     </Card>
   );
