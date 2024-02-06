@@ -1,47 +1,54 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 const AddressInput = ({ onAddressSelect }) => {
   const [address, setAddress] = useState('');
 
-  const handleChange = (address) => {
-    setAddress(address);
+  const handleChange = (newAddress) => setAddress(newAddress);
+
+  const handleSelect = (selectedAddress) => {
+    geocodeByAddress(selectedAddress)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => onAddressSelect(selectedAddress, latLng))
+      .catch(error => console.error('Error', error));
+    setAddress(selectedAddress);
   };
 
-  const handleSelect = (address) => {
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
-        console.log('Success', latLng);
-        onAddressSelect(address, latLng); // Pass the address and coordinates upwards
-      })
-      .catch(error => console.error('Error', error));
-    setAddress(address);
+  const handleKeyDown = (event) => {
+    // Example: trigger select on Enter key
+    if (event.key === 'Enter') {
+      handleSelect(address);
+    }
   };
 
   return (
-    <PlacesAutocomplete
-      value={address}
-      onChange={handleChange}
-      onSelect={handleSelect}
-    >
+    <PlacesAutocomplete value={address} onChange={handleChange} onSelect={handleSelect}>
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
           <input
-            {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input form-control',
-            })}
+            placeholder={getInputProps().placeholder}
+            className={getInputProps().className}
+            onChange={getInputProps().onChange}
+            onBlur={getInputProps().onBlur}
+            onFocus={getInputProps().onFocus}
+            // Add other necessary props manually
           />
+
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
-            {suggestions.map(suggestion => {
-              const className = suggestion.active
-                ? 'suggestion-item--active'
-                : 'suggestion-item';
+            {suggestions.map((suggestion, index) => {
+              const suggestionItemProps = getSuggestionItemProps(suggestion);
               return (
                 <div
-                  {...getSuggestionItemProps(suggestion, { className })}
+                  key={index}
+                  /* eslint-disable-next-line react/jsx-props-no-spreading */
+                  {...suggestionItemProps}
+                  role="button"
+                  tabIndex="0"
+                  onKeyDown={handleKeyDown}
+                  onFocus={suggestionItemProps.onMouseOver} // Repurpose mouse events for keyboard focus
+                  onBlur={suggestionItemProps.onMouseOut}
                 >
                   <span>{suggestion.description}</span>
                 </div>
@@ -52,6 +59,10 @@ const AddressInput = ({ onAddressSelect }) => {
       )}
     </PlacesAutocomplete>
   );
+};
+
+AddressInput.propTypes = {
+  onAddressSelect: PropTypes.func.isRequired,
 };
 
 export default AddressInput;

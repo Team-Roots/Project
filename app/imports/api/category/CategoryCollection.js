@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
-import { ROLE } from '../role/Role';
 
 export const categoryPublications = {
   category: 'Category',
