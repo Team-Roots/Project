@@ -1,22 +1,32 @@
 import React from 'react';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Container } from 'react-bootstrap';
+import LandingPanels from '../components/LandingPanels';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import { Organizations } from '../../api/organization/OrganizationCollection';
+import LoadingSpinner from '../components/LoadingSpinner';
 
-/* A simple static component to render some text for the landing page. */
-const Landing = () => (
-  <Container id={PAGE_IDS.LANDING} className="py-3">
-    <Row className="align-middle text-center">
-      <Col xs={4}>
-        <Image roundedCircle src="/images/meteor-logo.png" width="150px" />
-      </Col>
-
-      <Col xs={8} className="d-flex flex-column justify-content-center">
-        <h1>Welcome to Voluntree</h1>
-        <p>Now get to work and modify this app!</p>
-      </Col>
-
-    </Row>
-  </Container>
-);
+const Landing = () => {
+  const { ready, orgs } = useTracker(() => {
+    const subscription = Organizations.subscribeOrg();
+    const rdy = subscription.ready();
+    if (!subscription.ready()) {
+      console.log('Subscription is not ready yet.');
+    } else {
+      console.log('Subscription is ready.');
+    }
+    const orgItems = Organizations.find({}).fetch();
+    console.log(orgItems);
+    return {
+      orgs: orgItems,
+      ready: rdy,
+    };
+  }, []);
+  return (ready ? (
+    <Container>
+      <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} />
+    </Container>
+  ) : <LoadingSpinner message="Loading Stuff" />);
+};
 
 export default Landing;

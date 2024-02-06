@@ -3,10 +3,12 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { Events } from '../event/EventCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
+import { Organizations } from '../organization/OrganizationCollection';
 import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
-import { Categories } from '../category/CategoryCollection'; // Ensure this is correctly pointing to your Categories collection
-
+import { Categories } from '../category/CategoryCollection';
+import { OrganizationWaiver } from '../organization/OrganizationWaiver';
+import { OrganizationAdmin } from '../organization/OrganizationAdmin'; // Ensure this is correctly pointing to your Categories collection
 class MATPClass {
   collections;
 
@@ -21,11 +23,17 @@ class MATPClass {
       Events,
       Categories, // Ensure Categories is included
       UserProfiles,
+      Organizations,
+      OrganizationAdmin,
+      OrganizationWaiver,
       Skills,
       UserStats,
     ];
 
     this.collectionLoadSequence = [
+      Organizations,
+      OrganizationAdmin,
+      OrganizationWaiver,
       AdminProfiles,
       UserProfiles,
       Stuffs,

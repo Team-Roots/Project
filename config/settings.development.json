@@ -11,6 +11,19 @@
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
+  "defaultOrg": [
+    {
+      "website": "Johnfoo.org",
+      "profit": false,
+      "location": "JohnFoo St. Truman sucks HI, 96795",
+      "organizationOwner": "john@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    }
+  ],
   "public": {
     "development": true
   }

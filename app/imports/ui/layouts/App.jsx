@@ -21,6 +21,9 @@ import ManageDatabase from '../pages/ManageDatabase';
 import ListEvent from '../pages/ListEvent';
 import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
+import MyAccount from '../pages/MyAccount';
+import AboutUs from '../pages/AboutUs';
+import Events from '../pages/Events';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -39,11 +42,15 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
+          <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
+          <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />

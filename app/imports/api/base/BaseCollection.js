@@ -18,6 +18,7 @@ class BaseCollection {
     this._collection = new Mongo.Collection(this._collectionName);
     this._schema = schema;
     this._collection.attachSchema(this._schema);
+    this.autoID = 0;
   }
 
   /**
@@ -26,6 +27,11 @@ class BaseCollection {
    */
   count() {
     return this._collection.find().count();
+  }
+
+  newGlobalID() {
+    this.autoID += 1;
+    return this.autoID;
   }
 
   /**
