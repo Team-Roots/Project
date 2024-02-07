@@ -5,7 +5,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { ROLE } from '../../api/role/Role';
 import NotAuthorized from './NotAuthorized';
-import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -18,22 +17,24 @@ const OrgManagement = () => {
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Stuff documents
-    const foundOrganizations = Stuffs.find().fetch();
+    const foundOrganizations = Organizations.find().fetch();
     return {
       organizations: foundOrganizations,
       ready: rdy,
     };
   }, []);
-  console.log("asdf", organizations);
-  if (Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) {
+
+  if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORGADMIN])) {
     return ready ? (
       <Container>
         <Row>
           <Col>
-            <p>Organization Management Dashboard</p>
-            {organizations.map(organization => (
-              <p>adsfasdf</p>
-            ))}
+            <h1>Manage Organizations</h1>
+            {organizations.length ? organizations.map(organization => (
+              <p>{organization.website}</p>
+            )) : (
+              <p>You are not a part of any organization</p>
+            )}
           </Col>
         </Row>
       </Container>
