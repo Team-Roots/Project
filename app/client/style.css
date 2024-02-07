@@ -52,7 +52,7 @@ body {
   font-size: 20px;
 }
 
-.btn.accountbutton {
+.btn.accountbutton, .btn-primary.edit {
   background-color: #005C6D;
   border-color: #005C6D;
   --bs-btn-hover-bg: #00839c;
@@ -70,4 +70,3 @@ body {
 #colorCard {
   background-color: #02B5A6;
 }
-

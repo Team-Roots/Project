@@ -28,7 +28,7 @@ const EventCard = ({ event }) => {
         </Row>
         <br />
         <Row>
-          <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText">More Details</Link></Col>
+          <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText edit">More Details</Link></Col>
           <Col>{event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
         </Row>
       </Card.Body>
