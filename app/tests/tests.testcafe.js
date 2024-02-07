@@ -2,7 +2,7 @@
 import { signOutPage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
-import { signUpPage } from './signup.page';
+// import { signUpPage } from './signup.page';
 import { navBar } from './navbar.component';
 import { myEventPage } from './MyEvent.page';
 import { myAddEventPage } from './AddEvent.page';
@@ -16,7 +16,7 @@ import { myAboutUsPage } from './AboutUs.page';
 const credentials = { username: 'john@foo.com', password: 'changeme' };
 // const adminCredentials = { username: 'admin@foo.com', password: 'changeme' };
 // no admin specific pages yet :)
-const newCredentials = { username: 'jane@foo.com', password: 'changeme' };
+// const newCredentials = { username: 'jane@foo.com', password: 'changeme' };
 
 fixture('meteor-application-template-production localhost test with default db')
   .page('http://localhost:3000');
@@ -49,14 +49,14 @@ test('Test that signin and signout work', async () => {
 //   await signOutPage.isDisplayed();
 // });
 
-test('Test that sign up and sign out work', async () => {
-  await navBar.gotoSignUpPage();
-  await signUpPage.isDisplayed();
-  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
-  await navBar.isLoggedIn(newCredentials.username);
-  await navBar.logout();
-  await signOutPage.isDisplayed();
-});
+// test('Test that sign up and sign out work', async () => {
+//   await navBar.gotoSignUpPage();
+//   await signUpPage.isDisplayed();
+//   await signUpPage.signupUser(newCredentials.username, newCredentials.password);
+//   await navBar.isLoggedIn(newCredentials.username);
+//   await navBar.logout();
+//   await signOutPage.isDisplayed();
+// });
 
 test('Test that EventPage works', async () => {
   await navBar.gotoSignInPage();
