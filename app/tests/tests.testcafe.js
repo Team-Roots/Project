@@ -59,19 +59,17 @@ test('Test that sign up and sign out work', async () => {
 });
 
 test('Test that EventPage works', async () => {
-  await navBar.gotoSignUpPage();
-  await signUpPage.isDisplayed();
-  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
-  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoSignInPage();
+  await signInPage.signin(credentials.username, credentials.password);
+  await navBar.isLoggedIn(credentials.username);
   await navBar.gotoEventPage();
   await myEventPage.isDisplayed();
 });
 
 test('Test that addEventPage works', async () => {
-  await navBar.gotoSignUpPage();
-  await signUpPage.isDisplayed();
-  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
-  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoSignInPage();
+  await signInPage.signin(credentials.username, credentials.password);
+  await navBar.isLoggedIn(credentials.username);
   await navBar.gotoEventPage();
   await myEventPage.isDisplayed();
   await navBar.gotoAddEventPage();
@@ -79,19 +77,17 @@ test('Test that addEventPage works', async () => {
 });
 
 test('Test that myAccountPage works', async () => {
-  await navBar.gotoSignUpPage();
-  await signUpPage.isDisplayed();
-  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
-  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoSignInPage();
+  await signInPage.signin(credentials.username, credentials.password);
+  await navBar.isLoggedIn(credentials.username);
   await navBar.gotoMyAccount();
   await myAccountPage.isDisplayed();
 });
 
 test('Test that aboutUsPage works', async () => {
-  await navBar.gotoSignUpPage();
-  await signUpPage.isDisplayed();
-  await signUpPage.signupUser(newCredentials.username, newCredentials.password);
-  await navBar.isLoggedIn(newCredentials.username);
+  await navBar.gotoSignInPage();
+  await signInPage.signin(credentials.username, credentials.password);
+  await navBar.isLoggedIn(credentials.username);
   await navBar.gotoAboutUs();
   await myAboutUsPage.isDisplayed();
 });
