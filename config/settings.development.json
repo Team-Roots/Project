@@ -11,6 +11,68 @@
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
+  "defaultOrg": [
+    {
+      "name": "John Foo Eatery",
+      "website": "Johnfoo.org",
+      "profit": false,
+      "location": "JohnFoo Apt #2 Kailua HI, 96795",
+      "organizationOwner": "john@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    },
+    {
+      "name": "John Foo Butchery",
+      "website": "Johnfoo.com",
+      "profit": false,
+      "location": "JohnFoo Hwy. Kailua HI, 96795",
+      "organizationOwner": "john1@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    },
+    {
+      "name": "John Foo Cutlery",
+      "website": "Johnfoo.webgl",
+      "profit": false,
+      "location": "JohnFoo Kailua HI, 96795",
+      "organizationOwner": "john2@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    },
+    {
+      "name": "John Foo Fishery",
+      "website": "Johnfoo.gov",
+      "profit": false,
+      "location": "JohnFoo St. Kailua HI, 96795",
+      "organizationOwner": "john3@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    },
+    {
+      "name": "John Foo Shop #5",
+      "website": "Johnfoo.html",
+      "profit": false,
+      "location": "JohnFoo Rd. Kailua HI, 96795",
+      "organizationOwner": "john4@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 }
+    }
+  ],
   "public": {
     "development": true
   }
