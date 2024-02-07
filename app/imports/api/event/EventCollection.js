@@ -14,10 +14,19 @@ class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
-      eventDate: Date,
+      eventDate: {
+        type: Date,
+        optional: true,
+      },
       description: String,
-      category: String,
-      location: String,
+      category: {
+        type: String,
+        optional: true,
+      },
+      location: {
+        type: String,
+        optional: true,
+      },
       startTime: String,
       endTime: String,
       coordinator: String,
@@ -26,16 +35,11 @@ class EventCollection extends BaseCollection {
         type: String,
         optional: true,
       },
-      restrictions: {
-        type: Object,
-        optional: true,
-        blackbox: true,
-      },
       owner: String,
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -48,12 +52,11 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
-      restrictions,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -84,9 +87,6 @@ class EventCollection extends BaseCollection {
     }
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
-    }
-    if (restrictions) {
-      updateData.restrictions = restrictions;
     }
     this._collection.update(docID, { $set: updateData });
   }

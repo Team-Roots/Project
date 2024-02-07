@@ -1,0 +1,26 @@
+.event-card {
+  max-width: 300px; /* Control the width of the card */
+  margin: 0 auto; /* Center align the card */
+}
+
+.event-image-container {
+  height: 200px; /* Fixed height for images */
+  width: 200px;
+  overflow: hidden; /* Ensures the image doesn't exceed the container */
+}
+
+.event-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
+.event-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Spacing between content and button */
+}
+
+.event-card-link {
+  margin-top: 15px; /* Space above the link button */
+}

@@ -33,6 +33,7 @@ const EditEvent = () => {
         swal('Error', error.message, 'error');
       } else {
         swal('Success', 'Event updated successfully', 'success');
+        navigate('/events'); // Navigate after successful update
       }
     });
   };
@@ -44,24 +45,24 @@ const EditEvent = () => {
       icon: 'warning',
       buttons: true,
       dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          Meteor.call('events.delete', _id, (error) => {
-            if (error) {
-              swal('Error', error.reason, 'error');
-            } else {
-              swal('Your event has been deleted!', { icon: 'success' });
-              navigate('/events'); // Corrected usage of navigate
-            }
-          });
-        }
-      });
+    }).then((willDelete) => {
+      if (willDelete) {
+        Meteor.call('events.remove', _id, (error) => {
+          if (error) {
+            swal('Error', error.reason, 'error');
+          } else {
+            swal('Your event has been deleted!', { icon: 'success' });
+            navigate('/events'); // Corrected usage of navigate
+          }
+        });
+      }
+    });
   };
 
   if (!ready) {
     return <LoadingSpinner />;
   }
+
   return (
     <Container id={PAGE_IDS.EDIT_EVENT} className="py-3">
       <Row className="justify-content-center">
