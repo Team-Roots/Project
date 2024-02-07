@@ -3,14 +3,14 @@ import { Card, Container, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, showEditLink }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
 
   return (
-    <Card className="event-card mb-3">
-      <Container className="event-image-container">
+    <Card className="event-card mb-3" style={{ backgroundColor: '#22ba97' }}>
+      <Container className="event-image-container" style={{ paddingTop: '20px' }}>
         <Image src={event.image} alt="Event Image" fluid />
       </Container>
       <Card.Body className="event-card-body">
@@ -19,7 +19,7 @@ const EventCard = ({ event }) => {
         <Card.Text>{event.description}</Card.Text>
         <Card.Text>Location: {event.location}</Card.Text>
         <Card.Text>Coordinator: {event.coordinator}</Card.Text>
-        <Link to={`/edit-event/${event._id}`} className="btn btn-primary event-card-link">Edit</Link>
+        {showEditLink && <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>}
       </Card.Body>
     </Card>
   );
@@ -27,13 +27,14 @@ const EventCard = ({ event }) => {
 
 EventCard.propTypes = {
   event: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string, // Removed .isRequired
     name: PropTypes.string.isRequired,
     eventDate: PropTypes.instanceOf(Date),
     description: PropTypes.string,
     location: PropTypes.string,
     coordinator: PropTypes.string,
     image: PropTypes.string,
+    showEditLink: PropTypes.bool,
   }).isRequired,
 };
 
