@@ -1,5 +1,7 @@
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
 
 /* Set up some CSS variables to theme the application. */
 :root {
@@ -25,6 +27,14 @@ body {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
+}
+
+.poppinsText {
+  font-family: "Poppins", sans-serif;
+}
+
+.robotoText {
+  font-family: "Roboto", sans-serif;
 }
 
 .card.accountcard {

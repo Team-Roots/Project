@@ -1,29 +1,24 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-const OrganizationCard = ({ org }) => {
-  return (
-    <Card className="mb-3">
-      <Card.Body>
-        <Card.Title>{org.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{org.organizationOwner}</Card.Subtitle>
-        <Card.Text>
-          {org.website}
-        </Card.Text>
-        <Card.Text>
-          Location: {org.location}
-        </Card.Text>
-        <Card.Text>
-          Age Range: {org.ageRange.min} - {org.ageRange.max}
-        </Card.Text>
-        {/* Replace the button with a Link component for navigation */}
-        {/* <Link to={`/edit-event/${org._id}`} className="btn btn-primary">Edit</Link> */}
-      </Card.Body>
-    </Card>
-  );
-};
+const OrganizationCard = ({ org }) => (
+  <Card className="mb-3">
+    <Card.Body>
+      <Card.Title className="poppinsText">{org.name}</Card.Title>
+      <Card.Subtitle className="mb-2 text-muted robotoText">{org.organizationOwner}</Card.Subtitle>
+      <Card.Text className="robotoText">
+        {org.website}
+      </Card.Text>
+      <Card.Text className="robotoText">
+        Location: {org.location}
+      </Card.Text>
+      <Card.Text className="robotoText">
+        Age Range: {org.ageRange.min} - {org.ageRange.max}
+      </Card.Text>
+    </Card.Body>
+  </Card>
+);
 
 OrganizationCard.propTypes = {
   org: PropTypes.shape({

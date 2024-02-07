@@ -17,7 +17,7 @@ class OrganizationCollection extends BaseCollection {
     super('Organizations', new SimpleSchema({
       name: {
         type: String,
-        defaultValue: 'John Doe Save The Turtles INC',
+        defaultValue: 'MISSING NAME',
       },
       website: {
         type: String,
@@ -119,6 +119,11 @@ class OrganizationCollection extends BaseCollection {
    * @param ageRange the range of age for the job
    */
 
+  newGlobalID() {
+    this.autoID += 1;
+    return this.autoID;
+  }
+
   update(docID, { name, quantity, condition, backgroundCheck, ageRange }) {
     const updateData = {};
     if (name) {
@@ -162,12 +167,12 @@ class OrganizationCollection extends BaseCollection {
     if (Meteor.isServer) {
       // get the StuffCollection instance.
       const instance = this;
-      /** This subscription publishes only the documents associated with the logged in user */
+      /** This subscription publishes only the documents associated with the logged in user
+       * Might need some checks later (removed currently)
+       * */
       Meteor.publish(organizationPublications.organization, function publish() {
-        if (this.userId) {
-          return instance._collection.find();
-        }
-        return this.ready();
+        return instance._collection.find();
+        // return this.ready();
       });
 
     }
@@ -175,12 +180,10 @@ class OrganizationCollection extends BaseCollection {
 
   /**
    * Subscription method for stuff owned by the current user.
+   * Will want some restrictions later (maybe)
    */
   subscribeOrg() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(organizationPublications.organization);
-    }
-    return null;
+    return Meteor.subscribe(organizationPublications.organization);
   }
 
   /**
