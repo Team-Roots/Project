@@ -18,19 +18,10 @@ import { Categories } from '../../api/category/CategoryCollection';
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
   name: String,
-  eventDate: {
-    type: Date,
-    optional: true,
-  },
+  eventDate: Date,
   description: String,
-  category: {
-    type: String,
-    optional: true,
-  },
-  location:  {
-    type: String,
-    optional: true,
-  },
+  category: String,
+  location: String,
   startTime: String,
   endTime: String,
   coordinator: String,
@@ -64,20 +55,14 @@ const AddEvent = () => {
 
   const categoryOptions = categories.map(({ name }) => ({ label: name, value: name }));
   // eslint-disable-next-line react/prop-types,react/no-unstable-nested-components
-  const CustomDateField = ({ name, onChange, placeholder }) => {
+  const CustomDateField = ({ placeholder }) => {
     const [startDate, setStartDate] = useState(new Date());
-
-    const handleChange = (date) => {
-      setStartDate(date);
-      onChange(name, date); // Ensure this updates the form's model
-    };
 
     return (
       <DatePicker
-        name="eventDate"
         selected={startDate}
-        onChange={handleChange}
-        dateFormat="yyyy/MM/dd"
+        onChange={(date) => setStartDate(date)}
+        dateFormat="yyyy/MM/dd" // You can customize the format
         placeholderText={placeholder}
       />
     );
@@ -133,10 +118,10 @@ const AddEvent = () => {
               <h2 className="text-center">Add Event</h2>
               <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
                 <TextField name="name" placeholder="Event Name" />
-                <CustomDateField placeholder="Event Date" />
+                <CustomDateField name="eventDate" placeholder="Event Date" />
                 <TextField name="description" placeholder="Event Description" />
                 <SelectField name="category" options={categoryOptions} />
-                <AddressInput name="location" onAddressSelect={handleAddressSelect} />
+                <AddressInput onAddressSelect={handleAddressSelect} />
                 <TextField name="startTime" placeholder="Start Time" />
                 <TextField name="endTime" placeholder="End Time" />
                 <TextField name="coordinator" placeholder="Event Coordinator" />

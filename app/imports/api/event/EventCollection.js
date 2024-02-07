@@ -14,19 +14,10 @@ class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
-      eventDate: {
-        type: Date,
-        optional: true,
-      },
+      eventDate: Date,
       description: String,
-      category: {
-        type: String,
-        optional: true,
-      },
-      location:  {
-        type: String,
-        optional: true,
-      },
+      category: String,
+      location: String,
       startTime: String,
       endTime: String,
       coordinator: String,
@@ -34,6 +25,11 @@ class EventCollection extends BaseCollection {
       specialInstructions: {
         type: String,
         optional: true,
+      },
+      restrictions: {
+        type: Object,
+        optional: true,
+        blackbox: true,
       },
       owner: String,
     }));
@@ -52,11 +48,12 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
+      restrictions,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -87,6 +84,9 @@ class EventCollection extends BaseCollection {
     }
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
+    }
+    if (restrictions) {
+      updateData.restrictions = restrictions;
     }
     this._collection.update(docID, { $set: updateData });
   }
