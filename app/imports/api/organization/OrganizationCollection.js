@@ -4,8 +4,6 @@ import { check } from 'meteor/check';
 import { _ } from 'meteor/underscore';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { OrganizationAdmin } from './OrganizationAdmin';
-import { OrganizationWaiver } from './OrganizationWaiver';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
