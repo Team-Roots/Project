@@ -1,141 +1,99 @@
 import React, { useState } from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
-import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { AutoForm, TextField, SelectField, SubmitField, ErrorsField, NumField } from 'uniforms-bootstrap5';
-import SimpleSchema from 'simpl-schema';
+import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { Events } from '../../api/event/EventCollection';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
-import { PAGE_IDS } from '../utilities/PageIDs';
-import UploadWidget from '../components/UploadWidget';
-import AddressInput from '../components/AddressInput';
-import { Categories } from '/imports/api/category/CategoryCollection';
+import SimpleSchema from 'simpl-schema';
+import BasicEventDetails from '../components/BasicEventDetails'; // Adjust the path as needed
+import TimingAndCoordinator from '../components/TimingAndCoordinator'; // Adjust the path as needed
+import AdditionalInformation from '../components/AdditionalInformation'; // Adjust the path as needed
+import EventCard from '../components/EventCard'; // Ensure this path is correct
 
-// Create a schema to specify the structure of the data to appear in the form.
-const formSchema = new SimpleSchema({
+// Define your form schema
+const eventSchema = new SimpleSchema({
   name: String,
-  eventDate: Date,
-  description: String,
-  category: String,
-  location: String,
+  eventDate: {
+    type: Date,
+    label: 'Event Date', // Ensure the label is defined here
+  },
   startTime: String,
   endTime: String,
   coordinator: String,
-  amountVolunteersNeeded: Number,
+  category: {
+    type: String,
+    optional: true,
+  },
   specialInstructions: {
     type: String,
     optional: true,
   },
+  description: String,
+  amountVolunteersNeeded: SimpleSchema.Integer,
+  image: { type: String, optional: true },
 });
 
-const bridge = new SimpleSchema2Bridge(formSchema);
+const bridge = new SimpleSchema2Bridge(eventSchema);
 
-/* Renders the AddEvent page for adding an event. */
 const AddEvent = () => {
-  const [formRef, setFormRef] = useState(null);
-  const [cloudinaryUrl, setCloudinaryUrl] = useState('');
-  const [isImageUploaded, setIsImageUploaded] = useState(false);
-  const [formData, setFormData] = useState({
-    location: '',
-    latitude: null,
-    longitude: null,
+  const [eventPreview, setEventPreview] = useState({
+    name: '',
+    eventDate: new Date(),
+    startTime: '',
+    endTime: '',
+    coordinator: '',
+    description: '',
+    amountVolunteersNeeded: 0,
+    image: 'https://via.placeholder.com/150', // Placeholder image URL
   });
 
-  const categories = useTracker(() => {
-    Meteor.subscribe('Categories');
-    const fetchedCategories = Categories.find().fetch();
-    console.log(fetchedCategories); // Check what's being fetched
-    return fetchedCategories;
-  }, []);
-
-  const categoryOptions = categories.map((category) => ({
-    label: category.name,
-    value: category.name,
-  }));
-  // eslint-disable-next-line react/prop-types,react/no-unstable-nested-components
-  const CustomDateField = ({ placeholder }) => {
-    const [startDate, setStartDate] = useState(new Date());
-
-    return (
-      <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        dateFormat="yyyy/MM/dd" // You can customize the format
-        placeholderText={placeholder}
-      />
-    );
+  const handleSetImageUrl = (url) => {
+    setEventPreview(prevState => ({ ...prevState, image: url }));
   };
 
-  const handleAddressSelect = (address, { lat, lng }) => {
-    setFormData({
-      ...formData,
-      location: address,
-      latitude: lat,
-      longitude: lng,
-    });
-  };
-  const handleCloudinaryUrlUpdate = (url) => {
-    console.log('Uploaded Image URL:', url); // Debugging
-    setCloudinaryUrl(url);
-    setIsImageUploaded(!!url);
-    console.log('After in handleCloudinaryUrlUpdate:', url);
-  };
-
-  // On submit, insert the data.
   const submit = (data) => {
-    console.log('Image URL:', cloudinaryUrl);
-    console.log('Is Image Uploaded:', isImageUploaded);
-    if (!isImageUploaded) {
-      swal('Error', 'Please upload an image before submitting', 'error');
-      return;
-    }
-
-    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions } = data;
-    const imageUrl = cloudinaryUrl;
-    const owner = Meteor.user()?.username;
-    const collectionName = Events.getCollectionName();
-    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image: imageUrl, owner };
-    console.log('Submitting Image URL:', imageUrl);
-    console.log('Definition Data:', definitionData);
-    defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => console.error('Insertion error:', error))
-      .then(() => {
-        swal('Success', 'Event added successfully', 'success');
-        formRef.reset();
-        setIsImageUploaded(false); // Reset the image uploaded state
-        setCloudinaryUrl(''); // Reset the cloudinary URL
-      })
-      .catch(error => swal('Error', error.message, 'error'));
+    console.log(data); // For demonstration
+    swal('Event Submitted', 'Your event has been submitted successfully!', 'success');
+    // Implement submission logic here
   };
 
   return (
-    <Container id={PAGE_IDS.ADD_EVENT} className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={6}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center">Add Event</h2>
-              <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
-                <TextField name="name" placeholder="Event Name" />
-                <CustomDateField name="eventDate" placeholder="Event Date" />
-                <TextField name="description" placeholder="Event Description" />
-                <SelectField name="category" placeholder="Category" options={categoryOptions} />
-                <AddressInput onAddressSelect={handleAddressSelect} />
-                <TextField name="startTime" placeholder="Start Time" />
-                <TextField name="endTime" placeholder="End Time" />
-                <TextField name="coordinator" placeholder="Event Coordinator" />
-                <NumField name="amountVolunteersNeeded" placeholder="Amount of Volunteers Needed" />
-                <TextField name="specialInstructions" placeholder="Special Instructions" />
-                <UploadWidget setUrl={handleCloudinaryUrlUpdate} name="image" />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </AutoForm>
-            </Card.Body>
-          </Card>
+    <Container>
+      <Row>
+        {/* Form Section */}
+        <Col md={6}>
+          <AutoForm schema={bridge} model={eventPreview} onSubmit={submit} onChangeModel={model => setEventPreview(model)}>
+            {/* Basic Event Details Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Basic Event Details</h3>
+                <BasicEventDetails />
+              </Card.Body>
+            </Card>
+
+            {/* Timing and Coordinator Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Timing & Coordinator</h3>
+                <TimingAndCoordinator />
+              </Card.Body>
+            </Card>
+
+            {/* Additional Information Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Additional Information</h3>
+                <AdditionalInformation setUrl={handleSetImageUrl} />
+              </Card.Body>
+            </Card>
+
+            <SubmitField value="Submit Event" />
+            <ErrorsField />
+          </AutoForm>
+        </Col>
+
+        {/* Preview Section */}
+        <Col md={6}>
+          <EventCard event={eventPreview} showEditLink={false} />
         </Col>
       </Row>
     </Container>

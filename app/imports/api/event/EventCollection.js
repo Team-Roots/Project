@@ -16,9 +16,14 @@ class EventCollection extends BaseCollection {
       name: String,
       eventDate: Date,
       description: String,
-      category: String,
-      location: String,
-      startTime: String,
+      category: {
+        type: String,
+        optional: true,
+      },
+      location: {
+        type: String,
+        optional: true,
+      },
       endTime: String,
       coordinator: String,
       amountVolunteersNeeded: Number,
@@ -35,7 +40,7 @@ class EventCollection extends BaseCollection {
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -48,12 +53,11 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
-      restrictions,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -84,9 +88,6 @@ class EventCollection extends BaseCollection {
     }
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
-    }
-    if (restrictions) {
-      updateData.restrictions = restrictions;
     }
     this._collection.update(docID, { $set: updateData });
   }
