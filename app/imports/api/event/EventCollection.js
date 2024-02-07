@@ -23,7 +23,7 @@ class EventCollection extends BaseCollection {
         type: String,
         optional: true,
       },
-      location: {
+      location:  {
         type: String,
         optional: true,
       },
@@ -39,7 +39,7 @@ class EventCollection extends BaseCollection {
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
     const docID = this._collection.insert({
       name,
       eventDate,
