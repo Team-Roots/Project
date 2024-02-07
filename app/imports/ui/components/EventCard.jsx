@@ -12,22 +12,25 @@ const EventCard = ({ event }) => {
   const owner = user ? user.username : null;
 
   return (
-    <Card className="mb-3">
+    <Card className="mb-3" id="colorCard">
       <Card.Body>
         <Row>
           <Col>
-            <Card.Title>{event.name}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
-            <Card.Text>{event.description}</Card.Text>
-            <Card.Text>Location: {event.location} at {event.address}</Card.Text>
-            <Card.Text>Coordinator: {event.coordinator}</Card.Text>
+            <Card.Title className="poppinsText">{event.name}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
+            <Card.Text className="robotoText">{event.description}</Card.Text>
+            <Card.Text className="robotoText">Location: {event.location} at {event.address}</Card.Text>
+            <Card.Text className="robotoText">Coordinator: {event.coordinator}</Card.Text>
           </Col>
           <Col>
             <Image src={event.image} className="imageContain" />
           </Col>
         </Row>
-        <Link to={`/events/${event._id}`} className="btn btn-primary mx-1">More Details</Link>
-        {event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1">Edit</Link>}
+        <br />
+        <Row>
+          <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText">More Details</Link></Col>
+          <Col>{event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
+        </Row>
       </Card.Body>
     </Card>
   );
