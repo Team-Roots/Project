@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
@@ -16,7 +17,7 @@ class CategoryCollection extends BaseCollection {
     this.collection = new Mongo.Collection('categories');
     this.schema = new SimpleSchema({
       name: String,
-    });
+    }, { check });
     this.collection.attachSchema(this.schema);
 
     if (Meteor.isServer) {
@@ -58,13 +59,14 @@ class CategoryCollection extends BaseCollection {
 
   publish() {
     if (Meteor.isServer) {
-      Meteor.publish(categoryPublications.category, () => this.collection.find());
+      Meteor.publish(categoryPublications.category, function publish() {
+        return Categories.collection.find();
+      });
 
-      Meteor.publish(categoryPublications.categoryAdmin, function () {
-
-        return this.collection.find();
-
-        // eslint-disable-next-line no-unreachable
+      Meteor.publish(categoryPublications.categoryAdmin, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+          return Categories.collection.find();
+        }
         return this.ready();
       });
     }

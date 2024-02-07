@@ -5,7 +5,7 @@ import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
-import { Categories } from '../category/CategoryCollection'; // Ensure this is correctly pointing to your Categories collection
+import { Categories } from '../category/CategoryCollection';
 
 class MATPClass {
   collections;
@@ -15,16 +15,19 @@ class MATPClass {
   collectionAssociation;
 
   constructor() {
+    // list of all the MATPCollections collections
     this.collections = [
       AdminProfiles,
       Stuffs,
-      Events,
-      Categories, // Ensure Categories is included
       UserProfiles,
       Skills,
       UserStats,
+      Events,
+      Categories,
     ];
-
+    /*
+     * A list of collection class instances in the order required for them to be sequentially loaded from a file.
+     */
     this.collectionLoadSequence = [
       AdminProfiles,
       UserProfiles,
@@ -35,34 +38,27 @@ class MATPClass {
       Categories,
     ];
 
+    /*
+     * An object with keys equal to the collection name and values the associated collection instance.
+     */
     this.collectionAssociation = {};
     this.collections.forEach((collection) => {
-      // Ensure that collection.getCollectionName is a valid function.
-      // This requires each collection class to have a getCollectionName method.
-      if (typeof collection.getCollectionName === 'function') {
-        this.collectionAssociation[collection.getCollectionName()] = collection;
-      } else {
-        console.warn(`Collection ${collection.constructor.name} does not have getCollectionName method`);
-      }
+      this.collectionAssociation[collection.getCollectionName()] = collection;
     });
+
   }
 
-  publishAll() {
-    this.collections.forEach((collection) => {
-      // Ensure that collection.publish is a valid function.
-      // This requires each collection class to have a publish method.
-      if (typeof collection.publish === 'function') {
-        collection.publish();
-      } else {
-        console.warn(`Publish method not defined for collection: ${collection.constructor.name}`);
-      }
-    });
-  }
-
+  /**
+   * Return the collection class instance given its name.
+   * @param collectionName The name of the collection.
+   * @returns The collection class instance.
+   * @throws { Meteor.Error } If collectionName does not name a collection.
+   */
   getCollection(collectionName) {
+    // console.log('MATPCollections', collectionName, this.collectionAssociation);
     const collection = this.collectionAssociation[collectionName];
     if (!collection) {
-      throw new Meteor.Error(`Called MATPCollections.getCollection with unknown collection name: ${collectionName}`);
+      throw new Meteor.Error(`Called MARTPCollections.getCollection with unknown collection name: ${collectionName}`);
     }
     return collection;
   }
