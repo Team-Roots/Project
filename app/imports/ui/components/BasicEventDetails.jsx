@@ -40,6 +40,7 @@ const BasicEventDetails = ({ categoryOptions, onAddressSelect }) => (
     <CustomDateField placeholder="Select event date" />
     <TextField name="description" placeholder="Event Description" label="Event Description" />
     <SelectField name="category" options={categoryOptions} placeholder="Select category" label="Category" />
+    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
     <label htmlFor="location">Location</label>
     <AddressInput name="location" onAddressSelect={onAddressSelect} label="Location" />
   </div>

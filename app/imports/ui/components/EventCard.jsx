@@ -3,6 +3,7 @@ import { Card, Container, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+// eslint-disable-next-line react/prop-types
 const EventCard = ({ event, showEditLink }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
