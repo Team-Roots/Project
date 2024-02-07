@@ -22,7 +22,7 @@
       "onboarded": false,
       "backgroundCheck": false,
       "orgID": 0,
-      "ageRange": { "min": 18, "max": 99 },
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "Name":  "John's Something or other (test)",
