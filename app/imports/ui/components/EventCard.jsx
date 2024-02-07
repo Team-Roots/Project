@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Card, Button, Col } from 'react-bootstrap';
+import { Card, Row, Col, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -14,17 +14,20 @@ const EventCard = ({ event }) => {
   return (
     <Card className="mb-3">
       <Card.Body>
-        <Card.Title>{event.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
-        <Card.Text>{event.description}</Card.Text>
-        <Card.Text>Location: {event.location}</Card.Text>
-        <Card.Text>Coordinator: {event.coordinator}</Card.Text>
-        {event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>}
-        {/* {event.owner === owner && <Button className="mx-1" variant="danger">Delete Event</Button>}*/}
-        <Col>
-          <Link to={`/edit-event/${event._id}`} className="btn btn-primary">Edit</Link>
-          <Link to={`/events/${event._id}`} className="btn btn-primary">Detail</Link>
-        </Col>
+        <Row>
+          <Col>
+            <Card.Title>{event.name}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{formattedDate}</Card.Subtitle>
+            <Card.Text>{event.description}</Card.Text>
+            <Card.Text>Location: {event.location}</Card.Text>
+            <Card.Text>Coordinator: {event.coordinator}</Card.Text>
+          </Col>
+          <Col>
+            <Image src={event.image} className="imageContain" />
+          </Col>
+        </Row>
+        <Link to={`/events/${event._id}`} className="btn btn-primary mx-1">More Details</Link>
+        {event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1">Edit</Link>}
       </Card.Body>
     </Card>
   );
@@ -43,6 +46,7 @@ EventCard.propTypes = {
     endTime: PropTypes.string,
     amountVolunteersNeeded: PropTypes.number,
     owner: PropTypes.string,
+    image: PropTypes.string,
   }).isRequired,
 };
 

@@ -50,12 +50,13 @@ const VolunteerEventOpportunities = () => {
       description: 'Come down to help clean!',
       owner: 'admin@foo.com',
       category: 'Clean Up',
-      location: 'Ala Moana Beach Park',
+      location: 'Honolulu, HI - Ala Moana Beach Park',
       startTime: '8:00 AM',
       endTime: '11:00 AM',
       coordinator: 'admin@foo.com',
       amountVolunteersNeeded: 20,
       _id: '0',
+      image: 'https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png',
     },
     {
       name: 'Hawaii Food Bank Donation Drive',
@@ -63,12 +64,13 @@ const VolunteerEventOpportunities = () => {
       description: 'Food donation drive! Donate!',
       owner: 'john@foo.com',
       category: 'Donations',
-      location: 'UH Mānoa',
+      location: 'Honolulu, HI - UH Mānoa',
       startTime: '9:00 AM',
       endTime: '3:00 PM',
       coordinator: 'john@foo.com',
       amountVolunteersNeeded: 200,
       _id: '1',
+      image: 'https://foodbanklogos.blob.core.windows.net/foodbanklogos/FoodBankLogo_36_275w.jpg',
     },
     {
       name: 'Oahu SPCA Adoption Event',
@@ -76,12 +78,13 @@ const VolunteerEventOpportunities = () => {
       description: 'Helpers needed to help with the adoption event.',
       owner: 'john@foo.com',
       category: 'Animal Shelter',
-      location: 'Petco Pearl City',
+      location: 'Pearl City, HI - Petco Pearl City',
       startTime: '10:00 AM',
       endTime: '2:00 PM',
       coordinator: 'john@foo.com',
       amountVolunteersNeeded: 5,
       _id: '2',
+      image: 'https://oahuspca.org/images/logo/OahuSPCA.svg',
     },
   ];
 
@@ -137,16 +140,10 @@ const VolunteerEventOpportunities = () => {
             </FormCheckLabel>
           </FormCheck>
         </Col>
-        <Col lg={8}>
-          {!ready ? (
-            <div>Loading Events...</div>
-          ) : (
-            eventData.map(event => (
-              <Row key={event} className="m-1" lg={2}>
-                <EventCard event={event} />
-              </Row>
-            ))
-          )}
+        <Col>
+          <Row md={1} lg={2} className="g-4">
+            {eventData.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+          </Row>
         </Col>
       </Row>
     </Container>

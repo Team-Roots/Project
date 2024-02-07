@@ -51,3 +51,9 @@ body {
   --bs-btn-active-bg: #005C6D;
 }
 
+.imageContain {
+  width: 200px;
+  height: 300px;
+  object-fit: contain;
+}
+
