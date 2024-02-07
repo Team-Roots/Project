@@ -4,25 +4,28 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const MyAccount = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  // eslint-disable-next-line no-unused-vars
-  const { ready, stuffs } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
-    const subscription = Stuffs.subscribeStuff();
+  // Get the email of current user
+  const userEmail = Meteor.user();
+
+  // useTracker connects Meteor data to React components
+  const { ready, account } = useTracker(() => {
+    // Get access to UserProfile documents.
+    const subscription = Meteor.subscribe(UserProfiles.subscribe());
     // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
-    const stuffItems = Stuffs.find({}, { sort: { name: 1 } }).fetch();
+    // Get the UserProfile documents
+    const accountItems = UserProfiles.find({}, { sort: { name: 1 } }).fetch();
     return {
-      stuffs: stuffItems,
+      account: accountItems,
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Container id={PAGE_IDS.MY_ACCOUNT} className="py-3" fluid>
       <Row className="justify-content-center text-center pb-3">
@@ -82,7 +85,7 @@ const MyAccount = () => {
 
       </Row>
     </Container>
-  ) : <LoadingSpinner message="Loading Stuff" />);
+  ) : <LoadingSpinner message="Loading..." />);
 };
 
 export default MyAccount;
