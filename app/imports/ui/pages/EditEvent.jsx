@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Col, Container, Row, Button } from 'react-bootstrap';
-import { AutoForm, ErrorsField, TextField, SelectField, DateField, LongTextField, SubmitField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, SelectField, DateField } from 'uniforms-bootstrap5';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { Meteor } from 'meteor/meteor';
@@ -33,7 +33,6 @@ const EditEvent = () => {
         swal('Error', error.message, 'error');
       } else {
         swal('Success', 'Event updated successfully', 'success');
-        navigate('/events'); // Navigate after successful update
       }
     });
   };

@@ -8,7 +8,6 @@ import { Events } from '../../api/event/EventCollection'; // Import your EventCo
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import '../css/VolunteerEventOpportunities.css';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const VolunteerEventOpportunities = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const VolunteerEventOpportunities = () => {
     );
   }
   return (
-    <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
+    <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs="auto">
           <Button
@@ -48,7 +47,6 @@ const VolunteerEventOpportunities = () => {
             className="rounded-circle d-flex justify-content-center align-items-center"
             style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
             onClick={handleAddEventClick}
-            id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
           >
             <i className="fas fa-plus" />
           </Button>

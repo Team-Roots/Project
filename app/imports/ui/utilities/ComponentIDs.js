@@ -1,23 +1,8 @@
-// import { Nav } from 'react-bootstrap';
-// import { NavLink } from 'react-router-dom';
-// import React from 'react';
-
-// <Nav.Link as={NavLink} to="/aboutus">About Us</Nav.Link>,
-//   <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
-//   <Nav.Link as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
-//   <Nav.Link as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
-
 export const COMPONENT_IDS = {
   LIST_STUFF_EDIT: 'list-stuff-edit',
   LIST_EVENT_EDIT: 'list-event-edit',
   MANGAGE_DATABASE_DUMP: 'manage-database-dump',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
-  NAVBAR_HELP_DROPDOWN: 'navbar_help_dropdown',
-  NAVBAR_ABOUT_US: 'navbar-about-us',
-  NAVBAR_COMMUNITY_GROUPS: 'navbar-community-groups',
-  NAVBAR_MY_ACCOUNT: 'navbar-my-account',
-  NAVBAR_FAQ: 'navbar-faq',
-  NAVBAR_CONTACT_US: 'navbar-contact-us',
   NAVBAR_ADD_EVENT: 'navbar-add-event',
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
   NAVBAR_LIST_EVENT: 'navbar-list-event',

@@ -1,45 +1,21 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Col } from 'react-bootstrap';
 
-const Footer = () => (
-  <footer className="mt-auto py-3 bg-light">
-    <Container>
-      <Row>
-        <Col className="footer-center" xs={12} md={4}>
-          <h5>Resources</h5>
-          <Link to="/aboutus">About Us</Link>
-          <br />
-          <Link to="/questions">FAQ</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Contact Us</a>
+/** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
+const Footer = () => {
+  const divStyle = { paddingTop: '15px' };
+  return (
+    <footer className="mt-auto bg-light">
+      <Container style={divStyle}>
+        <Col className="text-center">
+          Department of Information and Computer Sciences <br />
+          University of Hawaii<br />
+          Honolulu, HI 96822 <br />
+          <a href="http://ics-software-engineering.github.io/meteor-application-template-production">Template Home Page</a>
         </Col>
-
-        <Col className="footer-right" xs={12} md={4}>
-          <h5>Grow the Community</h5>
-          <Link to="Home">Home</Link>
-          <br />
-          <Link to="/eventopportunities">Volunteer</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Post an Event</a>
-          <br />
-          <a href="https://www.google.com/?client=safari">Community Groups</a>
-        </Col>
-
-        <Col className="footer-left" xs={12} md={4}>
-          <h5>Voluntree</h5>
-          <p>
-            Where individuals come together, plant the seeds of compassion, and watch as the collective efforts grow into a flourishing forest of shared impact.
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} className="px-3 bi-text-left">
-          <p>© 2024 Voluntree</p>
-        </Col>
-      </Row>
-    </Container>
-  </footer>
-);
+      </Container>
+    </footer>
+  );
+};
 
 export default Footer;

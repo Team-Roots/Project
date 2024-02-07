@@ -34,7 +34,7 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
-// Renders the AddEvent page for adding an event.
+/* Renders the AddEvent page for adding an event. */
 const AddEvent = () => {
   const subscription = Categories.subscribe();
   const [formRef, setFormRef] = useState(null);
@@ -109,6 +109,7 @@ const AddEvent = () => {
       })
       .catch(error => swal('Error', error.message, 'error'));
   };
+
   return (
     <Container id={PAGE_IDS.ADD_EVENT} className="py-3">
       <Row className="justify-content-center">

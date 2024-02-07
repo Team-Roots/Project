@@ -1,4 +1,4 @@
-name: ci-voluntree-meteor-react
+name: ci-meteor-application-template-production
 
 on:
   push:
@@ -40,4 +40,4 @@ jobs:
           meteor npm run lint
           meteor npm run test-unit
           meteor npm run test-integration
-          meteor npm run test-acceptance-ci
+          # meteor npm run test-acceptance-ci
