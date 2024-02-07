@@ -46,45 +46,51 @@ const VolunteerEventOpportunities = () => {
   const eventData = [
     {
       name: 'Ala Moana Beach Clean Up',
-      eventDate: new Date('2023-12-07T13:00:00.000Z'),
-      description: 'Come down to help clean!',
+      eventDate: new Date('2024-02-10T13:00:00.000Z'),
+      description: 'Seeking volunteers who enjoy the outdoors and would love to spend a weekend beautifying Ala Moana Beach.',
       owner: 'admin@foo.com',
       category: 'Clean Up',
-      location: 'Honolulu, HI - Ala Moana Beach Park',
+      location: 'Honolulu, HI',
       startTime: '8:00 AM',
       endTime: '11:00 AM',
-      coordinator: 'admin@foo.com',
+      coordinator: '808CleanUp',
       amountVolunteersNeeded: 20,
       _id: '0',
       image: 'https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png',
+      locationType: 'outdoors',
+      address: 'Ala Moana Beach Park',
     },
     {
       name: 'Hawaii Food Bank Donation Drive',
-      eventDate: new Date('2023-12-08T15:00:00.000Z'),
-      description: 'Food donation drive! Donate!',
+      eventDate: new Date('2024-02-16T15:00:00.000Z'),
+      description: 'A food drive will be happening at UH Maānoa\'s Campus Center! Canned non-perishable foods wanted!',
       owner: 'john@foo.com',
       category: 'Donations',
-      location: 'Honolulu, HI - UH Mānoa',
+      location: 'Honolulu, HI',
       startTime: '9:00 AM',
       endTime: '3:00 PM',
-      coordinator: 'john@foo.com',
+      coordinator: 'Hawaii Food Bank',
       amountVolunteersNeeded: 200,
       _id: '1',
       image: 'https://foodbanklogos.blob.core.windows.net/foodbanklogos/FoodBankLogo_36_275w.jpg',
+      locationType: 'Indoors',
+      address: 'UH Mānoa Campus Center',
     },
     {
       name: 'Oahu SPCA Adoption Event',
-      eventDate: new Date('2023-12-08T15:00:00.000Z'),
-      description: 'Helpers needed to help with the adoption event.',
+      eventDate: new Date('2024-02-29T15:00:00.000Z'),
+      description: 'Love animals? Helpers are wanted to help with the Oahu SPCA adoption event to help find our fluffy friends their forever home!',
       owner: 'john@foo.com',
       category: 'Animal Shelter',
-      location: 'Pearl City, HI - Petco Pearl City',
+      location: 'Pearl City, HI',
       startTime: '10:00 AM',
       endTime: '2:00 PM',
-      coordinator: 'john@foo.com',
+      coordinator: 'Oahuh SPCA',
       amountVolunteersNeeded: 5,
       _id: '2',
       image: 'https://oahuspca.org/images/logo/OahuSPCA.svg',
+      locationType: 'Indoors',
+      address: 'Petco Pearl City',
     },
   ];
 
@@ -117,7 +123,20 @@ const VolunteerEventOpportunities = () => {
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Waimanalo</FormCheckLabel>
+            <FormCheckLabel>Waimanalo, HI</FormCheckLabel>
+          </FormCheck>
+          <h4>Location Type</h4>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel>Indoors</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel>Outdoors</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel>Online</FormCheckLabel>
           </FormCheck>
           <h4>Category</h4>
           <FormCheck>
