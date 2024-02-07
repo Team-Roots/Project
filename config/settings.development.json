@@ -13,6 +13,19 @@
   ],
   "defaultOrg": [
     {
+      "Name":  "John's Services",
+      "website": "Johnfoo.org",
+      "profit": false,
+      "location": "JohnFoo St. HI, 96795",
+      "organizationOwner": "john@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "orgID": 0,
+      "ageRange": { "min": 18, "max": 99 },
+    },
+    {
+      "Name":  "John's Something or other (test)",
       "website": "Johnfoo.org",
       "profit": false,
       "location": "JohnFoo St. HI, 96795",

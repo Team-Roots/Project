@@ -60,6 +60,7 @@ if (Organizations.count() === 0) {
     console.log('Creating default org');
     Meteor.settings.defaultOrg.forEach(org => {
       const newDoc = {
+        name: org.name,
         website: org.website,
         profit: org.profit,
         organizationOwner: org.organizationOwner,
