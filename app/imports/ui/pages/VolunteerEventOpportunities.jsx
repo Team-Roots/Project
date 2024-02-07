@@ -111,51 +111,51 @@ const VolunteerEventOpportunities = () => {
       </Row>
       <Row>
         <Col lg={2}>
-          <h3>Filter By</h3>
-          <h4>Location</h4>
+          <h3 className="poppinsText">Filter By</h3>
+          <h4 className="poppinsText">Location</h4>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Honolulu, HI</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="radio" />
-            <FormCheckLabel>Pearl City, HI</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Honolulu, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Waimanalo, HI</FormCheckLabel>
-          </FormCheck>
-          <h4>Location Type</h4>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Indoors</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Pearl City, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Outdoors</FormCheckLabel>
+            <FormCheckInput type="radio" />
+            <FormCheckLabel className="robotoText">Waimanalo, HI</FormCheckLabel>
           </FormCheck>
+          <h4 className="poppinsText">Location Type</h4>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Online</FormCheckLabel>
-          </FormCheck>
-          <h4>Category</h4>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Animal Shelter</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Indoors</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Clean Up</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Outdoors</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Food Distribution</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Online</FormCheckLabel>
+          </FormCheck>
+          <h4 className="poppinsText">Category</h4>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Animal Shelter</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Clean Up</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
           </FormCheck>
           <br />
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel>
-              <h5>Need Background Check</h5>
+              <h5 className="poppinsText">Need Background Check</h5>
             </FormCheckLabel>
           </FormCheck>
         </Col>
