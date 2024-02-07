@@ -8,8 +8,7 @@ import { Skills } from '../skill/SkillCollection';
 import { UserStats } from '../user/UserStatsCollection';
 import { Categories } from '../category/CategoryCollection';
 import { OrganizationWaiver } from '../organization/OrganizationWaiver';
-import { OrganizationAdmin } from '../organization/OrganizationAdmin';
- // Ensure this is correctly pointing to your Categories collection
+import { OrganizationAdmin } from '../organization/OrganizationAdmin'; // Ensure this is correctly pointing to your Categories collection
 class MATPClass {
   collections;
 
