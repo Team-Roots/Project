@@ -14,7 +14,8 @@ const NavBar = () => {
   const menuStyle = { marginBottom: '10px' };
 
   return (
-    <Navbar bg="light" expand="lg" style={menuStyle}>
+    <Navbar bg="primary" expand="lg" style={menuStyle}>
+      <img src="/images/Voluntree.logo.png" alt="Bootstrap" width="300" height="240" />
       <Container>
         <Navbar.Brand id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
