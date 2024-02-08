@@ -71,7 +71,11 @@ body {
   background-color: #02B5A6;
 }
 
-.navbar-link:hover {
+.navbar-text:hover {
   color: yellow !important;
 }
+
+
+
+
 
