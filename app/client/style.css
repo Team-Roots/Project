@@ -70,3 +70,8 @@ body {
 #colorCard {
   background-color: #02B5A6;
 }
+
+.navbar-link:hover {
+  color: yellow !important;
+}
+
