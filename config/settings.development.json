@@ -63,6 +63,6 @@
     }
   ],
   "public": {
-    "development": true
+    "cloudinary": {"cloud_name": "dlqixfg1f", "upload_preset": "rudaqi8t"}
   }
 }
