@@ -71,9 +71,15 @@ body {
   background-color: #02B5A6;
 }
 
-.navbar-text:hover {
+
+.navbar-link:hover, .navbar-brand-link:hover,.navbar-dropdown :hover {
   color: yellow !important;
 }
+
+.navbar-dropdown .dropdown-item:hover{
+  color: blue !important;
+}
+
 
 
 
