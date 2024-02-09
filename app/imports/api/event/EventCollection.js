@@ -35,11 +35,16 @@ class EventCollection extends BaseCollection {
         type: String,
         optional: true,
       },
+      image: {
+        type: String,
+        optional: true,
+        defaultValue: '',
+      },
       owner: String,
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -52,11 +57,12 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
+      image,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions }) {
+  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -87,6 +93,9 @@ class EventCollection extends BaseCollection {
     }
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
+    }
+    if (image) {
+      updateData.image = image;
     }
     this._collection.update(docID, { $set: updateData });
   }

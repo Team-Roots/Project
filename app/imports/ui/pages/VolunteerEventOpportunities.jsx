@@ -18,16 +18,17 @@ const VolunteerEventOpportunities = () => {
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
-  const { /* events, */ ready } = useTracker(() => {
+  const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
+    const eventItems = Events.find({},{sort:{name:1}}).fetch();
     if (!subscription.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
     return {
-      events: Events.find({}).fetch(),
+      events: eventItems,
       ready: rdy,
     };
   }, []);
@@ -161,7 +162,7 @@ const VolunteerEventOpportunities = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {eventData.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
           </Row>
         </Col>
       </Row>
