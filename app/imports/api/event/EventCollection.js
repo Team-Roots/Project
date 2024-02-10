@@ -22,6 +22,9 @@ class EventCollection extends BaseCollection {
       endTime: String,
       coordinator: String,
       amountVolunteersNeeded: Number,
+      address: String,
+      locationType: String,
+      image: String,
       specialInstructions: {
         type: String,
         optional: true,
@@ -35,7 +38,7 @@ class EventCollection extends BaseCollection {
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, address, locationType, image }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -49,6 +52,9 @@ class EventCollection extends BaseCollection {
       amountVolunteersNeeded,
       specialInstructions,
       restrictions,
+      address,
+      locationType,
+      image,
     });
     return docID;
   }

@@ -25,6 +25,7 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
 
                 <NavDropdown id="login-dropdown" title="Help">
                   <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
@@ -40,7 +41,7 @@ const NavBar = () => {
               <Nav.Link id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
               <NavDropdown id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/questions">
+                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">
                   FAQ
                 </NavDropdown.Item>
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_CONTACT_US} as={NavLink} to="/contactus">
