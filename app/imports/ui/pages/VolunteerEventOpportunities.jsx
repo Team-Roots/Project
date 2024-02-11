@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
@@ -12,8 +11,6 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 // import PropTypes from 'prop-types';
 
 const VolunteerEventOpportunities = () => {
-  // const user = Meteor.user();
-  // const owner = user ? user.username : null;
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
@@ -104,7 +101,7 @@ const VolunteerEventOpportunities = () => {
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel>
-              <h5 className="poppinsText">Need Background Check</h5>
+              <h5 className="poppinsText">Background Check Not Needed</h5>
             </FormCheckLabel>
           </FormCheck>
         </Col>
