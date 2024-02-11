@@ -70,3 +70,17 @@ body {
 #colorCard {
   background-color: #02B5A6;
 }
+
+.navbar {
+  background-color: darkgreen;
+  color: white;
+  height: 70px;
+}
+
+.footer {
+  background-color: darkgreen;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 5px;
+}
