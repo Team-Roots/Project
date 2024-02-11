@@ -24,8 +24,8 @@ const Landing = () => {
   }, []);
   return (ready ? (
     <Container>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Image src="/images/mainpic.png" alt="Main Picture" fluid />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Image src="/images/Landing-main.png" />
       </div>
       <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} />
     </Container>
