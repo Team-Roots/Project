@@ -14,6 +14,7 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  background: fixed center url("/images/mainpic.png");
 }
 
 /* Set the SignIn and SignUp alerts background. */

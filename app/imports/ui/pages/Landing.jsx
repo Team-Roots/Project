@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Container } from 'react-bootstrap';
+import { Container, Image } from 'react-bootstrap';
 import LandingPanels from '../components/LandingPanels';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { Organizations } from '../../api/organization/OrganizationCollection';
@@ -24,6 +24,9 @@ const Landing = () => {
   }, []);
   return (ready ? (
     <Container>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Image src="/images/mainpic.png" alt="Main Picture" fluid />
+      </div>
       <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} />
     </Container>
   ) : <LoadingSpinner message="Loading Stuff" />);
