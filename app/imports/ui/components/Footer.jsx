@@ -3,7 +3,10 @@ import { Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <footer className="mt-auto py-3 bg-light">
+  <footer
+    className="mt-auto py-3 bg-light"
+    style={{ backgroundColor: 'rgb(46, 139, 87)' }}
+  >
     <Container>
       <Row>
         <Col className="footer-center" xs={12} md={4}>

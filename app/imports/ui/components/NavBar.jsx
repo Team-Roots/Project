@@ -11,10 +11,11 @@ const NavBar = () => {
   const { currentUser } = useTracker(() => ({
     currentUser: Meteor.user() ? Meteor.user().username : '',
   }), []);
-  const menuStyle = { marginBottom: '10px' };
+  const menuStyle = { backgroundColor: 'rgb(46, 139, 87)', marginBottom: '10px',
+  };
 
   return (
-    <Navbar bg="light" expand="lg" style={menuStyle}>
+    <Navbar bg="green-400" variant="dark" expand="lg" style={menuStyle}>
       <Container>
         <Navbar.Brand id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
