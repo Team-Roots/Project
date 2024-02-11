@@ -11,7 +11,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 // import PropTypes from 'prop-types';
 
-const VolunteerEventOpportunities = () => {
+const MyEvents = () => {
   // const user = Meteor.user();
   // const owner = user ? user.username : null;
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ const VolunteerEventOpportunities = () => {
       </Container>
     );
   }
+
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
       <Row className="justify-content-center">
@@ -118,4 +119,4 @@ const VolunteerEventOpportunities = () => {
   );
 };
 
-export default VolunteerEventOpportunities;
+export default MyEvents;
