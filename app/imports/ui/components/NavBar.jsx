@@ -14,7 +14,7 @@ const NavBar = () => {
   const menuStyle = { marginBottom: '10px' };
 
   return (
-    <Navbar expand="md" style= {{ ...menuStyle, backgroundColor: '#02B5A6' }}>
+    <Navbar expand="md" style={{ ...menuStyle, backgroundColor: '#02B5A6' }}>
       <img src="/images/Voluntree.logo-noG.png" alt="Bootstrap" width="160" height="112" />
 
       <Container>
