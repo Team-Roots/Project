@@ -2,7 +2,6 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Col, Container, Row, Card, Image, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
@@ -47,8 +46,8 @@ const MyAccount = () => {
                 roundedCircle
                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
               />
-              <Card.Title className="pt-3 accountcardtitle">{account.firstName}</Card.Title>
-              <Card.Title className="pb-3 accountcardtitle">{account.lastName}</Card.Title>
+              <Card.Title className="pt-3 accountcardtitle">{account[0].firstName}</Card.Title>
+              <Card.Title className="pb-3 accountcardtitle">{account[0].lastName}</Card.Title>
               <Card.Subtitle className="py-2 accountcardsubtitle">(808)123-4567</Card.Subtitle>
               <Card.Subtitle className="py-2 accountcardsubtitle">johndoe@gmail.com</Card.Subtitle>
               <Button className="align-bottom accountbutton">Edit Profile</Button>
