@@ -83,3 +83,13 @@ body {
   transform: none;
   visibility: visible;
 }
+
+
+.navbar-link:hover, .navbar-brand-link:hover,.navbar-dropdown :hover {
+  color: yellow  !important;
+}
+
+.navbar-dropdown .dropdown-item:hover{
+  color: sandybrown !important;
+}
+
