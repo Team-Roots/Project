@@ -15,16 +15,17 @@ const VolunteerEventOpportunities = () => {
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
-  const { /* events, */ ready } = useTracker(() => {
+  const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
+    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     if (!subscription.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
     return {
-      events: Events.find({}).fetch(),
+      events: eventItems,
       ready: rdy,
     };
   }, []);
@@ -39,58 +40,6 @@ const VolunteerEventOpportunities = () => {
       </Container>
     );
   }
-
-  const eventData = [
-    {
-      name: 'Ala Moana Beach Clean Up',
-      eventDate: new Date('2024-02-10T13:00:00.000Z'),
-      description: 'Seeking volunteers who enjoy the outdoors and would love to spend a weekend beautifying Ala Moana Beach.',
-      owner: 'admin@foo.com',
-      category: 'Clean Up',
-      location: 'Honolulu, HI',
-      startTime: '8:00 AM',
-      endTime: '11:00 AM',
-      coordinator: '808CleanUp',
-      amountVolunteersNeeded: 20,
-      _id: '0',
-      image: 'https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png',
-      locationType: 'outdoors',
-      address: 'Ala Moana Beach Park',
-    },
-    {
-      name: 'Hawaii Food Bank Donation Drive',
-      eventDate: new Date('2024-02-16T15:00:00.000Z'),
-      description: 'A food drive will be happening at UH Maānoa\'s Campus Center! Canned non-perishable foods wanted!',
-      owner: 'john@foo.com',
-      category: 'Donations',
-      location: 'Honolulu, HI',
-      startTime: '9:00 AM',
-      endTime: '3:00 PM',
-      coordinator: 'Hawaii Food Bank',
-      amountVolunteersNeeded: 200,
-      _id: '1',
-      image: 'https://foodbanklogos.blob.core.windows.net/foodbanklogos/FoodBankLogo_36_275w.jpg',
-      locationType: 'Indoors',
-      address: 'UH Mānoa Campus Center',
-    },
-    {
-      name: 'Oahu SPCA Adoption Event',
-      eventDate: new Date('2024-02-29T15:00:00.000Z'),
-      description: 'Love animals? Helpers are wanted to help with the Oahu SPCA adoption event to help find our fluffy friends their forever home!',
-      owner: 'john@foo.com',
-      category: 'Animal Shelter',
-      location: 'Pearl City, HI',
-      startTime: '10:00 AM',
-      endTime: '2:00 PM',
-      coordinator: 'Oahuh SPCA',
-      amountVolunteersNeeded: 5,
-      _id: '2',
-      image: 'https://oahuspca.org/images/logo/OahuSPCA.svg',
-      locationType: 'Indoors',
-      address: 'Petco Pearl City',
-    },
-  ];
-
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
       <Row className="justify-content-center">
@@ -158,7 +107,7 @@ const VolunteerEventOpportunities = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {eventData.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
           </Row>
         </Col>
       </Row>
