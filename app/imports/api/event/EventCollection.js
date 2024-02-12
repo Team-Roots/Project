@@ -35,6 +35,7 @@ class EventCollection extends BaseCollection {
         blackbox: true,
       },
       owner: String,
+      _id: Number,
     }));
   }
 
