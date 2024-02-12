@@ -73,7 +73,7 @@ body {
 
 
 .navbar-link:hover, .navbar-brand-link:hover,.navbar-dropdown :hover {
-  color: yellow !important;
+  color: yellow  !important;
 }
 
 .navbar-dropdown .dropdown-item:hover{
