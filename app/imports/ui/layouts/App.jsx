@@ -25,6 +25,7 @@ import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import Events from '../pages/Events';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
+import CommunityGroups from '../pages/CommunityGroups';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+          <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
