@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Col, Row, Nav, Button, Fade } from 'react-bootstrap';
+import { Container, Col, Row, Nav, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import OrganizationCard from './OrganizationCard';

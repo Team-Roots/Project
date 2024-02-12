@@ -20,7 +20,7 @@ const FadeInSection = (props) => {
 
     observer.observe(domRef.current);
 
-    return () => observer.unobserve(domRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
