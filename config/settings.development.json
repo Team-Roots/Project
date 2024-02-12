@@ -41,33 +41,23 @@
 
   "defaultUserProfiles": [
     {
-      "email":  "dojacat@foo.com",
+      "email":  "john@foo.com",
       "password": "changeme",
-      "firstName": "Doja",
-      "lastName": "Cat"
-    },
-    {
-      "email":  "nickiminaj@foo.com",
-      "password": "changeme",
-      "firstName": "Nicki",
-      "lastName": "Minaj"
+      "firstName": "John",
+      "lastName": "Foo"
     }
   ],
 
   "defaultUserSkills": [
     {
-      "userEmail": "dojacat@foo.com",
+      "userEmail": "john@foo.com",
       "skillName": "skill1"
-    },
-    {
-      "userEmail": "nickiminaj@foo.com",
-      "skillName": "skill2"
     }
   ],
 
   "defaultUserStats": [
     {
-      "userEmail": "dojacat@foo.com",
+      "userEmail": "john@foo.com",
       "completedHours": [
         {
           "Jan": 1,
@@ -82,26 +72,6 @@
           "Oct": 10,
           "Nov": 11,
           "Dec": 12
-        }
-      ],
-      "personsHelped": 2
-    },
-    {
-      "userEmail": "nickiminaj@foo.com",
-      "completedHours": [
-        {
-          "Jan": 2,
-          "Feb": 4,
-          "Mar": 6,
-          "Apr": 8,
-          "May": 10,
-          "Jun": 12,
-          "Jul": 14,
-          "Aug": 16,
-          "Sep": 18,
-          "Oct": 20,
-          "Nov": 22,
-          "Dec": 24
         }
       ],
       "personsHelped": 2
