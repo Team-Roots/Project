@@ -8,22 +8,24 @@ import { Events } from '../../api/event/EventCollection'; // Import your EventCo
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+// import PropTypes from 'prop-types';
 
 const VolunteerEventOpportunities = () => {
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
-  const { events, ready } = useTracker(() => {
+  const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
+    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     if (!subscription.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
     return {
-      events: Events.find({}).fetch(),
+      events: eventItems,
       ready: rdy,
     };
   }, []);
@@ -54,52 +56,59 @@ const VolunteerEventOpportunities = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={2} lg={2}>
-          <h3>Filter By</h3>
-          <h4>Location</h4>
+        <Col lg={2}>
+          <h3 className="poppinsText">Filter By</h3>
+          <h4 className="poppinsText">Location</h4>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 1 Mile</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 5 Miles</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Honolulu, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="radio" />
-            <FormCheckLabel>Within 10 Miles</FormCheckLabel>
-          </FormCheck>
-          <h4>Category</h4>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Animal Shelter</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Pearl City, HI</FormCheckLabel>
           </FormCheck>
           <FormCheck>
+            <FormCheckInput type="radio" />
+            <FormCheckLabel className="robotoText">Waimanalo, HI</FormCheckLabel>
+          </FormCheck>
+          <h4 className="poppinsText">Location Type</h4>
+          <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Clean Up</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Indoors</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel>Food Distribution</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Outdoors</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Online</FormCheckLabel>
+          </FormCheck>
+          <h4 className="poppinsText">Category</h4>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Animal Shelter</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Clean Up</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
           </FormCheck>
           <br />
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel>
-              <h5>Need Background Check</h5>
+              <h5 className="poppinsText">Background Check Not Needed</h5>
             </FormCheckLabel>
           </FormCheck>
         </Col>
         <Col>
-          {!ready ? (
-            <div>Loading Events...</div>
-          ) : (
-            events.map(event => (
-              <Row key={event._id} className="m-1">
-                <EventCard event={event} />
-              </Row>
-            ))
-          )}
+          <Row md={1} lg={2} className="g-4">
+            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+          </Row>
         </Col>
       </Row>
     </Container>

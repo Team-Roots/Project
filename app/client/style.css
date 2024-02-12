@@ -1,5 +1,7 @@
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
 
 /* Set up some CSS variables to theme the application. */
 :root {
@@ -27,6 +29,14 @@ body {
   padding-bottom: 20px;
 }
 
+.poppinsText {
+  font-family: "Poppins", sans-serif;
+}
+
+.robotoText {
+  font-family: "Roboto", sans-serif;
+}
+
 .card.accountcard {
   --bs-card-border-color: #02B5A6;
   --bs-body-bg: #02B5A6;
@@ -42,7 +52,7 @@ body {
   font-size: 20px;
 }
 
-.btn.accountbutton {
+.btn.accountbutton, .btn-primary.edit {
   background-color: #005C6D;
   border-color: #005C6D;
   --bs-btn-hover-bg: #00839c;
@@ -50,4 +60,28 @@ body {
   --bs-btn-active-border-color: #005C6D;
   --bs-btn-active-bg: #005C6D;
 }
+
+.imageContain {
+  width: 200px;
+  height: 300px;
+  object-fit: contain;
+}
+
+#colorCard {
+  background-color: #02B5A6;
+}
+
+
+.navbar-link:hover, .navbar-brand-link:hover,.navbar-dropdown :hover {
+  color: yellow  !important;
+}
+
+.navbar-dropdown .dropdown-item:hover{
+  color: sandybrown !important;
+}
+
+
+
+
+
 

@@ -24,6 +24,7 @@ import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import Events from '../pages/Events';
+import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -43,13 +44,13 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/registration" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
+          <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
-          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
-          <Route path="/eventopportunities" element={<ProtectedRoute><VolunteerEventOpportunities /></ProtectedRoute>} />
+          <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
