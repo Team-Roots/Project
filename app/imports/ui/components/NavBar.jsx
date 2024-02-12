@@ -6,6 +6,7 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, CloudDownload, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { ROLE } from '../../api/role/Role';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import MyEvents from '../pages/MyEvents';
 
 const NavBar = () => {
   const { currentUser } = useTracker(() => ({
@@ -54,6 +55,7 @@ const NavBar = () => {
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN} title="Manage" key="manage-dropdown">
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE} key="manage-database" as={NavLink} to="/manage-database"><CloudDownload /> Database</NavDropdown.Item>
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_MY_EVENTS} key="navbar-my-events" as={NavLink} to="/my-events">My Events</NavDropdown.Item>
                 </NavDropdown>]
             ) : ''}
           </Nav>

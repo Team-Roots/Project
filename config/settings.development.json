@@ -4,7 +4,10 @@
     },
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" }
   ],
-
+  "defaultProfiles": [
+    { "firstName": "admin", "lastName": "foo" , "owner": "admin@foo.com", "idNumber": "123" },
+    { "firstName": "john", "lastName": "foo" , "owner": "john@foo.com", "idNumber": "1234" }
+  ],
   "defaultData": [
     { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },

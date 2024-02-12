@@ -1,4 +1,5 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
@@ -16,7 +17,7 @@ const VolunteerEventOpportunities = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
   const { ready, events } = useTracker(() => {
-    const subscription = Events.subscribeEvent();
+    const subscription = Meteor.subscribe(Events.userPublicationName);
     const rdy = subscription.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     if (!subscription.ready()) {
