@@ -8,11 +8,16 @@ MATPCollections.collections.forEach(c => c.publish());
 // alanning:roles publication
 // Recommended code to publish roles for each user.
 // eslint-disable-next-line consistent-return
-Meteor.startup(() => {
-  Meteor.publish(Events.userPublicationName, function () {
-    if (this.userId) {
-      return Events.collection.find();
-    }
-    return this.ready();
-  });
+Meteor.publish(null, function () {
+  if (this.userId) {
+    return Meteor.roleAssignment.find({ 'user._id': this.userId });
+  }
+  this.ready();
+});
+Meteor.publish(Events.userPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Events.collection.find({ owner: username });
+  }
+  return this.ready();
 });

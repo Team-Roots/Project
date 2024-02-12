@@ -130,6 +130,20 @@ class EventCollection extends BaseCollection {
     }
   }
 
+  subscribeEvent() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(eventPublications.event);
+    }
+    return null;
+  }
+
+  subscribeEventAdmin() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(eventPublications.eventAdmin);
+    }
+    return null;
+  }
+
   assertValidRoleForMethod(userId) {
     this.assertRole(userId, [ROLE.ADMIN, ROLE.USER]);
   }

@@ -19,7 +19,6 @@ import { ROLE } from '../../api/role/Role';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ManageDatabase from '../pages/ManageDatabase';
 import ListEvent from '../pages/ListEvent';
-import MyEvents from '../pages/MyEvents';
 import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
@@ -50,7 +49,6 @@ const App = () => {
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
-          <Route path="/my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
