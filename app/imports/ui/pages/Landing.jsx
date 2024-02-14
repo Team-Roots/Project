@@ -32,11 +32,7 @@ const Landing = () => {
       </Container>
     ) : <LoadingSpinner message="Loading Stuff" />);
   }
-  return (ready ? (
-    <Container>
-      <AboutUs />
-    </Container>
-  ) : <LoadingSpinner message="Loading Stuff" />);
+  return <AboutUs />;
 };
 
 export default Landing;
