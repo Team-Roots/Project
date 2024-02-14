@@ -53,6 +53,21 @@
     "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
     "ageRange": { "min": 18, "max": 99 }
   },
+    {
+    "name":  "Makai Research Pier Clean Up",
+    "eventDate": "2024-03-11",
+    "description": "Come down to help clean!",
+    "owner":  "admin@foo.com",
+    "category":  "Clean Up",
+    "location":  "41-305 Kalanianaʻole Hwy, Waimanalo, HI 96795",
+    "startTime":  "8:00 AM",
+    "endTime":  "11:00 AM",
+    "coordinator":  "john@foo.com",
+    "amountVolunteersNeeded": 20,
+    "isOnline": false,
+    "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
+    "ageRange": { "min": 18, "max": 99 }
+  },
   {
     "name":  "Hawaii Food Bank Donation Drive",
     "eventDate": "2024-02-24",
@@ -83,7 +98,7 @@
     "image": "https://oahuspca.org/images/logo/OahuSPCA.svg",
     "ageRange": { "min": 18, "max": 99 }
   }
-],
+  ],
   "public": {
     "development": true
   }
