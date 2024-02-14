@@ -1,10 +1,12 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container } from 'react-bootstrap';
 import LandingPanels from '../components/LandingPanels';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
+import AboutUs from './AboutUs';
 
 const Landing = () => {
   const { ready, orgs } = useTracker(() => {
@@ -22,9 +24,17 @@ const Landing = () => {
       ready: rdy,
     };
   }, []);
+  const loggedin = Meteor.user();
+  if (loggedin) {
+    return (ready ? (
+      <Container>
+        <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} />
+      </Container>
+    ) : <LoadingSpinner message="Loading Stuff" />);
+  }
   return (ready ? (
     <Container>
-      <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} />
+      <AboutUs />
     </Container>
   ) : <LoadingSpinner message="Loading Stuff" />);
 };
