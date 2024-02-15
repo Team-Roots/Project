@@ -38,7 +38,7 @@ const EventCard = ({ event }) => {
 
 EventCard.propTypes = {
   event: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
     name: PropTypes.string.isRequired,
     eventDate: PropTypes.instanceOf(Date),
     description: PropTypes.string,
