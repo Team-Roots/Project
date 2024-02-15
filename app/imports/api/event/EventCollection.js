@@ -72,7 +72,8 @@ class EventCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, image, ageRange, isOnline }) {
+  // eslint-disable-next-line no-unused-vars
+  update(docID, { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -107,17 +108,17 @@ class EventCollection extends BaseCollection {
     if (restrictions) {
       updateData.restrictions = restrictions;
     }
-    if (owner) {
-      updateData.restrictions = restrictions;
+    if (ageRange) {
+      updateData.ageRange = ageRange;
     }
-    if (image) {
-      updateData.restrictions = restrictions;
+    if (isOnline) {
+      updateData.isOnline = isOnline;
     }
     if (ageRange) {
       updateData.restrictions = restrictions;
     }
-    if (isOnline) {
-      updateData.restrictions = restrictions;
+    if (owner) {
+      updateData.owner = owner;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -184,7 +185,7 @@ class EventCollection extends BaseCollection {
     const isOnline = doc.isOnline;
     const image = doc.image;
 
-    return { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, image, ageRange, isOnline };
+    return { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image };
   }
 }
 
