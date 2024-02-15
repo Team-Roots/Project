@@ -14,37 +14,44 @@ class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
-      eventDate: {
-        type: Date,
-        optional: true,
-      },
+      eventDate: Date,
       description: String,
-      category: {
-        type: String,
-        optional: true,
-      },
-      location: {
-        type: String,
-        optional: true,
-      },
+      category: String,
+      location: String,
       startTime: String,
       endTime: String,
       coordinator: String,
       amountVolunteersNeeded: Number,
+      isOnline: Boolean,
+      image: String,
       specialInstructions: {
         type: String,
         optional: true,
       },
-      image: {
-        type: String,
+      restrictions: {
+        type: Object,
         optional: true,
-        defaultValue: '',
+        blackbox: true,
       },
       owner: String,
+      ageRange: {
+        type: Object,
+        required: false,
+      },
+      'ageRange.min': {
+        type: SimpleSchema.Integer,
+        required: false,
+        defaultValue: 1,
+      },
+      'ageRange.max': {
+        type: SimpleSchema.Integer,
+        required: false,
+        defaultValue: 99,
+      },
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image }) {
+  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, image, ageRange, isOnline }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -57,12 +64,16 @@ class EventCollection extends BaseCollection {
       coordinator,
       amountVolunteersNeeded,
       specialInstructions,
+      restrictions,
+      ageRange,
+      isOnline,
       image,
     });
     return docID;
   }
 
-  update(docID, { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image }) {
+  // eslint-disable-next-line no-unused-vars
+  update(docID, { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
@@ -94,8 +105,20 @@ class EventCollection extends BaseCollection {
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
     }
-    if (image) {
-      updateData.image = image;
+    if (restrictions) {
+      updateData.restrictions = restrictions;
+    }
+    if (ageRange) {
+      updateData.ageRange = ageRange;
+    }
+    if (isOnline) {
+      updateData.isOnline = isOnline;
+    }
+    if (ageRange) {
+      updateData.restrictions = restrictions;
+    }
+    if (owner) {
+      updateData.owner = owner;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -114,11 +137,7 @@ class EventCollection extends BaseCollection {
     if (Meteor.isServer) {
       const instance = this;
       Meteor.publish(eventPublications.event, function publish() {
-        if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
-        }
-        return this.ready();
+        return instance._collection.find();
       });
 
       Meteor.publish(eventPublications.eventAdmin, function publish() {
@@ -155,7 +174,18 @@ class EventCollection extends BaseCollection {
     const location = doc.location;
     const owner = doc.owner;
     const eventDate = doc.eventDate;
-    return { name, description, location, owner, eventDate };
+    const category = doc.category;
+    const startTime = doc.startTime;
+    const endTime = doc.endTime;
+    const coordinator = doc.coordinator;
+    const amountVolunteersNeeded = doc.amountVolunteersNeeded;
+    const specialInstructions = doc.specialInstructions;
+    const restrictions = doc.restrictions;
+    const ageRange = doc.ageRange;
+    const isOnline = doc.isOnline;
+    const image = doc.image;
+
+    return { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image };
   }
 }
 

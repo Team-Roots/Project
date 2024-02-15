@@ -31,8 +31,16 @@ const eventSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  restrictions: {
+    type: String,
+    optional: true,
+  },
   description: String,
   amountVolunteersNeeded: SimpleSchema.Integer,
+  isOnline: Boolean,
+  ageRange: Object,
+  'ageRange.min': SimpleSchema.Integer,
+  'ageRange.max': SimpleSchema.Integer,
   image: { type: String, optional: true },
 });
 
@@ -42,17 +50,21 @@ const AddEvent = () => {
   const [cloudinaryUrl, setCloudinaryUrl] = useState('');
   // eslint-disable-next-line no-empty-pattern
   const {} = useTracker(() => {
-    const subscription = Meteor.subscribe(Events.userPublicationName);
+    const subscription = Meteor.subscribe('event');
     return { ready: subscription.ready() };
   }, []);
   const initialFormState = {
     name: '',
     eventDate: new Date(),
+    location: { address: '', latLng: {} },
     startTime: '',
     endTime: '',
     coordinator: '',
     description: '',
     amountVolunteersNeeded: 0,
+    restrictions: '',
+    ageRange: { min: 1, max: 99 },
+    isOnline: false,
     image: 'https://via.placeholder.com/150', // Placeholder image URL
   };
 
@@ -80,20 +92,52 @@ const AddEvent = () => {
     setEventPreview(prevState => ({ ...prevState, image: url }));
   };
 
+  const handleSelectAddress = (address, latLng) => {
+    console.log('Address selected: ', address);
+    console.log('Coordinates: ', latLng);
+    // Update the event preview state with the address and latLng
+    setEventPreview(prevState => ({
+      ...prevState,
+      location: { address, latLng }, // Adjust according to your schema requirements
+    }));
+  };
+
+  // Example onChange function
+  const handleChange = (field, value) => {
+    console.log(`${field} changed to ${value}`);
+    // Update form state or perform other actions as needed
+  };
+
   const submit = (data) => {
-    console.log(data);
-    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image } = data;
+    // Include new fields in the submission data structure
+    const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, isOnline, ageRange } = data;
     const imageUrl = cloudinaryUrl || image;
 
-    const owner = Meteor.user().username;
-    const collectionName = Events.getCollectionName();
-    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image: imageUrl, owner };
-    defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'))
+    // Construct the submission object with new fields
+    const definitionData = {
+      name,
+      eventDate,
+      description,
+      category,
+      location: eventPreview.location.address,
+      startTime,
+      endTime,
+      coordinator,
+      amountVolunteersNeeded,
+      specialInstructions,
+      image: imageUrl,
+      isOnline,
+      ageRange,
+      owner: Meteor.user().username,
+    };
+
+    // Call to defineMethod with updated definitionData
+    defineMethod.callPromise({ collectionName: Events.getCollectionName(), definitionData })
       .then(() => {
         swal('Success', 'Event added successfully', 'success');
-        setEventPreview(initialFormState);
-      });
+        setEventPreview(initialFormState); // Reset form after successful submission
+      })
+      .catch(error => swal('Error', error.message, 'error'));
   };
 
   return (
@@ -106,7 +150,7 @@ const AddEvent = () => {
             <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
               <Card.Body>
                 <h3>Basic Event Details</h3>
-                <BasicEventDetails categoryOptions={categoryOptions} />
+                <BasicEventDetails categoryOptions={categoryOptions} onAddressSelect={handleSelectAddress} onChange={handleChange} />
               </Card.Body>
             </Card>
 
@@ -133,7 +177,7 @@ const AddEvent = () => {
 
         {/* Preview Section */}
         <Col md={6}>
-          <EventCard event={eventPreview} showEditLink={false} />
+          <EventCard event={{ ...eventPreview, location: eventPreview.location?.address }} showEditLink={false} />
         </Col>
       </Row>
     </Container>

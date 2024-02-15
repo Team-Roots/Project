@@ -1,71 +1,33 @@
-import React, { useState } from 'react';
-import { TextField, SelectField } from 'uniforms-bootstrap5';
-import DatePicker from 'react-datepicker';
+import React from 'react';
+import { TextField, SelectField, NumField, BoolField } from 'uniforms-bootstrap5';
 import PropTypes from 'prop-types';
-import 'react-datepicker/dist/react-datepicker.css';
-import AddressInput from './AddressInput';
+import CustomDateField from './CustomDateField';
+import AddressInput from './AddressInput'; // Ensure this is correctly imported
 
-const CustomDateField = ({ onChange, placeholder }) => {
-  const [startDate, setStartDate] = useState(new Date());
-
-  return (
-    <div className="form-group" style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label htmlFor="eventDate">Event Date</label>
-      <DatePicker
-        id="eventDate"
-        selected={startDate}
-        onChange={date => {
-          setStartDate(date);
-          onChange('eventDate', date);
-        }}
-        dateFormat="yyyy/MM/dd"
-        placeholderText={placeholder}
-        className="form-control"
-      />
+const BasicEventDetails = ({ categoryOptions, onAddressSelect, onChange }) => (
+  <div className="form-group" style={{ display: 'flex', flexDirection: 'column' }}>
+    <TextField name="name" placeholder="Event Name" label="Event Name" />
+    <CustomDateField onChange={onChange} placeholder="Event Date" />
+    <TextField name="description" placeholder="Event Description" label="Event Description" />
+    <SelectField name="category" options={categoryOptions} placeholder="Select category" label="Category" />
+    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+    <label htmlFor="location">Location</label>
+    <AddressInput name="location" onAddressSelect={onAddressSelect} label="Location" />
+    <BoolField name="isOnline" label="Is Online Event?" />
+    <div style={{ display: 'flex' }}>
+      <NumField name="ageRange.min" label="Minimum Age" />
+      <NumField name="ageRange.max" label="Maximum Age" />
     </div>
-  );
-};
-
-CustomDateField.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-};
-
-CustomDateField.defaultProps = {
-  placeholder: 'Select a date',
-};
-
-const BasicEventDetails = ({ categoryOptions, onAddressSelect }) => {
-  // Define handleDateChange inside BasicEventDetails
-  const handleDateChange = (name, value) => {
-    // Implement the logic to handle the change, for example, updating a state.
-    console.log(`${name}: ${value}`); // Placeholder action
-  };
-
-  return (
-    <div className="form-group" style={{ display: 'flex', flexDirection: 'column' }}>
-      <TextField name="name" placeholder="Event Name" label="Event Name" />
-      <CustomDateField onChange={handleDateChange} placeholder="Event Date" />
-      <TextField name="description" placeholder="Event Description" label="Event Description" />
-      <SelectField name="category" options={categoryOptions} placeholder="Select category" label="Category" />
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label htmlFor="location">Location</label>
-      <AddressInput name="location" onAddressSelect={onAddressSelect} />
-    </div>
-  );
-};
+  </div>
+);
 
 BasicEventDetails.propTypes = {
   categoryOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })).isRequired,
-  onAddressSelect: PropTypes.func,
-};
-
-BasicEventDetails.defaultProps = {
-  onAddressSelect: () => {},
+  onAddressSelect: PropTypes.func.isRequired, // Ensure this line is added
+  onChange: PropTypes.func.isRequired,
 };
 
 export default BasicEventDetails;
