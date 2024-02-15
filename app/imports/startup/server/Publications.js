@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { MATPCollections } from '../../api/matp/MATPCollections';
-import { Events } from '../../api/event/EventCollection';
 
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
@@ -13,11 +12,4 @@ Meteor.publish(null, function () {
     return Meteor.roleAssignment.find({ 'user._id': this.userId });
   }
   this.ready();
-});
-Meteor.publish(Events.userPublicationName, function () {
-  if (this.userId) {
-    const username = Meteor.users.findOne(this.userId).username;
-    return Events.collection.find({ owner: username });
-  }
-  return this.ready();
 });
