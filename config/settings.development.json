@@ -16,7 +16,7 @@
   ],
   "defaultOrg": [
     {
-      "Name":  "John's Services",
+      "name":  "Example Organization 2",
       "website": "Johnfoo.org",
       "profit": false,
       "location": "JohnFoo St. HI, 96795",
@@ -28,7 +28,7 @@
       "ageRange": { "min": 18, "max": 99 }
     },
     {
-      "Name":  "John's Something or other (test)",
+      "name":  "Example Organization 1",
       "website": "Johnfoo.org",
       "profit": false,
       "location": "JohnFoo St. HI, 96795",
