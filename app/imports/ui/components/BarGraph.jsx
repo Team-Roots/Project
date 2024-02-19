@@ -8,8 +8,8 @@ const BarChart = () => {
     title: {
       text: 'Community Service Hours',
     },
-    width: 250,
-    height: 250,
+    width: 450,
+    height: 350,
     data: [
       {
         // Change type to "doughnut", "line", "splineArea", etc.
