@@ -48,7 +48,7 @@ const LandingPanel = ({ orgs, events }) => {
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
-        <Nav variant="underline" defaultActiveKey="/home"/>
+        <Nav variant="underline" defaultActiveKey="/home" />
         <div className="landing-section" id="home">
           <Container>
             <FadeInSection>
