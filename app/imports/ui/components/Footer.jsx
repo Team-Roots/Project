@@ -35,7 +35,7 @@ const Footer = () => (
       </Row>
       <Row>
         <Col xs={12} className="px-3 bi-text-left">
-          <p>© 2024 Voluntree</p>
+          <p>© 2024 Voluntree. All rights reserved.</p>
         </Col>
       </Row>
     </Container>
