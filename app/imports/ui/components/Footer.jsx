@@ -3,38 +3,37 @@ import { Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <footer className="mt-auto py-3 bg-light">
+  <footer className="mt-auto py-3" style={{ backgroundColor: '#02B5A6' }}>
     <Container>
-      <Row>
-        <Col className="footer-center" xs={12} md={4}>
-          <h5>Resources</h5>
-          <Link to="/aboutus">About Us</Link>
-          <br />
-          <Link to="/faq">FAQ</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Contact Us</a>
+      <Row className="text-white">
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading">Resources</h5>
+          <ul>
+            <li><Link to="/aboutus">About Us</Link></li>
+            <li><Link to="/faq">FAQ</Link></li>
+            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us">Contact Us</a></li>
+          </ul>
         </Col>
 
-        <Col className="footer-right" xs={12} md={4}>
-          <h5>Grow the Community</h5>
-          <Link to="Home">Home</Link>
-          <br />
-          <Link to="/eventopportunities">Volunteer</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Post an Event</a>
-          <br />
-          <a href="https://www.google.com/?client=safari">Community Groups</a>
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading">Grow the Community</h5>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/volunteer">Volunteer</Link></li>
+            <li><Link to="/post-event">Post an Event</Link></li>
+            <li><Link to="/community-groups">Community Groups</Link></li>
+          </ul>
         </Col>
 
-        <Col className="footer-left" xs={12} md={4}>
-          <h5>Voluntree</h5>
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading">Voluntree</h5>
           <p>
             Where individuals come together, plant the seeds of compassion, and watch as the collective efforts grow into a flourishing forest of shared impact.
           </p>
         </Col>
       </Row>
       <Row>
-        <Col xs={12} className="px-3 bi-text-left">
+        <Col xs={12} className="text-center text-muted">
           <p>© 2024 Voluntree. All rights reserved.</p>
         </Col>
       </Row>
