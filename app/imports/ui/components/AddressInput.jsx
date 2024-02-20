@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
 const AddressInput = ({ onAddressSelect }) => {
-  const [address, setAddress] = useState('');
+  const [inputAddress, setInputAddress] = useState(''); // Correctly setting state variable and its setter
 
-  // eslint-disable-next-line no-shadow
-  const handleChange = (address) => {
-    setAddress(address);
+  const handleChange = (newAddress) => {
+    setInputAddress(newAddress);
   };
 
-  // eslint-disable-next-line no-shadow
-  const handleSelect = (address) => {
-    geocodeByAddress(address)
+  const handleSelect = (selectedAddress) => {
+    geocodeByAddress(selectedAddress)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         console.log('Success', latLng);
-        onAddressSelect(address, latLng); // Pass the address and coordinates upwards
+        onAddressSelect(selectedAddress, latLng); // Pass the selected address and coordinates upwards
       })
       .catch(error => console.error('Error', error));
-    setAddress(address);
+    setInputAddress(selectedAddress);
   };
 
   return (
     <PlacesAutocomplete
-      value={address}
+      value={inputAddress}
       onChange={handleChange}
       onSelect={handleSelect}
     >
@@ -43,10 +41,12 @@ const AddressInput = ({ onAddressSelect }) => {
               const className = suggestion.active
                 ? 'suggestion-item--active'
                 : 'suggestion-item';
+              // Note: Ensure you have a key prop for each item in a list
               return (
                 <div
                   /* eslint-disable-next-line react/jsx-props-no-spreading */
                   {...getSuggestionItemProps(suggestion, { className })}
+                  key={suggestion.placeId} // Assuming `placeId` is available. Adjust as needed.
                 >
                   <span>{suggestion.description}</span>
                 </div>
@@ -57,6 +57,10 @@ const AddressInput = ({ onAddressSelect }) => {
       )}
     </PlacesAutocomplete>
   );
+};
+
+AddressInput.propTypes = {
+  onAddressSelect: PropTypes.func.isRequired,
 };
 
 export default AddressInput;
