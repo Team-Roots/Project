@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Col, Row, Nav, Button } from 'react-bootstrap';
+import { Container, Col, Row, Nav, Table, ProgressBar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import OrganizationCard from './OrganizationCard';
 import BarGraph from './BarGraph';
 import FadeInSection from './FadeInSection';
+import EventCard from './EventCard';
+// import OrganizationCard from './OrganizationCard';
 
-const LandingPanel = ({ orgs }) => {
+// ignore eslint for orgs, I will probably use it later
+const LandingPanel = ({ orgs, events }) => {
+  console.log(events);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 1;
 
@@ -40,7 +43,8 @@ const LandingPanel = ({ orgs }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  // ideally now will be a value loaded in from a schema
+  const now = 7 * 10;
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -48,71 +52,115 @@ const LandingPanel = ({ orgs }) => {
         <div className="landing-section" id="home">
           <Container>
             <FadeInSection>
-              <h2>Welcome back!</h2>
+              <div className="align-content-center" style={{ textAlign: 'center' }}>
+                <h2 style={{ fontSize: 50 }}>Welcome back!</h2>
+              </div>
             </FadeInSection>
             <Row className="pt-3">
               <Col>
                 <FadeInSection>
-                  <h5>Your Volunteer Stats</h5>
-                  <p>Total Hours Served: #<br />
-                    Organizations Helped: #<br />
-                  </p>
+                  <h2>Your Volunteer Stats</h2>
+                  <div style={{ fontSize: 18 }}>
+                    <p>Progress Towards 10Hrs/month Goal:
+                      <div className="pt-3">
+                        <ProgressBar now={now} label={`${now}% of this months goal!`} />
+                      </div>
+                      <br />
+                      Organizations Helped This Month: <br />
+                      <div>
+                        <Table striped bordered hover>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Organization</th>
+                              <th>Volunteer Service</th>
+                              <th>Hours Served</th>
+                            </tr>
+                          </thead>
+                          { /* later I will create a component that will load a <tr> depending on */}
+                          { /* what is in the user schema */}
+                          <tbody>
+                            <tr>
+                              <td>1</td>
+                              <td>Test Organization</td>
+                              <td>Beach Clean Up</td>
+                              <td>5 hrs</td>
+                            </tr>
+                            <tr>
+                              <td>2</td>
+                              <td>Test Organization</td>
+                              <td>Feeding Homeless</td>
+                              <td>2 hrs</td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                      </div>
+                    </p>
+                  </div>
                 </FadeInSection>
               </Col>
-              <Col>
+              <Col className="align-content-start">
                 <FadeInSection>
                   <BarGraph fluid />
-                </FadeInSection>
-              </Col>
-              <Col>
-                <FadeInSection>
-                  <h5>Upcoming Events</h5>
-                  <p>Events in the upcoming week: <br />
-                    Link to calendar for more information <br />
-                  </p>
                 </FadeInSection>
               </Col>
             </Row>
           </Container>
         </div>
+        <Container id="CalenderSection">
+          <FadeInSection>
+            <h2>Your Upcoming Events</h2>
+            <p>Events in the upcoming week: <br />
+              Link to calendar for more information <br />
+            </p>
+          </FadeInSection>
+        </Container>
         <div className="landing-section" id="giveHelp">
           <Container>
             <FadeInSection>
-              <h2>Give Help</h2>
+              <h2>Recommended Events</h2>
             </FadeInSection>
             <Container>
               <Row>
                 <FadeInSection>
-                  {orgsPerPage(currentPage).map((org) => (
-                    <OrganizationCard key={org._id} org={org} />
-                  ))}
+                  {/* {orgsPerPage(currentPage).map((org) => ( */}
+                  {/*  <OrganizationCard key={org._id} org={org} /> */}
+                  {/* ))} */}
+                  {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
+                  <Col>
+                    <Row md={1} lg={2} className="g-4">
+                      {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                    </Row>
+                  </Col>
                 </FadeInSection>
               </Row>
             </Container>
             <Container>
-              <FadeInSection>
-                {[...Array(totalPages).keys()].map((page) => (
-                  <Button
-                    key={page}
-                    variant="outline-primary"
-                    onClick={() => setCurrentPage(page + 1)}
-                    style={{ borderRadius: '50%', margin: '0 5px' }}
-                  >
-                    {page + 1}
-                  </Button>
-                ))}
-              </FadeInSection>
+              {/* I will need this at a later date :) */}
+              {/* <FadeInSection> */}
+              {/*  {[...Array(totalPages).keys()].map((page) => ( */}
+              {/*    <Button */}
+              {/*      key={page} */}
+              {/*      variant="outline-primary" */}
+              {/*      onClick={() => setCurrentPage(page + 1)} */}
+              {/*      style={{ borderRadius: '50%', margin: '0 5px' }} */}
+              {/*    > */}
+              {/*      {page + 1} */}
+              {/*    </Button> */}
+              {/*  ))} */}
+              {/* </FadeInSection> */}
             </Container>
           </Container>
         </div>
-        <div className="landing-section" id="needHelp">
-          <Container>
-            <FadeInSection>
-              <h2>Need Help</h2>
-              <p>ALL HELP REQUEST RELATED INFO</p>
-            </FadeInSection>
-          </Container>
-        </div>
+        {/* Work on this section later :)
+        <div className="landing-section" id="needHelp"> */}
+        {/*  <Container> */}
+        {/*    <FadeInSection> */}
+        {/*      <h2>Need Help</h2> */}
+        {/*      <p>ALL HELP REQUEST RELATED INFO</p> */}
+        {/*    </FadeInSection> */}
+        {/*  </Container> */}
+        {/* </div> */}
       </div>
     </div>
   );
@@ -127,6 +175,22 @@ LandingPanel.propTypes = {
       organizationOwner: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,
       ageRange: PropTypes.instanceOf(Object).isRequired,
+    }),
+  ).isRequired,
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      eventDate: PropTypes.instanceOf(Date),
+      category: PropTypes.string.isRequired,
+      startTime: PropTypes.string,
+      endTime: PropTypes.string,
+      location: PropTypes.string.isRequired,
+      coordinator: PropTypes.string.isRequired,
+      amountVolunteersNeeded: PropTypes.number,
+      specialInstructions: PropTypes.string,
+      // eslint-disable-next-line no-unused-vars,react/forbid-prop-types
+      restrictions: PropTypes.object,
     }),
   ).isRequired,
 };
