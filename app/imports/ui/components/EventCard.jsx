@@ -18,9 +18,9 @@ const EventCard = ({ event }) => {
           <Col>
             <Card.Title className="poppinsText">{event.name}</Card.Title>
             <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
+            <Card.Subtitle className="mb-2 text-muted robotoText">{event.startTime} - {event.endTime}</Card.Subtitle>
             <Card.Text className="robotoText">{event.description}</Card.Text>
-            <Card.Text className="robotoText">Location: {event.location} at {event.address}</Card.Text>
-            <Card.Text className="robotoText">Coordinator: {event.coordinator}</Card.Text>
+            <Card.Text className="robotoText">Location: {event.location}</Card.Text>
           </Col>
           <Col>
             <Image src={event.image} className="imageContain" />
@@ -38,20 +38,23 @@ const EventCard = ({ event }) => {
 
 EventCard.propTypes = {
   event: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
     name: PropTypes.string.isRequired,
     eventDate: PropTypes.instanceOf(Date),
     description: PropTypes.string,
     category: PropTypes.string,
     location: PropTypes.string,
-    coordinator: PropTypes.string,
     startTime: PropTypes.string,
     endTime: PropTypes.string,
+    coordinator: PropTypes.string,
     amountVolunteersNeeded: PropTypes.number,
-    owner: PropTypes.string,
+    isOnline: PropTypes.bool,
     image: PropTypes.string,
-    locationType: PropTypes.string,
-    address: PropTypes.string,
+    specialInstructions: PropTypes.string,
+    // figure out what the data type of restrictions and ageRange are
+    // restrictions
+    // ageRange
+    owner: PropTypes.string,
   }).isRequired,
 };
 

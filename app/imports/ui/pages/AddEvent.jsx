@@ -1,77 +1,183 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { AutoForm, TextField, DateField, SubmitField, ErrorsField, NumField } from 'uniforms-bootstrap5';
-import SimpleSchema from 'simpl-schema';
+import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { Events } from '../../api/event/EventCollection';
+import SimpleSchema from 'simpl-schema';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import BasicEventDetails from '../components/BasicEventDetails'; // Adjust the path as needed
+import TimingAndCoordinator from '../components/TimingAndCoordinator'; // Adjust the path as needed
+import AdditionalInformation from '../components/AdditionalInformation'; // Adjust the path as needed
+import EventCard from '../components/EventCard'; // Ensure this path is correct
+import { Events } from '../../api/event/EventCollection';
 
-// Create a schema to specify the structure of the data to appear in the form.
-const formSchema = new SimpleSchema({
+// Define your form schema
+const eventSchema = new SimpleSchema({
   name: String,
-  eventDate: Date,
-  description: String,
-  category: String,
-  location: String,
+  eventDate: {
+    type: Date,
+    label: 'Event Date', // Ensure the label is defined here
+  },
   startTime: String,
   endTime: String,
   coordinator: String,
-  amountVolunteersNeeded: Number,
+  category: {
+    type: String,
+    optional: true,
+  },
   specialInstructions: {
     type: String,
     optional: true,
   },
   restrictions: {
-    type: Object,
+    type: String,
     optional: true,
-    blackbox: true,
   },
+  description: String,
+  amountVolunteersNeeded: SimpleSchema.Integer,
+  isOnline: Boolean,
+  ageRange: Object,
+  'ageRange.min': SimpleSchema.Integer,
+  'ageRange.max': SimpleSchema.Integer,
+  image: { type: String, optional: true },
 });
 
-const bridge = new SimpleSchema2Bridge(formSchema);
+const bridge = new SimpleSchema2Bridge(eventSchema);
 
-// Renders the AddEvent page for adding an event.
 const AddEvent = () => {
-  const [formRef, setFormRef] = useState(null);
-  // On submit, insert the data.
+  const [cloudinaryUrl, setCloudinaryUrl] = useState('');
+  // eslint-disable-next-line no-empty-pattern
+  const {} = useTracker(() => {
+    const subscription = Meteor.subscribe('event');
+    return { ready: subscription.ready() };
+  }, []);
+  const initialFormState = {
+    name: '',
+    eventDate: new Date(),
+    location: { address: '', latLng: {} },
+    startTime: '',
+    endTime: '',
+    coordinator: '',
+    description: '',
+    amountVolunteersNeeded: 0,
+    restrictions: '',
+    ageRange: { min: 1, max: 99 },
+    isOnline: false,
+    image: 'https://via.placeholder.com/150', // Placeholder image URL
+  };
+
+  const [eventPreview, setEventPreview] = useState(initialFormState);
+
+  const categoryOptions = [
+    { label: 'Community Cleanup', value: 'community_cleanup' },
+    { label: 'Food Drive', value: 'food_drive' },
+    { label: 'Charity Run/Walk', value: 'charity_run_walk' },
+    { label: 'Tree Planting', value: 'tree_planting' },
+    { label: 'Animal Welfare', value: 'animal_welfare' },
+    { label: 'Educational Tutoring', value: 'educational_tutoring' },
+    { label: 'Elderly Assistance', value: 'elderly_assistance' },
+    { label: 'Environmental Conservation', value: 'environmental_conservation' },
+    { label: 'Healthcare Support', value: 'healthcare_support' },
+    { label: 'Arts and Culture', value: 'arts_and_culture' },
+    { label: 'Sports and Recreation', value: 'sports_and_recreation' },
+    { label: 'Disaster Relief', value: 'disaster_relief' },
+    { label: 'Technology and Innovation', value: 'technology_innovation' },
+    { label: 'Legal Aid and Human Rights', value: 'legal_aid_human_rights' },
+  ];
+
+  const handleSetImageUrl = (url) => {
+    setCloudinaryUrl(url); // Ensure you're setting the Cloudinary URL correctly for submission
+    setEventPreview(prevState => ({ ...prevState, image: url }));
+  };
+
+  const handleSelectAddress = (address, latLng) => {
+    console.log('Address selected: ', address);
+    console.log('Coordinates: ', latLng);
+    // Update the event preview state with the address and latLng
+    setEventPreview(prevState => ({
+      ...prevState,
+      location: { address, latLng }, // Adjust according to your schema requirements
+    }));
+  };
+
+  // Example onChange function
+  const handleChange = (field, value) => {
+    console.log(`${field} changed to ${value}`);
+    // Update form state or perform other actions as needed
+  };
+
   const submit = (data) => {
-    const { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions } = data;
-    const owner = Meteor.user().username;
-    const collectionName = Events.getCollectionName();
-    const definitionData = { name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, owner };
-    defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'))
+    // Include new fields in the submission data structure
+    const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, isOnline, ageRange } = data;
+    const imageUrl = cloudinaryUrl || image;
+
+    // Construct the submission object with new fields
+    const definitionData = {
+      name,
+      eventDate,
+      description,
+      category,
+      location: eventPreview.location.address,
+      startTime,
+      endTime,
+      coordinator,
+      amountVolunteersNeeded,
+      specialInstructions,
+      image: imageUrl,
+      isOnline,
+      ageRange,
+      owner: Meteor.user().username,
+    };
+
+    // Call to defineMethod with updated definitionData
+    defineMethod.callPromise({ collectionName: Events.getCollectionName(), definitionData })
       .then(() => {
         swal('Success', 'Event added successfully', 'success');
-        formRef.reset();
-      });
+        setEventPreview(initialFormState); // Reset form after successful submission
+      })
+      .catch(error => swal('Error', error.message, 'error'));
   };
+
   return (
-    <Container id={PAGE_IDS.ADD_EVENT} className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={6}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center">Add Event</h2>
-              <AutoForm ref={ref => setFormRef(ref)} schema={bridge} onSubmit={data => submit(data)}>
-                <TextField name="name" placeholder="Event Name" />
-                <DateField name="eventDate" placeholder="Event Date" />
-                <TextField name="description" placeholder="Event Description" />
-                <TextField name="category" placeholder="Category" />
-                <TextField name="location" placeholder="Event Location" />
-                <TextField name="startTime" placeholder="Start Time" />
-                <TextField name="endTime" placeholder="End Time" />
-                <TextField name="coordinator" placeholder="Event Coordinator" />
-                <NumField name="amountVolunteersNeeded" placeholder="Amount of Volunteers Needed" />
-                <TextField name="specialInstructions" placeholder="Special Instructions" />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </AutoForm>
-            </Card.Body>
-          </Card>
+    <Container>
+      <Row>
+        {/* Form Section */}
+        <Col md={6}>
+          <AutoForm schema={bridge} model={eventPreview} onSubmit={submit} onChangeModel={model => setEventPreview(model)}>
+            {/* Basic Event Details Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Basic Event Details</h3>
+                <BasicEventDetails categoryOptions={categoryOptions} onAddressSelect={handleSelectAddress} onChange={handleChange} />
+              </Card.Body>
+            </Card>
+
+            {/* Timing and Coordinator Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Timing & Coordinator</h3>
+                <TimingAndCoordinator />
+              </Card.Body>
+            </Card>
+
+            {/* Additional Information Card */}
+            <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
+              <Card.Body>
+                <h3>Additional Information</h3>
+                <AdditionalInformation setUrl={handleSetImageUrl} />
+              </Card.Body>
+            </Card>
+
+            <SubmitField value="Submit Event" />
+            <ErrorsField />
+          </AutoForm>
+        </Col>
+
+        {/* Preview Section */}
+        <Col md={6}>
+          <EventCard event={{ ...eventPreview, location: eventPreview.location?.address }} showEditLink={false} />
         </Col>
       </Row>
     </Container>
