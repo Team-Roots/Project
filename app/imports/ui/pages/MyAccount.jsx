@@ -5,25 +5,30 @@ import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { UserStats } from '../../api/user/UserStatsCollection';
 
 /* Renders the MyAccount page, displaying all user info */
 const MyAccount = () => {
   // useTracker connects Meteor data to React components
-  const { ready, account } = useTracker(() => {
+  const { ready, account, stats } = useTracker(() => {
     // Get the username of current user
     const user = Meteor.user();
     const email = user ? user.username : null;
     // Get access to UserProfile documents.
-    const subscription = UserProfiles.subscribe();
+    const subscription1 = UserProfiles.subscribe();
+    const subscription2 = UserStats.subscribeUserStats();
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
+    const rdy = subscription1.ready() && subscription2.ready();
     // Get the Account documents
     let accountItems;
+    let statsItems;
     if (email) {
       accountItems = UserProfiles._collection.find({ email: email }).fetch();
+      statsItems = UserStats._collection.find({ email: email }).fetch();
     }
     return {
       account: accountItems,
+      stats: statsItems,
       ready: rdy,
     };
   }, []);
@@ -48,8 +53,8 @@ const MyAccount = () => {
               />
               <Card.Title className="pt-3 accountcardtitle">{account[0].firstName}</Card.Title>
               <Card.Title className="pb-3 accountcardtitle">{account[0].lastName}</Card.Title>
-              <Card.Subtitle className="py-2 accountcardsubtitle">(808)123-4567</Card.Subtitle>
-              <Card.Subtitle className="py-2 accountcardsubtitle">johndoe@gmail.com</Card.Subtitle>
+              <Card.Subtitle className="py-2 accountcardsubtitle">PHONE NUMBER</Card.Subtitle>
+              <Card.Subtitle className="py-2 accountcardsubtitle">EMAIL</Card.Subtitle>
               <Button className="align-bottom accountbutton">Edit Profile</Button>
             </Card.Body>
           </Card>
