@@ -2,14 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { _ } from 'meteor/underscore';
-import { Roles } from 'meteor/alanning:roles';
+// import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const userStatsPublications = {
-  userStats: 'UserStats',
-  userStatsAdmin: 'UserStatsAdmin',
-};
+// export const userStatsPublications = {
+//   userStats: 'UserStats',
+//   userStatsAdmin: 'UserStatsAdmin',
+// };
 
 class UserStatsCollection extends BaseCollection {
   constructor() {
@@ -96,23 +96,23 @@ class UserStatsCollection extends BaseCollection {
   publish() {
     if (Meteor.isServer) {
       // get the UserStatsCollection instance.
-      const instance = this;
+      // const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(userStatsPublications.userStats, function publish() {
-        if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).name;
-          return instance._collection.find({ userEmail: username });
-        }
-        return this.ready();
-      });
-
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(userStatsPublications.userStatsAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
+      // Meteor.publish(userStatsPublications.userStats, function publish() {
+      //   if (this.userId) {
+      //     const username = Meteor.users.findOne(this.userId).name;
+      //     return instance._collection.find({ userEmail: username });
+      //   }
+      //   return this.ready();
+      // });
+      //
+      // /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
+      // Meteor.publish(userStatsPublications.userStatsAdmin, function publish() {
+      //   if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+      //     return instance._collection.find();
+      //   }
+      //   return this.ready();
+      // });
     }
   }
 
@@ -121,7 +121,7 @@ class UserStatsCollection extends BaseCollection {
    */
   subscribeUserStats() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(userStatsPublications.userStats);
+      // return Meteor.subscribe(userStatsPublications.userStats);
     }
     return null;
   }
@@ -132,7 +132,7 @@ class UserStatsCollection extends BaseCollection {
    */
   subscribeUserStatsAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(userStatsPublications.userStatsAdmin);
+      // return Meteor.subscribe(userStatsPublications.userStatsAdmin);
     }
     return null;
   }
@@ -164,4 +164,4 @@ class UserStatsCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const UserStats = new UserStatsCollection();
+export const UserStatsOld = new UserStatsCollection();

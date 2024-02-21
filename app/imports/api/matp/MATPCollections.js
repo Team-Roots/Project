@@ -5,7 +5,7 @@ import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { Organizations } from '../organization/OrganizationCollection';
 import { Skills } from '../skill/SkillCollection';
-import { UserStats } from '../user/UserStatsCollection';
+import { UserStats } from '../user/UserStatisticsCollection';
 import { OrganizationAdmin } from '../organization/OrganizationAdmin';
 import { OrganizationWaiver } from '../organization/OrganizationWaiver';
 

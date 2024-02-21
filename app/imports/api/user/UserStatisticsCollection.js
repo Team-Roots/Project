@@ -5,21 +5,35 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-// export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
-export const organizationAdminPublications = {
-  organizationAdminScheme: 'OrganizationAdminScheme',
-  organizationAdminAdminScheme: 'OrganizationAdminAdminScheme',
+
+export const userStatsPublications = {
+  userStats: 'UserStats',
 };
 
-class OrganizationAdminCollection extends BaseCollection {
+class UserStatsCollection extends BaseCollection {
   constructor() {
-    super('OrganizationAdmins', new SimpleSchema({
-      employee: {
-        type: String,
+    super('UserStats', new SimpleSchema({
+      stats: {
+        type: Object,
         required: true,
       },
-      orgID: {
+      'stats.hoursThisMonth': {
         type: SimpleSchema.Integer,
+        required: true,
+      },
+      'stats.totalHours': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
+      'stats.orgsHelped': {
+        type: Array,
+        required: true,
+      },
+      'stats.orgsHelped.$': {
+        type: String, // Define the type of items in the array
+      },
+      email: {
+        type: String,
         required: true,
         unique: true,
       },
@@ -28,30 +42,35 @@ class OrganizationAdminCollection extends BaseCollection {
 
   /**
    * Defines a new Stuff item.
-   * @return {employee}
-   * @return {orgID}
+   * @return {stats}
+   * @return {email}
    * @return {String} the docID of the new document.
    */
-  define({ employee, orgID }) {
+  define({ stats, email }) {
     const docID = this._collection.insert({
-      employee,
-      orgID,
+      stats,
+      email,
     });
     return docID;
+  }
+
+  newStats(){
+    return new Stats
   }
 
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param name the new name (optional).
+   * @param waiver the waiver string
    */
 
   // we dont want users to update : hence the
   // eslint blockage
   // eslint-disable-next-line no-empty-pattern
-  update(docID, { }) {
+  update(docID, { stats }) {
     const updateData = {};
-
+    updateData.stats = stats;
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -76,7 +95,7 @@ class OrganizationAdminCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(organizationAdminPublications.organizationAdminScheme, function publish() {
+      Meteor.publish(userStatsPublications.userStats, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -85,7 +104,7 @@ class OrganizationAdminCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationAdminPublications.organizationAdminAdminScheme, function publish() {
+      Meteor.publish(userStatsPublications.userStats, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -97,9 +116,9 @@ class OrganizationAdminCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeOrgAdmin() {
+  subscribeStats() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationAdminPublications.organizationAdminScheme);
+      return Meteor.subscribe(userStatsPublications.userStats);
     }
     return null;
   }
@@ -108,9 +127,9 @@ class OrganizationAdminCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeOrgAdminAdmin() {
+  subscribeStatsAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationAdminPublications.organizationAdminAdminScheme);
+      return Meteor.subscribe(userStatsPublications.userStats);
     }
     return null;
   }
@@ -128,18 +147,17 @@ class OrganizationAdminCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{employee: *, orgID: *,}}
+   * @return {{stats: *, email: *, owner: *}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const employee = doc.employee;
-    const orgID = doc.orgID;
-    const owner = doc.owner;
-    return { employee, orgID, owner };
+    const waiver = doc.stats;
+    const orgID = doc.email;
+    return { waiver, orgID };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const OrganizationAdmin = new OrganizationAdminCollection();
+export const UserStats = new UserStatsCollection();
