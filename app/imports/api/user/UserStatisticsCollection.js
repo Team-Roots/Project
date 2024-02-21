@@ -5,7 +5,6 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-
 export const userStatsPublications = {
   userStats: 'UserStats',
 };
@@ -52,10 +51,6 @@ class UserStatsCollection extends BaseCollection {
       email,
     });
     return docID;
-  }
-
-  newStats(){
-    return new Stats
   }
 
   /**
