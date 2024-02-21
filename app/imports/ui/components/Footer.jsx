@@ -10,8 +10,8 @@ const Footer = () => (
         <Col xs={12} md={4}>
           <h5 className="footer-heading poppinsText">Resources</h5>
           <ul>
-            <li><Link to="/aboutus">About Us</Link></li>
-            <li><Link to="/faq">FAQ</Link></li>
+            <li><Link to="/aboutus" style={{ color: 'white' }}>About Us</Link></li>
+            <li><Link to="/faq" style={{ color: 'white' }}>FAQ</Link></li>
             <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us">Contact Us</a></li>
           </ul>
         </Col>
