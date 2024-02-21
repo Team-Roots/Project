@@ -16,7 +16,7 @@ const SubscribedEvents = () => {
     const subsEvent = Subscribe.collection.find({}).fetch();
     return {
       events: eventFind,
-      subs : subsEvent,
+      subs: subsEvent,
       ready: rdy,
     };
   }, []);
