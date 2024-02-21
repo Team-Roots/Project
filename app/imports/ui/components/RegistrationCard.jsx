@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
+import { Meteor } from 'meteor/meteor';
+import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Subscribe } from '../../api/event/Subscribe';
