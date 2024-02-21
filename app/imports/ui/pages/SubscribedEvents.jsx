@@ -10,8 +10,8 @@ import EventCard from '../components/EventCard';
 const SubscribedEvents = () => {
   const { events, subs, ready } = useTracker(() => {
     const eventsSubscription = Meteor.subscribe(Events.allPublicationName);
-    const cartSubscription = Meteor.subscribe(Subscribe.userPublicationName);
-    const rdy = eventsSubscription.ready() && cartSubscription.ready();
+    const subSubscription = Meteor.subscribe(Subscribe.userPublicationName);
+    const rdy = eventsSubscription.ready() && subSubscription.ready();
     const eventFind = Events.collection.find({}).fetch();
     const subsEvent = Subscribe.collection.find({}).fetch();
     return {
