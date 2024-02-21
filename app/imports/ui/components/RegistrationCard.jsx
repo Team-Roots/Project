@@ -2,11 +2,24 @@ import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Subscribe } from '../../api/event/Subscribe';
 
 const RegistrationCard = ({ event }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
+  const subscribeEven = (eventId) => {
+    Subscribe.collection.insert(
+      { eventId },
+      (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          swal('Success', `${event.name} successfully subscribed`, 'success');
+        }
+      },
+    );
+  };
 
   return (
     <Container>
@@ -20,6 +33,9 @@ const RegistrationCard = ({ event }) => {
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
+              <Button variant="success" size="lg" className="mb-3 mx-2" onClick={() => subscribeEven(event._id)}>
+                Subscribe
+              </Button>
               <Button as={Link} to="/registrationform" variant="danger" size="lg" className="mb-3">
                 I Want to Help
               </Button>
