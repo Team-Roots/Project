@@ -19,12 +19,14 @@ import { ROLE } from '../../api/role/Role';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ManageDatabase from '../pages/ManageDatabase';
 import ListEvent from '../pages/ListEvent';
+import MyEvents from '../pages/MyEvents';
 import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import Events from '../pages/Events';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
+import SubscribedEvents from '../pages/SubscribedEvents';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -47,8 +49,10 @@ const App = () => {
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
+          <Route path="/subscribedevents" element={<ProtectedRoute><SubscribedEvents /></ProtectedRoute>} />
           <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
+          <Route path="/my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />

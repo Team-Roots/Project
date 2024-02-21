@@ -1,14 +1,23 @@
 import React from 'react';
-import { Container, Row, Col, FormCheck } from 'react-bootstrap';
+// import { Meteor } from 'meteor/meteor';
+import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Events } from '../../api/event/EventCollection'; // Import your EventCollection
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+// import PropTypes from 'prop-types';
 
-const VolunteerEventOpportunities = () => {
+const MyEvents = () => {
+  // const user = Meteor.user();
+  // const owner = user ? user.username : null;
+  const navigate = useNavigate();
+  const handleAddEventClick = () => {
+    navigate('/add-event'); // Navigate to the add-event page
+  };
   const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
@@ -17,15 +26,39 @@ const VolunteerEventOpportunities = () => {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
-      console.log(eventItems);
     }
     return {
       events: eventItems,
       ready: rdy,
     };
   }, []);
-  return (ready ? (
+  if (!ready) {
+    return (
+      <Container id={PAGE_IDS.LIST_EVENT} className="py-3">
+        <Row className="justify-content-center">
+          <Col md={8}>
+            <div>Loading Events...</div>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
+      <Row className="justify-content-center">
+        <Col xs="auto">
+          <Button
+            variant="primary"
+            className="rounded-circle d-flex justify-content-center align-items-center"
+            style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
+            onClick={handleAddEventClick}
+            id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
+          >
+            <i className="fas fa-plus" />
+          </Button>
+        </Col>
+      </Row>
       <Row>
         <Col lg={2}>
           <h3 className="poppinsText">Filter By</h3>
@@ -45,7 +78,11 @@ const VolunteerEventOpportunities = () => {
           <h4 className="poppinsText">Location Type</h4>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">In-Person</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Indoors</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Outdoors</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
@@ -62,17 +99,13 @@ const VolunteerEventOpportunities = () => {
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Donations</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
             <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
           </FormCheck>
           <br />
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel>
-              <h5 className="poppinsText">Background Check Not Needed</h5>
+              <h5 className="poppinsText">Need Background Check</h5>
             </FormCheckLabel>
           </FormCheck>
         </Col>
@@ -83,7 +116,7 @@ const VolunteerEventOpportunities = () => {
         </Col>
       </Row>
     </Container>
-  ) : <LoadingSpinner />);
+  );
 };
 
-export default VolunteerEventOpportunities;
+export default MyEvents;
