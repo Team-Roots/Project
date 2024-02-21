@@ -27,7 +27,7 @@ class UserProfileCollection extends BaseProfileCollection {
       const stats = {};
       stats.hoursThisMonth = 0;
       stats.totalHours = 0;
-      stats.orgsHelped = [String];
+      stats.orgsHelped = [];
       UserStats.define({ stats, email });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
