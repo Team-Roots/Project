@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Events } from '../../api/event/EventCollection';
 import { Subscribe } from '../../api/event/Subscribe';
