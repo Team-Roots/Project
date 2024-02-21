@@ -18,20 +18,21 @@ const NavBar = () => {
       <img src="/images/Voluntree.logo-noG.png" alt="Bootstrap" width="160" height="112" />
 
       <Container>
-        <Navbar.Brand className="navbar-brand-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
+        <Navbar.Brand className="navbar-brand-link poppinsText " id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
         <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
-          <Nav className="justify-content-end">
+          <Nav className="me-auto justify-content-end robotoText">
             {!currentUser && (
               <>
-                <Nav.Link className="navbar-link" as={NavLink} to="/">Home</Nav.Link>
-                <Nav.Link className="navbar-link" as={NavLink} to="/eventopportunities">Events</Nav.Link>
-                <Nav.Link className="navbar-link" as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
-                <Nav.Link className="navbar-link" as={NavLink} to="/faq">FAQ</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/">Home</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/aboutus">About Us</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
 
-                <NavDropdown className="navbar-dropdown" title="Help">
-                  <NavDropdown.Item as={NavLink} to="/questions" />
-                  <NavDropdown.Item as={NavLink} to="/contactus">
+                <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help">
+                  <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
+                  <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
                     Contact Us
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -41,10 +42,7 @@ const NavBar = () => {
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
-              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="My Account">
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
-                <Nav.Link className="my-events" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
-              </NavDropdown>,
+              <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">My Account</Nav.Link>,
               <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">
                   FAQ
@@ -62,10 +60,10 @@ const NavBar = () => {
                 </NavDropdown>]
             ) : ''}
           </Nav>
-          <Nav className="ms-auto" style={{ marginRight: 100 }}>
+          <Nav className="ms-auto robotoText">
             {currentUser === '' ? (
               <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN} title="Login">
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill />Sign in</NavDropdown.Item>
+                <NavDropdown.Item className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill />Sign in</NavDropdown.Item>
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill />Sign up</NavDropdown.Item>
               </NavDropdown>
             ) : (
