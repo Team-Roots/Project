@@ -26,6 +26,10 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_LIST_EVENT}`);
   }
 
+  async clickMyAccountDropDown() {
+    await t.click(`#${COMPONENT_IDS.NAVBAR_HELP_DROPDOWN}`);
+  }
+
   async gotoAddEventPage() {
     await t.click(`#${COMPONENT_IDS.NAVBAR_ADD_EVENT}`);
   }
