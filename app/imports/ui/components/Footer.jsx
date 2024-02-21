@@ -30,7 +30,7 @@ const Footer = () => (
           <h5 className="footer-heading poppinsText">Follow Us</h5>
           <div>
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <FaFacebook size={30}/>
+              <FaFacebook size={30} />
             </a>
             <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ marginLeft: '10px' }}>
               <FaInstagram size={30} />
