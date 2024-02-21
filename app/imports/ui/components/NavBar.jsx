@@ -21,7 +21,7 @@ const NavBar = () => {
         <Navbar.Brand className="navbar-brand-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
         <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
-          <Nav className="me-auto justify-content-end">
+          <Nav className="justify-content-end">
             {!currentUser && (
               <>
                 <Nav.Link className="navbar-link" as={NavLink} to="/">Home</Nav.Link>
@@ -62,10 +62,10 @@ const NavBar = () => {
                 </NavDropdown>]
             ) : ''}
           </Nav>
-          <Nav className="ms-auto">
+          <Nav className="ms-auto" style={{ marginRight: 100 }}>
             {currentUser === '' ? (
               <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN} title="Login">
-                <NavDropdown.Item className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill />Sign in</NavDropdown.Item>
+                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill />Sign in</NavDropdown.Item>
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill />Sign up</NavDropdown.Item>
               </NavDropdown>
             ) : (
