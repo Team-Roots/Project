@@ -25,7 +25,7 @@ const VolunteerEventOpportunities = () => {
     };
   }, []);
   return (ready ? (
-    <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>_
+    <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
       <Row>
         <Col lg={2}>
           <h3 className="poppinsText">Filter By</h3>
@@ -45,11 +45,7 @@ const VolunteerEventOpportunities = () => {
           <h4 className="poppinsText">Location Type</h4>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Indoors</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Outdoors</FormCheckLabel>
+            <FormCheckLabel className="robotoText">In-Person</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
@@ -63,6 +59,10 @@ const VolunteerEventOpportunities = () => {
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel className="robotoText">Clean Up</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Donations</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />

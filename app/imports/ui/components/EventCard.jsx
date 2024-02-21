@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Card, Row, Col, Image } from 'react-bootstrap';
+import { Card, Row, Col, Image, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -26,7 +26,14 @@ const EventCard = ({ event }) => {
             <Image src={event.image} className="imageContain" />
           </Col>
         </Row>
-        <br />
+        <Row>
+          <ListGroup horizontal className="justify-content-center align-content-center pb-1">
+            <ListGroup.Item className="m-1 robotoText eventLG">{event.category}</ListGroup.Item>
+            {event.isOnline && <ListGroup.Item className="m-1 robotoText eventLG">Online</ListGroup.Item>}
+            {!event.isOnline && <ListGroup.Item className="m-1 robotoText eventLG">In-Person</ListGroup.Item>}
+            {/* <ListGroup.Item className="m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
+          </ListGroup>
+        </Row>
         <Row>
           <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText edit">More Details</Link></Col>
           <Col>{event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
