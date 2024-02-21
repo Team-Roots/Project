@@ -37,8 +37,8 @@ const Landing = () => {
   const loggedin = Meteor.user();
   if (loggedin) {
     return (ready ? (
-      <Container>
-        <LandingPanels id={PAGE_IDS.LANDING} orgs={orgs} events={events} />
+      <Container id={PAGE_IDS.LANDING}>
+        <LandingPanels orgs={orgs} events={events} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -48,7 +48,7 @@ const Landing = () => {
     );
   }
   return (ready ? (
-    <AboutUs />
+    <AboutUs id={PAGE_IDS.LANDING} />
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Spinner animation="grow" />
