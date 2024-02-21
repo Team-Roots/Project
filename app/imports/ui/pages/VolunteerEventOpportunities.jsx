@@ -78,7 +78,7 @@ const VolunteerEventOpportunities = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {events.map((event) => (<Col key={event._id}><EventCard event={event} showEditButton={false} /></Col>))}
           </Row>
         </Col>
       </Row>

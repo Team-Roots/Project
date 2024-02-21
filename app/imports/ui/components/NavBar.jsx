@@ -45,7 +45,7 @@ const NavBar = () => {
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>,
                 <Nav.Link className="my-events" as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>,
               </NavDropdown>,
-              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
+              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">cd
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">
                   FAQ
                 </NavDropdown.Item>
