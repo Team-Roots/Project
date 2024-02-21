@@ -15,7 +15,7 @@ const EventCard = ({ event }) => {
     <Card className="mb-3" id="colorCard">
       <Card.Body>
         <Row className="text-center ">
-          <Image src={event.image} className="imageContain text-center"/>
+          <Image src={event.image} className="imageContain text-center" />
         </Row>
         <Row className="text-center">
           <Card.Title className="poppinsText">{event.name}</Card.Title>
