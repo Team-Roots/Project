@@ -38,10 +38,10 @@ body {
 }
 
 .card.accountcard {
-  --bs-card-border-color: #02B5A6;
-  --bs-body-bg: #02B5A6;
-  --bs-body-color: white;
-  --bs-card-title-color: white;
+  --bs-card-border-color: lightgrey;
+  --bs-body-bg: white;
+  --bs-body-color: black;
+  --bs-card-title-color: black;
 }
 
 .card-title.accountcardtitle {
