@@ -9,8 +9,9 @@ const RegistrationCard = ({ event }) => {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
   const subscribeEven = (eventId) => {
+    const subscribeBy = Meteor.user().username;
     Subscribe.collection.insert(
-      { eventId },
+      { eventId, subscribeBy },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
