@@ -13,6 +13,7 @@ export const COMPONENT_IDS = {
   MANGAGE_DATABASE_DUMP: 'manage-database-dump',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
   NAVBAR_HELP_DROPDOWN: 'navbar_help_dropdown',
+  NAVBAR_MY_ACCOUNT_DROPDOWN: 'navbar_my_account_dropdown',
   NAVBAR_ABOUT_US: 'navbar-about-us',
   NAVBAR_COMMUNITY_GROUPS: 'navbar-community-groups',
   NAVBAR_MY_ACCOUNT: 'navbar-my-account',

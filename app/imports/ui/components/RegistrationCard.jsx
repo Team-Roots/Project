@@ -12,7 +12,7 @@ const RegistrationCard = ({ event }) => {
     <Container>
       <Row className="justify-content-center align-items-center my-5">
         <Col md={4} className="p-0">
-          <Image className="img-fluid w-100 h-100" src="https://static.wikia.nocookie.net/aesthetics/images/0/0e/Green.jpg/revision/latest?cb=20200723215419" />
+          <Image className="img-fluid w-100 h-100" src={event.image} />
         </Col>
         <Col md={8}>
           <Card className="mt-5">
@@ -24,14 +24,17 @@ const RegistrationCard = ({ event }) => {
                 I Want to Help
               </Button>
               <ListGroup variant="flush" className="text-start">
-                <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
-                <ListGroup.Item><strong>EVENT AREAS: </strong>{event.location}</ListGroup.Item>
+                <ListGroup.Item><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
                 <ListGroup.Item><strong>START TIME: </strong>{event.startTime}</ListGroup.Item>
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
                 <ListGroup.Item><strong>DESCRIPTION: </strong>{event.description}</ListGroup.Item>
+                <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
                 <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{event.amountVolunteersNeeded}</ListGroup.Item>
-                <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>
+                {event.specialInstructions && <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>}
+                {/* {event.restrictions && <ListGroup.Item><strong>RESTRICTIONS: </strong>{event.restrictions}</ListGroup.Item>}
+                {event.ageRange && <ListGroup.Item><strong>AGE RANGE: </strong>{event.ageRange}</ListGroup.Item>} */}
+
               </ListGroup>
             </Card.Body>
           </Card>
@@ -43,18 +46,23 @@ const RegistrationCard = ({ event }) => {
 
 RegistrationCard.propTypes = {
   event: PropTypes.shape({
-    name: PropTypes.string,
+    _id: PropTypes.string,
+    name: PropTypes.string.isRequired,
     eventDate: PropTypes.instanceOf(Date),
     description: PropTypes.string,
+    category: PropTypes.string,
     location: PropTypes.string,
-    coordinator: PropTypes.string,
-    image: PropTypes.string,
     startTime: PropTypes.string,
     endTime: PropTypes.string,
+    coordinator: PropTypes.string,
     amountVolunteersNeeded: PropTypes.number,
-    specialInstructions: PropTypes.number,
+    isOnline: PropTypes.bool,
+    image: PropTypes.string,
+    specialInstructions: PropTypes.string,
+    // figure out what the data type of restrictions and ageRange are
+    // restrictions
+    // ageRange
     owner: PropTypes.string,
-    _id: PropTypes.string,
   }).isRequired,
 };
 

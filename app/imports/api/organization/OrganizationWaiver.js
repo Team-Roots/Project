@@ -98,7 +98,7 @@ class OrganizationWaiverCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeStuff() {
+  subscribeOrgWaiver() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationWaiverPublications.organizationWaiver);
     }
@@ -109,7 +109,7 @@ class OrganizationWaiverCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeStuffAdmin() {
+  subscribeOrgWaiverAdmin() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationWaiverPublications.organizationWaiverAdmin);
     }

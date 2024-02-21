@@ -93,3 +93,8 @@ body {
   color: sandybrown !important;
 }
 
+.eventLG.list-group-item {
+  background-color: #00798F;
+  border-color: #00798F;
+  color: white;
+}
