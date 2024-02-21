@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram } from 'react-icons/fa'; // Import the icons from react-icons
 
 const Footer = () => (
-  <footer className="mt-auto py-3" style={{ backgroundColor: '#02B5A6' }}>
+  <footer className="mt-auto py-3 robotoText" style={{ backgroundColor: '#02B5A6' }}>
     <Container>
       <Row className="text-white">
         <Col xs={12} md={4}>
-          <h5 className="footer-heading">Resources</h5>
+          <h5 className="footer-heading poppinsText">Resources</h5>
           <ul>
             <li><Link to="/aboutus">About Us</Link></li>
             <li><Link to="/faq">FAQ</Link></li>
@@ -17,7 +17,7 @@ const Footer = () => (
         </Col>
 
         <Col xs={12} md={4}>
-          <h5 className="footer-heading">Grow the Community</h5>
+          <h5 className="footer-heading poppinsText">Grow the Community</h5>
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/eventopportunities">Volunteer</Link></li>
@@ -27,7 +27,7 @@ const Footer = () => (
         </Col>
 
         <Col xs={12} md={4}>
-          <h5 className="footer-heading">Follow Us</h5>
+          <h5 className="footer-heading poppinsText">Follow Us</h5>
           <div>
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <FaFacebook size={30} />
