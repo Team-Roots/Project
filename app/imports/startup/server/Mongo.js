@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 Meteor.methods({
   // eslint-disable-next-line meteor/audit-argument-checks
@@ -54,6 +55,10 @@ function addEventData(data) {
   Events.define(data);
 }
 
+function addUserStats(data) {
+  UserStats.define(data);
+}
+
 // Initialize the StuffsCollection if empty.
 if (Stuffs.count() === 0) {
   if (Meteor.settings.defaultData) {
@@ -87,5 +92,12 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
+  }
+}
+
+if (UserStats.count() === 0) {
+  if (Meteor.settings.defaultUserStatistics) {
+    console.log('Creating default UserStatistics.');
+    Meteor.settings.defaultUserStatistics.forEach(data => addUserStats(data));
   }
 }

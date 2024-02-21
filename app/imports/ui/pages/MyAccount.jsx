@@ -5,9 +5,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
-import { UserStats } from '../../api/user/UserStatsCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
 
-/* Renders the MyAccount page, displaying all user info */
+// Renders the MyAccount page, displaying all user info
 const MyAccount = () => {
   // useTracker connects Meteor data to React components
   const { ready, account, stats } = useTracker(() => {
@@ -16,15 +16,18 @@ const MyAccount = () => {
     const email = user ? user.username : null;
     // Get access to UserProfile documents.
     const subscription1 = UserProfiles.subscribe();
-    const subscription2 = UserStats.subscribeUserStats();
+    const subscription2 = UserStats.subscribeStats();
     // Determine if the subscription is ready
     const rdy = subscription1.ready() && subscription2.ready();
-    // Get the Account documents
+    // Get the documents
     let accountItems;
     let statsItems;
     if (email) {
       accountItems = UserProfiles._collection.find({ email: email }).fetch();
       statsItems = UserStats._collection.find({ email: email }).fetch();
+      console.log('test');
+      console.log(accountItems);
+      console.log(statsItems);
     }
     return {
       account: accountItems,
@@ -79,7 +82,7 @@ const MyAccount = () => {
           <Card fluid className="accountcard text-center m-2">
             <Card.Body>
               <Card.Title className="py-2 pb-5 accountcardtitle">My Stats</Card.Title>
-              <h1>256</h1>
+              <h1></h1>
               <h3>Hours Volunteered</h3>
               <h1>12</h1>
               <h3>Communities Reached</h3>

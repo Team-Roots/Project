@@ -68,46 +68,13 @@
     }
   ],
 
-  "defaultUserStats": [
+  "defaultUserStatistics": [
     {
-      "userEmail": "john@foo.com",
-      "completedHours": [
-        {
-          "Jan": 1,
-          "Feb": 2,
-          "Mar": 3,
-          "Apr": 4,
-          "May": 5,
-          "Jun": 6,
-          "Jul": 7,
-          "Aug": 8,
-          "Sep": 9,
-          "Oct": 10,
-          "Nov": 11,
-          "Dec": 12
-        }
-      ],
-      "personsHelped": 2
-    },
-    {
-      "userEmail": "jane@foo.com",
-      "completedHours": [
-        {
-          "Jan": 10,
-          "Feb": 20,
-          "Mar": 30,
-          "Apr": 40,
-          "May": 50,
-          "Jun": 60,
-          "Jul": 70,
-          "Aug": 80,
-          "Sep": 90,
-          "Oct": 100,
-          "Nov": 110,
-          "Dec": 120
-        }
-      ],
-      "personsHelped": 20
+      "stats": {},
+      "hoursThisMonth": 10,
+      "totalHours": 97,
+      "orgsHelped": [],
+      "email": "john@foo.com"
     }
   ],
 
