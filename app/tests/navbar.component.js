@@ -18,6 +18,7 @@ class NavBar {
     if (!visible) {
       await t.click('button.navbar-toggler');
     }
+    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`).exists).ok();
     await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
     await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN}`);
   }
@@ -27,7 +28,7 @@ class NavBar {
   }
 
   async clickMyAccountDropDown() {
-    await t.click(`#${COMPONENT_IDS.NAVBAR_HELP_DROPDOWN}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN}`);
   }
 
   async gotoAddEventPage() {
