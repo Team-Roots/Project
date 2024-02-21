@@ -12,17 +12,17 @@ const Footer = () => (
           <ul>
             <li><Link to="/aboutus" style={{ color: 'white' }}>About Us</Link></li>
             <li><Link to="/faq" style={{ color: 'white' }}>FAQ</Link></li>
-            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us">Contact Us</a></li>
+            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us" style={{ color: 'white' }}>Contact Us</a></li>
           </ul>
         </Col>
 
         <Col xs={12} md={4}>
           <h5 className="footer-heading poppinsText">Grow the Community</h5>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/eventopportunities">Volunteer</Link></li>
-            <li><Link to="/post-event">Post an Event</Link></li>
-            <li><Link to="/community-groups">Community Groups</Link></li>
+            <li><Link to="/" style={{ color: 'white' }}>Home</Link></li>
+            <li><Link to="/eventopportunities" style={{ color: 'white' }}>Volunteer</Link></li>
+            <li><Link to="/post-event" style={{ color: 'white' }}>Post an Event</Link></li>
+            <li><Link to="/community-groups" style={{ color: 'white' }}>Community Groups</Link></li>
           </ul>
         </Col>
 
@@ -30,7 +30,7 @@ const Footer = () => (
           <h5 className="footer-heading poppinsText">Follow Us</h5>
           <div>
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <FaFacebook size={30} />
+              <FaFacebook size={30}/>
             </a>
             <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ marginLeft: '10px' }}>
               <FaInstagram size={30} />
