@@ -47,7 +47,7 @@ const eventSchema = new SimpleSchema({
 const bridge = new SimpleSchema2Bridge(eventSchema);
 
 const AddEvent = () => {
-  const [cloudinaryUrl, setCloudinaryUrl] = useState('');
+  const [setCloudinaryUrl] = useState('');
   // eslint-disable-next-line no-empty-pattern
   const {} = useTracker(() => {
     const subscription = Meteor.subscribe('event');
@@ -108,36 +108,49 @@ const AddEvent = () => {
     // Update form state or perform other actions as needed
   };
 
-  const submit = (data) => {
-    // Include new fields in the submission data structure
-    const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, isOnline, ageRange } = data;
-    const imageUrl = cloudinaryUrl || image;
+  const submit = async (data) => {
+    try {
+      // Step 1: Generate an image based on the event description
+      const response = await fetch('/api/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: data.description }),
+      });
 
-    // Construct the submission object with new fields
-    const definitionData = {
-      name,
-      eventDate,
-      description,
-      category,
-      location: eventPreview.location.address,
-      startTime,
-      endTime,
-      coordinator,
-      amountVolunteersNeeded,
-      specialInstructions,
-      image: imageUrl,
-      isOnline,
-      ageRange,
-      owner: Meteor.user().username,
-    };
+      if (!response.ok) throw new Error('Image generation failed');
+      const { imageUrl } = await response.json();
 
-    // Call to defineMethod with updated definitionData
-    defineMethod.callPromise({ collectionName: Events.getCollectionName(), definitionData })
-      .then(() => {
-        swal('Success', 'Event added successfully', 'success');
-        setEventPreview(initialFormState); // Reset form after successful submission
-      })
-      .catch(error => swal('Error', error.message, 'error'));
+      const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, isOnline, ageRange } = data;
+
+      // Construct the submission object with new fields
+      const definitionData = {
+        name,
+        eventDate,
+        description,
+        category,
+        location: eventPreview.location.address,
+        startTime,
+        endTime,
+        coordinator,
+        amountVolunteersNeeded,
+        specialInstructions,
+        image: imageUrl,
+        isOnline,
+        ageRange,
+        owner: Meteor.user().username,
+      };
+
+      // Call to defineMethod with updated definitionData
+      defineMethod.callPromise({ collectionName: Events.getCollectionName(), definitionData })
+        .then(() => {
+          swal('Success', 'Event added successfully with generated image', 'success');
+          setEventPreview({}); // Reset form
+        })
+        .catch(error => swal('Error', error.message, 'error'));
+    } catch (error) {
+      console.error('Error during event submission:', error);
+      swal('Error', `Failed to submit event: ${error.message}`, 'error');
+    }
   };
 
   return (
