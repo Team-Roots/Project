@@ -26,7 +26,7 @@ const NavBar = () => {
               <>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/">Home</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
+                <Nav.Link className="navbar-link" as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
 
                 <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help">
