@@ -19,18 +19,38 @@ class UserStatsCollection extends BaseCollection {
       'stats.hoursThisMonth': {
         type: SimpleSchema.Integer,
         required: true,
+        defaultValue: 0,
       },
       'stats.totalHours': {
         type: SimpleSchema.Integer,
         required: true,
+        defaultValue: 0,
       },
       'stats.orgsHelped': {
         type: Array,
         required: true,
+        defaultValue: [],
       },
+      // $ is kinda like any or declaring some sort of extension
       'stats.orgsHelped.$': {
         type: String, // Define the type of items in the array
       },
+      completedHours: [
+        {
+          Jan: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Feb: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Mar: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Apr: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          May: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Jun: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Jul: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Aug: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Sep: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Oct: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Nov: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+          Dec: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+        },
+      ],
       email: {
         type: String,
         required: true,

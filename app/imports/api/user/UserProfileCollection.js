@@ -25,6 +25,7 @@ class UserProfileCollection extends BaseProfileCollection {
       const userID = Users.define({ username, role, password });
       const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
       const stats = {};
+      // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
       stats.totalHours = 0;
       stats.orgsHelped = [];
