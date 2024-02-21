@@ -11,37 +11,38 @@ const FrequentlyAskedQuestions = () => (
         <h1 className="text-center" style={{ marginBottom: '20px' }}>FAQ</h1>
         <Accordion defaultActiveKey="0" className="faq-accordion">
           <Accordion.Item eventKey="0">
-            <Accordion.Header>How can I find volunteering opportunities that best suit my skills?</Accordion.Header>
+            <Accordion.Header>What are the best ways to locate volunteer opportunities that align with my abilities?</Accordion.Header>
             <Accordion.Body>
-              You can browse our website and use the search feature to find volunteering opportunities near you. Filter results based on your interests, skills, and availability.
+              Explore our site and utilize the search tool to discover local volunteer opportunities. Narrow down the options by your passions, abilities, and time you have free.
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="1">
-            <Accordion.Header>What types of volunteer work are available?</Accordion.Header>
+            <Accordion.Header>What kind of volunteering roles are on offer?</Accordion.Header>
             <Accordion.Body>
-              We work with a diverse range of volunteer groups, including but not limited to environmental conservation, community service, education, and healthcare. Explore our categories to find a cause that resonates with you.
+              Our volunteer opportunities span various sectors such as environmental protection, community aid, educational support, and health services. Delve into our selection to connect with an initiative that aligns with your values.
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <Accordion.Header>How do I sign up to volunteer?</Accordion.Header>
+            <Accordion.Header>What is the process for registering as a volunteer?</Accordion.Header>
             <Accordion.Body>
-              To sign up, create an account on our website, browse available opportunities, and click on &quot;Apply&quot; for the ones you&apos;re interested in.
-              Follow the instructions provided by the organization to complete the application process.
+              {/* eslint-disable-next-line max-len */}
+              To register as a volunteer, simply set up an account on our platform, search for the volunteer roles that appeal to you, and select &quot;Apply&quot; for the positions of your choice. Adhere to the guidelines given by the respective organization to finalize your application.
               <div> <Link to="/signup"> Click here to register for an account.</Link> </div>
 
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <Accordion.Header>What age restrictions apply to volunteering?</Accordion.Header>
+            <Accordion.Header>Are there any specific age requirements for volunteering?</Accordion.Header>
             <Accordion.Body>
-              The age requirements can vary depending on the opportunity and organization. Check the details of each opportunity for specific age restrictions.
-              Some opportunities may be suitable for families with children, while others may have a minimum age requirement.
+              {/* eslint-disable-next-line max-len */}
+              Volunteer eligibility relating to age varies across organizations and opportunities. It is important to examine the specifics for each available position to determine any set age limitations. Certain volunteer options may be open to children as part of family groups, whereas others may stipulate a lower age limit.
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="4">
-            <Accordion.Header>How can I track my volunteer hours?</Accordion.Header>
+            <Accordion.Header>Are there any specific forms or documents I need to fill out to record my volunteer hours?
+            </Accordion.Header>
             <Accordion.Body>
-              Once you&apos;ve volunteered, log in to your account and navigate to the &quot;My Profile&quot; or &quot;Dashboard&quot; section. You can view and track your volunteer hours there.
+              Post your volunteer stint, access your account and head to either the &quot;My Profile&quot; or &quot;Dashboard&quot; section to oversee and log the time you dedicated.
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
