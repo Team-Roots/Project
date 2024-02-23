@@ -27,8 +27,8 @@ const EditGroup = () => {
   }, [_id]);
 
   const submit = (data) => {
-    const { name, since, location, coordinator, participants, specialInstructions, restrictions } = data;
-    Meteor.call('groups.update', _id, { name, since, location, coordinator, participants, specialInstructions, restrictions }, (error) => {
+    const { name, since, location, coordinator, members, specialInstructions, restrictions } = data;
+    Meteor.call('groups.update', _id, { name, since, location, coordinator, members, specialInstructions, restrictions }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
       } else {
@@ -72,7 +72,7 @@ const EditGroup = () => {
             <DateField name="since" placeholder="Event Created" />
             <TextField name="location" placeholder="Location" />
             <TextField name="coordinator" placeholder="Coordinator's Name" />
-            <SelectField name="particiants" placeholder="Amount of particiants" />
+            <SelectField name="members" placeholder="Amount of members" />
             <LongTextField name="specialInstructions" placeholder="Special Instructions (Optional)" />
             <SubmitField value="Submit" />
             <ErrorsField />

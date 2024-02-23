@@ -1,29 +1,29 @@
 import React from 'react';
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection';
-import EventItem from '../components/EventItem';
+import { Groups } from '../../api/event/GroupCollection';
+import GroupItem from '../components/GroupItem';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const ListGroup = () => {
-  const { ready, events } = useTracker(() => {
-    const subscription = Events.subscribeEvent();
+  const { ready, groups } = useTracker(() => {
+    const subscription = Groups.subscribeEvent();
     const rdy = subscription.ready();
     if (!subscription.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
-    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch(); // Assuming the sort field is `name`
+    const groupItems = Groups.find({}, { sort: { name: 1 } }).fetch(); // Assuming the sort field is `name`
     return {
-      events: eventItems,
+      events: groupItems,
       ready: rdy,
     };
   }, []);
 
   if (!ready) {
     return (
-      <Container id={PAGE_IDS.LIST_EVENT} className="py-3">
+      <Container id={PAGE_IDS.LIST_GROUP} className="py-3">
         <Row className="justify-content-center">
           <Col md={8}>
             <div>Loading Groups...</div>
@@ -36,7 +36,7 @@ const ListGroup = () => {
   return (
     <Container id={PAGE_IDS.LIST_GROUP} className="py-3">
       <Row className="justify-content-center">
-        <Col md={8}>
+        <Col md={12}>
           <h2 className="text-center">List Groups</h2>
           <Table striped bordered hover>
             <thead>
@@ -53,7 +53,7 @@ const ListGroup = () => {
               </tr>
             </thead>
             <tbody>
-              {events.map((event) => <EventItem key={event._id} event={event} />)}
+              {groups.map((group) => <GroupItem key={group._id} group={group} />)}
             </tbody>
           </Table>
         </Col>
