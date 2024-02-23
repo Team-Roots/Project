@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { Container, Row } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RegistrationCard from '../components/RegistrationCard';

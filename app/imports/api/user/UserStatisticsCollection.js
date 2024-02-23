@@ -1,20 +1,40 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 export const userStatsPublications = {
   userStats: 'UserStats',
-  userStatsAdmin: 'UserStatsAdmin',
 };
 
 class UserStatsCollection extends BaseCollection {
   constructor() {
     super('UserStats', new SimpleSchema({
-      userEmail: { type: String, unique: true },
+      stats: {
+        type: Object,
+        required: true,
+      },
+      'stats.hoursThisMonth': {
+        type: SimpleSchema.Integer,
+        required: true,
+        defaultValue: 0,
+      },
+      'stats.totalHours': {
+        type: SimpleSchema.Integer,
+        required: true,
+        defaultValue: 0,
+      },
+      'stats.orgsHelped': {
+        type: Array,
+        required: true,
+        defaultValue: [],
+      },
+      // $ is kinda like any or declaring some sort of extension
+      'stats.orgsHelped.$': {
+        type: String, // Define the type of items in the array
+      },
       completedHours: [
         {
           Jan: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
@@ -31,49 +51,41 @@ class UserStatsCollection extends BaseCollection {
           Dec: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
         },
       ],
-      personsHelped: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+      },
     }));
   }
 
   /**
-   * Defines a new UserStats item.
-   * @param userEmail email of the user
-   * @param completedHours completed volunteer hours in the past 12 months
-   * @param personsHelped cumulative number of people helped
+   * Defines a new Stuff item.
+   * @return {stats}
+   * @return {email}
+   * @return {String} the docID of the new document.
    */
-  define({ userEmail, completedHours, personsHelped }) {
-    // error checking if there already exists a userStats object with this email
-    if (!this.findOne({ userEmail: userEmail }, {})) {
-      const docID = this._collection.insert({
-        userEmail,
-        completedHours,
-        personsHelped,
-      });
-      return docID;
-    }
-    // TODO: either return undefined/null or throw an error. should probably throw error, will figure out later
-    return undefined;
+  define({ stats, email }) {
+    const docID = this._collection.insert({
+      stats,
+      email,
+    });
+    return docID;
   }
 
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param userEmail email of the user
-   * @param completedHours completed volunteer hours in the past 12 months
-   * @param personsHelped cumulative number of people helped
+   * @param name the new name (optional).
+   * @param waiver the waiver string
    */
-  update(docID, { userEmail, completedHours, personsHelped }) {
+
+  // we dont want users to update : hence the
+  // eslint blockage
+  // eslint-disable-next-line no-empty-pattern
+  update(docID, { stats }) {
     const updateData = {};
-    if (userEmail) {
-      updateData.userEmail = userEmail;
-    }
-    // TODO: fix completed hours error checking, may need to wait until we figure how to completed hours graph
-    if (completedHours) {
-      updateData.completedHours = completedHours;
-    }
-    if (_.isNumber(personsHelped)) {
-      updateData.personsHelped = personsHelped;
-    }
+    updateData.stats = stats;
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -91,23 +103,23 @@ class UserStatsCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the userStats associated with a user.
+   * It publishes the entire collection for admin and just the stuff associated to an owner.
    */
   publish() {
     if (Meteor.isServer) {
-      // get the UserStatsCollection instance.
+      // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(userStatsPublications.userStats, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).name;
-          return instance._collection.find({ userEmail: username });
+          const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find({ owner: username });
         }
         return this.ready();
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(userStatsPublications.userStatsAdmin, function publish() {
+      Meteor.publish(userStatsPublications.userStats, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -117,9 +129,9 @@ class UserStatsCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for userStats for the current user.
+   * Subscription method for stuff owned by the current user.
    */
-  subscribeUserStats() {
+  subscribeStats() {
     if (Meteor.isClient) {
       return Meteor.subscribe(userStatsPublications.userStats);
     }
@@ -130,9 +142,9 @@ class UserStatsCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeUserStatsAdmin() {
+  subscribeStatsAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(userStatsPublications.userStatsAdmin);
+      return Meteor.subscribe(userStatsPublications.userStats);
     }
     return null;
   }
@@ -150,14 +162,13 @@ class UserStatsCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{owner: (*|number), condition: *, quantity: *, name}}
+   * @return {{stats: *, email: *, owner: *}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const userEmail = doc.userEmail;
-    const completedHours = doc.completedHours;
-    const personsHelped = doc.personsHelped;
-    return { userEmail, completedHours, personsHelped };
+    const waiver = doc.stats;
+    const orgID = doc.email;
+    return { waiver, orgID };
   }
 }
 

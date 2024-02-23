@@ -97,7 +97,7 @@ class OrganizationAdminCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeStuff() {
+  subscribeOrgAdmin() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationAdminPublications.organizationAdminScheme);
     }
@@ -108,7 +108,7 @@ class OrganizationAdminCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeStuffAdmin() {
+  subscribeOrgAdminAdmin() {
     if (Meteor.isClient) {
       return Meteor.subscribe(organizationAdminPublications.organizationAdminAdminScheme);
     }

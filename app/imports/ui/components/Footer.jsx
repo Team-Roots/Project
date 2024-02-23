@@ -1,41 +1,50 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaFacebook, FaInstagram } from 'react-icons/fa'; // Import the icons from react-icons
 
 const Footer = () => (
-  <footer className="mt-auto py-3 bg-light">
+  <footer className="mt-auto py-3 robotoText" style={{ backgroundColor: '#02B5A6' }}>
     <Container>
-      <Row>
-        <Col className="footer-center" xs={12} md={4}>
-          <h5>Resources</h5>
-          <Link to="/aboutus">About Us</Link>
-          <br />
-          <Link to="/faq">FAQ</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Contact Us</a>
+      <Row className="text-white">
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading poppinsText">Resources</h5>
+          <ul>
+            <li><Link to="/aboutus" style={{ color: 'white' }}>About Us</Link></li>
+            <li><Link to="/faq" style={{ color: 'white' }}>FAQ</Link></li>
+            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us" style={{ color: 'white' }}>Contact Us</a></li>
+          </ul>
         </Col>
 
-        <Col className="footer-right" xs={12} md={4}>
-          <h5>Grow the Community</h5>
-          <Link to="Home">Home</Link>
-          <br />
-          <Link to="/eventopportunities">Volunteer</Link>
-          <br />
-          <a href="https://www.google.com/?client=safari">Post an Event</a>
-          <br />
-          <a href="https://www.google.com/?client=safari">Community Groups</a>
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading poppinsText">Grow the Community</h5>
+          <ul>
+            <li><Link to="/" style={{ color: 'white' }}>Home</Link></li>
+            <li><Link to="/eventopportunities" style={{ color: 'white' }}>Volunteer</Link></li>
+            <li><Link to="/post-event" style={{ color: 'white' }}>Post an Event</Link></li>
+            <li><Link to="/community-groups" style={{ color: 'white' }}>Community Groups</Link></li>
+          </ul>
         </Col>
 
-        <Col className="footer-left" xs={12} md={4}>
-          <h5>Voluntree</h5>
+        <Col xs={12} md={4}>
+          <h5 className="footer-heading poppinsText">Follow Us</h5>
+          <div>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <FaFacebook size={30} />
+            </a>
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ marginLeft: '10px' }}>
+              <FaInstagram size={30} />
+            </a>
+            {/* Add additional social media icons as needed */}
+          </div>
           <p>
             Where individuals come together, plant the seeds of compassion, and watch as the collective efforts grow into a flourishing forest of shared impact.
           </p>
         </Col>
       </Row>
       <Row>
-        <Col xs={12} className="px-3 bi-text-left">
-          <p>© 2024 Voluntree</p>
+        <Col xs={12} className="text-center text-muted">
+          <p>© 2024 Voluntree. All rights reserved.</p>
         </Col>
       </Row>
     </Container>

@@ -2,6 +2,7 @@ import SimpleSchema from 'simpl-schema';
 import BaseProfileCollection from './BaseProfileCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
+import { UserStats } from './UserStatisticsCollection';
 
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
@@ -23,6 +24,12 @@ class UserProfileCollection extends BaseProfileCollection {
       const role = ROLE.USER;
       const userID = Users.define({ username, role, password });
       const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
+      const stats = {};
+      // when a user profile is created, stats schema gets populated
+      stats.hoursThisMonth = 0;
+      stats.totalHours = 0;
+      stats.orgsHelped = [];
+      UserStats.define({ stats, email });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
     }
