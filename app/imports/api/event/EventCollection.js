@@ -33,7 +33,8 @@ class EventCollection extends BaseCollection {
         optional: true,
         blackbox: true,
       },
-      owner: String,
+      organization: String,
+      creator: String,
       ageRange: {
         type: Object,
         required: false,

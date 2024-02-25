@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationAdminPublications = {
@@ -27,16 +28,17 @@ class OrganizationAdminCollection extends BaseCollection {
   }
 
   /**
-   * Defines a new Stuff item.
-   * @return {employee}
+   * Defines a new OrganizationAdmin.
+   * @return {newOrgAdminEmail}
    * @return {orgID}
    * @return {String} the docID of the new document.
    */
-  define({ employee, orgID }) {
+  define({ newOrgAdminEmail, orgID }) {
     const docID = this._collection.insert({
-      employee,
+      newOrgAdminEmail,
       orgID,
     });
+    UserProfiles.update();
     return docID;
   }
 

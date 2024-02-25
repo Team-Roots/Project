@@ -6,7 +6,9 @@ import { UserStats } from './UserStatisticsCollection';
 
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
-    super('UserProfile', new SimpleSchema({}));
+    super('UserProfile', new SimpleSchema({
+      isOrgAdmin: Boolean,
+    }));
   }
 
   /**
@@ -22,13 +24,28 @@ class UserProfileCollection extends BaseProfileCollection {
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
       const role = ROLE.USER;
+      const isOrgAdmin = false;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
+      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin, role });
       const stats = {};
       // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
       stats.totalHours = 0;
       stats.orgsHelped = [];
+      stats.completedHours = {
+        Jan: 0,
+        Feb: 0,
+        Mar: 0,
+        Apr: 0,
+        May: 0,
+        Jun: 0,
+        Jul: 0,
+        Aug: 0,
+        Sep: 0,
+        Oct: 0,
+        Nov: 0,
+        Dec: 0,
+      };
       UserStats.define({ stats, email });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
