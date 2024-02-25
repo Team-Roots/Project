@@ -17,36 +17,42 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param password The password for this user.
    * @param firstName The first name.
    * @param lastName The last name.
+   * @param completedHours
+   * @param isOrgAdmin
    */
-  define({ email, firstName, lastName, password }) {
+  define({ email, firstName, lastName, password, completedHours, isOrgAdmin }) {
     // if (Meteor.isServer) {
     const username = email;
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
       const role = ROLE.USER;
-      const isOrgAdmin = false;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin, role });
+      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin: isOrgAdmin || false, role });
       const stats = {};
       // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
       stats.totalHours = 0;
       stats.orgsHelped = [];
-      stats.completedHours = {
-        Jan: 0,
-        Feb: 0,
-        Mar: 0,
-        Apr: 0,
-        May: 0,
-        Jun: 0,
-        Jul: 0,
-        Aug: 0,
-        Sep: 0,
-        Oct: 0,
-        Nov: 0,
-        Dec: 0,
-      };
-      UserStats.define({ stats, email });
+      UserStats.define({
+        stats,
+        completedHours: completedHours || [
+          {
+            Jan: 0,
+            Feb: 0,
+            Mar: 0,
+            Apr: 0,
+            May: 0,
+            Jun: 0,
+            Jul: 0,
+            Aug: 0,
+            Sep: 0,
+            Oct: 0,
+            Nov: 0,
+            Dec: 0,
+          },
+        ],
+        email,
+      });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
     }

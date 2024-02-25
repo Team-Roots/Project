@@ -4,7 +4,7 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { UserProfiles } from '../user/UserProfileCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationAdminPublications = {
@@ -15,7 +15,7 @@ export const organizationAdminPublications = {
 class OrganizationAdminCollection extends BaseCollection {
   constructor() {
     super('OrganizationAdmins', new SimpleSchema({
-      employee: {
+      orgAdmin: {
         type: String,
         required: true,
       },
