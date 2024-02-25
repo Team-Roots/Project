@@ -46,7 +46,7 @@ function addData(data) {
   Stuffs.define(data);
 }
 
-function addOrgData(data) {
+function addOrganizationData(data) {
   Organizations.define(data);
 }
 
@@ -63,22 +63,22 @@ if (Stuffs.count() === 0) {
 }
 
 if (Organizations.count() === 0) {
-  if (Meteor.settings.defaultOrg) {
-    console.log('Creating default org');
-    Meteor.settings.defaultOrg.forEach(org => {
+  if (Meteor.settings.defaultOrganizations) {
+    console.log('Creating default organizations');
+    Meteor.settings.defaultOrganizations.forEach(org => {
       const newDoc = {
         name: org.name,
         website: org.website,
         profit: org.profit,
+        location: org.location,
         organizationOwner: org.organizationOwner,
         visible: org.visible,
         onboarded: org.onboarded,
-        location: org.location,
         backgroundCheck: org.backgroundCheck,
         ageRange: org.ageRange,
         orgID: Organizations.newGlobalID(), // TODO: change later to load a global value
       };
-      addOrgData(newDoc);
+      addOrganizationData(newDoc);
     });
   }
 }

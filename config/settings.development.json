@@ -16,30 +16,30 @@
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
 
-  "defaultOrg": [
+  "defaultOrganizations": [
     {
       "name":  "Example Organization 1",
       "website": "testuser1.org",
+      "location": "TestUser1 St. HI, 96795",
       "profit": false,
       "organizationOwner": "testuser1@foo.com",
       "visible": false,
       "onboarded": false,
-      "location": "TestUser1 St. HI, 96795",
       "backgroundCheck": false,
       "ageRange": { "min": 18, "max": 99 },
-      "orgID": 0
+      "orgID": 1
     },
     {
       "name":  "Example Organization 2",
       "website": "testuser2.org",
       "profit": true,
+      "location": "TestUser2 St. HI, 96795",
       "organizationOwner": "testuser2@foo.com",
       "visible": false,
       "onboarded": false,
-      "location": "TestUser2 St. HI, 96795",
       "backgroundCheck": false,
       "ageRange": { "min": 18, "max": 99 },
-      "orgID": 1
+      "orgID": 2
     }
   ],
 

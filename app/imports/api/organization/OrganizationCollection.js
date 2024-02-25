@@ -54,11 +54,6 @@ class OrganizationCollection extends BaseCollection {
         defaultValue: false,
         required: true,
       },
-      orgID: {
-        type: SimpleSchema.Integer,
-        unique: true,
-        required: true,
-      },
       ageRange: {
         type: Object,
         required: true,
@@ -69,6 +64,11 @@ class OrganizationCollection extends BaseCollection {
       },
       'ageRange.max': {
         type: SimpleSchema.Integer,
+        required: true,
+      },
+      orgID: {
+        type: SimpleSchema.Integer,
+        unique: true,
         required: true,
       },
     }));
@@ -88,23 +88,23 @@ class OrganizationCollection extends BaseCollection {
    * @param name org name
    * @return {String} the docID of the new document.
    */
-  define({ name, website, profit, organizationOwner,
-    visible, onboarded, location, backgroundCheck, ageRange, orgID }) {
+  define({ name, website, profit, location, organizationOwner,
+    visible, onboarded, backgroundCheck, ageRange, orgID }) {
     const docID = this._collection.insert({
       name,
       website,
       profit,
+      location,
       organizationOwner,
       visible,
       onboarded,
-      location,
       backgroundCheck,
       ageRange,
       orgID,
     });
     const waiverDoc = { waiver: 'test', orgID: orgID };
     OrganizationWaiver.define(waiverDoc);
-    const adminDoc = { employee: organizationOwner, orgID: orgID };
+    const adminDoc = { newOrgAdmin: organizationOwner, orgID: orgID };
     OrganizationAdmin.define(adminDoc);
     return docID;
   }

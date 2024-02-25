@@ -14,8 +14,8 @@ export const organizationAdminPublications = {
 
 class OrganizationAdminCollection extends BaseCollection {
   constructor() {
-    super('OrganizationAdmins', new SimpleSchema({
-      orgAdmin: {
+    super('OrganizationAdmin', new SimpleSchema({
+      orgAdmin: { // email of the organization admin
         type: String,
         required: true,
       },
@@ -29,16 +29,16 @@ class OrganizationAdminCollection extends BaseCollection {
 
   /**
    * Defines a new OrganizationAdmin.
-   * @return {newOrgAdminEmail}
+   * @return {newOrgAdmin}
    * @return {orgID}
    * @return {String} the docID of the new document.
    */
-  define({ newOrgAdminEmail, orgID }) {
+  define({ newOrgAdmin, orgID }) {
     const docID = this._collection.insert({
-      newOrgAdminEmail,
+      newOrgAdmin,
       orgID,
     });
-    UserProfiles.update();
+    UserProfiles.update({ email: newOrgAdmin }, { isOrgAdmin: true });
     return docID;
   }
 
