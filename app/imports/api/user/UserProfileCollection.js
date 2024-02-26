@@ -66,8 +66,9 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param docID the id of the UserProfile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
+   * @param isOrgAdmin
    */
-  update(docID, { firstName, lastName }) {
+  update(docID, { firstName, lastName, isOrgAdmin }) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -76,6 +77,7 @@ class UserProfileCollection extends BaseProfileCollection {
     if (lastName) {
       updateData.lastName = lastName;
     }
+    updateData.isOrgAdmin = isOrgAdmin || false;
     this._collection.update(docID, { $set: updateData });
   }
 
