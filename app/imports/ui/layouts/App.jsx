@@ -28,7 +28,7 @@ import Events from '../pages/Events';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';
 import SubscribedEvents from '../pages/SubscribedEvents';
-
+import CalendarView from '../pages/Calendar_Page/Calendar';
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
   const { ready } = useTracker(() => {
@@ -48,6 +48,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="/calendar" element={<CalendarView />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/subscribedevents" element={<ProtectedRoute><SubscribedEvents /></ProtectedRoute>} />

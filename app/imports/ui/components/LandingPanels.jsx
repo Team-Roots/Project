@@ -5,6 +5,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import BarGraph from './BarGraph';
 import FadeInSection from './FadeInSection';
 import EventCard from './EventCard';
+import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
@@ -111,6 +112,9 @@ const LandingPanel = ({ events }) => {
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
             <p>Events in the upcoming week: <br />
+            </p>
+            <WeeklyCalendarComponent />
+            <p>
               Link to calendar for more information <br />
             </p>
           </FadeInSection>
