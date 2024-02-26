@@ -3,12 +3,12 @@ import { Container, Row, Col, FormCheck } from 'react-bootstrap';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection'; // Import your EventCollection
 import EventCard from '../components/EventCard';
+import { Events } from '../../api/event/EventCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const VolunteerEventOpportunities = () => {
+const VolunteerEvents = () => {
   const { ready, events } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const rdy = subscription.ready();
@@ -86,4 +86,4 @@ const VolunteerEventOpportunities = () => {
   ) : <LoadingSpinner />);
 };
 
-export default VolunteerEventOpportunities;
+export default VolunteerEvents;

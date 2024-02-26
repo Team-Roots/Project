@@ -10,7 +10,7 @@ export const PAGE_IDS = {
   FAQ: 'faq',
   LANDING: 'landing',
   LIST_STUFF: 'list-stuff',
-  LIST_EVENT: 'list-event',
+  LIST_EVENTS: 'list-events',
   LIST_STUFF_ADMIN: 'list-stuff-admin',
   MANAGE_DATABASE: 'manage-database',
   MY_ACCOUNT: 'my-account',
