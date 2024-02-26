@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/subscribedevents" element={<ProtectedRoute><SubscribedEvents /></ProtectedRoute>} />
-          <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
+          <Route path="/registrationform/:_id" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />

@@ -39,7 +39,7 @@ const RegistrationCard = ({ event }) => {
               <Button variant="success" size="lg" className="mb-3 mx-2" onClick={() => subscribeEven(event._id)}>
                 Subscribe
               </Button>
-              <Button as={Link} to="/registrationform" variant="danger" size="lg" className="mb-3">
+              <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
                 I Want to Help
               </Button>
               <ListGroup variant="flush" className="text-start">
