@@ -38,7 +38,7 @@ const Landing = () => {
   if (loggedin) {
     return (ready ? (
       <Container id={PAGE_IDS.LANDING}>
-        <LandingPanels orgs={orgs} events={events} />
+        <LandingPanels events={events} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

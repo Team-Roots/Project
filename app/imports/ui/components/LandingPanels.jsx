@@ -8,19 +8,19 @@ import EventCard from './EventCard';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ orgs, events }) => {
+const LandingPanel = ({ events }) => {
   console.log(events);
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 1;
-
-  const totalCards = orgs.length;
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
-
-  const orgsPerPage = (page) => {
-    const startIndex = (page - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return orgs.slice(startIndex, endIndex);
-  };
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const cardsPerPage = 1;
+  //
+  // const totalCards = orgs.length;
+  // const totalPages = Math.ceil(totalCards / cardsPerPage);
+  //
+  // const orgsPerPage = (page) => {
+  //   const startIndex = (page - 1) * cardsPerPage;
+  //   const endIndex = startIndex + cardsPerPage;
+  //   return orgs.slice(startIndex, endIndex);
+  // };
 
   useEffect(() => {
     const handleScroll = () => {
