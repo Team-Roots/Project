@@ -65,9 +65,10 @@ class UserStatsCollection extends BaseCollection {
    * @return {email}
    * @return {String} the docID of the new document.
    */
-  define({ stats, email }) {
+  define({ stats, completedHours, email }) {
     const docID = this._collection.insert({
       stats,
+      completedHours,
       email,
     });
     return docID;

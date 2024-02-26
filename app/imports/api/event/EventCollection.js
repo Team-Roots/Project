@@ -33,7 +33,6 @@ class EventCollection extends BaseCollection {
         optional: true,
         blackbox: true,
       },
-      owner: String,
       ageRange: {
         type: Object,
         required: false,
@@ -48,26 +47,29 @@ class EventCollection extends BaseCollection {
         required: false,
         defaultValue: 99,
       },
+      organizationID: String,
+      creator: String,
     }));
   }
 
-  define({ name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, image, ageRange, isOnline }) {
+  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, isOnline, image, specialInstructions, restrictions, ageRange, organizationID, creator }) {
     const docID = this._collection.insert({
       name,
       eventDate,
       description,
-      owner,
       category,
       location,
       startTime,
       endTime,
       coordinator,
       amountVolunteersNeeded,
+      isOnline,
+      image,
       specialInstructions,
       restrictions,
       ageRange,
-      isOnline,
-      image,
+      organizationID,
+      creator,
     });
     return docID;
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, Col, Row, Nav, Table, ProgressBar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -8,41 +8,41 @@ import EventCard from './EventCard';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ orgs, events }) => {
+const LandingPanel = ({ events }) => {
   console.log(events);
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 1;
-
-  const totalCards = orgs.length;
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
-
-  const orgsPerPage = (page) => {
-    const startIndex = (page - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return orgs.slice(startIndex, endIndex);
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('.landing-section');
-      const scrollTop = window.scrollY;
-
-      sections.forEach((section, index) => {
-        const sectionTop = section.offsetTop;
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
-          setCurrentPage(index + 1);
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const cardsPerPage = 1;
+  //
+  // const totalCards = orgs.length;
+  // const totalPages = Math.ceil(totalCards / cardsPerPage);
+  //
+  // const orgsPerPage = (page) => {
+  //   const startIndex = (page - 1) * cardsPerPage;
+  //   const endIndex = startIndex + cardsPerPage;
+  //   return orgs.slice(startIndex, endIndex);
+  // };
+  //
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const sections = document.querySelectorAll('.landing-section');
+  //     const scrollTop = window.scrollY;
+  //
+  //     sections.forEach((section, index) => {
+  //       const sectionTop = section.offsetTop;
+  //       const sectionBottom = sectionTop + section.offsetHeight;
+  //
+  //       if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+  //         setCurrentPage(index + 1);
+  //       }
+  //     });
+  //   };
+  //
+  //   window.addEventListener('scroll', handleScroll);
+  //
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
   // ideally now will be a value loaded in from a schema
   const now = 7 * 10;
   return (
@@ -167,16 +167,16 @@ const LandingPanel = ({ orgs, events }) => {
 };
 
 LandingPanel.propTypes = {
-  orgs: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      website: PropTypes.string.isRequired,
-      organizationOwner: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      ageRange: PropTypes.instanceOf(Object).isRequired,
-    }),
-  ).isRequired,
+  // orgs: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     _id: PropTypes.string.isRequired,
+  //     name: PropTypes.string.isRequired,
+  //     website: PropTypes.string.isRequired,
+  //     organizationOwner: PropTypes.string.isRequired,
+  //     location: PropTypes.string.isRequired,
+  //     ageRange: PropTypes.instanceOf(Object).isRequired,
+  //   }),
+  // ).isRequired,
   events: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,

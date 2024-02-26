@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { UserProfiles } from '../user/UserProfileCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationAdminPublications = {
@@ -13,8 +14,8 @@ export const organizationAdminPublications = {
 
 class OrganizationAdminCollection extends BaseCollection {
   constructor() {
-    super('OrganizationAdmins', new SimpleSchema({
-      employee: {
+    super('OrganizationAdmin', new SimpleSchema({
+      orgAdmin: { // email of the organization admin
         type: String,
         required: true,
       },
@@ -27,16 +28,17 @@ class OrganizationAdminCollection extends BaseCollection {
   }
 
   /**
-   * Defines a new Stuff item.
-   * @return {employee}
+   * Defines a new OrganizationAdmin.
+   * @return {newOrgAdmin}
    * @return {orgID}
    * @return {String} the docID of the new document.
    */
-  define({ employee, orgID }) {
+  define({ orgAdmin, orgID }) {
     const docID = this._collection.insert({
-      employee,
+      orgAdmin,
       orgID,
     });
+    UserProfiles.update({ email: orgAdmin }, { isOrgAdmin: true });
     return docID;
   }
 

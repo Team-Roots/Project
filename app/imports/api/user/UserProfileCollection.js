@@ -6,7 +6,9 @@ import { UserStats } from './UserStatisticsCollection';
 
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
-    super('UserProfile', new SimpleSchema({}));
+    super('UserProfile', new SimpleSchema({
+      isOrgAdmin: Boolean,
+    }));
   }
 
   /**
@@ -15,21 +17,42 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param password The password for this user.
    * @param firstName The first name.
    * @param lastName The last name.
+   * @param completedHours
+   * @param isOrgAdmin
    */
-  define({ email, firstName, lastName, password }) {
+  define({ email, firstName, lastName, password, completedHours, isOrgAdmin }) {
     // if (Meteor.isServer) {
     const username = email;
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
       const role = ROLE.USER;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
+      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin: isOrgAdmin || false, role });
       const stats = {};
       // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
       stats.totalHours = 0;
       stats.orgsHelped = [];
-      UserStats.define({ stats, email });
+      UserStats.define({
+        stats,
+        completedHours: completedHours || [
+          {
+            Jan: 0,
+            Feb: 0,
+            Mar: 0,
+            Apr: 0,
+            May: 0,
+            Jun: 0,
+            Jul: 0,
+            Aug: 0,
+            Sep: 0,
+            Oct: 0,
+            Nov: 0,
+            Dec: 0,
+          },
+        ],
+        email,
+      });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
     }
@@ -43,8 +66,9 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param docID the id of the UserProfile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
+   * @param isOrgAdmin
    */
-  update(docID, { firstName, lastName }) {
+  update(docID, { firstName, lastName, isOrgAdmin }) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -53,6 +77,7 @@ class UserProfileCollection extends BaseProfileCollection {
     if (lastName) {
       updateData.lastName = lastName;
     }
+    updateData.isOrgAdmin = isOrgAdmin || false;
     this._collection.update(docID, { $set: updateData });
   }
 
