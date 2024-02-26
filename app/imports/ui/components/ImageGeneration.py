@@ -1,7 +1,5 @@
 import openai
 
-openai.api_key = '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'
-
 def generate_image(prompt):
     response = openai.Image.create(
         model="text-davinci-003",
