@@ -33,12 +33,12 @@ class OrganizationAdminCollection extends BaseCollection {
    * @return {orgID}
    * @return {String} the docID of the new document.
    */
-  define({ newOrgAdmin, orgID }) {
+  define({ orgAdmin, orgID }) {
     const docID = this._collection.insert({
-      newOrgAdmin,
+      orgAdmin,
       orgID,
     });
-    UserProfiles.update({ email: newOrgAdmin }, { isOrgAdmin: true });
+    UserProfiles.update({ email: orgAdmin }, { isOrgAdmin: true });
     return docID;
   }
 

@@ -104,7 +104,7 @@ class OrganizationCollection extends BaseCollection {
     });
     const waiverDoc = { waiver: 'test', orgID: orgID };
     OrganizationWaiver.define(waiverDoc);
-    const adminDoc = { newOrgAdmin: organizationOwner, orgID: orgID };
+    const adminDoc = { orgAdmin: organizationOwner, orgID: orgID };
     OrganizationAdmin.define(adminDoc);
     return docID;
   }
