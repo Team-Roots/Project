@@ -62,41 +62,42 @@ const LandingPanel = ({ events }) => {
                 <FadeInSection>
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
-                    <p>Progress Towards 10Hrs/month Goal:
-                      <div className="pt-3">
-                        <ProgressBar now={now} label={`${now}% of this months goal!`} />
-                      </div>
+                    <p>Progress Towards 10Hrs/month Goal: </p>
+                    <div className="pt-3">
+                      <ProgressBar now={now} label={`${now}% of this months goal!`} />
+                    </div>
+                    <p>
                       <br />
                       Organizations Helped This Month: <br />
-                      <div>
-                        <Table striped bordered hover>
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Organization</th>
-                              <th>Volunteer Service</th>
-                              <th>Hours Served</th>
-                            </tr>
-                          </thead>
-                          { /* later I will create a component that will load a <tr> depending on */}
-                          { /* what is in the user schema */}
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>Test Organization</td>
-                              <td>Beach Clean Up</td>
-                              <td>5 hrs</td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>Test Organization</td>
-                              <td>Feeding Homeless</td>
-                              <td>2 hrs</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
                     </p>
+                    <div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Organization</th>
+                            <th>Volunteer Service</th>
+                            <th>Hours Served</th>
+                          </tr>
+                        </thead>
+                        { /* later I will create a component that will load a <tr> depending on */}
+                        { /* what is in the user schema */}
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>Test Organization</td>
+                            <td>Beach Clean Up</td>
+                            <td>5 hrs</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Test Organization</td>
+                            <td>Feeding Homeless</td>
+                            <td>2 hrs</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </FadeInSection>
               </Col>
@@ -111,8 +112,6 @@ const LandingPanel = ({ events }) => {
         <Container id="CalenderSection">
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
-            <p>Events in the upcoming week: <br />
-            </p>
             <WeeklyCalendarComponent />
             <p>
               Link to calendar for more information <br />

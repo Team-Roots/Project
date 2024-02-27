@@ -18,7 +18,7 @@ const Landing = () => {
     } else {
       console.log('Subscription is ready.');
     }
-    const orgItems = Organizations.find({}).fetch();
+    const orgItems = Organizations.find({}, { sort: { name: 1 } }).fetch();
     const subscription2 = Events.subscribeEvent();
     const rdy2 = subscription.ready();
     if (!subscription2.ready()) {
