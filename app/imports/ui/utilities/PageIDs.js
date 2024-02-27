@@ -11,6 +11,7 @@ export const PAGE_IDS = {
   LANDING: 'landing',
   LIST_STUFF: 'list-stuff',
   LIST_EVENTS: 'list-events',
+  LIST_ORGANIZATIONS: 'list-organizations',
   LIST_STUFF_ADMIN: 'list-stuff-admin',
   MANAGE_DATABASE: 'manage-database',
   MY_ACCOUNT: 'my-account',
