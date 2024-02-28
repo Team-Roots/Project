@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Row, Nav, Table, ProgressBar } from 'react-bootstrap';
+import { Container, Col, Row, Nav, Table, ProgressBar, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import BarGraph from './BarGraph';
@@ -113,17 +113,22 @@ const LandingPanel = ({ events }) => {
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
             <WeeklyCalendarComponent />
-            <p>
-              Link to calendar for more information <br />
-            </p>
+            <Button
+              variant="primary"
+              size="lg"
+              href="/calendar"
+              style={{ marginTop: 5, marginLeft: 12 }}
+            >
+              Link to calendar for more information
+            </Button>
           </FadeInSection>
         </Container>
         <div className="landing-section" id="giveHelp">
-          <Container>
+          <Container className="pt-2">
             <FadeInSection>
               <h2>Recommended Events</h2>
             </FadeInSection>
-            <Container>
+            <Container className="pt-2">
               <Row>
                 <FadeInSection>
                   {/* {orgsPerPage(currentPage).map((org) => ( */}

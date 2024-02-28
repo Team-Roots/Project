@@ -17,9 +17,10 @@ Meteor.publish(null, function () {
 });
 
 // All-level publication.
-Meteor.publish(Events.allPublicationName, function () {
+Meteor.publish(Events.event, function () {
   if (this.userId) {
-    return Events.collection.find();
+    // return Events.collection.find({});
+    // we really dont need anything here (this is causing errors too)
   }
   return this.ready();
 });

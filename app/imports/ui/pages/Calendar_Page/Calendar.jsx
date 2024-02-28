@@ -8,6 +8,7 @@ const CalendarView = () => (
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
+      height="auto"
       weekends
       events={[
         { title: 'event 1', date: '2024-02-01' },
