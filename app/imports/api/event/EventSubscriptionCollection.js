@@ -45,19 +45,6 @@ class EventSubscriptionCollection extends BaseCollection {
     return docID;
   }
 
-  subscriptionExists({ subscriptionInfo }) {
-    if (Meteor.isServer) {
-      if (_.isUndefined(subscriptionInfo)) {
-        console.log('PASSED DATA IS UNDEFINED');
-        return false;
-      }
-      return (
-        !!this._collection.findOne(subscriptionInfo)
-      );
-    }
-    return false;
-  }
-
   // eslint-disable-next-line no-unused-vars
   update(docID, { subscriptionInfo }) {
     const updateData = {};

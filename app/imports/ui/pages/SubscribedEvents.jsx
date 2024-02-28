@@ -1,19 +1,18 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import { Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Events } from '../../api/event/EventCollection';
-import { Subscribe } from '../../api/event/Subscribe';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EventCard from '../components/EventCard';
+import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 
 const SubscribedEvents = () => {
   const { events, subs, ready } = useTracker(() => {
-    const eventsSubscription = Meteor.subscribe(Events.allPublicationName);
-    const subSubscription = Meteor.subscribe(Subscribe.userPublicationName);
+    const eventsSubscription = Events.subscribeEvent();
+    const subSubscription = EventSubscription.subscribeEvent();
     const rdy = eventsSubscription.ready() && subSubscription.ready();
     const eventFind = Events.collection.find({}).fetch();
-    const subsEvent = Subscribe.collection.find({}).fetch();
+    const subsEvent = EventSubscription.collection.find({}).fetch();
     return {
       events: eventFind,
       subs: subsEvent,
@@ -26,7 +25,7 @@ const SubscribedEvents = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        {sEvent.map((e) => <EventCard key={e._id} e={e} collection={Subscribe.collection} />)}
+        {sEvent.map((e) => <EventCard key={e._id} e={e} collection={EventSubscription.collection} />)}
       </Row>
     </Container>
   ) : <LoadingSpinner />);

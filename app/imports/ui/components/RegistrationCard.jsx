@@ -28,7 +28,6 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.eventName = event.name;
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
-    console.log((subscriptionExists));
     return {
       canSubscribe: !(subscriptionExists),
       ready: rdy,
@@ -38,7 +37,6 @@ const RegistrationCard = ({ event }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
-
 
   const subscribeEvent = () => {
     // email
