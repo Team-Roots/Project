@@ -21,12 +21,15 @@ const SignUp = () => {
   const schema = new SimpleSchema({
     firstName: String,
     lastName: String,
-    email: String,
-    password: String,
-    skill: String,
+    email: { type: String, regEx: SimpleSchema.RegEx.Email },
+    password: { type: String, min: 6 }, // Minimum length of 6 characters for the password
+    skill: String, // Assuming skill is just a text input
     location: String,
-    birthday: String,
-    phoneNumber: String,
+    birthday: Date, // Changed to Date type
+    phoneNumber: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Phone, // Basic phone number validation
+    },
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
