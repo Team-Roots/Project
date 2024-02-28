@@ -53,7 +53,16 @@ const SignUp = ({ location }) => {
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card className="signUp shadow-lg">
               <Card.Body>
-                <div className="text-center"><h2>Welcome to Voluntree</h2></div>
+                <Row className="justify-content-start align-items-center">
+                  {/* Image column */}
+                  <Col xs={12} sm={4} md={3} lg={2} className="text-center text-md-start">
+                    <Image src="/images/Voluntree.logo.small.png" fluid width="100px" />
+                  </Col>
+                  {/* Heading column */}
+                  <Col xs={12} sm={8} md={9} lg={10}>
+                    <h2>Welcome to Voluntree</h2>
+                  </Col>
+                </Row>
                 <Row className="justify-conetent-center  align-items-center">
                   <Col style={{ maxWidth: '50%' }}>
                     <div className="py-2 mt-3">Register Your Account Below</div>
@@ -88,9 +97,6 @@ const SignUp = ({ location }) => {
                         {error}
                       </Alert>
                     )}
-                  </Col>
-                  <Col className="text-center">
-                    <Image src="/images/Voluntree.logo.small.png" fluid width="100px" />
                   </Col>
                 </Row>
               </Card.Body>
