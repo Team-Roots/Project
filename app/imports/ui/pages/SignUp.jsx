@@ -46,6 +46,9 @@ const SignUp = () => {
         const { email, password } = doc;
         Meteor.loginWithPassword(email, password, (err) => {
           if (err) {
+            // eslint-disable-next-line no-console
+            console.error('Error logging in:', err);
+            setError(err.reason || 'Unknown error occurred during login.');
             // Log error if login fails
             // eslint-disable-next-line no-console
             console.error('Error logging in:', err);
