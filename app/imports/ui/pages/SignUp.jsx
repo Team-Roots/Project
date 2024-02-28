@@ -17,6 +17,8 @@ const SignUp = ({ location }) => {
   const [redirectToReferer, setRedirectToRef] = useState(false);
 
   const schema = new SimpleSchema({
+    firstName: String,
+    lastName: String,
     username: String,
     email: String,
     password: String,
@@ -73,6 +75,18 @@ const SignUp = ({ location }) => {
                     <div className="d-flex flex-row align-items-center py-2">
                       <EnvelopeFill size={30} />
                       <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="Your Email Address" className="px-2 w-100" />
+                    </div>
+                    <div className="d-flex flex-row align-items-center py-2">
+                      <KeyFill size={30} />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
+                    </div>
+                    <div className="d-flex flex-row align-items-center py-2">
+                      <KeyFill size={30} />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_SKILL} name="skill" placeholder="Skill" type="skill" className="px-2 w-100" />
+                    </div>
+                    <div className="d-flex flex-row align-items-center py-2">
+                      <KeyFill size={30} />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" type="password" className="px-2 w-100" />
                     </div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <KeyFill size={30} />
