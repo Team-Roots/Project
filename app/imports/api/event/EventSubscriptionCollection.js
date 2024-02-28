@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
