@@ -86,15 +86,15 @@ const SignUp = ({ location }) => {
                     </div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" type="password" className="px-2 w-100" />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" type="location" className="px-2 w-100" />
                     </div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_BIRTHDAY} name="birthday" placeholder="Birthday" type="birthday" className="px-2 w-100" />
                     </div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PHONE_NUMBER} name="phoneNumber" placeholder="Phone Number" type="phoneNumber" className="px-2 w-100" />
                     </div>
                     <ErrorsField />
                     <div className="py-3"><SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} /></div>
