@@ -62,6 +62,9 @@ const SignUp = () => {
         });
       })
       .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('Error defining user profile:', err);
+        setError(err.reason || 'Unknown error occurred during profile creation.');
         // Log error if user profile creation fails
         // eslint-disable-next-line no-console
         console.error('Error defining user profile:', err);
