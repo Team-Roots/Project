@@ -57,12 +57,17 @@ const RegistrationCard = ({ event }) => {
 
   return (ready ? (
     <Container>
-      <Row className="justify-content-center align-items-center my-5">
+      <Row className="mb-3 button-small-fixed-size">
+        <Button as={Link} to={`/eventopportunities`} variant="danger" size="sm" >
+          Return
+        </Button>
+      </Row>
+      <Row className="justify-content-center align-items-center">
         <Col md={4} className="p-0">
           <Image className="img-fluid w-100 h-100" src={event.image} />
         </Col>
         <Col md={8}>
-          <Card className="mt-5">
+          <Card>
             <Card.Header className="bg-transparent border-0 text-center">
               <h1>{event.name}</h1>
             </Card.Header>

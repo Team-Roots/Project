@@ -98,3 +98,8 @@ body {
   border-color: #00798F;
   color: white;
 }
+
+.button-small-fixed-size {
+  width: 100px;
+  padding: 0.25rem 0.5rem;
+}
