@@ -32,44 +32,23 @@ const SignUp = () => {
 
   /* Handle SignUp submission. Create user account and a profile entry, then redirect to the home page. */
   const submit = (doc) => {
-    // Log the submitted doc for debugging
-    console.log('Form submitted with the following data:', doc);
-
     const collectionName = UserProfiles.getCollectionName();
     const definitionData = doc;
-
+    // create the new UserProfile
     defineMethod.callPromise({ collectionName, definitionData })
       .then(() => {
-        // User profile creation successful
-        // eslint-disable-next-line no-console
-        console.log('UserProfile created successfully:', definitionData);
+        // log the new user in.
         const { email, password } = doc;
         Meteor.loginWithPassword(email, password, (err) => {
           if (err) {
-            // eslint-disable-next-line no-console
-            console.error('Error logging in:', err);
-            setError(err.reason || 'Unknown error occurred during login.');
-            // Log error if login fails
-            // eslint-disable-next-line no-console
-            console.error('Error logging in:', err);
             setError(err.reason);
           } else {
-            // Successful login
-            // eslint-disable-next-line no-console
-            console.log('User logged in successfully:', email);
+            setError('');
             setRedirectToRef(true);
           }
         });
       })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error('Error defining user profile:', err);
-        setError(err.reason || 'Unknown error occurred during profile creation.');
-        // Log error if user profile creation fails
-        // eslint-disable-next-line no-console
-        console.error('Error defining user profile:', err);
-        setError(err.reason);
-      });
+      .catch((err) => setError(err.reason));
   };
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
