@@ -119,7 +119,7 @@ const LandingPanel = ({ events }) => {
               href="/calendar"
               style={{ marginTop: 5, marginLeft: 12 }}
             >
-              Link to calendar for more information
+              Go to monthly calendar
             </Button>
           </FadeInSection>
         </Container>
