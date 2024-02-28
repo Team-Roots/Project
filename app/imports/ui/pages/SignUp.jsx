@@ -90,7 +90,7 @@ const SignUp = ({ location }) => {
                     )}
                   </Col>
                   <Col className="text-center">
-                    <Image src="/images/Signup-art.png" fluid width="500px" />
+                    <Image src="/images/Voluntree.logo.small.png" fluid width="100px" />
                   </Col>
                 </Row>
               </Card.Body>
