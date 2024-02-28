@@ -9,8 +9,8 @@ import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ events }) => {
-  console.log(events);
+const LandingPanel = ({ events, subbedEvents }) => {
+  console.log(subbedEvents);
   // const [currentPage, setCurrentPage] = useState(1);
   // const cardsPerPage = 1;
   //
@@ -112,7 +112,7 @@ const LandingPanel = ({ events }) => {
         <Container id="CalenderSection">
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
-            <WeeklyCalendarComponent />
+            <WeeklyCalendarComponent subbedEvents={subbedEvents} />
             <Button
               variant="primary"
               size="lg"
@@ -199,6 +199,12 @@ LandingPanel.propTypes = {
       specialInstructions: PropTypes.string,
       // eslint-disable-next-line no-unused-vars,react/forbid-prop-types
       restrictions: PropTypes.object,
+    }),
+  ).isRequired,
+  subbedEvents: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
     }),
   ).isRequired,
 };
