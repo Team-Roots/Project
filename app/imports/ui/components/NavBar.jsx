@@ -24,12 +24,12 @@ const NavBar = () => {
           <Nav className="me-auto justify-content-end robotoText">
             {!currentUser && (
               <>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/">About Us</Nav.Link>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/about us" key="navbar-about-us">About Us</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities" key="navbar-events" >Events</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups" >Community Groups</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
 
-                <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help">
+                <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help" key="navbar-help-dropdown">
                   <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
                   <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/contactus">
                     Contact Us
