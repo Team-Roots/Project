@@ -9,9 +9,7 @@ import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstra
 import { PersonFill, EnvelopeFill, KeyFill } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-/**
- * SignUp component is similar to signin component, but we create a new user instead.
- */
+
 const SignUp = ({ location }) => {
   const [error, setError] = useState('');
   const [redirectToReferer, setRedirectToRef] = useState(false);
@@ -28,10 +26,10 @@ const SignUp = ({ location }) => {
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
-  /* Handle SignUp submission. Create user account and a profile entry, then redirect to the home page. */
   const submit = (doc) => {
-    const { username, email, password } = doc;
-    Accounts.createUser({ username, email, password }, (err) => {
+    const { firstName, lastName, email, password } = doc;
+    // Adjust the code to handle the creation of the user with the correct parameters.
+    Accounts.createUser({ email, password, profile: { firstName, lastName /* , other fields */ } }, (err) => {
       if (err) {
         setError(err.reason);
       } else {
@@ -41,81 +39,80 @@ const SignUp = ({ location }) => {
     });
   };
 
-  /* Display the signup form. Redirect to add page after successful registration and login. */
-  const { from } = location?.state || { from: { pathname: '/faq' } };
-  // if correct authentication, redirect to from: page instead of signup screen
   if (redirectToReferer) {
-    return <Navigate to={from} />;
+    // Use the proper redirect logic.
+    return <Navigate to={location.state?.from || '/'} />;
   }
+
   return (
-    <Container id={PAGE_IDS.SIGN_UP} fluid className="py-3" style={{ height: '760px' }}>
+    <Container id={PAGE_IDS.SIGN_UP} fluid className="py-3">
       <Row className="justify-content-center align-items-center h-100">
-        <Col sm={2} md={6}>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)}>
+        <Col md={6}>
+          <AutoForm schema={bridge} onSubmit={submit}>
             <Card className="signUp shadow-lg">
               <Card.Body>
-                <Row className="justify-content-start align-items-center">
-                  {/* Image column */}
-                  <Col xs={12} sm={4} md={3} lg={2} className="text-center text-md-start">
+                {/* Image and heading */}
+                <Row className="justify-content-center">
+                  <Col xs={12} className="text-center">
                     <Image src="/images/Voluntree.logo.small.png" fluid width="100px" />
-                  </Col>
-                  {/* Heading column */}
-                  <Col xs={12} sm={8} md={9} lg={10}>
                     <h2>Welcome to Voluntree</h2>
                   </Col>
                 </Row>
-                <Row className="justify-conetent-center  align-items-center">
-                  <Col style={{ maxWidth: '50%' }}>
-                    <div className="py-2 mt-3">Register Your Account Below</div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <PersonFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="Your Username" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <PersonFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Your Username" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <EnvelopeFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="Your Email Address" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_SKILL} name="skill" placeholder="Skill" type="skill" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" type="location" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_BIRTHDAY} name="birthday" placeholder="Birthday" type="birthday" className="px-2 w-100" />
-                    </div>
-                    <div className="d-flex flex-row align-items-center py-2">
-                      <KeyFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PHONE_NUMBER} name="phoneNumber" placeholder="Phone Number" type="phoneNumber" className="px-2 w-100" />
-                    </div>
-                    <ErrorsField />
-                    <div className="py-3"><SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} /></div>
-                    <Alert variant="light">
-                      Already a member? Login
-                      {' '}
-                      <Link to="/signin">here</Link>
-                    </Alert>
-                    {error === '' ? (
-                      ''
-                    ) : (
-                      <Alert variant="danger">
-                        <Alert.Heading>Registration was not successful</Alert.Heading>
-                        {error}
-                      </Alert>
-                    )}
+                {/* Form fields */}
+                <Row className="mb-3">
+                  <Col md={6} className="d-flex align-items-center">
+                    <PersonFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="First name" className="px-2 w-100" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <KeyFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_SKILL} name="skill" placeholder="Skill" className="px-2 w-100" />
                   </Col>
                 </Row>
+
+                <Row className="mb-3">
+                  <Col md={6} className="d-flex align-items-center">
+                    <PersonFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" className="px-2 w-100" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <KeyFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" className="px-2 w-100" />
+                  </Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={6} className="d-flex align-items-center">
+                    <EnvelopeFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="Email" className="px-2 w-100" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <KeyFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_BIRTHDAY} name="birthday" placeholder="Birthday" type="date" className="px-2 w-100" />
+                  </Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={6} className="d-flex align-items-center">
+                    <KeyFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <KeyFill size={30} />
+                    <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PHONE_NUMBER} name="phoneNumber" placeholder="Phone Number" className="px-2 w-100" />
+                  </Col>
+                </Row>
+                <ErrorsField />
+                <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="mt-2" />
+                <Alert variant="light">
+                  Already a member? <Link to="/signin">Login here</Link>
+                </Alert>
+                {error && (
+                  <Alert variant="danger">
+                    <Alert.Heading>Registration was not successful</Alert.Heading>
+                    <p>{error}</p>
+                  </Alert>
+                )}
               </Card.Body>
             </Card>
           </AutoForm>
@@ -125,15 +122,15 @@ const SignUp = ({ location }) => {
   );
 };
 
-/* Ensure that the React Router location object is available in case we need to redirect. */
 SignUp.propTypes = {
   location: PropTypes.shape({
-    state: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    state: PropTypes.object,
   }),
 };
 
 SignUp.defaultProps = {
-  location: { state: '' },
+  location: {},
 };
 
 export default SignUp;
