@@ -13,6 +13,5 @@ const AboutUs = () => (
       {/* Remember to replace the Odometer value prop with dynamic or state-based values if needed */}
     </Row>
   </div>
-);
 
 export default AboutUs;
