@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
+// eslint-disable-next-line no-unused-vars
+import Odometer from 'react-odometerjs';
+import 'odometer/themes/odometer-theme-digital.css'; // Digital theme for Odometer
 
 const AboutUs = () => (
   <Container id={PAGE_IDS.ABOUT_US} className="my-5">
