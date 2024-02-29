@@ -6,9 +6,10 @@ import { Alert, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import { PersonFill, EnvelopeFill, KeyFill } from 'react-bootstrap-icons';
+import { PersonFill, EnvelopeFill, KeyFill, GiftFill , TelephoneFill, MapFill , PersonPlusFill   } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+
 
 const SignUp = ({ location }) => {
   const [error, setError] = useState('');
@@ -65,7 +66,7 @@ const SignUp = ({ location }) => {
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="First name" className="px-2 w-100" />
                   </Col>
                   <Col md={6} className="d-flex align-items-center">
-                    <KeyFill size={30} />
+                    <PersonPlusFill size={30} />
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_SKILL} name="skill" placeholder="Skill" className="px-2 w-100" />
                   </Col>
                 </Row>
@@ -76,7 +77,7 @@ const SignUp = ({ location }) => {
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" className="px-2 w-100" />
                   </Col>
                   <Col md={6} className="d-flex align-items-center">
-                    <KeyFill size={30} />
+                    <MapFill size={30} />
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LOCATION} name="location" placeholder="Location" className="px-2 w-100" />
                   </Col>
                 </Row>
@@ -87,7 +88,7 @@ const SignUp = ({ location }) => {
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="Email" className="px-2 w-100" />
                   </Col>
                   <Col md={6} className="d-flex align-items-center">
-                    <KeyFill size={30} />
+                    <GiftFill size={30} />
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_BIRTHDAY} name="birthday" placeholder="Birthday" type="date" className="px-2 w-100" />
                   </Col>
                 </Row>
@@ -98,7 +99,7 @@ const SignUp = ({ location }) => {
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" className="px-2 w-100" />
                   </Col>
                   <Col md={6} className="d-flex align-items-center">
-                    <KeyFill size={30} />
+                    <TelephoneFill size={30} />
                     <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PHONE_NUMBER} name="phoneNumber" placeholder="Phone Number" className="px-2 w-100" />
                   </Col>
                 </Row>
