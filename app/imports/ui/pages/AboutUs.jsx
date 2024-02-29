@@ -61,7 +61,7 @@ const AboutUs = () => (
       </Col>
     </Row>
     <div>
-      <h1>About Us</h1>
+      <h1 className="text-center">About Effort</h1>
       <Row>
         <Col className="text-center">
           <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
