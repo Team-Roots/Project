@@ -19,7 +19,6 @@ const SignUp = ({ location }) => {
   const schema = new SimpleSchema({
     firstName: String,
     lastName: String,
-    username: String,
     email: String,
     password: String,
     skill: String,
@@ -70,7 +69,11 @@ const SignUp = ({ location }) => {
                     <div className="py-2 mt-3">Register Your Account Below</div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <PersonFill size={30} />
-                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="username" placeholder="Your Username" className="px-2 w-100" />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="Your Username" className="px-2 w-100" />
+                    </div>
+                    <div className="d-flex flex-row align-items-center py-2">
+                      <PersonFill size={30} />
+                      <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Your Username" className="px-2 w-100" />
                     </div>
                     <div className="d-flex flex-row align-items-center py-2">
                       <EnvelopeFill size={30} />
