@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
+import Odometer from 'react-odometerjs';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
 // eslint-disable-next-line no-unused-vars
-import Odometer from 'react-odometerjs';
 import 'odometer/themes/odometer-theme-digital.css'; // Digital theme for Odometer
 
 const AboutUs = () => (
@@ -53,14 +53,35 @@ const AboutUs = () => (
               <Accordion.Header>What Are You Waiting For?</Accordion.Header>
               <Accordion.Body>
                 Sign up today to unlock all the benefits Voluntree has to offer!
-                <div> <Link to="/signup"> Click here to register for an account.</Link> </div>
+                <div><Link to="/signup"> Click here to register for an account.</Link></div>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </FadeInSection>
       </Col>
     </Row>
+    <div>
+      <h1>About Us</h1>
+      <Row>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5 style={{ textDecoration: 'none' }}>Hours Logged</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Persons Served</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Active Volunteer Hours</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Communities Changed</h5>
+        </Col>
+      </Row>
+    </div>
   </Container>
-);
 
+);
 export default AboutUs;
