@@ -6,10 +6,9 @@ import { Alert, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import { PersonFill, EnvelopeFill, KeyFill, GiftFill , TelephoneFill, MapFill , PersonPlusFill   } from 'react-bootstrap-icons';
+import { PersonFill, EnvelopeFill, KeyFill, GiftFill, TelephoneFill, MapFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-
 
 const SignUp = ({ location }) => {
   const [error, setError] = useState('');
