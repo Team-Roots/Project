@@ -7,6 +7,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
 import './css/AboutUs.css';
 import 'odometer/themes/odometer-theme-digital.css'; // Digital theme for Odometer
+// eslint-disable-next-line import/order
 import Odometer from 'react-odometerjs';
 
 const VolunteeringImage = '../images/volunteerImage.jpg';
@@ -50,6 +51,7 @@ const AboutUs = () => (
                     <Card.Body>
                       <Card.Title>Join Our Community</Card.Title>
                       <Card.Text>
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
                         Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your
                         volunteer journey, expand your network,
                         and amplify your impact, all in one place. Soon, you can join us in building a stronger,
