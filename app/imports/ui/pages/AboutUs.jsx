@@ -47,6 +47,7 @@ const AboutUs = () => (
                     <Card.Body>
                       <Card.Title>Join Our Community</Card.Title>
                       <Card.Text>
+                        {/* eslint-disable-next-line max-len,react/no-unescaped-entities */}
                         Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your volunteer journey, expand your network,
                         and amplify your impact, all in one place. Soon, you can join us in building a stronger,
                         more connected community through the power of volunteering.
