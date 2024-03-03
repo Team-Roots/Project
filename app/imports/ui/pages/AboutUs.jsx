@@ -1,24 +1,63 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
+import './css/AboutUs.css';
+
+const VolunteeringImage = '../images/volunteerImage.jpg';
+const VolunteerStaff = '../images/VolunteerStaff.jpg';
 
 const AboutUs = () => (
   <Container id={PAGE_IDS.ABOUT_US} className="my-5">
     <Row>
       <Col>
-        <FadeInSection>
-          <h2 className="text-center mb-4">About Us</h2>
-        </FadeInSection>
-        <FadeInSection>
-          <p>
-            At Voluntree, we believe in simplifying volunteering, fostering connections, and making an impact.
-            Our platform empowers you to effortlessly discover, connect, and contribute to meaningful causes,
-            all while connecting with like-minded individuals who share your passion.
-          </p>
-        </FadeInSection>
+        <FadeInSection />
+        <Container fluid className="my-5">
+          <Row>
+            <Col>
+              <Card>
+                <Row className="g-0">
+                  <Col md={6} className="d-flex align-items-center justify-content-center">
+                    <Card.Img src={VolunteerStaff} alt="Volunteering" className="img-fluid" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <Card.Body>
+                      <Card.Title>GET TO KNOW US</Card.Title>
+                      <Card.Text>
+                        At Voluntree, we believe in simplifying volunteering, fostering connections, and making an impact.
+                        Our platform empowers you to effortlessly discover, connect, and contribute to meaningful causes,
+                        all while connecting with like-minded individuals who share your passion.
+                      </Card.Text>
+                    </Card.Body>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="my-5">
+          <Row>
+            <Col>
+              <Card>
+                <Row className="g-0">
+                  <Col md={6} className="d-flex align-items-center">
+                    <Card.Body>
+                      <Card.Title>Join Our Community</Card.Title>
+                      <Card.Text>
+                        Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here.
+                      </Card.Text>
+                    </Card.Body>
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center justify-content-center">
+                    <Card.Img src={VolunteeringImage} alt="Volunteering" className="imgaa-fluid" />
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
         <br />
         <br />
         <FadeInSection>
@@ -28,6 +67,7 @@ const AboutUs = () => (
             more connected community through the power of volunteering.
           </p>
         </FadeInSection>
+
         <br />
         <br />
         <FadeInSection>
