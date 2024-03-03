@@ -1,38 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
-import Odometer from 'react-odometerjs';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
-// eslint-disable-next-line no-unused-vars
-import 'odometer/themes/odometer-theme-digital.css'; // Digital theme for Odometer
+import './css/AboutUs.css';
+
+const VolunteeringImage = '../images/volunteerImage.jpg';
+const VolunteerStaff = '../images/VolunteerStaff.jpg';
+const VolunteerShovel = '../images/VolunteerShovel.jpg';
 
 const AboutUs = () => (
   <Container id={PAGE_IDS.ABOUT_US} className="my-5">
     <Row>
       <Col>
-        <FadeInSection>
-          <h2 className="text-center mb-4">About Us</h2>
-        </FadeInSection>
-        <FadeInSection>
-          <p>
-            At Voluntree, we believe in simplifying volunteering, fostering connections, and making an impact.
-            Our platform empowers you to effortlessly discover, connect, and contribute to meaningful causes,
-            all while connecting with like-minded individuals who share your passion.
-          </p>
-        </FadeInSection>
-        <br />
-        <br />
-        <FadeInSection>
-          <p>
-            With Voluntree, you can streamline your volunteer journey, expand your network,
-            and amplify your impact, all in one place. Soon, you can join us in building a stronger,
-            more connected community through the power of volunteering.
-          </p>
-        </FadeInSection>
-        <br />
-        <br />
+        <FadeInSection />
+        <Container fluid className="my-5">
+          <Row>
+            <Col>
+              <Card>
+                <Row className="g-0">
+                  <Col md={6} className="d-flex align-items-center justify-content-center">
+                    <Card.Img src={VolunteerStaff} alt="Volunteering" className="img-fluid" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <Card.Body>
+                      <Card.Title>GET TO KNOW US</Card.Title>
+                      <Card.Text>
+                        At Voluntree, we believe in simplifying volunteering, fostering connections, and making an impact.
+                        Our platform empowers you to effortlessly discover, connect, and contribute to meaningful causes,
+                        all while connecting with like-minded individuals who share your passion.
+                      </Card.Text>
+                    </Card.Body>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="my-5">
+          <Row>
+            <Col>
+              <Card>
+                <Row className="g-0">
+                  <Col md={6} className="d-flex align-items-center">
+                    <Card.Body>
+                      <Card.Title>Join Our Community</Card.Title>
+                      <Card.Text>
+                        Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your volunteer journey, expand your network,
+                        and amplify your impact, all in one place. Soon, you can join us in building a stronger,
+                        more connected community through the power of volunteering.
+                      </Card.Text>
+                    </Card.Body>
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center justify-content-center">
+                    <Card.Img src={VolunteeringImage} alt="Volunteering" className="img-fluid" />
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="my-5">
+          <Row>
+            <Col>
+              <Card>
+                <Row className="g-0">
+                  <Col md={6} className="d-flex align-items-center justify-content-center">
+                    <Card.Img src={VolunteerShovel} alt="Volunteering" className="img-fluid" />
+                  </Col>
+                  <Col md={6} className="d-flex align-items-center">
+                    <Card.Body>
+                      <Card.Title>WHAT ARE YOU WAITING FOR?</Card.Title>
+                      <Card.Text>
+                        Sign up today to unlock all the benefits Voluntree has to offer!
+                        <div> <Link to="/signup"> Click here to register for an account.</Link> </div>
+                      </Card.Text>
+                    </Card.Body>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
         <FadeInSection>
           <Accordion defaultActiveKey="0" className="faq-accordion">
             <Accordion.Item eventKey="0">
@@ -49,39 +99,11 @@ const AboutUs = () => (
                 Track your volunteer progress through the user dashboard and aim to hit your monthly goals!
               </Accordion.Body>
             </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header>What Are You Waiting For?</Accordion.Header>
-              <Accordion.Body>
-                Sign up today to unlock all the benefits Voluntree has to offer!
-                <div><Link to="/signup"> Click here to register for an account.</Link></div>
-              </Accordion.Body>
-            </Accordion.Item>
           </Accordion>
         </FadeInSection>
       </Col>
     </Row>
-    <div>
-      <h1 className="text-center">About Effort</h1>
-      <Row>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5 style={{ textDecoration: 'none' }}>Hours Logged</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Persons Served</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Active Volunteer Hours</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Communities Changed</h5>
-        </Col>
-      </Row>
-    </div>
   </Container>
-
 );
+
 export default AboutUs;
