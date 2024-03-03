@@ -25,6 +25,7 @@ import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import Events from '../pages/Events';
+import Dalle from '../components/Dalle';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';
 import SubscribedEvents from '../pages/SubscribedEvents';
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
           <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+          <Route path="/dalle" element={<ProtectedRoute><Dalle /></ProtectedRoute>} />
           <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
