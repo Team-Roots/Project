@@ -196,11 +196,6 @@ a#navbar-current-user.dropdown-toggle.show.nav-link {
   --bs-navbar-active-color: white;
 }
 
-.btn-primary.btn {
-  font-weight: bold;
-  --bs-btn-bg: transparent;
-}
-
 .icon-black {
   color: black;
 }
