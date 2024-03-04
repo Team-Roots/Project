@@ -18,13 +18,13 @@ const NavBar = () => {
       <img src="/images/Voluntree.logo-noG.png" alt="Bootstrap" width="160" height="112" />
 
       <Container>
-        <Navbar.Brand className="navbar-brand-link poppinsText " id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
+        <Navbar.Brand className="navbar-brand-link poppinsText " id={COMPONENT_IDS.NAVBAR_DASHBOARD_PAGE} as={NavLink} to="/"><h1>VolunTree</h1></Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
         <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
           <Nav className="me-auto justify-content-end robotoText">
             {!currentUser && (
               <>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/about us" key="navbar-about-us">About Us</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus" key="navbar-about-us">About Us</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities" key="navbar-events">Events</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups">Community Groups</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
@@ -38,12 +38,13 @@ const NavBar = () => {
               </>
             )}
             {currentUser ? ([
+              <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/dashboard" key="navbar-dashboard">Dashboard</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities">Events</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
               <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN} title="My Account">
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
-                <Nav.Link className="my-events" as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
+                <Nav.Link className="my-events" id={COMPONENT_IDS.NAVBAR_MY_EVENTS} as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
                 <Nav.Link className="my-calendar" as={NavLink} to="/calendar" key="my-calendar">My Calendar</Nav.Link>
               </NavDropdown>,
               <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">

@@ -9,7 +9,7 @@ const EventCard = ({ event }) => {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
   const user = Meteor.user();
-  const owner = user ? user.username : null;
+  const creator = user ? user.username : null;
 
   return (
     <Card className="mb-3" id="colorCard">
@@ -38,7 +38,7 @@ const EventCard = ({ event }) => {
         </Row>
         <Row>
           <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText edit">More Details</Link></Col>
-          <Col>{event.owner === owner && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
+          <Col>{event.creator === creator && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
         </Row>
       </Card.Body>
     </Card>
@@ -63,7 +63,7 @@ EventCard.propTypes = {
     // figure out what the data type of restrictions and ageRange are
     // restrictions
     // ageRange
-    owner: PropTypes.string,
+    creator: PropTypes.string,
   }).isRequired,
 };
 
