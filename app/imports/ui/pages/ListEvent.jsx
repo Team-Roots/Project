@@ -23,7 +23,7 @@ const ListEvent = () => {
 
   if (!ready) {
     return (
-      <Container id={PAGE_IDS.LIST_EVENT} className="py-3">
+      <Container id={PAGE_IDS.LIST_EVENTS} className="py-3">
         <Row className="justify-content-center">
           <Col md={8}>
             <div>Loading Events...</div>
@@ -34,7 +34,7 @@ const ListEvent = () => {
   }
 
   return (
-    <Container id={PAGE_IDS.LIST_EVENT} className="py-3">
+    <Container id={PAGE_IDS.LIST_EVENTS} className="py-3">
       <Row className="justify-content-center">
         <Col md={8}>
           <h2 className="text-center">List Events</h2>

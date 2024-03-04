@@ -47,7 +47,7 @@ class EventCollection extends BaseCollection {
         required: false,
         defaultValue: 99,
       },
-      organizationID: String,
+      organizationID: SimpleSchema.Integer,
       creator: String,
     }));
   }

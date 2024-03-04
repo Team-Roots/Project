@@ -3,7 +3,7 @@ import { PAGE_IDS } from '../imports/ui/utilities/PageIDs';
 
 class MyEventPage {
   constructor() {
-    this.pageId = `#${PAGE_IDS.LIST_EVENT}`;
+    this.pageId = `#${PAGE_IDS.LIST_EVENTS}`;
     this.pageSelector = Selector(this.pageId);
   }
 

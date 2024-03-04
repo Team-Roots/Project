@@ -112,11 +112,12 @@ const LandingPanel = ({ events, subbedEvents }) => {
         <Container id="CalenderSection">
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
-            <WeeklyCalendarComponent subbedEvents={subbedEvents} />
+            <WeeklyCalendarComponent subbedEvents={subbedEvents} events={events} />
             <Button
               variant="primary"
               size="lg"
               href="/calendar"
+              className="edit robotoText"
               style={{ marginTop: 5, marginLeft: 12 }}
             >
               Go to monthly calendar
@@ -203,7 +204,6 @@ LandingPanel.propTypes = {
   ).isRequired,
   subbedEvents: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.string.isRequired,
       subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
     }),
   ).isRequired,

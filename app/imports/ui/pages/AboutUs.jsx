@@ -1,10 +1,14 @@
-import React from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link } from 'react-router-dom';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import FadeInSection from '../components/FadeInSection';
 import './css/AboutUs.css';
+import 'odometer/themes/odometer-theme-digital.css'; // Digital theme for Odometer
+// eslint-disable-next-line import/order
+import Odometer from 'react-odometerjs';
 
 const VolunteeringImage = '../images/volunteerImage.jpg';
 const VolunteerStaff = '../images/VolunteerStaff.jpg';
@@ -47,7 +51,11 @@ const AboutUs = () => (
                     <Card.Body>
                       <Card.Title>Join Our Community</Card.Title>
                       <Card.Text>
+                        {/* eslint-disable-next-line max-len,react/no-unescaped-entities */}
                         Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your volunteer journey, expand your network,
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                        Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your
+                        volunteer journey, expand your network,
                         and amplify your impact, all in one place. Soon, you can join us in building a stronger,
                         more connected community through the power of volunteering.
                       </Card.Text>
@@ -74,7 +82,7 @@ const AboutUs = () => (
                       <Card.Title>WHAT ARE YOU WAITING FOR?</Card.Title>
                       <Card.Text>
                         Sign up today to unlock all the benefits Voluntree has to offer!
-                        <div> <Link to="/signup"> Click here to register for an account.</Link> </div>
+                        <div><Link to="/signup"> Click here to register for an account.</Link></div>
                       </Card.Text>
                     </Card.Body>
                   </Col>
@@ -103,6 +111,28 @@ const AboutUs = () => (
         </FadeInSection>
       </Col>
     </Row>
+    <div>
+      <h1 className="text-center">About Effort</h1>
+      <Row>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5 style={{ textDecoration: 'none' }}>Hours Logged</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Persons Served</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Active Volunteer Hours</h5>
+        </Col>
+        <Col className="text-center">
+          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+          <h5>Communities Changed</h5>
+        </Col>
+      </Row>
+    </div>
+
   </Container>
 );
 
