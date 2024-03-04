@@ -86,11 +86,11 @@ class EventCategoriesCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(eventCategoriesPublications.eventCategories, function publish() {
-        // TODO: Ask Truman for help
-        const;
-        return;
-        }
-        return this.ready();
+        // TODO: Ask Truman/Liam for help
+        const organization = Meteor.Organizations.findOne(this.docID).orgID;
+        const name = Meteor.Events.findOne(this.docID).name;
+        const date = Meteor.Events.findOne(this.docID).eventDate;
+        return instance._collection.find({ 'eventInfo.organizationID': organization, 'eventInfo.eventName': name, 'eventInfo.eventDate': date });
       });
     }
   }
