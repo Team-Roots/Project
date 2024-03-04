@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Row, Col, FormCheck } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, FormCheck, Form } from 'react-bootstrap';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -24,8 +24,58 @@ const VolunteerEventOpportunities = () => {
       ready: rdy,
     };
   }, []);
+
+  const [searchInput, setSearchInput] = useState('');
+  const [data, setData] = useState(events);
+  const handleSearchChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const applySearch = () => {
+    if (!searchInput.trim()) {
+      setData(events);
+      return;
+    }
+
+    const filteredData = events.filter((event) => {
+      const fieldsToSearch = ['name', 'category', 'organization'];
+
+      return fieldsToSearch.some((field) => {
+        const fieldValue = event[field];
+        if (Array.isArray(fieldValue)) {
+          return fieldValue.some(
+            (element) => typeof element === 'string' &&
+              element.toLowerCase().includes(searchInput.toLowerCase()),
+          );
+        } if (typeof fieldValue === 'string') {
+          return fieldValue.toLowerCase().includes(searchInput.toLowerCase());
+        }
+        return false;
+      });
+    });
+
+    setData(filteredData);
+  };
+
+  useEffect(() => {
+    if (ready) {
+      applySearch();
+    }
+  }, [ready, searchInput, events]);
+
   return (ready ? (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
+      <Row className="pb-3">
+        <Form>
+          <Form.Control
+            type="text"
+            name="search"
+            placeholder="Search Events"
+            value={searchInput}
+            onChange={handleSearchChange}
+          />
+        </Form>
+      </Row>
       <Row>
         <Col lg={2}>
           <h3 className="poppinsText">Filter By</h3>
@@ -78,7 +128,7 @@ const VolunteerEventOpportunities = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {data.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
           </Row>
         </Col>
       </Row>
