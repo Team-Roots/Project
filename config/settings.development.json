@@ -2,8 +2,11 @@
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"},
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
-    { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User" },
-    { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User" }
+    { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
+    { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
+    { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
+    { "email": "testuser4@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User4" },
+    { "email": "testuser5@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User5" }
   ],
   "defaultProfiles": [
     { "firstName": "admin", "lastName": "foo" , "owner": "admin@foo.com", "idNumber": "123" },
@@ -19,7 +22,7 @@
   "defaultOrganizations": [
     {
       "name":  "Example Organization 1",
-      "website": "testuser1.org",
+      "website": "exampleorg1.org",
       "profit": false,
       "location": "TestUser1 St. HI, 96795",
       "organizationOwner": "testuser1@foo.com",
@@ -31,7 +34,7 @@
     },
     {
       "name":  "Example Organization 2",
-      "website": "testuser2.org",
+      "website": "exampleorg2.org",
       "profit": true,
       "location": "TestUser2 St. HI, 96795",
       "organizationOwner": "testuser2@foo.com",
@@ -40,6 +43,42 @@
       "backgroundCheck": false,
       "ageRange": { "min": 18, "max": 99 },
       "orgID": 2
+    },
+    {
+      "name":  "Example Organization 3",
+      "website": "exampleorg3.org",
+      "profit": false,
+      "location": "TestUser3 St. HI, 96795",
+      "organizationOwner": "testuser3@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 3
+    },
+    {
+      "name":  "Example Organization 4",
+      "website": "exampleorg4.org",
+      "profit": false,
+      "location": "TestUser4 St. HI, 96795",
+      "organizationOwner": "testuser4@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 4
+    },
+    {
+      "name":  "Example Organization 5",
+      "website": "exampleorg5.org",
+      "profit": true,
+      "location": "TestUser5 St. HI, 96795",
+      "organizationOwner": "testuser5@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 5
     }
   ],
 

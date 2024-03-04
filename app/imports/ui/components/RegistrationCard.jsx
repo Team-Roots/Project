@@ -8,15 +8,17 @@ import PropTypes from 'prop-types';
 // import { Subscribe } from '../../api/event/Subscribe';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+import { Organizations } from '../../api/organization/OrganizationCollection';
 
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
 
-  const { ready, canSubscribe } = useTracker(() => {
-    const subscription = EventSubscription.subscribeEvent();
-    const rdy = subscription.ready();
-    if (!subscription.ready()) {
+  const { ready, canSubscribe, eventOrganization } = useTracker(() => {
+    const eventSubscription = EventSubscription.subscribeEvent();
+    const organizationSubscription = Organizations.subscribeOrg();
+    const rdy = eventSubscription.ready() && organizationSubscription.ready();
+    if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
@@ -27,8 +29,10 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.orgID = event.organizationID;
     eventSubscriptionInfo.eventName = event.name;
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
+    const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
     return {
+      eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
       ready: rdy,
     };
@@ -91,7 +95,7 @@ const RegistrationCard = ({ event }) => {
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
                 <ListGroup.Item><strong>DESCRIPTION: </strong>{event.description}</ListGroup.Item>
                 <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
-                <ListGroup.Item><strong>ORGANIZATION: </strong>{event.organizationID}</ListGroup.Item>
+                <ListGroup.Item><strong>ORGANIZATION: </strong><a href={`/organizations/${event.organizationID}`}>{eventOrganization.name}</a></ListGroup.Item>
                 <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{event.amountVolunteersNeeded}</ListGroup.Item>
                 {event.specialInstructions && <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>}
                 {/* {event.restrictions && <ListGroup.Item><strong>RESTRICTIONS: </strong>{event.restrictions}</ListGroup.Item>}
