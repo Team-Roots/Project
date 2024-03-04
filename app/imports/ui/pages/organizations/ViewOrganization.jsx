@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Card, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../../utilities/PageIDs';
@@ -22,7 +22,35 @@ const VolunteerOrganizations = () => {
     }, [orgID]);
     return (ready ? (
       <Container className="py-3 px-5" id={PAGE_IDS.VIEW_ORGANIZATION}>
-        {thisOrganization ? thisOrganization.name : 'No organization found'}
+        <Row className="justify-content-center">
+          <Col style={{ maxWidth: '50rem' }}>
+            {thisOrganization ? (
+              <>
+                <Card style={{ backgroundColor: 'snow' }} text="black">
+                  <Card.Body>
+                    <Card.Title>{thisOrganization.name}</Card.Title>
+                    <Card.Subtitle>Mission</Card.Subtitle>
+                    <Card.Text>
+                      Test mission test mission test mission test mission
+                    </Card.Text>
+                    <Card.Subtitle>Description</Card.Subtitle>
+                    <Card.Text>
+                      Test description test description test description test description test description test description test description test description test description test description test description test description test description
+                    </Card.Text>
+                    <Card.Subtitle>Tags</Card.Subtitle>
+                    <Card.Text>TestTag1 Test</Card.Text>
+                  </Card.Body>
+                </Card>
+                <Container className="py-3">
+                  <h3>Upcoming events</h3>
+                  Horizontal scroll of events
+                  <h3>Active opportunities</h3>
+                  List of opportunities
+                </Container>
+              </>
+            ) : 'No organization found'}
+          </Col>
+        </Row>
       </Container>
     ) : <LoadingSpinner />);
   }
