@@ -23,7 +23,7 @@ class EventSubscriptionCollection extends BaseCollection {
         required: true,
       },
       'subscriptionInfo.orgID': {
-        type: String,
+        type: SimpleSchema.Integer,
         required: true,
       },
       'subscriptionInfo.eventName': {
