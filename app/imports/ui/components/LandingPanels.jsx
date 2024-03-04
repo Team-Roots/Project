@@ -117,6 +117,7 @@ const LandingPanel = ({ events, subbedEvents }) => {
               variant="primary"
               size="lg"
               href="/calendar"
+              className="edit robotoText"
               style={{ marginTop: 5, marginLeft: 12 }}
             >
               Go to monthly calendar
