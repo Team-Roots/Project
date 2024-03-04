@@ -14,7 +14,7 @@ const EventCard = ({ event }) => {
   return (
     <Card className="mb-3" id="colorCard" style={{ height: '100%' }}>
       <Card.Body>
-        <Image src={event.image} className="imageContain" />
+        <Image src={event.image} className="imageContain pb-2" />
         <Row className="text-center">
           <Card.Title className="poppinsText">{event.name}</Card.Title>
         </Row>
