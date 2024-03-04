@@ -5,6 +5,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import BeforeLanding from '../pages/BeforeLanding';
 import Landing from '../pages/Landing';
 import AddEvent from '../pages/AddEvent';
 import EditEvent from '../pages/EditEvent';
@@ -29,6 +30,7 @@ import CommunityGroups from '../pages/CommunityGroups';
 import SubscribedEvents from '../pages/SubscribedEvents';
 import VolunteerOrganizations from '../pages/organizations/VolunteerOrganizations';
 import ViewOrganization from '../pages/organizations/ViewOrganization';
+import CalendarView from '../pages/Calendar_Page/Calendar';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -43,16 +45,18 @@ const App = () => {
       <div className="d-flex flex-column min-vh-100">
         <NavBar />
         <Routes>
-          <Route exact path="/" element={<Landing />} />
+          <Route exact path="/" element={<BeforeLanding />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
-          <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/calendar" element={<CalendarView />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
           <Route path="/subscribedevents" element={<ProtectedRoute><SubscribedEvents /></ProtectedRoute>} />
-          <Route path="/registrationform" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
+          <Route path="/registrationform/:_id" element={<ProtectedRoute><RegistrationForm /></ProtectedRoute>} />
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />

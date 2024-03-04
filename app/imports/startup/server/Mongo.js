@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 
 Meteor.methods({
   // eslint-disable-next-line meteor/audit-argument-checks
@@ -37,6 +38,21 @@ Meteor.methods({
     check(eventId, String);
 
     Events.collection.remove(eventId);
+  },
+  'eventSubscription.insert'(eventSubscriptionInfo) {
+    check(eventSubscriptionInfo, {
+      email: String,
+      orgID: Number,
+      eventName: String,
+      eventDate: String, // Assuming eventDate is stored as a string in the desired format
+      // Add other fields if necessary
+    });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to subscribe to events.');
+    }
+
+    EventSubscription.define({ subscriptionInfo: eventSubscriptionInfo });
   },
 });
 

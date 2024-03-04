@@ -25,6 +25,7 @@ export const COMPONENT_IDS = {
   NAVBAR_LIST_EVENTS: 'navbar-list-events',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
+  NAVBAR_DASHBOARD_PAGE: 'navbar_dashboard_page',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
   NAVBAR_COLLAPSE: 'navbar-collapse',
   NAVBAR_LOGIN_DROPDOWN: 'navbar-login-dropdown',
@@ -43,5 +44,7 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   SIGN_UP_FORM_SKILL: 'sign-up-form-skill',
+  SIGN_UP_FORM_BIRTHDAY: 'sign-up-form-birthday',
+  SIGN_UP_FORM_PHONE_NUMBER: 'sign-up-form-phone-number',
   SIGN_UP_FORM_LOCATION: 'sign-up-form-location',
 };

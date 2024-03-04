@@ -1,48 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Col, Row, Nav, Table, ProgressBar } from 'react-bootstrap';
+import React from 'react';
+import { Container, Col, Row, Nav, Table, ProgressBar, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import BarGraph from './BarGraph';
 import FadeInSection from './FadeInSection';
 import EventCard from './EventCard';
+import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ orgs, events }) => {
-  console.log(events);
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 1;
-
-  const totalCards = orgs.length;
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
-
-  const orgsPerPage = (page) => {
-    const startIndex = (page - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return orgs.slice(startIndex, endIndex);
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('.landing-section');
-      const scrollTop = window.scrollY;
-
-      sections.forEach((section, index) => {
-        const sectionTop = section.offsetTop;
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
-          setCurrentPage(index + 1);
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+const LandingPanel = ({ events, subbedEvents }) => {
+  console.log(subbedEvents);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const cardsPerPage = 1;
+  //
+  // const totalCards = orgs.length;
+  // const totalPages = Math.ceil(totalCards / cardsPerPage);
+  //
+  // const orgsPerPage = (page) => {
+  //   const startIndex = (page - 1) * cardsPerPage;
+  //   const endIndex = startIndex + cardsPerPage;
+  //   return orgs.slice(startIndex, endIndex);
+  // };
+  //
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const sections = document.querySelectorAll('.landing-section');
+  //     const scrollTop = window.scrollY;
+  //
+  //     sections.forEach((section, index) => {
+  //       const sectionTop = section.offsetTop;
+  //       const sectionBottom = sectionTop + section.offsetHeight;
+  //
+  //       if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+  //         setCurrentPage(index + 1);
+  //       }
+  //     });
+  //   };
+  //
+  //   window.addEventListener('scroll', handleScroll);
+  //
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
   // ideally now will be a value loaded in from a schema
   const now = 7 * 10;
   return (
@@ -61,41 +62,42 @@ const LandingPanel = ({ orgs, events }) => {
                 <FadeInSection>
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
-                    <p>Progress Towards 10Hrs/month Goal:
-                      <div className="pt-3">
-                        <ProgressBar now={now} label={`${now}% of this months goal!`} />
-                      </div>
+                    <p>Progress Towards 10Hrs/month Goal: </p>
+                    <div className="pt-3">
+                      <ProgressBar now={now} label={`${now}% of this months goal!`} />
+                    </div>
+                    <p>
                       <br />
                       Organizations Helped This Month: <br />
-                      <div>
-                        <Table striped bordered hover>
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Organization</th>
-                              <th>Volunteer Service</th>
-                              <th>Hours Served</th>
-                            </tr>
-                          </thead>
-                          { /* later I will create a component that will load a <tr> depending on */}
-                          { /* what is in the user schema */}
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>Test Organization</td>
-                              <td>Beach Clean Up</td>
-                              <td>5 hrs</td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>Test Organization</td>
-                              <td>Feeding Homeless</td>
-                              <td>2 hrs</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
                     </p>
+                    <div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Organization</th>
+                            <th>Volunteer Service</th>
+                            <th>Hours Served</th>
+                          </tr>
+                        </thead>
+                        { /* later I will create a component that will load a <tr> depending on */}
+                        { /* what is in the user schema */}
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>Test Organization</td>
+                            <td>Beach Clean Up</td>
+                            <td>5 hrs</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Test Organization</td>
+                            <td>Feeding Homeless</td>
+                            <td>2 hrs</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </FadeInSection>
               </Col>
@@ -110,17 +112,24 @@ const LandingPanel = ({ orgs, events }) => {
         <Container id="CalenderSection">
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
-            <p>Events in the upcoming week: <br />
-              Link to calendar for more information <br />
-            </p>
+            <WeeklyCalendarComponent subbedEvents={subbedEvents} events={events} />
+            <Button
+              variant="primary"
+              size="lg"
+              href="/calendar"
+              className="edit robotoText"
+              style={{ marginTop: 5, marginLeft: 12 }}
+            >
+              Go to monthly calendar
+            </Button>
           </FadeInSection>
         </Container>
         <div className="landing-section" id="giveHelp">
-          <Container>
+          <Container className="pt-2">
             <FadeInSection>
               <h2>Recommended Events</h2>
             </FadeInSection>
-            <Container>
+            <Container className="pt-2">
               <Row>
                 <FadeInSection>
                   {/* {orgsPerPage(currentPage).map((org) => ( */}
@@ -167,16 +176,16 @@ const LandingPanel = ({ orgs, events }) => {
 };
 
 LandingPanel.propTypes = {
-  orgs: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      website: PropTypes.string.isRequired,
-      organizationOwner: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      ageRange: PropTypes.instanceOf(Object).isRequired,
-    }),
-  ).isRequired,
+  // orgs: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     _id: PropTypes.string.isRequired,
+  //     name: PropTypes.string.isRequired,
+  //     website: PropTypes.string.isRequired,
+  //     organizationOwner: PropTypes.string.isRequired,
+  //     location: PropTypes.string.isRequired,
+  //     ageRange: PropTypes.instanceOf(Object).isRequired,
+  //   }),
+  // ).isRequired,
   events: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -191,6 +200,11 @@ LandingPanel.propTypes = {
       specialInstructions: PropTypes.string,
       // eslint-disable-next-line no-unused-vars,react/forbid-prop-types
       restrictions: PropTypes.object,
+    }),
+  ).isRequired,
+  subbedEvents: PropTypes.arrayOf(
+    PropTypes.shape({
+      subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
     }),
   ).isRequired,
 };

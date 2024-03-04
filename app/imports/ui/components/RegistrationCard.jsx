@@ -1,45 +1,87 @@
 import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
-import swal from 'sweetalert';
+// import swal from 'sweetalert';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Subscribe } from '../../api/event/Subscribe';
+// import { Subscribe } from '../../api/event/Subscribe';
+import Spinner from 'react-bootstrap/Spinner';
+import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 
 const RegistrationCard = ({ event }) => {
+  const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
+    : 'Date not set';
+
+  const { ready, canSubscribe } = useTracker(() => {
+    const subscription = EventSubscription.subscribeEvent();
+    const rdy = subscription.ready();
+    if (!subscription.ready()) {
+      console.log('Subscription is not ready yet.');
+    } else {
+      console.log('Subscription is ready.');
+    }
+    const subscribeBy = Meteor.user().username;
+    const eventSubscriptionInfo = {};
+    eventSubscriptionInfo.email = subscribeBy;
+    eventSubscriptionInfo.orgID = event.organizationID;
+    eventSubscriptionInfo.eventName = event.name;
+    eventSubscriptionInfo.eventDate = formattedCalendarDate;
+    const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
+    return {
+      canSubscribe: !(subscriptionExists),
+      ready: rdy,
+    };
+  }, []);
+
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   }) : 'Date not set';
-  const subscribeEven = (eventId) => {
+
+  const subscribeEvent = () => {
+    // email
     const subscribeBy = Meteor.user().username;
-    Subscribe.collection.insert(
-      { eventId, subscribeBy },
-      (error) => {
-        if (error) {
-          swal('Error', error.message, 'error');
-        } else {
-          swal('Success', `${event.name} successfully subscribed`, 'success');
-        }
-      },
-    );
+    const eventSubscriptionInfo = {};
+    eventSubscriptionInfo.email = subscribeBy;
+    eventSubscriptionInfo.orgID = event.organizationID;
+    eventSubscriptionInfo.eventName = event.name;
+    eventSubscriptionInfo.eventDate = formattedCalendarDate;
+    Meteor.call('eventSubscription.insert', eventSubscriptionInfo, (error) => {
+      if (error) {
+        console.error('Error inserting event subscription:', error.reason);
+      } else {
+        console.log('Event subscription inserted successfully.');
+      }
+    });
   };
 
-  return (
+  return (ready ? (
     <Container>
-      <Row className="justify-content-center align-items-center my-5">
+      <Row className="mb-3 button-small-fixed-size">
+        <Button as={Link} to="/eventopportunities" variant="danger" size="sm">
+          Return
+        </Button>
+      </Row>
+      <Row className="justify-content-center align-items-center">
         <Col md={4} className="p-0">
           <Image className="img-fluid w-100 h-100" src={event.image} />
         </Col>
         <Col md={8}>
-          <Card className="mt-5">
+          <Card>
             <Card.Header className="bg-transparent border-0 text-center">
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
-              <Button variant="success" size="lg" className="mb-3 mx-2" onClick={() => subscribeEven(event._id)}>
-                Subscribe
+              <Button
+                variant="success"
+                size="lg"
+                className="mb-3 mx-2"
+                onClick={subscribeEvent}
+                disabled={!canSubscribe} // Disable button if canSubscribe is not true
+              >
+                {canSubscribe ? 'Subscribe' : 'Subscribed'}
               </Button>
-              <Button as={Link} to="/registrationform" variant="danger" size="lg" className="mb-3">
+              <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
                 I Want to Help
               </Button>
               <ListGroup variant="flush" className="text-start">
@@ -49,7 +91,7 @@ const RegistrationCard = ({ event }) => {
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
                 <ListGroup.Item><strong>DESCRIPTION: </strong>{event.description}</ListGroup.Item>
                 <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
-                <ListGroup.Item><strong>ORGANIZATION: </strong>{event.organization}</ListGroup.Item>
+                <ListGroup.Item><strong>ORGANIZATION: </strong>{event.organizationID}</ListGroup.Item>
                 <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{event.amountVolunteersNeeded}</ListGroup.Item>
                 {event.specialInstructions && <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>}
                 {/* {event.restrictions && <ListGroup.Item><strong>RESTRICTIONS: </strong>{event.restrictions}</ListGroup.Item>}
@@ -60,6 +102,11 @@ const RegistrationCard = ({ event }) => {
         </Col>
       </Row>
     </Container>
+  ) : (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Spinner animation="grow" />
+    </div>
+  )
   );
 };
 
@@ -81,7 +128,7 @@ RegistrationCard.propTypes = {
     // figure out what the data type of restrictions and ageRange are
     // restrictions
     // ageRange
-    organization: PropTypes.string,
+    organizationID: PropTypes.string,
     creator: PropTypes.string,
   }).isRequired,
 };
