@@ -42,7 +42,7 @@ Meteor.methods({
   'eventSubscription.insert'(eventSubscriptionInfo) {
     check(eventSubscriptionInfo, {
       email: String,
-      orgID: String,
+      orgID: Number,
       eventName: String,
       eventDate: String, // Assuming eventDate is stored as a string in the desired format
       // Add other fields if necessary

@@ -7,6 +7,7 @@
     "@canvasjs/react-charts": "^1.0.0",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/interaction": "^6.1.11",
     "@fullcalendar/react": "^6.1.11",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.11.3",

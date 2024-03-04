@@ -23,7 +23,7 @@ class EventSubscriptionCollection extends BaseCollection {
         required: true,
       },
       'subscriptionInfo.orgID': {
-        type: String,
+        type: SimpleSchema.Integer,
         required: true,
       },
       'subscriptionInfo.eventName': {
@@ -65,8 +65,11 @@ class EventSubscriptionCollection extends BaseCollection {
     if (Meteor.isServer) {
       const instance = this;
       Meteor.publish(eventSubscriptionPublications.eventSubscription, function publish() {
-        const username = Meteor.users.findOne(this.userId).username;
-        return instance._collection.find({ 'subscriptionInfo.email': username });
+        if (this.userId) {
+          const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find({ 'subscriptionInfo.email': username });
+        }
+        return this.ready();
       });
 
       Meteor.publish(eventSubscriptionPublications.eventSubscriptionAdmin, function publish() {
