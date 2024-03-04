@@ -24,8 +24,7 @@ const NavBar = () => {
           <Nav className="me-auto justify-content-end robotoText">
             {!currentUser && (
               <>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/about us" key="navbar-about-us">About Us</Nav.Link>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/about us" key="navbar-about-us">About Us</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus" key="navbar-about-us">About Us</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities" key="navbar-events">Events</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups">Community Groups</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
