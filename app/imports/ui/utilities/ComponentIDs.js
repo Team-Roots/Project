@@ -24,6 +24,7 @@ export const COMPONENT_IDS = {
   NAVBAR_LIST_EVENT: 'navbar-list-event',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
+  NAVBAR_DASHBOARD_PAGE: 'navbar_dashboard_page',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
   NAVBAR_COLLAPSE: 'navbar-collapse',
   NAVBAR_LOGIN_DROPDOWN: 'navbar-login-dropdown',
