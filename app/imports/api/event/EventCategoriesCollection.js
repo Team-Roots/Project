@@ -4,6 +4,8 @@ import { check } from 'meteor/check';
 // import { _ } from 'meteor/underscore';
 // import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
+import { Organizations } from '../organization/OrganizationCollection';
+import { Events } from './EventCollection';
 import { ROLE } from '../role/Role';
 
 export const eventCategoriesPublications = {
@@ -87,9 +89,9 @@ class EventCategoriesCollection extends BaseCollection {
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(eventCategoriesPublications.eventCategories, function publish() {
         // TODO: Ask Truman/Liam for help
-        const organization = Meteor.Organizations.findOne(this.docID).orgID;
-        const name = Meteor.Events.findOne(this.docID).name;
-        const date = Meteor.Events.findOne(this.docID).eventDate;
+        const organization = Organizations.findOne(this.docID, {});
+        const name = Events.findOne(this.docID, {});
+        const date = Events.findOne(this.docID, {});
         return instance._collection.find({ 'eventInfo.organizationID': organization, 'eventInfo.eventName': name, 'eventInfo.eventDate': date });
       });
     }
