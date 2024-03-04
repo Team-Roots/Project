@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Container, Col, Row } from 'react-bootstrap';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -10,7 +10,6 @@ import NotFound from '../NotFound';
 const VolunteerOrganizations = () => {
   const { orgID } = useParams();
   const parsedOrgID = parseInt(orgID, 10);
-  console.log("org id is ", parsedOrgID);
   if (orgID) { // display just this requested organization
     const { ready, thisOrganization } = useTracker(() => {
       const subscription = Organizations.subscribeOrg();
@@ -22,7 +21,7 @@ const VolunteerOrganizations = () => {
       };
     }, [orgID]);
     return (ready ? (
-      <Container className="py-3 px-5" id={PAGE_IDS.LIST_ORGANIZATIONS}>
+      <Container className="py-3 px-5" id={PAGE_IDS.VIEW_ORGANIZATION}>
         {thisOrganization ? thisOrganization.name : 'No organization found'}
       </Container>
     ) : <LoadingSpinner />);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
