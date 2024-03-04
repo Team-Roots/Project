@@ -12,11 +12,9 @@ const EventCard = ({ event }) => {
   const creator = user ? user.username : null;
 
   return (
-    <Card className="mb-3" id="colorCard">
+    <Card className="mb-3" id="colorCard" style={{ height: '100%' }}>
       <Card.Body>
-        <Row className="text-center ">
-          <Image src={event.image} className="imageContain text-center" />
-        </Row>
+        <Image src={event.image} className="imageContain" />
         <Row className="text-center">
           <Card.Title className="poppinsText">{event.name}</Card.Title>
         </Row>
@@ -36,11 +34,13 @@ const EventCard = ({ event }) => {
             {/* <ListGroup.Item className="m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
           </ListGroup>
         </Row>
+      </Card.Body>
+      <Card.Footer>
         <Row>
           <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText edit">More Details</Link></Col>
           <Col>{event.creator === creator && <Link to={`/edit-event/${event._id}`} className="btn btn-danger mx-1 robotoText">Edit</Link>}</Col>
         </Row>
-      </Card.Body>
+      </Card.Footer>
     </Card>
   );
 };

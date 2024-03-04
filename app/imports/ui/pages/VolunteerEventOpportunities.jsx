@@ -127,7 +127,7 @@ const VolunteerEventOpportunities = () => {
           </FormCheck>
         </Col>
         <Col>
-          <Row md={1} lg={2} className="g-4">
+          <Row xs={1} md={2} lg={3} className="g-4">
             {data.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
           </Row>
         </Col>
