@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Footer from '../components/Footer';
 import BeforeLanding from '../pages/BeforeLanding';
 import Landing from '../pages/Landing';
-import VolunteerEventOpportunities from '../pages/VolunteerEventOpportunities';
 import AddEvent from '../pages/AddEvent';
 import EditEvent from '../pages/EditEvent';
 import NotFound from '../pages/NotFound';
@@ -25,11 +24,14 @@ import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
-import Events from '../pages/Events';
+import VolunteerEvents from '../pages/VolunteerEvents';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';
 import SubscribedEvents from '../pages/SubscribedEvents';
+import VolunteerOrganizations from '../pages/organizations/VolunteerOrganizations';
+import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
+
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
   const { ready } = useTracker(() => {
@@ -58,11 +60,13 @@ const App = () => {
           <Route path="/event" element={<ProtectedRoute><ListEvent /></ProtectedRoute>} />
           <Route path="/my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
           <Route path="/myaccount" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
-          <Route path="/eventopportunities" element={<VolunteerEventOpportunities />} />
-          <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+          <Route path="/eventopportunities" element={<VolunteerEvents />} />
+          <Route path="/events" element={<ProtectedRoute><VolunteerEvents /></ProtectedRoute>} />
           <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
+          <Route path="/organizations" element={<ProtectedRoute><VolunteerOrganizations /></ProtectedRoute>} />
+          <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />

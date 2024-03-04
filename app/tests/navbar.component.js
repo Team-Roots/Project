@@ -24,7 +24,7 @@ class NavBar {
   }
 
   async gotoEventPage() {
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LIST_EVENT}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_LIST_EVENTS}`);
   }
 
   async clickMyAccountDropDown() {
