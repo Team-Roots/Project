@@ -25,6 +25,11 @@ const VolunteerEvents = () => {
     };
   }, []);
 
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate.toString() > currentDate.toString());
+  console.log(currentDate);
+  console.log(filteredDate);
+
   const [searchInput, setSearchInput] = useState('');
   const [data, setData] = useState(events);
   const handleSearchChange = (e) => {
@@ -33,11 +38,11 @@ const VolunteerEvents = () => {
 
   const applySearch = () => {
     if (!searchInput.trim()) {
-      setData(events);
+      setData(filteredDate);
       return;
     }
 
-    const filteredData = events.filter((event) => {
+    const filteredData = filteredDate.filter((event) => {
       const fieldsToSearch = ['name', 'category', 'organization'];
 
       return fieldsToSearch.some((field) => {
