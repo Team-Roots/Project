@@ -57,6 +57,14 @@ const VolunteerOrganizations = () => {
             <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
           </FormCheck>
           <br />
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Non-profit</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">For-profit</FormCheckLabel>
+          </FormCheck>
         </Col>
         <Col>
           <Container className="py-2">{organizations.length} organizations found:</Container>
@@ -71,6 +79,11 @@ const VolunteerOrganizations = () => {
               Categories
             </Container>
           ))}
+        </Col>
+      </Row>
+      <Row className="pt-3">
+        <Col>
+          <Link to="/organizations/register">Claim or register your organization</Link>
         </Col>
       </Row>
     </Container>
