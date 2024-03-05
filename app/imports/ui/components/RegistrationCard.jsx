@@ -1,11 +1,9 @@
 import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
-// import swal from 'sweetalert';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import { Subscribe } from '../../api/event/Subscribe';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
@@ -38,10 +36,8 @@ const RegistrationCard = ({ event }) => {
     };
   }, []);
 
-  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  }) : 'Date not set';
-
+  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
+  const navigate = useNavigate();
   const subscribeEvent = () => {
     // email
     const subscribeBy = Meteor.user().username;
@@ -62,7 +58,7 @@ const RegistrationCard = ({ event }) => {
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
-        <Button as={Link} to="/eventopportunities" variant="danger" size="sm">
+        <Button as={Link} onClick={() => navigate(-1)} variant="danger" size="sm">
           Return
         </Button>
       </Row>

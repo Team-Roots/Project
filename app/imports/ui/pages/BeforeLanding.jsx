@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Airplane, BookmarkHeart, FileRichtext, GlobeAmericas, Search } from 'react-bootstrap-icons';
+import { PencilSquare, FileRichtext, BuildingAdd, Search, Clock } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import './css/BeforeLanding.css';
 import { useTracker } from 'meteor/react-meteor-data'; // Assuming you're using Meteor
@@ -62,7 +62,7 @@ const BeforeLanding = () => {
             <Col md={2} className="py-3">
               <Container id="border" className="d-flex flex-column justify-content-center align-items-center p-3">
                 <div className="custom-circle">
-                  <BookmarkHeart className="custom-icons" />
+                  <Clock className="custom-icons" />
                 </div>
                 <h6 className="pt-4">COUNT YOUR HOURS</h6>
               </Container>
@@ -78,7 +78,7 @@ const BeforeLanding = () => {
             <Col md={2} className="py-3">
               <Container id="border" className="d-flex flex-column justify-content-center align-items-center p-3">
                 <div className="custom-circle">
-                  <GlobeAmericas className="custom-icons" />
+                  <PencilSquare className="custom-icons" />
                 </div>
                 <h6 className="pt-4">CREATE AN EVENT</h6>
               </Container>
@@ -86,7 +86,7 @@ const BeforeLanding = () => {
             <Col md={2} className="py-3">
               <Container id="border" className="d-flex flex-column justify-content-center align-items-center p-3">
                 <div className="custom-circle">
-                  <Airplane className="custom-icons" />
+                  <BuildingAdd className="custom-icons" />
                 </div>
                 <h6 className="pt-4">REGISTER YOUR ORGANIZATION</h6>
               </Container>
