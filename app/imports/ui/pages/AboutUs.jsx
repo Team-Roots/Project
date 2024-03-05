@@ -16,6 +16,25 @@ const VolunteerShovel = '../images/VolunteerShovel.jpg';
 
 const AboutUs = () => (
   <Container id={PAGE_IDS.ABOUT_US} className="my-5">
+    {/*<h1 className="text-center">About Us</h1>*/}
+    <Row>
+      <Col className="text-center">
+        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+        <h5 style={{ textDecoration: 'none' }}>Hours Logged</h5>
+      </Col>
+      <Col className="text-center">
+        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+        <h5>Persons Served</h5>
+      </Col>
+      <Col className="text-center">
+        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+        <h5>Active Volunteer Hours</h5>
+      </Col>
+      <Col className="text-center">
+        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+        <h5>Communities Changed</h5>
+      </Col>
+    </Row>
     <Row>
       <Col>
         <FadeInSection />
@@ -52,7 +71,8 @@ const AboutUs = () => (
                       <Card.Title>Join Our Community</Card.Title>
                       <Card.Text>
                         {/* eslint-disable-next-line max-len,react/no-unescaped-entities */}
-                        Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your volunteer journey, expand your network,
+                        Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your volunteer
+                        journey, expand your network,
                         {/* eslint-disable-next-line react/no-unescaped-entities */}
                         Be part of a thriving community dedicated to making a difference. Whether you're looking to contribute your time, skills, or resources, there's a place for you here. With Voluntree, you can streamline your
                         volunteer journey, expand your network,
@@ -111,28 +131,6 @@ const AboutUs = () => (
         </FadeInSection>
       </Col>
     </Row>
-    <div>
-      <h1 className="text-center">About Effort</h1>
-      <Row>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5 style={{ textDecoration: 'none' }}>Hours Logged</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Persons Served</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Active Volunteer Hours</h5>
-        </Col>
-        <Col className="text-center">
-          <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-          <h5>Communities Changed</h5>
-        </Col>
-      </Row>
-    </div>
-
   </Container>
 );
 
