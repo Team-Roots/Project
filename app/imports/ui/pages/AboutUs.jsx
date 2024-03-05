@@ -16,7 +16,7 @@ const VolunteerShovel = '../images/VolunteerShovel.jpg';
 
 const AboutUs = () => (
   <Container id={PAGE_IDS.ABOUT_US} className="my-5">
-    {/*<h1 className="text-center">About Us</h1>*/}
+    {/* <h1 className="text-center">About Us</h1> */}
     <Row>
       <Col className="text-center">
         <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
