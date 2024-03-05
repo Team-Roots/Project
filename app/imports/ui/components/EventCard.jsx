@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const EventCard = ({ event }) => {
-  const formattedDate = event.eventDate ? event.eventDate.toDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  }) : 'Date not set';
+  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
   const user = Meteor.user();
   const creator = user ? user.username : null;
 

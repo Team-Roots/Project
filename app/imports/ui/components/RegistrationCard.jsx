@@ -36,9 +36,7 @@ const RegistrationCard = ({ event }) => {
     };
   }, []);
 
-  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  }) : 'Date not set';
+  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
   const navigate = useNavigate();
   const subscribeEvent = () => {
     // email
