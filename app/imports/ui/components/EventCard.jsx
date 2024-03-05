@@ -19,17 +19,15 @@ const EventCard = ({ event }) => {
         <Row>
           <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted robotoText">{event.startTime} - {event.endTime}</Card.Subtitle>
-          <Card.Text className="robotoText">
-            {event.description} <br />
-            Location: {event.location}
-          </Card.Text>
+          <Card.Subtitle className="mb-2 text-muted robotoText">{event.location}</Card.Subtitle>
+          <Card.Text className="robotoText">{event.description} <br /></Card.Text>
         </Row>
         <Row className="my-1">
           <ListGroup horizontal className="justify-content-center align-content-center pb-1">
-            <ListGroup.Item className="m-1 robotoText eventLG">{event.category}</ListGroup.Item>
-            {event.isOnline && <ListGroup.Item className="m-1 robotoText eventLG">Online</ListGroup.Item>}
-            {!event.isOnline && <ListGroup.Item className="m-1 robotoText eventLG">In-Person</ListGroup.Item>}
-            {/* <ListGroup.Item className="m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
+            <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{event.category}</ListGroup.Item>
+            {event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">Online</ListGroup.Item>}
+            {!event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">In-Person</ListGroup.Item>}
+            {/* <ListGroup.Item className="rounded-pill m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
           </ListGroup>
         </Row>
       </Card.Body>
