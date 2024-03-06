@@ -92,7 +92,6 @@ if (Organizations.count() === 0) {
         onboarded: org.onboarded,
         backgroundCheck: org.backgroundCheck,
         ageRange: org.ageRange,
-        orgID: org.orgID,
       };
       addOrganizationData(newDoc);
     });

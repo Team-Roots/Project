@@ -29,16 +29,21 @@ class OrganizationAdminCollection extends BaseCollection {
 
   /**
    * Defines a new OrganizationAdmin.
-   * @return {orgAdmin}
-   * @return {orgID}
+   * @return {orgAdmin} email of the org admin to be added
+   * @return {orgID} orgID of the org
    * @return {String} the docID of the new document.
    */
   define({ orgAdmin, orgID }) {
+    let orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
+    console.log(`Inserting org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminDoc._id}`);
     const docID = this._collection.insert({
       orgAdmin,
       orgID,
     });
-    Roles.addUsersToRoles(orgAdmin, ROLE.ORG_ADMIN);
+    orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
+    Roles.addUsersToRoles(orgAdminDoc._id, ROLE.ORG_ADMIN);
+    orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
+    console.log(`Inserted org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminDoc._id}`);
     return docID;
   }
 

@@ -18,8 +18,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 1
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 2",
@@ -30,8 +29,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 2
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 3",
@@ -42,8 +40,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 3
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 4",
@@ -54,8 +51,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 4
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 5",
@@ -66,8 +62,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 5
+      "ageRange": { "min": 18, "max": 99 }
     }
   ],
   "defaultEvents": [

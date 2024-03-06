@@ -85,22 +85,18 @@ class OrganizationCollection extends BaseCollection {
    * @param location the location of the event
    * @param backgroundCheck check if org has a background check
    * @param ageRange is the age range the individual needs to be in
-   * @param orgID autoincrement ID
+   * @param orgID optional autoincrement ID, if not specified the collection will use the next available ID
    * @param name org name
    * @return {String} the docID of the new document.
    */
   define({ name, website, profit, location, organizationOwner,
-    visible, onboarded, backgroundCheck, ageRange, orgID }) {
-    let finalOrgID;
-    if (orgID) {
-      const existingOrg = this._collection.findOne({ orgID: orgID });
-      if (existingOrg) {
-        throw new Meteor.Error(`Inserting organization ${name} failed because ${existingOrg.name} already has orgID ${orgID}`);
-      }
-      finalOrgID = orgID;
-    } else {
-      finalOrgID = this.newGlobalID();
+    visible, onboarded, backgroundCheck, ageRange }) {
+    const existingOrg = this._collection.findOne({ organizationOwner: organizationOwner });
+    if (existingOrg) {
+      throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
     }
+    const orgID = this.newGlobalID();
+    console.log(`Inserting organization ${name} with owner ${organizationOwner} and orgID ${orgID}`);
     const docID = this._collection.insert({
       name,
       website,
@@ -111,12 +107,13 @@ class OrganizationCollection extends BaseCollection {
       onboarded,
       backgroundCheck,
       ageRange,
-      orgID: finalOrgID,
+      orgID,
     });
-    const waiverDoc = { waiver: 'test', orgID: orgID };
+    const waiverDoc = { waiver: 'test', orgID };
     OrganizationWaiver.define(waiverDoc);
-    const adminDoc = { orgAdmin: organizationOwner, orgID: orgID };
-    OrganizationAdmin.define(adminDoc);
+    const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
+    OrganizationAdmin.define(orgAdminDoc);
+    console.log(`Inserted organization ${name} with owner ${organizationOwner} and orgID ${orgID}`);
     return docID;
   }
   // I need to come back to this after I talk to truman
