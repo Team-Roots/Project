@@ -42,10 +42,10 @@ const NavBar = () => {
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus">About Us</Nav.Link>,
               <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LIST_EVENTS} as={NavLink} to="/events" key="events">Events</NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to="/opportunities" key="opportunities">Opportunities</NavDropdown.Item>
                 <NavDropdown.Item as={NavLink} to="/organizations" key="organizations">Organizations</NavDropdown.Item>
                 {
-                  // TODO: goes to notfound until opportunities is implemented
+                  // <NavDropdown.Item as={NavLink} to="/opportunities" key="opportunities">Opportunities</NavDropdown.Item>
+                  // TODO: implement opportunities and then uncomment this navlink
                 }
               </NavDropdown>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,

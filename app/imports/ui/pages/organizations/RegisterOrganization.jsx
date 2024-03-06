@@ -8,46 +8,59 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { Organizations } from '../../../api/organization/OrganizationCollection';
 import NotFound from '../NotFound';
 import { PAGE_IDS } from '../../utilities/PageIDs';
-import { Stuffs } from '../../../api/stuff/StuffCollection';
+import { Organizations } from '../../../api/organization/OrganizationCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 
 const formSchema = new SimpleSchema({
   name: String,
   website: { type: String, optional: true },
-  profit: Boolean,
+  type: { type: String, allowedValues: ['For-profit', 'Non-profit'] },
   location: String,
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 const VolunteerOrganizations = () => {
-  const submit = (data, formRef) => {
-    const { name, quantity, condition } = data;
-    const owner = Meteor.user().username;
-    const collectionName = Stuffs.getCollectionName();
-    const definitionData = { name, quantity, condition, owner };
+  const submit = (data) => {
+    const { name, website, type, location } = data;
+    const organizationOwner = Meteor.user().username;
+    const visible = false;
+    const onBoarded = true;
+    const backgroundCheck = false;
+    const ageRange = { min: 18, max: 99 };
+    const collectionName = Organizations.getCollectionName();
+    const definitionData = {
+      name,
+      website,
+      type,
+      location,
+      organizationOwner,
+      visible,
+      onBoarded,
+      backgroundCheck,
+      ageRange,
+    };
+    console.log("called submit");
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
         swal('Success', 'Item added successfully', 'success');
-        formRef.reset();
       });
   };
-  let fRef = null;
   return (
     <Container id={PAGE_IDS.REGISTER_ORGANIZATION} className="py-3">
       <Row className="justify-content-center">
         <Col xs={5}>
-          <Col className="text-center"><h2>Add Stuff</h2></Col>
-          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
+          <Col className="text-center"><h2>Create your organization</h2></Col>
+          <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
               <Card.Body>
-                <TextField name="name" />
-                <NumField name="quantity" decimal={null} />
-                <SelectField name="condition" />
+                <TextField name="name" placeholder="Your organization's name" />
+                <TextField name="website" placeholder="Your organization's website" />
+                <SelectField name="type" placeholder="Is your organization for-profit or non-profit?" />
+                <TextField name="location" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </Card.Body>

@@ -118,14 +118,6 @@ class UserStatsCollection extends BaseCollection {
         }
         return this.ready();
       });
-
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(userStatsPublications.userStats, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
     }
   }
 
