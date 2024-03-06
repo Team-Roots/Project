@@ -58,7 +58,7 @@ const RegistrationCard = ({ event }) => {
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
-        <Button as={Link} onClick={() => navigate(-1)} variant="danger" size="sm">
+        <Button as={Link} to={`/events`} variant="danger" size="sm">
           Return
         </Button>
       </Row>
