@@ -29,7 +29,7 @@ class OrganizationAdminCollection extends BaseCollection {
 
   /**
    * Defines a new OrganizationAdmin.
-   * @return {newOrgAdmin}
+   * @return {orgAdmin}
    * @return {orgID}
    * @return {String} the docID of the new document.
    */
@@ -38,7 +38,7 @@ class OrganizationAdminCollection extends BaseCollection {
       orgAdmin,
       orgID,
     });
-    UserProfiles.update({ email: orgAdmin }, { isOrgAdmin: true });
+    Roles.addUsersToRoles(orgAdmin, ROLE.ORG_ADMIN);
     return docID;
   }
 

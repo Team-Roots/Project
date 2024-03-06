@@ -137,26 +137,12 @@
     }
   ],
 
-  "defaultUserProfiles": [
-    {
-      "email":  "john@foo.com",
-      "password": "changeme",
-      "firstName": "John",
-      "lastName": "Foo"
-    }
-  ],
-  "defaultProfiles": [
-    { "firstName": "admin", "lastName": "foo" , "owner": "admin@foo.com", "idNumber": "123" },
-    { "firstName": "john", "lastName": "foo" , "owner": "john@foo.com", "idNumber": "1234" }
-  ],
   "defaultData": [
     { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
-
-
 
   "public": {
     "cloudinary": {"cloud_name": "dlqixfg1f", "upload_preset": "rudaqi8t"}

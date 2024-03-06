@@ -7,7 +7,6 @@ import { UserStats } from './UserStatisticsCollection';
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
     super('UserProfile', new SimpleSchema({
-      isOrgAdmin: Boolean,
     }));
   }
 
@@ -20,14 +19,14 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param completedHours
    * @param isOrgAdmin
    */
-  define({ email, firstName, lastName, password, completedHours, isOrgAdmin }) {
+  define({ email, firstName, lastName, password, completedHours }) {
     // if (Meteor.isServer) {
     const username = email;
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
       const role = ROLE.USER;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin: isOrgAdmin || false, role });
+      const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
       const stats = {};
       // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
