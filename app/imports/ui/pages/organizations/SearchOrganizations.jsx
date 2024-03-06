@@ -8,7 +8,7 @@ import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
 
-const VolunteerOrganizations = () => {
+const SearchOrganizations = () => {
   const { ready, organizations } = useTracker(() => {
     const subscription = Organizations.subscribeOrg();
     const rdy = subscription.ready();
@@ -67,9 +67,9 @@ const VolunteerOrganizations = () => {
           </FormCheck>
         </Col>
         <Col>
-          <Container className="py-2">{organizations.length} organizations found:</Container>
+          <Container>{organizations.length} organizations found:</Container>
           {organizations.map(organization => (
-            <Container key={organization._id}>
+            <Container className="py-2" key={organization._id}>
               <Link to={`${organization.orgID}`}>
                 <h4>{organization.name}</h4>
               </Link>
@@ -90,4 +90,4 @@ const VolunteerOrganizations = () => {
   ) : <LoadingSpinner />);
 };
 
-export default VolunteerOrganizations;
+export default SearchOrganizations;

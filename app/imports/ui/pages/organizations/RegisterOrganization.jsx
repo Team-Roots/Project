@@ -1,14 +1,10 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Row, Card, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { useTracker } from 'meteor/react-meteor-data';
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import NotFound from '../NotFound';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
@@ -42,7 +38,6 @@ const VolunteerOrganizations = () => {
       backgroundCheck,
       ageRange,
     };
-    console.log("called submit");
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {

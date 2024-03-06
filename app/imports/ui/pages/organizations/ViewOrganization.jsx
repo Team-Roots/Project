@@ -38,7 +38,7 @@ const VolunteerOrganizations = () => {
                       Test description test description test description test description test description test description test description test description test description test description test description test description test description
                     </Card.Text>
                     <Card.Subtitle>Tags</Card.Subtitle>
-                    <Card.Text>TestTag1 Test</Card.Text>
+                    <Card.Text>TestTag1 TestTag2</Card.Text>
                   </Card.Body>
                 </Card>
                 <Container className="py-3">
