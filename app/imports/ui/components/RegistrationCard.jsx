@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
@@ -36,10 +36,7 @@ const RegistrationCard = ({ event }) => {
     };
   }, []);
 
-  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  }) : 'Date not set';
-  const navigate = useNavigate();
+  const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
   const subscribeEvent = () => {
     // email
     const subscribeBy = Meteor.user().username;
@@ -60,7 +57,7 @@ const RegistrationCard = ({ event }) => {
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
-        <Button as={Link} onClick={() => navigate(-1)} variant="danger" size="sm">
+        <Button as={Link} to="/events" variant="danger" size="sm">
           Return
         </Button>
       </Row>
