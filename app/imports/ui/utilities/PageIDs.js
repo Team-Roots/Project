@@ -17,6 +17,7 @@ export const PAGE_IDS = {
   MY_ACCOUNT: 'my-account',
   NOT_AUTHORIZED: 'not-authorized',
   NOT_FOUND: 'not-found',
+  REGISTER_ORGANIZATION: 'register-organization',
   SIGN_IN: 'sign-in',
   SIGN_OUT: 'sign-out',
   SIGN_UP: 'sign-up',

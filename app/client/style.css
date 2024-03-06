@@ -62,9 +62,12 @@ body {
 }
 
 .imageContain {
-  width: 200px;
   height: 300px;
+  width: 100%;
   object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 #colorCard {
