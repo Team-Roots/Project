@@ -92,7 +92,7 @@ if (Organizations.count() === 0) {
         onboarded: org.onboarded,
         backgroundCheck: org.backgroundCheck,
         ageRange: org.ageRange,
-        orgID: Organizations.newGlobalID(), // TODO: change later to load a global value
+        orgID: org.orgID,
       };
       addOrganizationData(newDoc);
     });

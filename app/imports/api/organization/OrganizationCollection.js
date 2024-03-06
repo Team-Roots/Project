@@ -14,7 +14,7 @@ export const organizationPublications = {
 
 class OrganizationCollection extends BaseCollection {
   constructor() {
-    super('Organizations', new SimpleSchema({
+    super('Organization', new SimpleSchema({
       name: {
         type: String,
         defaultValue: 'John Doe Save The Turtles INC',
@@ -89,7 +89,8 @@ class OrganizationCollection extends BaseCollection {
    * @return {String} the docID of the new document.
    */
   define({ name, website, profit, location, organizationOwner,
-    visible, onboarded, backgroundCheck, ageRange, orgID }) {
+    visible, onboarded, backgroundCheck, ageRange }) {
+    const orgID = this.newGlobalID();
     const docID = this._collection.insert({
       name,
       website,
