@@ -91,7 +91,8 @@ const RegistrationCard = ({ event }) => {
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
                 <ListGroup.Item><strong>DESCRIPTION: </strong>{event.description}</ListGroup.Item>
                 <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
-                <ListGroup.Item><strong>ORGANIZATION: </strong><a href={`/organizations/${event.organizationID}`}>{eventOrganization.name}</a></ListGroup.Item>
+                <ListGroup.Item><strong>ORGANIZATION: </strong><a href={`/organizations/${event.organizationID}`}>{event.organizationID}</a></ListGroup.Item>
+                {/* <ListGroup.Item><strong>ORGANIZATION: </strong><a href={`/organizations/${event.organizationID}`}>{eventOrganization.name}</a></ListGroup.Item> */}
                 <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{event.amountVolunteersNeeded}</ListGroup.Item>
                 {event.specialInstructions && <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>}
                 {/* {event.restrictions && <ListGroup.Item><strong>RESTRICTIONS: </strong>{event.restrictions}</ListGroup.Item>}
