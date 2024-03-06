@@ -90,6 +90,16 @@ class OrganizationCollection extends BaseCollection {
    */
   define({ name, website, profit, location, organizationOwner,
     visible, onboarded, backgroundCheck, ageRange, orgID }) {
+    let finalOrgID;
+    if (orgID) {
+      const existingOrg = this._collection.findOne({ orgID: orgID });
+      if (existingOrg) {
+        throw new Meteor.Error(`Inserting organization ${name} failed because ${existingOrg.name} already has orgID ${orgID}`);
+      }
+      finalOrgID = orgID;
+    } else {
+      finalOrgID = this.newGlobalID();
+    }
     const docID = this._collection.insert({
       name,
       website,
@@ -100,7 +110,7 @@ class OrganizationCollection extends BaseCollection {
       onboarded,
       backgroundCheck,
       ageRange,
-      orgID,
+      orgID: finalOrgID,
     });
     const waiverDoc = { waiver: 'test', orgID: orgID };
     OrganizationWaiver.define(waiverDoc);
