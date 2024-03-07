@@ -14,6 +14,7 @@ class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
+      image: String,
       eventDate: Date,
       description: String,
       category: String,
@@ -23,7 +24,6 @@ class EventCollection extends BaseCollection {
       coordinator: String,
       amountVolunteersNeeded: Number,
       isOnline: Boolean,
-      image: String,
       specialInstructions: {
         type: String,
         optional: true,
@@ -32,6 +32,11 @@ class EventCollection extends BaseCollection {
         type: Object,
         optional: true,
         blackbox: true,
+      },
+      backgroundCheck: {
+        type: Boolean,
+        defaultValue: false,
+        required: true,
       },
       ageRange: {
         type: Object,

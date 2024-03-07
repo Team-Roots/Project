@@ -4,7 +4,6 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { UserProfiles } from '../user/UserProfileCollection';
 import { Users } from '../user/UserCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];

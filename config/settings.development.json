@@ -49,9 +49,7 @@
       "location": "TestUser4 St. HI, 96795",
       "organizationOwner": "testuser4@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "onboarded": false
     },
     {
       "name":  "Example Organization 5",
@@ -60,9 +58,7 @@
       "location": "TestUser5 St. HI, 96795",
       "organizationOwner": "testuser5@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "onboarded": false
     }
   ],
   "defaultEvents": [
