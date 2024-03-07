@@ -139,11 +139,11 @@ class OrganizationCollection extends BaseCollection {
 
   /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
-   * @param orgID the autoincrement ID of the organization to be removed
+   * @param { String | Object } name A document or docID in this collection.
    * @returns true
    */
-  removeIt(orgID) {
-    const toRemoveOrg = this.findDoc(orgID);
+  removeIt(name) {
+    const toRemoveOrg = this.findDoc(name);
     check(toRemoveOrg, Object);
     OrganizationAdmin.remove({ orgID: toRemoveOrg.orgID }, {});
     this._collection.remove(toRemoveOrg._id);
