@@ -46,7 +46,6 @@ class EventSubscriptionCollection extends BaseCollection {
 
   unsub({ subscriptionInfo }) {
     const doc = this._collection.findOne({ subscriptionInfo: subscriptionInfo });
-    console.log(doc);
     if (!doc) {
       throw new Meteor.Error('Event not found', 'Cannot remove a non-existent event.');
     }
