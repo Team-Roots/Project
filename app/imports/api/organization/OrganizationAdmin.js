@@ -5,6 +5,7 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { UserProfiles } from '../user/UserProfileCollection';
+import { Users } from '../user/UserCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationAdminPublications = {
@@ -34,16 +35,16 @@ class OrganizationAdminCollection extends BaseCollection {
    * @return {String} the docID of the new document.
    */
   define({ orgAdmin, orgID }) {
-    let orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
-    console.log(`Inserting org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminDoc._id}`);
+    let orgAdminID = Users.getID(orgAdmin);
+    console.log(`Inserting org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminID}`);
     const docID = this._collection.insert({
       orgAdmin,
       orgID,
     });
-    orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
-    Roles.addUsersToRoles(orgAdminDoc._id, ROLE.ORG_ADMIN);
-    orgAdminDoc = UserProfiles.findOne({ email: orgAdmin });
-    console.log(`Inserted org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminDoc._id}`);
+    orgAdminID = Users.getID(orgAdmin);
+    Roles.addUsersToRoles(orgAdminID, [ROLE.ORG_ADMIN]);
+    orgAdminID = Users.getID(orgAdmin);
+    console.log(`Inserted org admin ${orgAdmin} to orgID ${orgID} and orgAdminDoc id ${orgAdminID}`);
     return docID;
   }
 

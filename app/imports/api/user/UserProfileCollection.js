@@ -22,11 +22,11 @@ class UserProfileCollection extends BaseProfileCollection {
   define({ email, firstName, lastName, password, completedHours }) {
     // if (Meteor.isServer) {
     const username = email;
-    const user = this.findOne({ email, firstName, lastName });
-    if (!user) {
+    const existingProfile = this.findByEmail(email);
+    if (!existingProfile) {
       const role = ROLE.USER;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
+      const newProfileID = this._collection.insert({ email, firstName, lastName, userID });
       const stats = {};
       // when a user profile is created, stats schema gets populated
       stats.hoursThisMonth = 0;
@@ -53,9 +53,9 @@ class UserProfileCollection extends BaseProfileCollection {
         email,
       });
       // this._collection.update(profileID, { $set: { userID } });
-      return profileID;
+      return newProfileID;
     }
-    return user._id;
+    return existingProfile._id;
     // }
     // return undefined;
   }
