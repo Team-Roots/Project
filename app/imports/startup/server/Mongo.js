@@ -54,6 +54,21 @@ Meteor.methods({
 
     EventSubscription.define({ subscriptionInfo: eventSubscriptionInfo });
   },
+  'eventSubscription.unsub'(eventSubscriptionInfo) {
+    check(eventSubscriptionInfo, {
+      email: String,
+      orgID: Number,
+      eventName: String,
+      eventDate: String, // Assuming eventDate is stored as a string in the desired format
+      // Add other fields if necessary
+    });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+
+    EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
+  },
 });
 
 // Initialize the database with a default data document.

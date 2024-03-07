@@ -44,6 +44,15 @@ class EventSubscriptionCollection extends BaseCollection {
     return docID;
   }
 
+  unsub({ subscriptionInfo }) {
+    const doc = this._collection.findOne({ subscriptionInfo: subscriptionInfo });
+    if (!doc) {
+      throw new Meteor.Error('Event not found', 'Cannot remove a non-existent event.');
+    }
+    this._collection.remove(doc._id);
+    return true;
+  }
+
   // eslint-disable-next-line no-unused-vars
   update(docID, { subscriptionInfo }) {
     const updateData = {};

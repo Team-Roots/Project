@@ -11,6 +11,7 @@ import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents }) => {
   console.log(subbedEvents);
+  console.log(events._id);
   // const [currentPage, setCurrentPage] = useState(1);
   // const cardsPerPage = 1;
   //
@@ -122,6 +123,31 @@ const LandingPanel = ({ events, subbedEvents }) => {
             >
               Go to monthly calendar
             </Button>
+          </FadeInSection>
+        </Container>
+        <Container id="SubscribedEventsSection">
+          <FadeInSection>
+            <h2>Your Subscribed Events</h2>
+            {subbedEvents.length > 0 ? (
+              <Row md={1} lg={2} className="g-4">
+                {subbedEvents.map((subEvent) => {
+                  const matchingEvent = events.find(event => event.name === subEvent.subscriptionInfo.eventName);
+                  console.log('Matching Event: ', events._id);
+                  console.log('Searching for event with ID:', subEvent.subscriptionInfo._id);
+                  return (
+                    <Col key={subEvent._id}>
+                      {matchingEvent ? (
+                        <EventCard event={matchingEvent} />
+                      ) : (
+                        <p>Event details not available.</p>
+                      )}
+                    </Col>
+                  );
+                })}
+              </Row>
+            ) : (
+              <p>You have not subscribed to any events yet.</p>
+            )}
           </FadeInSection>
         </Container>
         <div className="landing-section" id="giveHelp">
