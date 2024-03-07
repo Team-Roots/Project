@@ -5,8 +5,6 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { Users } from '../user/UserCollection';
-import { Organizations } from './OrganizationCollection';
-
 
 export const organizationAdminPublications = {
   organizationAdmin: 'OrganizationAdmin',
