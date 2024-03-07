@@ -46,13 +46,23 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.orgID = event.organizationID;
     eventSubscriptionInfo.eventName = event.name;
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
-    Meteor.call('eventSubscription.insert', eventSubscriptionInfo, (error) => {
-      if (error) {
-        console.error('Error inserting event subscription:', error.reason);
-      } else {
-        console.log('Event subscription inserted successfully.');
-      }
-    });
+    if (canSubscribe) {
+      Meteor.call('eventSubscription.insert', eventSubscriptionInfo, (error) => {
+        if (error) {
+          console.error('Error inserting event subscription:', error.reason);
+        } else {
+          console.log('Event subscription inserted successfully.');
+        }
+      });
+    } else {
+      Meteor.call('eventSubscription.unsub', eventSubscriptionInfo, (error) => {
+        if (error) {
+          console.error('Error inserting event subscription:', error.reason);
+        } else {
+          console.log('Event subscription deleted successfully.');
+        }
+      });
+    }
   };
 
   return (ready ? (
@@ -73,13 +83,12 @@ const RegistrationCard = ({ event }) => {
             </Card.Header>
             <Card.Body className="text-end">
               <Button
-                variant="success"
+                variant={canSubscribe ? 'success' : 'danger'}
                 size="lg"
                 className="mb-3 mx-2"
                 onClick={subscribeEvent}
-                disabled={!canSubscribe} // Disable button if canSubscribe is not true
               >
-                {canSubscribe ? 'Subscribe' : 'Subscribed'}
+                {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
               </Button>
               <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
                 I Want to Help
