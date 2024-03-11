@@ -8,17 +8,6 @@
     { "email": "testuser4@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User4" },
     { "email": "testuser5@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User5" }
   ],
-  "defaultProfiles": [
-    { "firstName": "admin", "lastName": "foo" , "owner": "admin@foo.com", "idNumber": "123" },
-    { "firstName": "john", "lastName": "foo" , "owner": "john@foo.com", "idNumber": "1234" }
-  ],
-  "defaultData": [
-    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
-    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
-    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
-    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
   "defaultOrganizations": [
     {
       "name":  "Example Organization 1",
@@ -29,8 +18,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 1
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 2",
@@ -41,8 +29,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 2
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 3",
@@ -53,8 +40,7 @@
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 3
+      "ageRange": { "min": 18, "max": 99 }
     },
     {
       "name":  "Example Organization 4",
@@ -63,10 +49,7 @@
       "location": "TestUser4 St. HI, 96795",
       "organizationOwner": "testuser4@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 4
+      "onboarded": false
     },
     {
       "name":  "Example Organization 5",
@@ -75,52 +58,9 @@
       "location": "TestUser5 St. HI, 96795",
       "organizationOwner": "testuser5@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 },
-      "orgID": 5
+      "onboarded": false
     }
   ],
-
-  "defaultUserProfiles": [
-    {
-      "email":  "john@foo.com",
-      "password": "changeme",
-      "firstName": "John",
-      "lastName": "Foo"
-    }
-  ],
-
-  "defaultUserSkills": [
-    {
-      "userEmail": "john@foo.com",
-      "skillName": "skill1"
-    }
-  ],
-
-  "defaultUserStats": [
-    {
-      "userEmail": "john@foo.com",
-      "completedHours": [
-        {
-          "Jan": 1,
-          "Feb": 2,
-          "Mar": 3,
-          "Apr": 4,
-          "May": 5,
-          "Jun": 6,
-          "Jul": 7,
-          "Aug": 8,
-          "Sep": 9,
-          "Oct": 10,
-          "Nov": 11,
-          "Dec": 12
-        }
-      ],
-      "personsHelped": 2
-    }
-  ],
-
   "defaultEvents": [
     {
       "name":  "Ala Moana Beach Clean Up",
@@ -186,6 +126,13 @@
       "organizationID": 2,
       "creator": "john@foo.com"
     }
+  ],
+
+  "defaultData": [
+    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
+    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
+    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
+    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
 
   "public": {
