@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
@@ -60,7 +59,6 @@ class EventCollection extends BaseCollection {
     if (existingEvent) {
       throw new Meteor.Error(`Inserting event ${name} failed because ${existingEvent.name} is already an event on ${existingEvent.eventDate} and ${existingEvent.startTime}`);
     } else {
-      console.log(`Inserting event ${name} with creator ${creator} and organizationID ${organizationID}`);
       const docID = this._collection.insert({
         name,
         description,

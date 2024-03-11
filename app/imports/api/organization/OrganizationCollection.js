@@ -75,7 +75,6 @@ class OrganizationCollection extends BaseCollection {
       throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
     } else {
       const orgID = this.newGlobalID();
-      console.log(`Inserting organization ${name} with owner ${organizationOwner} and orgID ${orgID}`);
       const docID = this._collection.insert({
         name,
         website,
@@ -90,13 +89,13 @@ class OrganizationCollection extends BaseCollection {
       OrganizationWaiver.define(waiverDoc);
       const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
       OrganizationAdmin.define(orgAdminDoc);
-      console.log(`Inserted organization ${name} with owner ${organizationOwner} and orgID ${orgID}`);
       return docID;
     }
   }
   // I need to come back to this after I talk to truman
   /**
    * Updates the given document.
+   * @param docID the docID of the given organization
    * @param website the link to the webpage
    * @param profit indication of non-profit or for-profit $$$$$$$$$$$$$$
    * @param organizationOwner the owner of the organization
