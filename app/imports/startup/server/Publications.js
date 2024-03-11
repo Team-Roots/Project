@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { MATPCollections } from '../../api/matp/MATPCollections';
-
+import { Events } from '../../api/event/EventCollection';
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
 
@@ -12,4 +12,13 @@ Meteor.publish(null, function () {
     return Meteor.roleAssignment.find({ 'user._id': this.userId });
   }
   this.ready();
+});
+
+// All-level publication.
+Meteor.publish(Events.event, function () {
+  if (this.userId) {
+    // return Events.collection.find({});
+    // we really dont need anything here (this is causing errors too)
+  }
+  return this.ready();
 });

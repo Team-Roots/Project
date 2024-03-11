@@ -1,81 +1,194 @@
 {
   "defaultAccounts": [
-    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"
-    },
-    { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" }
+    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"},
+    { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
+    { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
+    { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
+    { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
+    { "email": "testuser4@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User4" },
+    { "email": "testuser5@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User5" }
   ],
-
+  "defaultProfiles": [
+    { "firstName": "admin", "lastName": "foo" , "owner": "admin@foo.com", "idNumber": "123" },
+    { "firstName": "john", "lastName": "foo" , "owner": "john@foo.com", "idNumber": "1234" }
+  ],
   "defaultData": [
     { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
-  "defaultOrg": [
+
+  "defaultOrganizations": [
     {
-      "Name":  "John's Services",
-      "website": "Johnfoo.org",
+      "name":  "Example Organization 1",
+      "website": "exampleorg1.org",
       "profit": false,
-      "location": "JohnFoo St. HI, 96795",
-      "organizationOwner": "john@foo.com",
+      "location": "TestUser1 St. HI, 96795",
+      "organizationOwner": "testuser1@foo.com",
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "orgID": 0,
-      "ageRange": { "min": 18, "max": 99 }
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 1
     },
     {
-      "Name":  "John's Something or other (test)",
-      "website": "Johnfoo.org",
-      "profit": false,
-      "location": "JohnFoo St. HI, 96795",
-      "organizationOwner": "john@foo.com",
+      "name":  "Example Organization 2",
+      "website": "exampleorg2.org",
+      "profit": true,
+      "location": "TestUser2 St. HI, 96795",
+      "organizationOwner": "testuser2@foo.com",
       "visible": false,
       "onboarded": false,
       "backgroundCheck": false,
-      "orgID": 0,
-      "ageRange": { "min": 18, "max": 99 }
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 2
+    },
+    {
+      "name":  "Example Organization 3",
+      "website": "exampleorg3.org",
+      "profit": false,
+      "location": "TestUser3 St. HI, 96795",
+      "organizationOwner": "testuser3@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 3
+    },
+    {
+      "name":  "Example Organization 4",
+      "website": "exampleorg4.org",
+      "profit": false,
+      "location": "TestUser4 St. HI, 96795",
+      "organizationOwner": "testuser4@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 4
+    },
+    {
+      "name":  "Example Organization 5",
+      "website": "exampleorg5.org",
+      "profit": true,
+      "location": "TestUser5 St. HI, 96795",
+      "organizationOwner": "testuser5@foo.com",
+      "visible": false,
+      "onboarded": false,
+      "backgroundCheck": false,
+      "ageRange": { "min": 18, "max": 99 },
+      "orgID": 5
     }
   ],
+
+  "defaultUserProfiles": [
+    {
+      "email":  "john@foo.com",
+      "password": "changeme",
+      "firstName": "John",
+      "lastName": "Foo"
+    }
+  ],
+
+  "defaultUserSkills": [
+    {
+      "userEmail": "john@foo.com",
+      "skillName": "skill1"
+    }
+  ],
+
+  "defaultUserStats": [
+    {
+      "userEmail": "john@foo.com",
+      "completedHours": [
+        {
+          "Jan": 1,
+          "Feb": 2,
+          "Mar": 3,
+          "Apr": 4,
+          "May": 5,
+          "Jun": 6,
+          "Jul": 7,
+          "Aug": 8,
+          "Sep": 9,
+          "Oct": 10,
+          "Nov": 11,
+          "Dec": 12
+        }
+      ],
+      "personsHelped": 2
+    }
+  ],
+
   "defaultEvents": [
     {
       "name":  "Ala Moana Beach Clean Up",
       "eventDate": "2024-03-04",
       "description": "Come down to help clean!",
-      "owner":  "john@foo.com",
       "category":  "Clean Up",
-      "location":  "Ala Moana Beach Park",
+      "location":  "1201 Ala Moana Blvd, Honolulu, HI 96814",
       "startTime":  "8:00 AM",
       "endTime":  "11:00 AM",
-      "coordinator":  "john@foo.com",
-      "amountVolunteersNeeded": 20
+      "coordinator":  "admin@foo.com",
+      "amountVolunteersNeeded": 20,
+      "isOnline": false,
+      "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
+      "ageRange": { "min": 18, "max": 99 },
+      "organizationID": 1,
+      "creator": "admin@foo.com"
+    },
+    {
+      "name":  "Makai Research Pier Clean Up",
+      "eventDate": "2024-03-11",
+      "description": "Come down to help clean!",
+      "category":  "Clean Up",
+      "location":  "41-305 Kalanianaʻole Hwy, Waimanalo, HI 96795",
+      "startTime":  "8:00 AM",
+      "endTime":  "11:00 AM",
+      "coordinator":  "admin@foo.com",
+      "amountVolunteersNeeded": 20,
+      "isOnline": false,
+      "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
+      "ageRange": { "min": 18, "max": 99 },
+      "organizationID": 1,
+      "creator": "admin@foo.com"
     },
     {
       "name":  "Hawaii Food Bank Donation Drive",
-      "eventDate": "2024-02-24",
+      "eventDate": "2024-04-24",
       "description": "Food donation drive! Donate!",
-      "owner":  "john@foo.com",
       "category":  "Donations",
-      "location":  "UH Mānoa",
+      "location":  "2465 Campus Rd, Honolulu, HI 96822",
       "startTime":  "9:00 AM",
       "endTime":  "3:00 PM",
       "coordinator":  "john@foo.com",
-      "amountVolunteersNeeded": 200
+      "amountVolunteersNeeded": 200,
+      "isOnline": false,
+      "image": "https://foodbanklogos.blob.core.windows.net/foodbanklogos/FoodBankLogo_36_275w.jpg",
+      "ageRange": { "min": 18, "max": 99 },
+      "organizationID": 2,
+      "creator": "john@foo.com"
     },
     {
       "name":  "Oahu SPCA Adoption Event",
-      "eventDate": "2024-02-31",
+      "eventDate": "2024-04-30",
       "description": "Helpers needed to help with the adoption event.",
-      "owner":  "john@foo.com",
       "category":  "Animal Shelter",
-      "location":  "Petco Pearl City",
+      "location":  "1134 Kuala St, Pearl City, HI 96782",
       "startTime":  "10:00 AM",
       "endTime":  "2:00 PM",
       "coordinator":  "john@foo.com",
-      "amountVolunteersNeeded": 5
+      "amountVolunteersNeeded": 5,
+      "isOnline": false,
+      "image": "https://oahuspca.org/images/logo/OahuSPCA.svg",
+      "ageRange": { "min": 18, "max": 99 },
+      "organizationID": 2,
+      "creator": "john@foo.com"
     }
   ],
+
   "public": {
-    "development": true
+    "cloudinary": {"cloud_name": "dlqixfg1f", "upload_preset": "rudaqi8t"}
   }
 }

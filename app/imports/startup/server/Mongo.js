@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 
 Meteor.methods({
   // eslint-disable-next-line meteor/audit-argument-checks
@@ -18,6 +19,9 @@ Meteor.methods({
       endTime: String, // Same as above
       coordinator: String,
       amountVolunteersNeeded: Number, // Or String if it's not a numerical value
+      address: String,
+      locationType: String,
+      image: String,
       specialInstructions: String, // Or whatever type is appropriate
       // eslint-disable-next-line no-undef
       restrictions: Match.Maybe(Object), // Use Match.Maybe if it's optional
@@ -35,6 +39,36 @@ Meteor.methods({
 
     Events.collection.remove(eventId);
   },
+  'eventSubscription.insert'(eventSubscriptionInfo) {
+    check(eventSubscriptionInfo, {
+      email: String,
+      orgID: Number,
+      eventName: String,
+      eventDate: String, // Assuming eventDate is stored as a string in the desired format
+      // Add other fields if necessary
+    });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to subscribe to events.');
+    }
+
+    EventSubscription.define({ subscriptionInfo: eventSubscriptionInfo });
+  },
+  'eventSubscription.unsub'(eventSubscriptionInfo) {
+    check(eventSubscriptionInfo, {
+      email: String,
+      orgID: Number,
+      eventName: String,
+      eventDate: String, // Assuming eventDate is stored as a string in the desired format
+      // Add other fields if necessary
+    });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+
+    EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
+  },
 });
 
 // Initialize the database with a default data document.
@@ -43,8 +77,12 @@ function addData(data) {
   Stuffs.define(data);
 }
 
-function addOrgData(data) {
+function addOrganizationData(data) {
   Organizations.define(data);
+}
+
+function addEventData(data) {
+  Events.define(data);
 }
 
 // Initialize the StuffsCollection if empty.
@@ -56,22 +94,29 @@ if (Stuffs.count() === 0) {
 }
 
 if (Organizations.count() === 0) {
-  if (Meteor.settings.defaultOrg) {
-    console.log('Creating default org');
-    Meteor.settings.defaultOrg.forEach(org => {
+  if (Meteor.settings.defaultOrganizations) {
+    console.log('Creating default organizations');
+    Meteor.settings.defaultOrganizations.forEach(org => {
       const newDoc = {
         name: org.name,
         website: org.website,
         profit: org.profit,
+        location: org.location,
         organizationOwner: org.organizationOwner,
         visible: org.visible,
         onboarded: org.onboarded,
-        location: org.location,
         backgroundCheck: org.backgroundCheck,
         ageRange: org.ageRange,
-        orgID: Organizations.newGlobalID(), // TODO: change later to load a global value
+        orgID: org.orgID,
       };
-      addOrgData(newDoc);
+      addOrganizationData(newDoc);
     });
+  }
+}
+
+if (Events.count() === 0) {
+  if (Meteor.settings.defaultEvents) {
+    console.log('Creating default events.');
+    Meteor.settings.defaultEvents.forEach(event => addEventData(event));
   }
 }
