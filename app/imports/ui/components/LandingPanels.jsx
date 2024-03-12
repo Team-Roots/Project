@@ -9,9 +9,8 @@ import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ events, subbedEvents }) => {
-  console.log(subbedEvents);
-  console.log(events._id);
+const LandingPanel = ({ events, subbedEvents, stat }) => {
+  console.log(stat);
   // const [currentPage, setCurrentPage] = useState(1);
   // const cardsPerPage = 1;
   //
@@ -104,7 +103,7 @@ const LandingPanel = ({ events, subbedEvents }) => {
               </Col>
               <Col className="align-content-start">
                 <FadeInSection>
-                  <BarGraph fluid />
+                  <BarGraph fluid userStats={stat} />
                 </FadeInSection>
               </Col>
             </Row>
@@ -233,6 +232,25 @@ LandingPanel.propTypes = {
       subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
     }),
   ).isRequired,
+  stat: PropTypes.shape({
+    completedHours: PropTypes.arrayOf(
+      PropTypes.shape({
+        year: PropTypes.number.isRequired,
+        Jan: PropTypes.number.isRequired,
+        Feb: PropTypes.number.isRequired,
+        Mar: PropTypes.number.isRequired,
+        Apr: PropTypes.number.isRequired,
+        May: PropTypes.number.isRequired,
+        Jun: PropTypes.number.isRequired,
+        Jul: PropTypes.number.isRequired,
+        Aug: PropTypes.number.isRequired,
+        Sep: PropTypes.number.isRequired,
+        Oct: PropTypes.number.isRequired,
+        Nov: PropTypes.number.isRequired,
+        Dec: PropTypes.number.isRequired,
+      }).isRequired,
+    ).isRequired,
+  }).isRequired,
 };
 
 export default LandingPanel;

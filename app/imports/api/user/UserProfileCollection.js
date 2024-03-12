@@ -37,6 +37,7 @@ class UserProfileCollection extends BaseProfileCollection {
         stats,
         completedHours: completedHours || [
           {
+            year: 2024,
             Jan: 0,
             Feb: 0,
             Mar: 0,

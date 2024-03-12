@@ -103,6 +103,7 @@
       "userEmail": "john@foo.com",
       "completedHours": [
         {
+          "year": "2024",
           "Jan": 1,
           "Feb": 2,
           "Mar": 3,
