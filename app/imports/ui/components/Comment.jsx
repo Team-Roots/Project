@@ -14,7 +14,6 @@ const Comment = ({ comment }) => (
 Comment.propTypes = {
   comment: PropTypes.shape({
     comment: PropTypes.string,
-    uniqueId: PropTypes.string,
     owner: PropTypes.string,
     createdAt: PropTypes.instanceOf(Date),
     _id: PropTypes.string,

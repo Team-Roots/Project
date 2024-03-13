@@ -49,10 +49,11 @@ class EventCollection extends BaseCollection {
       },
       organizationID: SimpleSchema.Integer,
       creator: String,
+      owner: String,
     }));
   }
 
-  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, isOnline, image, specialInstructions, restrictions, ageRange, organizationID, creator }) {
+  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, isOnline, image, specialInstructions, restrictions, ageRange, organizationID, creator, owner }) {
     const docID = this._collection.insert({
       name,
       eventDate,
@@ -70,6 +71,7 @@ class EventCollection extends BaseCollection {
       ageRange,
       organizationID,
       creator,
+      owner,
     });
     return docID;
   }

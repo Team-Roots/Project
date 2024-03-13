@@ -11,22 +11,20 @@ import { Comments } from '../../api/comment/CommentCollection';
 const formSchema = new SimpleSchema({
   comment: String,
   owner: String,
-  uniqueId: String,
   createdAt: Date,
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 /* Renders the AddComment page for adding a comment. */
-const AddComment = ({ owner, uniqueId }) => {
-  console.log('AddComment props:', { owner, uniqueId });
+const AddComment = ({ owner }) => {
+  console.log('AddComment props:', { owner });
   // On submit, insert the data.
   const submit = (data, formRef) => {
-    console.log('uniqueId received in AddComment:', uniqueId);
     console.log('owner received in AddComment:', owner);
     console.log('Inserting data into CommentsCollection:', data);
     Comments.collection.insert(
-      { comment: data.comment, uniqueId, createdAt: new Date(), owner },
+      { comment: data.comment, createdAt: new Date(), owner },
       (error) => {
         if (error) {
           console.log('Inserting data into CommentsCollection2:', data);
@@ -50,7 +48,6 @@ const AddComment = ({ owner, uniqueId }) => {
             <SubmitField id="submit-post" />
             <ErrorsField />
             <HiddenField name="owner" value={owner} />
-            <HiddenField name="uniqueId" value={uniqueId} />
             <HiddenField name="createdAt" value={new Date()} />
           </AutoForm>
         </Col>
@@ -61,11 +58,6 @@ const AddComment = ({ owner, uniqueId }) => {
 
 AddComment.propTypes = {
   owner: PropTypes.string.isRequired,
-  uniqueId: PropTypes.string,
-};
-
-AddComment.defaultProps = {
-  uniqueId: '',
 };
 
 export default AddComment;
