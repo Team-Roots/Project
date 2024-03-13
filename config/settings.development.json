@@ -135,6 +135,13 @@
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
 
+  "defaultCategories": [
+    { "category": "Animal Shelter" },
+    { "category": "Clean Up" },
+    { "category": "Donations" },
+    { "category": "Food Distribution" }
+  ],
+
   "public": {
     "cloudinary": {"cloud_name": "dlqixfg1f", "upload_preset": "rudaqi8t"}
   }

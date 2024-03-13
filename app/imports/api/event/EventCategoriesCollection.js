@@ -42,12 +42,14 @@ class EventCategoriesCollection extends BaseCollection {
   /**
    * Defines a new EventCategoriesCollection object.
    * @param eventInfo event information object
+   * @param categoryName name of category
    */
-  define({ eventInfo }) {
-    // error checking if there already exists a eventCategory object with this email
+  define({ eventInfo, categoryName }) {
+    // error checking if there already exists a eventCategory object with this eventInfo
     if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, 'eventInfo.categoryName': eventInfo.categoryName }, {})) {
       const docID = this._collection.insert({
         eventInfo,
+        categoryName,
       });
       return docID;
     }
