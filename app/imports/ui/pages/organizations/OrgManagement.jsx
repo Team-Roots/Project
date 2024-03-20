@@ -53,6 +53,9 @@ const OrgManagement = () => {
                         <Card.Title className="d-flex justify-content-between">
                           <Link to={`/organizations/${ownedOrganization.orgID}`}>{ownedOrganization.name}</Link>
                           <Link to="/" style={{ color: 'black' }}><Gear /></Link>
+                          {
+                            // TODO: this cog needs to go to some edit organization page
+                          }
                         </Card.Title>
                         <Card.Text>Admins: {ownedOrganizationAdmins.length}</Card.Text>
                       </Card.Body>
@@ -63,6 +66,9 @@ const OrgManagement = () => {
                   <>
                     <h3>Organizations you are a part of</h3>
                     {userIsAdminOrganizations.map(organization => (<Link to="/">{organization.website}</Link>))}
+                    {
+                      // TODO: make this look better
+                    }
                   </>
                 ) : ''}
               </>
