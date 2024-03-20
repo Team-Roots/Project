@@ -24,7 +24,7 @@ import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
-import OrgManagement from '../pages/OrgManagement';
+import OrgManagement from '../pages/organizations/OrgManagement';
 import VolunteerEvents from '../pages/VolunteerEvents';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';

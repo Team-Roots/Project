@@ -28,11 +28,19 @@ Meteor.publish(Events.event, function () {
   }
   return this.ready();
 });
+// split organizationAdmin publication exception to avoid circular dependencies
 Meteor.publish(organizationAdminPublications.organizationAdmin, function () {
-  if (Roles.userIsInRole(this.userId, ROLE.ORG_ADMIN)) {
+  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ORG_ADMIN)) {
     const username = Meteor.users.findOne(this.userId).username;
     const ownedOrgID = Organizations.findOne({ organizationOwner: username }, {}).orgID;
-    return OrganizationAdmin.find({ $or: [{ orgAdmin: username }, { orgID: ownedOrgID }] }, {});
+    return OrganizationAdmin.find({ $or: [{ orgAdmin: username }, { orgID: ownedOrgID }] }, {}); // return documents where either the user is an admin or the user owns the organization
+  }
+  return this.ready();
+});
+
+Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function () {
+  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+    return OrganizationAdmin._collection.find();
   }
   return this.ready();
 });
