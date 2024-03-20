@@ -18,7 +18,7 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
-const VolunteerOrganizations = () => {
+const RegisterOrganization = () => {
   const submit = (data) => {
     const { name, website, type, location } = data;
     const organizationOwner = Meteor.user().username;
@@ -67,4 +67,4 @@ const VolunteerOrganizations = () => {
   );
 };
 
-export default VolunteerOrganizations;
+export default RegisterOrganization;
