@@ -12,7 +12,7 @@ const Footer = () => (
           <ul>
             <li><Link to="/aboutus" style={{ color: 'white' }}>About Us</Link></li>
             <li><Link to="/faq" style={{ color: 'white' }}>FAQ</Link></li>
-            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us" style={{ color: 'white' }}>Contact Us</a></li>
+            <li><a href="mailto:contact@voluntree.com" aria-label="Contact Us" style={{ color: 'white' }}>Email us your inquiries!</a></li>
           </ul>
         </Col>
 
