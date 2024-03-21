@@ -24,15 +24,15 @@ const AboutUs = () => (
       </Col>
       <Col className="text-center">
         <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
+        <h5>Active Volunteer Hours </h5>
+      </Col>
+      <Col className="text-center">
+        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
         <h5>Persons Served</h5>
       </Col>
       <Col className="text-center">
         <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-        <h5>Active Volunteer Hours</h5>
-      </Col>
-      <Col className="text-center">
-        <Odometer value={Math.floor(Math.random() * 1000)} format="d" style={{ fontSize: '3rem' }} />
-        <h5>Communities Changed</h5>
+        <h5>Online Users</h5>
       </Col>
     </Row>
     <Row>
