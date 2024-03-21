@@ -27,7 +27,7 @@ const ContactUs = () => (
       <Row>
         <Col md={3}>
           <div style={{ overflow: 'hidden' }}>
-            <Image src="/images/contactus.png" alt="Volunteers" fluid />
+            <Image src="/images/Voluntree.logo-noG.png" alt="Volunteers" fluid />
           </div>
         </Col>
         <Col md={7}>
