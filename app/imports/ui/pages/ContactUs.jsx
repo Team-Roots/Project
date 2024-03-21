@@ -9,7 +9,7 @@ const ContactUs = () => (
       fluid
       className="d-flex align-items-center justify-content-center"
       style={{
-        backgroundImage: 'linear-gradient(rgba(1,0,0,0.5), rgba(0,0,0,0.5)), url(/images/headerImage.jpg)',
+        background: '#02B5A6',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '100px',
