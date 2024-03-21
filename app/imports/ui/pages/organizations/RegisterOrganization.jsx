@@ -18,7 +18,7 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
-const VolunteerOrganizations = () => {
+const RegisterOrganization = () => {
   const submit = (data) => {
     console.log(data);
     const { name, website, type, location } = data;
@@ -69,4 +69,4 @@ const VolunteerOrganizations = () => {
   );
 };
 
-export default VolunteerOrganizations;
+export default RegisterOrganization;
