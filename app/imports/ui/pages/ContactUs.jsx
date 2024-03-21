@@ -31,8 +31,8 @@ const ContactUs = () => (
           </div>
         </Col>
         <Col md={7}>
-          <h2>Send us an email!</h2>
-          <p>Have an inquiry? Want us to send an invite to a volunteering organization? Send us an email with your requests and we will get back to you when we can!</p>
+          <h2>Reach out to us via email!</h2>
+          <p>If you have a question or wish for us to contact a volunteer group on your behalf, just drop us an email detailing your needs, and we will respond as soon as possible!</p>
           <Form>
             <Form.Group className="mb-3" controlId="formName">
               <Form.Label>Name</Form.Label>
