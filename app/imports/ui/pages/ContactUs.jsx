@@ -1,18 +1,15 @@
-import React from 'react';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-
-/* A simple static component to render some text for the contact us page. */
-
-const ContactUs = () => (
-    <Container fluid style={{ padding: 0 }}>
-      <Container
-          fluid
-          className="d-flex align-items-center justify-content-center"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/headerImage.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            height: '100px',
-            color: 'white',
-            textAlign: 'center',
-            overflowY: 'auto',
+import React, { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import PropTypes from 'prop-types';
+import { Link, Navigate } from 'react-router-dom';
+import { Accounts } from 'meteor/accounts-base';
+import { Alert, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import SimpleSchema from 'simpl-schema';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { PersonFill, EnvelopeFill, KeyFill } from 'react-bootstrap-icons';
+import { PAGE_IDS } from '../utilities/PageIDs';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+/**
+ * SignUp component is similar to signin component, but we create a new user instead.
+ *
