@@ -54,7 +54,7 @@ const App = () => {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="/calendar" element={<CalendarView />} />
-          <Route path="/comment/:_id" element={<CommentPage  owner={event.id}/>} />
+          <Route path="/comment/:_id" element={<CommentPage owner={event.id}/>} />
           <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
