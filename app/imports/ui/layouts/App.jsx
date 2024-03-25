@@ -24,6 +24,7 @@ import Registration from '../pages/Registration';
 import RegistrationForm from '../pages/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
+import OrgManagement from '../pages/organizations/OrgManagement';
 import VolunteerEvents from '../pages/VolunteerEvents';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';
@@ -32,6 +33,7 @@ import SearchOrganizations from '../pages/organizations/SearchOrganizations';
 import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
 import RegisterOrganization from '../pages/organizations/RegisterOrganization';
+import ContactUs from '../pages/ContactUs';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -52,6 +54,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
           <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
@@ -69,6 +72,7 @@ const App = () => {
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
+          <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
