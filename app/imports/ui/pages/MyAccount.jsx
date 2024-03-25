@@ -8,6 +8,10 @@ import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 /* Renders the MyAccount page, displaying all user info */
 const MyAccount = () => {
+  const handleGoalEventClick = () => {
+
+  };
+
   // useTracker connects Meteor data to React components
   const { ready, account } = useTracker(() => {
     // Get the username of current user
@@ -59,8 +63,21 @@ const MyAccount = () => {
           <Card fluid className="accountcard text-center mt-2">
             <Card.Body>
               <Card.Title className="py-2 pb-5 accountcardtitle">My Interests</Card.Title>
-
-              <ul className="list-unstyled">
+              <div id="Monthly Goal" className="pb-3">
+                <Row>
+                  <Col>
+                    <h3>Monthly Goal</h3>
+                  </Col>
+                  <Col>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Button onClick={handleGoalEventClick}>&lt;</Button>
+                      <div style={{ margin: '0 10px' }}>1 hr/month</div>
+                      <Button onClick={handleGoalEventClick}>&gt;</Button>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+              <ul className="list-unstyled py-2">
                 <li><h3>Animal Shelter</h3></li>
                 <li><h3>Clean ups</h3></li>
                 <li><h3>Food Distribution</h3></li>

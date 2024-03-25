@@ -32,7 +32,7 @@ class UserProfileCollection extends BaseProfileCollection {
     // when a user profile is created, stats schema gets populated
     stats.hoursThisMonth = 0;
     stats.totalHours = 0;
-    stats.orgsHelped = [];
+    stats.orgsHelped = {};
     UserStats.define({
       stats,
       completedHours: [
@@ -53,6 +53,7 @@ class UserProfileCollection extends BaseProfileCollection {
         },
       ],
       email,
+      personsHelped: 0,
     });
     // this._collection.update(profileID, { $set: { userID } });
     return newProfileID;

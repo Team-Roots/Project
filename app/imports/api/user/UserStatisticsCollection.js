@@ -13,7 +13,6 @@ class UserStatsCollection extends BaseCollection {
     super('UserStats', new SimpleSchema({
       stats: {
         type: Object,
-        required: true,
       },
       'stats.hoursThisMonth': {
         type: SimpleSchema.Integer,
@@ -26,13 +25,26 @@ class UserStatsCollection extends BaseCollection {
         defaultValue: 0,
       },
       'stats.orgsHelped': {
-        type: Array,
-        required: true,
-        defaultValue: [],
+        type: Object,
+        defaultValue: {},
       },
-      // $ is kinda like any or declaring some sort of extension
-      'stats.orgsHelped.$': {
-        type: String, // Define the type of items in the array
+      // // $ is kinda like any or declaring some sort of extension
+      // 'stats.orgsHelped.$': {
+      //   type: String, // Define the type of items in the array
+      // },
+      'stats.monthlyGoal': {
+        type: SimpleSchema.Integer,
+        defaultValue: 1,
+        min: 0,
+        max: 100,
+      },
+      'stats.orgsHelped.orgName': {
+        type: String,
+        optional: true,
+      },
+      'stats.orgsHelped.Event': {
+        type: String,
+        optional: true,
       },
       completedHours: {
         type: Array,
@@ -69,6 +81,11 @@ class UserStatsCollection extends BaseCollection {
       'completedHours.$.Oct': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
       'completedHours.$.Nov': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
       'completedHours.$.Dec': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      personsHelped: {
+        type: SimpleSchema.Integer,
+        defaultValue: 0,
+        min: 0,
+      },
       email: {
         type: String,
         required: true,
