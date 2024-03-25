@@ -18,6 +18,16 @@ class OrganizationCollection extends BaseCollection {
         type: String,
         defaultValue: 'John Doe Save The Turtles INC',
       },
+      missionStatement: {
+        type: String,
+        optional: true,
+        defaultValue: '',
+      },
+      description: {
+        type: String,
+        optional: true,
+        defaultValue: '',
+      },
       website: {
         type: String,
         defaultValue: 'Change Me!',
