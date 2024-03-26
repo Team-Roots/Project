@@ -67,7 +67,7 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                     <div className="pt-3">
                       <ProgressBar className="position-relative">
                         <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth}% Complete!`}</div>
-                        <ProgressBar now={stat.stats.hoursThisMonth + 50} key={1} />
+                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} />
                       </ProgressBar>
                     </div>
                     <p>
