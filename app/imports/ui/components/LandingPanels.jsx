@@ -64,9 +64,11 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
                     <p>Progress Towards 10Hrs/month Goal: </p>
-                    <div className="pt-3 progress">
-                      <ProgressBar now={stat.stats.hoursThisMonth} label={`${stat.stats.hoursThisMonth}% of this months goal!`} />
-                      <div className="progress-bar-label">{`${stat.stats.hoursThisMonth}%`}</div>
+                    <div className="pt-3">
+                      <ProgressBar className="position-relative">
+                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth}% Complete!`}</div>
+                        <ProgressBar now={stat.stats.hoursThisMonth + 50} key={1} />
+                      </ProgressBar>
                     </div>
                     <p>
                       <br />
