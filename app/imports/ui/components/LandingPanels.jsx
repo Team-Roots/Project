@@ -47,7 +47,6 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
   //   };
   // }, []);
   // ideally now will be a value loaded in from a schema
-  const now = 7 * 10;
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -65,8 +64,9 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
                     <p>Progress Towards 10Hrs/month Goal: </p>
-                    <div className="pt-3">
-                      <ProgressBar now={now} label={`${now}% of this months goal!`} />
+                    <div className="pt-3 progress">
+                      <ProgressBar now={stat.stats.hoursThisMonth} label={`${stat.stats.hoursThisMonth}% of this months goal!`} />
+                      <div className="progress-bar-label">{`${stat.stats.hoursThisMonth}%`}</div>
                     </div>
                     <p>
                       <br />

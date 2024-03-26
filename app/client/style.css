@@ -106,3 +106,18 @@ body {
   width: 100px;
   padding: 0.25rem 0.5rem;
 }
+
+.progress {
+  position: relative;
+}
+
+.progress-bar-label {
+  position: absolute;
+  text-align: center;
+  line-height: 20px; /* line-height should be equal to bar height */
+  overflow: hidden;
+  color: dimgrey;
+  right: 0;
+  left: 0;
+  top: 0;
+}
