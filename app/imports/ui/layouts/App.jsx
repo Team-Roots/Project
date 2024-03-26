@@ -34,6 +34,7 @@ import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
 import RegisterOrganization from '../pages/organizations/RegisterOrganization';
 import ContactUs from '../pages/ContactUs';
+import EditOrganization from '../pages/organizations/EditOrganization';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -72,6 +73,7 @@ const App = () => {
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
+          <Route path="/organizations/edit/:orgID" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
           <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />

@@ -52,10 +52,7 @@ const OrgManagement = () => {
                       <Card.Body>
                         <Card.Title className="d-flex justify-content-between">
                           <Link to={`/organizations/${ownedOrganization.orgID}`}>{ownedOrganization.name}</Link>
-                          <Link to="/" style={{ color: 'black' }}><Gear /></Link>
-                          {
-                            // TODO: this cog needs to go to some edit organization page
-                          }
+                          <Link to={`/organizations/edit/${ownedOrganization.orgID}`} style={{ color: 'black' }}><Gear /></Link>
                         </Card.Title>
                         <Card.Text>Admins: {ownedOrganizationAdmins.length}</Card.Text>
                       </Card.Body>
