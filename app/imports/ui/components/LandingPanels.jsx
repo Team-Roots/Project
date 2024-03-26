@@ -6,11 +6,13 @@ import BarGraph from './BarGraph';
 import FadeInSection from './FadeInSection';
 import EventCard from './EventCard';
 import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
+import TableComponent from './UserDashBoard/TableComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents, stat }) => {
   console.log(stat);
+  console.log(stat.stats);
   // const [currentPage, setCurrentPage] = useState(1);
   // const cardsPerPage = 1;
   //
@@ -83,18 +85,21 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                         { /* later I will create a component that will load a <tr> depending on */}
                         { /* what is in the user schema */}
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Test Organization</td>
-                            <td>Beach Clean Up</td>
-                            <td>5 hrs</td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Test Organization</td>
-                            <td>Feeding Homeless</td>
-                            <td>2 hrs</td>
-                          </tr>
+                          {stat.stats.orgsHelped.length > 0 ? (
+                            stat.stats.orgsHelped.map((org, index) => (
+                              <TableComponent
+                                key={index}
+                                index={index}
+                                orgName={org.org}
+                                eventID={org.eventID}
+                                hoursOfEvent={org.hoursOfEvent}
+                              />
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="4" style={{ textAlign: 'center' }}>None</td>
+                            </tr>
+                          )}
                         </tbody>
                       </Table>
                     </div>
@@ -250,6 +255,17 @@ LandingPanel.propTypes = {
         Dec: PropTypes.number.isRequired,
       }).isRequired,
     ).isRequired,
+    stats: PropTypes.shape({
+      hoursThisMonth: PropTypes.number.isRequired,
+      totalHours: PropTypes.number.isRequired,
+      orgsHelped: PropTypes.arrayOf(
+        PropTypes.shape({
+          orgID: PropTypes.number.isRequired,
+          eventName: PropTypes.string.isRequired,
+          eventDate: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

@@ -32,7 +32,8 @@ class UserStatsCollection extends BaseCollection {
       },
       // $ is kinda like any or declaring some sort of extension
       'stats.orgsHelped.$': {
-        type: String, // Define the type of items in the array
+        type: Object, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
       },
       completedHours: {
         type: Array,
