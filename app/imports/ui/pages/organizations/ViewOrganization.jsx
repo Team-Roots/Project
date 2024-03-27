@@ -33,7 +33,9 @@ const VolunteerOrganizations = () => {
                     <Card.Text>
                       Test mission test mission test mission test mission
                     </Card.Text>
-                    <Card.Subtitle>Description</Card.Subtitle>
+                    <Card.Subtitle>
+                      Description
+                    </Card.Subtitle>
                     <Card.Text>
                       Test description test description test description test description test description test description test description test description test description test description test description test description test description
                     </Card.Text>
