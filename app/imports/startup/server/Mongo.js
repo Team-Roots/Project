@@ -60,8 +60,7 @@ Meteor.methods({
       email: String,
       orgID: Number,
       eventName: String,
-      eventDate: String, // Assuming eventDate is stored as a string in the desired format
-      // Add other fields if necessary
+      eventDate: String,
     });
 
     if (!this.userId) {
@@ -70,37 +69,37 @@ Meteor.methods({
 
     EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
   },
-  'userStats.updateOrgsHelpedData'(email, orgID, eventName, eventDate, hoursOfEvent) {
-    check(email, String);
-    check(orgID, Number);
-    check(eventName, String);
-    check(eventDate, String);
-    check(hoursOfEvent, Number);
-
+  'userStats.updateOrgsHelpedData'(eventInfo) {
+    check(eventInfo, {
+      email: String,
+      orgID: Number,
+      eventName: String,
+      eventDate: String,
+      hoursServed: Number,
+    });
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'User must be logged in to update orgs helped data.');
     }
 
-    const userStats = UserStats.findOne({ email });
+    const userStats = UserStats.findOne({ email: eventInfo.email });
     if (!userStats) {
       throw new Meteor.Error('user-stats-not-found', 'User stats not found.');
     }
 
     // Check if there's an entry with matching orgID, eventName, and eventDate
-    const existingOrg = userStats.stats.orgsHelped.find(org => org.orgID === orgID && org.eventName === eventName && org.eventDate === eventDate);
+    // const existingOrg = userStats.stats.orgsHelped.find(org => org.orgID === eventInfo.orgID && org.eventName === eventInfo.eventName && org.eventDate === eventInfo.eventDate);
 
-    if (!existingOrg) {
-      // If matching entry not found, add new organization data to orgsHelped array
-      userStats.stats.orgsHelped.push({ orgID, eventName, eventDate, hoursOfEvent });
-    } else {
-      // If matching entry found, update eventName, eventDate, eventID, and hoursOfEvent
-      existingOrg.eventName = eventName;
-      existingOrg.eventDate = eventDate;
-      existingOrg.hoursOfEvent = hoursOfEvent;
-    }
-
-    // Update the user stats document with the modified orgsHelped array
-    UserStats.update(userStats._id, { $set: { 'stats.orgsHelped': userStats.stats.orgsHelped } });
+    // if (!existingOrg) {
+    //   // If matching entry not found, add new organization data to orgsHelped array
+    //   userStats.stats.orgsHelped.push({ orgID: eventInfo.orgID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hours: eventInfo.hoursOfEvent });
+    // } else {
+    //   // If matching entry found, update eventName, eventDate, eventID, and hoursOfEvent
+    //   existingOrg.eventName = eventInfo.eventName;
+    //   existingOrg.eventDate = eventInfo.eventDate;
+    //   existingOrg.hoursOfEvent = eventInfo.hoursOfEvent;
+    // }
+    const newOrgData = { orgID: eventInfo.orgID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
+    UserStats.newOrgHelped(userStats._id, newOrgData);
   },
 });
 

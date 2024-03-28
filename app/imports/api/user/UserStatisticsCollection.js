@@ -35,6 +35,22 @@ class UserStatsCollection extends BaseCollection {
         type: Object, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
+      'stats.orgsHelped.$.orgID': {
+        type: Number, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventName': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventDate': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.hoursServed': {
+        type: Number, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
       completedHours: {
         type: Array,
         required: true,
@@ -126,6 +142,17 @@ class UserStatsCollection extends BaseCollection {
     this._collection.update(docID, { $set: updateData });
   }
 
+  newOrgHelped(docID, orgsHelped) {
+    const userStats = this.findDoc(docID);
+    const updateData = {};
+    updateData.orgID = orgsHelped.orgID;
+    updateData.eventName = orgsHelped.eventName;
+    updateData.eventDate = orgsHelped.eventDate;
+    updateData.hoursServed = orgsHelped.hoursServed;
+    userStats.stats.orgsHelped.push(updateData);
+    this._collection.update(docID, { $set: { stats: userStats.stats } });
+  }
+
   /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
@@ -191,14 +218,15 @@ class UserStatsCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{stats: *, email: *, owner: *}}
+   * @return {{stats: *, email: *, owner: *, orgsHelped: *}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const stats = doc.stats;
     const email = doc.email;
     const completedHours = doc.completedHours;
-    return { stats, email, completedHours };
+    const orgsHelped = doc.stats.orgsHelped;
+    return { stats, email, completedHours, orgsHelped };
   }
 }
 

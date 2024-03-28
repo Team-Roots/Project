@@ -92,9 +92,9 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                               <TableComponent
                                 key={index}
                                 index={index}
-                                orgName={org.org}
-                                eventID={org.eventID}
-                                hoursOfEvent={org.hoursOfEvent}
+                                orgName={org.orgID}
+                                eventName={org.eventName}
+                                hoursOfEvent={org.hoursServed}
                               />
                             ))
                           ) : (

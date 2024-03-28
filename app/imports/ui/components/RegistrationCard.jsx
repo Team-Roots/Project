@@ -7,15 +7,17 @@ import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
 
-  const { ready, canSubscribe, eventOrganization } = useTracker(() => {
+  const { ready, canSubscribe, eventOrganization, foundStats } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
-    const rdy = eventSubscription.ready() && organizationSubscription.ready();
+    const userStatsSubscription = UserStats.subscribeStats();
+    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready;
     if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
@@ -29,9 +31,12 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
+    const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    console.log(foundUserStats);
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
+      foundStats: !!(foundUserStats),
       ready: rdy,
     };
   }, []);
@@ -65,6 +70,24 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
+  const ClaimHours = () => {
+    const subscribeBy = Meteor.user().username;
+    const eventInfo = {};
+    eventInfo.email = subscribeBy;
+    eventInfo.orgID = event.organizationID;
+    eventInfo.eventName = event.name;
+    eventInfo.eventDate = formattedCalendarDate;
+    eventInfo.hoursServed = 2;
+
+    Meteor.call('userStats.updateOrgsHelpedData', eventInfo, (error) => {
+      if (error) {
+        console.error('Error inserting userStats.updateOrgsHelpedData subscription:', error.reason);
+      } else {
+        console.log('Event userStats.updateOrgsHelpedData ran successfully.');
+      }
+    });
+  };
+
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
@@ -82,6 +105,15 @@ const RegistrationCard = ({ event }) => {
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
+              <Button
+                variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
+                size="lg"
+                className="mb-3 mx-2"
+                disabled={(!(foundStats && !canSubscribe))}
+                onClick={ClaimHours}
+              >
+                {foundStats ? 'Claim Hours' : 'Can\'t claim hours'}
+              </Button>
               <Button
                 variant={canSubscribe ? 'success' : 'danger'}
                 size="lg"

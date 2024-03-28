@@ -1,6 +1,8 @@
 import React from 'react';
 
-const TableComponent = (index, orgName, eventName, hoursOfEvent) => {
+// eslint-disable-next-line react/prop-types
+const TableComponent = ({ index, orgName, eventName, hoursOfEvent }) => {
+  console.log(orgName);
   return (
     <tr>
       <td>{index}</td>
