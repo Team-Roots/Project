@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
+import { _ } from 'meteor/underscore';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
@@ -48,6 +49,23 @@ class OrganizationCollection extends BaseCollection {
         defaultValue: false,
         required: true,
       },
+      backgroundCheck: {
+        type: Boolean,
+        defaultValue: false,
+        required: true,
+      },
+      ageRange: {
+        type: Object,
+        required: true,
+      },
+      'ageRange.min': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
+      'ageRange.max': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
       orgID: {
         type: SimpleSchema.Integer,
         unique: true,
@@ -59,78 +77,67 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Defines a new Org item.
    * @param website the link to the webpage
-   * @param profit indication of non-profit or for-profit $$$$$$$$$$$$$$
+   * @param profit indication of non-profit or for profit $$$$$$$$$$$$$$
    * @param organizationOwner the owner of the organization
-   * @param visible useful boolean in case organizations want to hide their org page
-   * @param onboarded indication of scraped data vs inputted/official data
-   * @param location the location of the organization
+   * @param visible idk even f**king remember
+   * @param onboarded indication of scraped data vs inputted data
+   * @param location the location of the event
    * @param backgroundCheck check if org has a background check
+   * @param ageRange is the age range the individual needs to be in
+   * @param orgID autoincrement ID
    * @param name org name
    * @return {String} the docID of the new document.
    */
   define({ name, website, profit, location, organizationOwner,
-    visible, onboarded }) {
-    const existingOrg = this._collection.findOne({ organizationOwner: organizationOwner });
-    if (existingOrg) {
-      throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
-    } else {
-      const orgID = this.newGlobalID();
-      const docID = this._collection.insert({
-        name,
-        website,
-        profit,
-        location,
-        organizationOwner,
-        visible,
-        onboarded,
-        orgID,
-      });
-      const waiverDoc = { waiver: 'test', orgID };
-      OrganizationWaiver.define(waiverDoc);
-      const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
-      OrganizationAdmin.define(orgAdminDoc);
-      return docID;
-    }
+    visible, onboarded, backgroundCheck, ageRange }) {
+    const orgID = this.newGlobalID();
+    const docID = this._collection.insert({
+      name,
+      website,
+      profit,
+      location,
+      organizationOwner,
+      visible,
+      onboarded,
+      backgroundCheck,
+      ageRange,
+      orgID,
+    });
+    const waiverDoc = { waiver: 'test', orgID: orgID };
+    OrganizationWaiver.define(waiverDoc);
+    const adminDoc = { orgAdmin: organizationOwner, orgID: orgID };
+    OrganizationAdmin.define(adminDoc);
+    return docID;
   }
   // I need to come back to this after I talk to truman
   /**
    * Updates the given document.
-   * @param docID the docID of the given organization
-   * @param website the link to the webpage
-   * @param profit indication of non-profit or for-profit $$$$$$$$$$$$$$
-   * @param organizationOwner the owner of the organization
-   * @param visible useful boolean in case organizations want to hide their org page
-   * @param onboarded indication of scraped data vs inputted/official data
-   * @param location the location of the organization
-   * @param backgroundCheck check if org has a background check
+   * @param docID the id of the document to update.
+   * @param name the new name (optional).
+   * @param quantity the new quantity (optional).
+   * @param condition the new condition (optional).
+   * @param backgroundCheck bool check
+   * @param ageRange the range of age for the job
    */
 
-  update(docID, { name, website, profit, location, organizationOwner, visible, onboarded }) {
+  update(docID, { name, quantity, condition, backgroundCheck, ageRange }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
     }
-
-    if (website) {
-      updateData.website = website;
+    // if (quantity) { NOTE: 0 is falsy so we need to check if the quantity is a number.
+    if (_.isNumber(quantity)) {
+      updateData.quantity = quantity;
     }
-    if (profit) {
-      updateData.profit = profit === 'For-profit';
-    }
-
-    if (location) {
-      updateData.location = location;
-    }
-    if (organizationOwner) {
-      updateData.organizationOwner = organizationOwner;
+    if (condition) {
+      updateData.condition = condition;
     }
 
-    if (visible) {
-      updateData.visible = visible;
+    if (backgroundCheck !== undefined) {
+      updateData.backgroundCheck = backgroundCheck;
     }
-
-    if (onboarded) {
-      updateData.onboarded = onboarded;
+    if (ageRange) {
+      updateData.ageRange = ageRange;
     }
 
     this._collection.update(docID, { $set: updateData });
@@ -142,10 +149,9 @@ class OrganizationCollection extends BaseCollection {
    * @returns true
    */
   removeIt(name) {
-    const toRemoveOrg = this.findDoc(name);
-    check(toRemoveOrg, Object);
-    OrganizationAdmin.remove({ orgID: toRemoveOrg.orgID }, {});
-    this._collection.remove(toRemoveOrg._id);
+    const doc = this.findDoc(name);
+    check(doc, Object);
+    this._collection.remove(doc._id);
     return true;
   }
 
@@ -188,19 +194,22 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{ name, website, profit, location, organizationOwner, visible, onboarded, orgID }}
+   * @return {{website: *, profit: *, location: *, organizationOwner: *, visible: *, onboarded: *, owner: *, backgroundCheck: *, ageRange: *, orgID: *, name: *,}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const name = doc.name;
     const website = doc.website;
     const profit = doc.profit;
     const location = doc.location;
     const organizationOwner = doc.organizationOwner;
     const visible = doc.visible;
     const onboarded = doc.onboarded;
+    const owner = doc.owner;
+    const backgroundCheck = doc.backgroundCheck;
+    const ageRange = doc.ageRange;
     const orgID = doc.orgID;
-    return { name, website, profit, location, organizationOwner, visible, onboarded, orgID };
+    const name = doc.name;
+    return { name, website, profit, location, organizationOwner, visible, onboarded, owner, backgroundCheck, ageRange, orgID };
   }
 }
 

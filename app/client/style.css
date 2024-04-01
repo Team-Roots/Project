@@ -106,31 +106,3 @@ body {
   width: 100px;
   padding: 0.25rem 0.5rem;
 }
-
-.progress-bar-wrapper {
-  position: relative;
-}
-
-.progress-bar-wrapper::after {
-  content: attr(data-label);
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@keyframes progressBarAnimation {
-  from {
-    width: 0%;
-  }
-}
-
-.progress-bar {
-  animation: progressBarAnimation 2s ease-out;
-}
-
-.progress-bar-text{
-  color: black;
-}

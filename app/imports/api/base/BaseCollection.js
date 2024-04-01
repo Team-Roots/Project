@@ -104,7 +104,7 @@ class BaseCollection {
    * @see {@link http://docs.meteor.com/#/full/findOne|Meteor Docs on Mongo Find}
    * @param { Object } selector A MongoDB selector.
    * @param { Object } options MongoDB options.
-   * @returns { Object }
+   * @returns {Mongo.Cursor}
    */
   findOne(selector, options) {
     const theSelector = (typeof selector === 'undefined') ? {} : selector;

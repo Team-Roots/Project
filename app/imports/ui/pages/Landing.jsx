@@ -9,10 +9,9 @@ import { Organizations } from '../../api/organization/OrganizationCollection';
 import AboutUs from './AboutUs';
 import { Events } from '../../api/event/EventCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
-import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const Landing = () => {
-  const { ready, subscribedEvents, orgs, events, stat } = useTracker(() => {
+  const { ready, subscribedEvents, orgs, events } = useTracker(() => {
     const subscription = Organizations.subscribeOrg();
     const rdy = subscription.ready();
     if (!subscription.ready()) {
@@ -39,30 +38,18 @@ const Landing = () => {
     }
     const eventSubscription = EventSubscription.find({}, { sort: { subscriptionInfo: 1 } }).fetch();
 
-    const subscription4 = UserStats.subscribeStats();
-    const rdy4 = subscription4.ready();
-    if (!subscription4.ready()) {
-      console.log('subscription4 is not ready yet.');
-    } else {
-      console.log('subscription4 is ready.');
-    }
-    const currentUserEmail = Meteor.user() ? Meteor.user().emails[0].address : '';
-    const stats = UserStats.findOne({}, { email: currentUserEmail });
-    console.log(stats);
     return {
       events: eventItems,
       subscribedEvents: eventSubscription,
       orgs: orgItems,
-      stat: stats,
-      ready: rdy && rdy2 && rdy3 && rdy4,
+      ready: rdy && rdy2 && rdy3,
     };
   }, []);
-  // console.log(Meteor.user().emails[0].address);
   const loggedin = Meteor.user();
   if (loggedin) {
     return (ready ? (
       <Container id={PAGE_IDS.LANDING}>
-        <LandingPanels orgs={orgs} events={events} subbedEvents={subscribedEvents} stat={stat} />
+        <LandingPanels orgs={orgs} events={events} subbedEvents={subscribedEvents} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
