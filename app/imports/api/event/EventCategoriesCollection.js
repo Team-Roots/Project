@@ -15,6 +15,7 @@ export const eventCategoriesPublications = {
 class EventCategoriesCollection extends BaseCollection {
   constructor() {
     super('eventCategories', new SimpleSchema({
+      categoryName: String,
       eventInfo: {
         type: Object,
         required: true,
@@ -32,21 +33,17 @@ class EventCategoriesCollection extends BaseCollection {
         type: String,
         required: true,
       },
-      'eventInfo.categoryName': {
-        type: String,
-        required: true,
-      },
     }));
   }
 
   /**
    * Defines a new EventCategoriesCollection object.
    * @param eventInfo event information object
-   * @param categoryName name of category
+   * @param categoryName name of the category
    */
   define({ eventInfo, categoryName }) {
     // error checking if there already exists a eventCategory object with this eventInfo
-    if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, 'eventInfo.categoryName': eventInfo.categoryName }, {})) {
+    if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, categoryName: categoryName }, {})) {
       const docID = this._collection.insert({
         eventInfo,
         categoryName,
@@ -61,10 +58,16 @@ class EventCategoriesCollection extends BaseCollection {
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param eventInfo the object that will update
+   * @param categoryName the catergory that will be used in the update
    */
-  update(docID, { eventInfo }) {
+  update(docID, { eventInfo, categoryName }) {
     const updateData = {};
-    updateData.subscriptionInfo = eventInfo;
+    if (eventInfo) {
+      updateData.eventInfo = eventInfo;
+    }
+    if (categoryName) {
+      updateData.categoryName = categoryName;
+    }
     this._collection.update(docID, { $set: updateData });
   }
 

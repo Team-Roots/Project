@@ -4,6 +4,7 @@ import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 Meteor.methods({
   // eslint-disable-next-line meteor/audit-argument-checks
@@ -84,6 +85,9 @@ function addOrganizationData(data) {
 function addEventData(data) {
   Events.define(data);
 }
+function addEventCategoryData(data) {
+  EventCategories.define(data);
+}
 
 // Initialize the StuffsCollection if empty.
 if (Stuffs.count() === 0) {
@@ -115,5 +119,18 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
+  }
+}
+
+if (EventCategories.count() === 0) {
+  if (Meteor.settings.defaultEventCategories) {
+    console.log('Creating default event categories.');
+    Meteor.settings.defaultEventCategories.forEach(data => {
+      const newDoc = {
+        eventInfo: data.eventInfo,
+        categoryName: data.categoryName,
+      };
+      addEventCategoryData(newDoc);
+    });
   }
 }
