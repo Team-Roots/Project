@@ -12,6 +12,7 @@ import { UserStats } from '../../api/user/UserStatisticsCollection';
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
+  const owner = Meteor.user().username;
 
   const { ready, canSubscribe, eventOrganization, foundStats } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
@@ -125,6 +126,18 @@ const RegistrationCard = ({ event }) => {
               <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
                 I Want to Help
               </Button>
+              <Button
+                as={Link}
+                to={{
+                  pathname: `/comment/${event._id}`,
+                  state: { owner: owner }, // Pass additional state here
+                }}
+                variant="danger"
+                size="lg"
+                className="mb-3"
+              >
+                Chat
+              </Button>
               <ListGroup variant="flush" className="text-start">
                 <ListGroup.Item><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
@@ -171,6 +184,7 @@ RegistrationCard.propTypes = {
     // ageRange
     organizationID: PropTypes.string,
     creator: PropTypes.string,
+    owner: PropTypes.string,
   }).isRequired,
 };
 
