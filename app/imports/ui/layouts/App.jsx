@@ -57,7 +57,8 @@ const App = () => {
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
-          <Route path="/comment/:_id" element={<CommentPage owner={event.id}/>} />
+          {/* eslint-disable-next-line no-restricted-globals */}
+          <Route path="/comment/:_id" element={<CommentPage owner={event.id} />} />
           <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
