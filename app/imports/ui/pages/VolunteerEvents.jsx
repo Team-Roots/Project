@@ -5,22 +5,22 @@ import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../components/EventCard';
 import { Events } from '../../api/event/EventCollection';
-import { EventCategories } from '../../api/event/EventCategoriesCollection';
+// import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 const VolunteerEvents = () => {
-  const { ready, events } = useTracker(() => {
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const subscription2 = EventCategories.subscribeEventCategories();
-    const rdy = subscription.ready();
-    const rdy2 = subscription2.ready();
+    const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    const eventCategoriesEvents = EventCategories.find({}, { sort: { name: 1 } }).fetch();
+    const eventCategoriesItems = EventCategories.find({}, { sort: { name: 1 } }).fetch();
     return {
       events: eventItems,
-      eventCategories: eventCategoriesEvents,
-      ready: (rdy && rdy2),
+      eventCategories: eventCategoriesItems,
+      ready: rdy,
     };
   }, []);
   const currentDate = new Date();
@@ -128,7 +128,16 @@ const VolunteerEvents = () => {
         </Col>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {data.map((event, eventCategory) => (<Col key={event._id}><EventCard event={event} eventCategory={eventCategory} /></Col>))}
+            {data.map((event) => (
+              <Col key={event._id}><EventCard
+                event={event}
+                eventCategory={eventCategories.filter(eventCategory => (eventCategory.eventInfo.organizationID === event.organizationID &&
+            eventCategory.eventInfo.eventName === event.name &&
+            eventCategory.eventInfo.eventDate === event.eventDate.toString()
+                ))}
+              />
+              </Col>
+            ))}
           </Row>
         </Col>
       </Row>

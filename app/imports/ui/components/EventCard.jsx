@@ -60,9 +60,15 @@ EventCard.propTypes = {
     // restrictions
     // ageRange
     creator: PropTypes.string,
+    organizationID: PropTypes.number,
   }).isRequired,
   eventCategory: PropTypes.shape({
     categoryName: PropTypes.string,
+    eventInfo: PropTypes.shape({
+      organizationID: PropTypes.number,
+      eventName: PropTypes.string,
+      eventDate: PropTypes.instanceOf(Date),
+    }),
   }).isRequired,
 };
 

@@ -22,7 +22,7 @@ class EventCategoriesCollection extends BaseCollection {
         unique: true,
       },
       'eventInfo.organizationID': {
-        type: String,
+        type: SimpleSchema.Integer,
         required: true,
       },
       'eventInfo.eventName': {
@@ -30,7 +30,7 @@ class EventCategoriesCollection extends BaseCollection {
         required: true,
       },
       'eventInfo.eventDate': {
-        type: String,
+        type: Date,
         required: true,
       },
     }));
