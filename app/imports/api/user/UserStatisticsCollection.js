@@ -103,7 +103,7 @@ class UserStatsCollection extends BaseCollection {
   define({ stats, completedHours, email }) {
     const defaultCompletedHours = [
       {
-        year: 2024,
+        year: new Date().getFullYear(),
         Jan: 0,
         Feb: 0,
         Mar: 0,
@@ -144,13 +144,60 @@ class UserStatsCollection extends BaseCollection {
 
   newOrgHelped(docID, orgsHelped) {
     const userStats = this.findDoc(docID);
-    const updateData = {};
-    updateData.orgID = orgsHelped.orgID;
-    updateData.eventName = orgsHelped.eventName;
-    updateData.eventDate = orgsHelped.eventDate;
-    updateData.hoursServed = orgsHelped.hoursServed;
-    userStats.stats.orgsHelped.push(updateData);
-    this._collection.update(docID, { $set: { stats: userStats.stats } });
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonthIndex = currentDate.getMonth();
+    const currentMonthName = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ][currentMonthIndex];
+
+    const updateData = {
+      $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
+    };
+    if (this.FindDate(docID, currentYear) > 0) {
+      updateData.$set = {};
+      updateData.$set[`completedHours.0.${this.FindDate(docID, currentYear)}`] = orgsHelped.hoursServed;
+      updateData.$set['stats.hoursThisMonth'] = userStats.stats.hoursThisMonth + orgsHelped.hoursServed;
+    } else {
+      updateData.$set = {};
+      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    }
+    console.log(updateData);
+
+    this._collection.update(docID, updateData);
+  }
+
+  FindDate(docID, currentYear) {
+    const userStats = this.findDoc(docID);
+    for (let i = 0; i < userStats.completedHours.length; i++) {
+      if (userStats.completedHours[i].year === currentYear) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  GenerateNewCompletedHours() {
+    const currentDate = new Date();
+    const getYear = currentDate.getFullYear();
+    return {
+      year: getYear,
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
   }
 
   /**

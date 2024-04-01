@@ -65,9 +65,10 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   <div style={{ fontSize: 18 }}>
                     <p>Progress Towards 10Hrs/month Goal: </p>
                     <div className="pt-3">
-                      <ProgressBar className="position-relative">
-                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth}% Complete!`}</div>
-                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} />
+                      { /* change min and max values by reading user schema (later) */ }
+                      <ProgressBar className="position-relative" min={0} max={10}>
+                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth * 10}% Complete!`}</div>
+                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={10} />
                       </ProgressBar>
                     </div>
                     <p>

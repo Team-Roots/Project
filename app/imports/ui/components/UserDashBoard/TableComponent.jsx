@@ -8,7 +8,7 @@ const TableComponent = ({ index, orgName, eventName, hoursOfEvent }) => {
       <td>{index}</td>
       <td>{orgName}</td>
       <td>{eventName}</td>
-      <td>{hoursOfEvent}</td>
+      <td>{hoursOfEvent} hrs</td>
     </tr>
   );
 };
