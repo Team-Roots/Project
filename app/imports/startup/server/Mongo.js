@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
@@ -7,14 +7,13 @@ import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 
 Meteor.methods({
-  'comments.add'(comment) {
-    // Assuming 'comment' is an object with { text, createdAt, etc. }
-    // Add validation or user checks as needed
-    Comments.insert(comment);
-  },
-  'comments.fetch'() {
-    // Fetch and return all comments
-    return Comments.find().fetch();
+  'comments.fetch'(filter = {}) {
+    check(filter, Match.Optional(Object));
+
+    // Assuming a simple fetch for demonstration. Adjust based on your actual logic.
+    // If you implemented a specific fetch method in CommentCollection that accepts filters,
+    // you would use that method here.
+    return Comments._collection.find(filter).fetch();
   },
   // eslint-disable-next-line meteor/audit-argument-checks
   'events.update'(id, eventData) {
