@@ -14,7 +14,7 @@ const RegistrationCard = ({ event }) => {
     : 'Date not set';
   const owner = Meteor.user().username;
 
-  const { ready, canSubscribe, eventOrganization, foundStats } = useTracker(() => {
+  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
     const userStatsSubscription = UserStats.subscribeStats();
@@ -33,12 +33,21 @@ const RegistrationCard = ({ event }) => {
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
-    const foundEventStat = UserStats.findOne({  });
-    console.log(foundUserStats);
+    // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
+    const foundEventStat = UserStats.findOne({
+      'stats.orgsHelped': {
+        $elemMatch: {
+          orgID: event.organizationID,
+          eventName: event.name,
+          eventDate: formattedCalendarDate,
+        },
+      },
+    });
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
       foundStats: !!(foundUserStats),
+      foundEventStat: !!(foundEventStat),
       ready: rdy,
     };
   }, []);
@@ -111,10 +120,10 @@ const RegistrationCard = ({ event }) => {
                 variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
                 size="lg"
                 className="mb-3 mx-2"
-                disabled={(!(foundStats && !canSubscribe))}
+                disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
                 onClick={ClaimHours}
               >
-                {foundStats ? 'Claim Hours' : 'Can\'t claim hours'}
+                {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
               </Button>
               <Button
                 variant={canSubscribe ? 'success' : 'danger'}
