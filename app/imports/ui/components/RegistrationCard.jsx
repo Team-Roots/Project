@@ -98,7 +98,7 @@ const RegistrationCard = ({ event }) => {
                 as={Link}
                 to={{
                   pathname: `/comment/${event._id}`,
-                  state: { owner: owner }, // Pass additional state here
+                  state: { owner: owner },
                 }}
                 variant="danger"
                 size="lg"
