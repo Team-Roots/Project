@@ -33,6 +33,7 @@ const RegistrationCard = ({ event }) => {
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    const foundEventStat = UserStats.findOne({  });
     console.log(foundUserStats);
     return {
       eventOrganization: foundEventOrganization,

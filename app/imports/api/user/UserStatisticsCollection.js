@@ -156,16 +156,17 @@ class UserStatsCollection extends BaseCollection {
     const updateData = {
       $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
     };
-    if (this.FindDate(docID, currentYear) > 0) {
-      updateData.$set = {};
-      updateData.$set[`completedHours.0.${this.FindDate(docID, currentYear)}`] = orgsHelped.hoursServed;
-      updateData.$set['stats.hoursThisMonth'] = userStats.stats.hoursThisMonth + orgsHelped.hoursServed;
+    const completedHoursIndex = this.FindDate(docID, currentYear);
+    if (completedHoursIndex >= 0) {
+      updateData.$inc = {};
+      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.hoursServed;
     } else {
       updateData.$set = {};
       updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
       updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
     }
-    console.log(updateData);
+    // console.log(updateData);
 
     this._collection.update(docID, updateData);
   }
