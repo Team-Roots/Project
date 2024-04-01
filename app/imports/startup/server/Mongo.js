@@ -1,119 +1,137 @@
 import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { Stuffs } from '../../api/stuff/StuffCollection';
-import { Events } from '../../api/event/EventCollection';
-import { Organizations } from '../../api/organization/OrganizationCollection';
-import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+// import { _ } from 'meteor/underscore';
+// import { Roles } from 'meteor/alanning:roles';
+import BaseCollection from '../base/BaseCollection';
+import { Organizations } from '../organization/OrganizationCollection';
+import { Events } from './EventCollection';
+import { ROLE } from '../role/Role';
 
-Meteor.methods({
-  // eslint-disable-next-line meteor/audit-argument-checks
-  'events.update'(id, eventData) {
-    check(id, String);
-    // eslint-disable-next-line no-undef
-    check(updateData, {
-      name: String,
-      eventDate: Date,
-      category: String,
-      location: String,
-      startTime: String, // Adjust the type based on your actual data structure
-      endTime: String, // Same as above
-      coordinator: String,
-      amountVolunteersNeeded: Number, // Or String if it's not a numerical value
-      address: String,
-      locationType: String,
-      image: String,
-      specialInstructions: String, // Or whatever type is appropriate
-      // eslint-disable-next-line no-undef
-      restrictions: Match.Maybe(Object), // Use Match.Maybe if it's optional
-    });
+export const eventCategoriesPublications = {
+  eventCategories: 'EventCategoriesCollection',
+};
 
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
+class EventCategoriesCollection extends BaseCollection {
+  constructor() {
+    super('eventCategories', new SimpleSchema({
+      categoryName: String,
+      eventInfo: {
+        type: Object,
+        required: true,
+        unique: true,
+      },
+      'eventInfo.organizationID': {
+        type: String,
+        required: true,
+      },
+      'eventInfo.eventName': {
+        type: String,
+        required: true,
+      },
+      'eventInfo.eventDate': {
+        type: String,
+        required: true,
+      },
+    }));
+  }
+
+  /**
+   * Defines a new EventCategoriesCollection object.
+   * @param eventInfo event information object
+   * @param categoryName name of the category
+   */
+  define({ eventInfo, categoryName }) {
+    // error checking if there already exists a eventCategory object with this eventInfo
+    if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, categoryName: categoryName }, {})) {
+      const docID = this._collection.insert({
+        eventInfo,
+        categoryName,
+      });
+      return docID;
     }
+    // TODO: either return undefined/null or throw an error. should probably throw error, will figure out later
+    return undefined;
+  }
 
-    // Update the event in the database
-    Events.update(id, { $set: eventData });
-  },
-  'events.delete'(eventId) {
-    check(eventId, String);
-
-    Events.collection.remove(eventId);
-  },
-  'eventSubscription.insert'(eventSubscriptionInfo) {
-    check(eventSubscriptionInfo, {
-      email: String,
-      orgID: Number,
-      eventName: String,
-      eventDate: String, // Assuming eventDate is stored as a string in the desired format
-      // Add other fields if necessary
-    });
-
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized', 'User must be logged in to subscribe to events.');
+  /**
+   * Updates the given document.
+   * @param docID the id of the document to update.
+   * @param eventInfo the object that will update
+   * @param categoryName the catergory that will be used in the update
+   */
+  update(docID, { eventInfo, categoryName }) {
+    const updateData = {};
+    if (eventInfo) {
+      updateData.eventInfo = eventInfo;
     }
-
-    EventSubscription.define({ subscriptionInfo: eventSubscriptionInfo });
-  },
-  'eventSubscription.unsub'(eventSubscriptionInfo) {
-    check(eventSubscriptionInfo, {
-      email: String,
-      orgID: Number,
-      eventName: String,
-      eventDate: String, // Assuming eventDate is stored as a string in the desired format
-      // Add other fields if necessary
-    });
-
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    if (categoryName) {
+      updateData.categoryName = categoryName;
     }
+    this._collection.update(docID, { $set: updateData });
+  }
 
-    EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
-  },
-});
+  /**
+   * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
+   * @param { String | Object } name A document or docID in this collection.
+   * @returns true
+   */
+  removeIt(name) {
+    const doc = this.findDoc(name);
+    check(doc, Object);
+    this._collection.remove(doc._id);
+    return true;
+  }
 
-// Initialize the database with a default data document.
-function addData(data) {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Stuffs.define(data);
-}
+  /**
+   * Default publication method for entities.
+   * It publishes the entire collection for all.
+   */
+  publish() {
+    if (Meteor.isServer) {
+      // get the EventCategoriesCollection instance.
+      const instance = this;
+      /** This subscription publishes only the documents associated with the logged in user */
+      Meteor.publish(eventCategoriesPublications.eventCategories, function publish() {
+        // TODO: Ask Truman/Liam for help
+        const organization = Organizations.findOne(this.docID.orgID, {});
+        const name = Events.findOne(this.docID.name, {});
+        const date = Events.findOne(this.docID.eventDate, {});
+        return instance._collection.find({ 'eventInfo.organizationID': organization, 'eventInfo.eventName': name, 'eventInfo.eventDate': date });
+      });
+    }
+  }
 
-function addOrganizationData(data) {
-  Organizations.define(data);
-}
+  /**
+   * Subscription method for eventCategories for all users.
+   */
+  subscribeEventCategories() {
+    return Meteor.subscribe(eventCategoriesPublications.eventCategories);
+  }
 
-function addEventData(data) {
-  Events.define(data);
-}
+  /**
+   * Default implementation of assertValidRoleForMethod. Asserts that userId is logged in as an Admin or User.
+   * This is used in the define, update, and removeIt Meteor methods associated with each class.
+   * @param userId The userId of the logged in user. Can be null or undefined
+   * @throws { Meteor.Error } If there is no logged in user, or the user is not an Admin or User.
+   */
+  assertValidRoleForMethod(userId) {
+    this.assertRole(userId, [ROLE.ADMIN, ROLE.USER]);
+  }
 
-// Initialize the StuffsCollection if empty.
-if (Stuffs.count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.forEach(data => addData(data));
+  /**
+   * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
+   * @param docID
+   * @return {{eventInfo}}
+   */
+  dumpOne(docID) {
+    const doc = this.findDoc(docID);
+    const eventInfo = doc.eventInfo;
+    return { eventInfo };
   }
 }
 
-if (Organizations.count() === 0) {
-  if (Meteor.settings.defaultOrganizations) {
-    console.log('Creating default organizations');
-    Meteor.settings.defaultOrganizations.forEach(org => {
-      const newDoc = {
-        name: org.name,
-        website: org.website,
-        profit: org.profit,
-        location: org.location,
-        organizationOwner: org.organizationOwner,
-        visible: org.visible,
-        onboarded: org.onboarded,
-      };
-      addOrganizationData(newDoc);
-    });
-  }
-}
-
-if (Events.count() === 0) {
-  if (Meteor.settings.defaultEvents) {
-    console.log('Creating default events.');
-    Meteor.settings.defaultEvents.forEach(event => addEventData(event));
-  }
-}
+/**
+ * Provides the singleton instance of this class to all other entities.
+ */
+export const EventCategories = new EventCategoriesCollection();
