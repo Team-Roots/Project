@@ -5,7 +5,6 @@ import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
-import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 Meteor.methods({
   // eslint-disable-next-line meteor/audit-argument-checks
@@ -151,4 +150,3 @@ if (Events.count() === 0) {
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
   }
 }
-
