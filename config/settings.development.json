@@ -142,6 +142,33 @@
     { "category": "Food Distribution" }
   ],
 
+  "defaultEventCategories": [
+    { "categoryName": "Clean Up",
+      "eventInfo": {
+        "organizationID": 1,
+        "eventName": "Ala Moana Beach Clean Up",
+        "eventDate":"2024-03-04"
+      }},
+    { "categoryName": "Clean Up",
+      "eventInfo": {
+        "organizationID": 1,
+        "eventName": "Makai Research Pier Clean Up",
+        "eventDate":"2024-03-11"
+      }},
+    { "categoryName": "Donations",
+      "eventInfo": {
+        "organizationID": 2,
+        "eventName": "Hawaii Food Bank Donation Drive",
+        "eventDate":"2024-03-04"
+      }},
+    { "categoryName": "Animal Shelter",
+      "eventInfo": {
+        "organizationID": 2,
+        "eventName": "Oahu SPCA Adoption Event",
+        "eventDate":"2024-04-30"
+      }}
+  ],
+
   "public": {
     "cloudinary": {"cloud_name": "dlqixfg1f", "upload_preset": "rudaqi8t"}
   }
