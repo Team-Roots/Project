@@ -15,6 +15,7 @@ const CommentPage = () => {
     const usersHandle = Meteor.subscribe('userNames'); // User names subscription
 
     if (commentsHandle.ready() && usersHandle.ready()) {
+      // eslint-disable-next-line no-shadow
       const comments = Comments.find({}).fetch();
       const commentsWithUsernames = comments.map(comment => {
         // Assuming `username` is available on the user documents
