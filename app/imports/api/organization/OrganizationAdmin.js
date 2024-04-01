@@ -4,12 +4,11 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { UserProfiles } from '../user/UserProfileCollection';
+import { Users } from '../user/UserCollection';
 
-// export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationAdminPublications = {
-  organizationAdminScheme: 'OrganizationAdminScheme',
-  organizationAdminAdminScheme: 'OrganizationAdminAdminScheme',
+  organizationAdmin: 'OrganizationAdmin',
+  organizationAdminAdmin: 'OrganizationAdminAdmin',
 };
 
 class OrganizationAdminCollection extends BaseCollection {
@@ -29,8 +28,8 @@ class OrganizationAdminCollection extends BaseCollection {
 
   /**
    * Defines a new OrganizationAdmin.
-   * @return {newOrgAdmin}
-   * @return {orgID}
+   * @return {orgAdmin} email of the org admin to be added
+   * @return {orgID} orgID of the org
    * @return {String} the docID of the new document.
    */
   define({ orgAdmin, orgID }) {
@@ -38,7 +37,8 @@ class OrganizationAdminCollection extends BaseCollection {
       orgAdmin,
       orgID,
     });
-    UserProfiles.update({ email: orgAdmin }, { isOrgAdmin: true });
+    const orgAdminID = Users.getID(orgAdmin);
+    Roles.addUsersToRoles(orgAdminID, [ROLE.ORG_ADMIN]);
     return docID;
   }
 
@@ -51,8 +51,12 @@ class OrganizationAdminCollection extends BaseCollection {
   // we dont want users to update : hence the
   // eslint blockage
   // eslint-disable-next-line no-empty-pattern
-  update(docID, { }) {
+  update(docID, { newEmail }) {
     const updateData = {};
+
+    if (newEmail) {
+      updateData.newEmail = newEmail;
+    }
 
     this._collection.update(docID, { $set: updateData });
   }
@@ -63,31 +67,32 @@ class OrganizationAdminCollection extends BaseCollection {
    * @returns true
    */
   removeIt(name) {
-    const doc = this.findDoc(name);
-    check(doc, Object);
-    this._collection.remove(doc._id);
+    const toRemoveOrgAdmin = this.findDoc(name);
+    check(toRemoveOrgAdmin, Object);
+    this._collection.remove(toRemoveOrgAdmin._id);
+    if (!this._collection.findOne(toRemoveOrgAdmin.orgAdmin)) {
+      const toRemoveOrgAdminID = Users.getID(toRemoveOrgAdmin);
+      Roles._removeUserFromRole(toRemoveOrgAdminID, ROLE.ORG_ADMIN, {});
+    }
     return true;
   }
 
   /**
    * Default publication method for entities.
    * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * case 1 regular user: should publish nothing since they are not an orgAdmin
+   * case 2 orgAdmin or owner of the organization: should only publish orgAdmins of their organization
+   * case 3 site admin: publish all orgAdmins
+   * organizationAdmin publication- handles case 1 and 2 as it checks if the current user is an orgAdmin or not
+   * organizationAdminAdmin publication- handles case 3 as it checks if the current user is a site admin or not
    */
   publish() {
     if (Meteor.isServer) {
-      // get the StuffCollection instance.
       const instance = this;
-      /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(organizationAdminPublications.organizationAdminScheme, function publish() {
-        if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
-        }
-        return this.ready();
-      });
-
+      // normal organizationAdmin publication is in publications.js
+      // the code requires the Organization collection, which would cause a circular dependency if kept here
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationAdminPublications.organizationAdminAdminScheme, function publish() {
+      Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -101,7 +106,7 @@ class OrganizationAdminCollection extends BaseCollection {
    */
   subscribeOrgAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationAdminPublications.organizationAdminScheme);
+      return Meteor.subscribe(organizationAdminPublications.organizationAdmin);
     }
     return null;
   }
@@ -112,7 +117,7 @@ class OrganizationAdminCollection extends BaseCollection {
    */
   subscribeOrgAdminAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(organizationAdminPublications.organizationAdminAdminScheme);
+      return Meteor.subscribe(organizationAdminPublications.organizationAdminAdmin);
     }
     return null;
   }
@@ -134,10 +139,9 @@ class OrganizationAdminCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const employee = doc.employee;
+    const orgAdmin = doc.orgAdmin;
     const orgID = doc.orgID;
-    const owner = doc.owner;
-    return { employee, orgID, owner };
+    return { orgAdmin, orgID };
   }
 }
 

@@ -1,9 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import { MATPCollections } from '../../api/matp/MATPCollections';
 import { Events } from '../../api/event/EventCollection';
 import { Comments } from '../../api/comment/CommentCollection';
+import { Organizations } from '../../api/organization/OrganizationCollection';
+import { OrganizationAdmin, organizationAdminPublications } from '../../api/organization/OrganizationAdmin';
+import { ROLE } from '../../api/role/Role';
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
+
+export const organizationAdminPublication = 'OrganizationAdmin';
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.
@@ -35,4 +41,20 @@ Meteor.publish('userNames', function publishUserNames() {
       username: 1, // Publish only the usernames
     },
   });
+});
+// split organizationAdmin publication exception to avoid circular dependencies
+Meteor.publish(organizationAdminPublications.organizationAdmin, function () {
+  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ORG_ADMIN)) {
+    const username = Meteor.users.findOne(this.userId).username;
+    const ownedOrgID = Organizations.findOne({ organizationOwner: username }, {}).orgID;
+    return OrganizationAdmin.find({ $or: [{ orgAdmin: username }, { orgID: ownedOrgID }] }, {}); // return documents where either the user is an admin or the user owns the organization
+  }
+  return this.ready();
+});
+
+Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function () {
+  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+    return OrganizationAdmin._collection.find();
+  }
+  return this.ready();
 });

@@ -18,10 +18,12 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
-const VolunteerOrganizations = () => {
+const RegisterOrganization = () => {
   const submit = (data) => {
+    console.log(data);
     const { name, website, type, location } = data;
     const organizationOwner = Meteor.user().username;
+    const profit = type === 'For-profit';
     const visible = false;
     const onBoarded = true;
     const backgroundCheck = false;
@@ -30,7 +32,7 @@ const VolunteerOrganizations = () => {
     const definitionData = {
       name,
       website,
-      type,
+      profit,
       location,
       organizationOwner,
       visible,
@@ -67,4 +69,4 @@ const VolunteerOrganizations = () => {
   );
 };
 
-export default VolunteerOrganizations;
+export default RegisterOrganization;

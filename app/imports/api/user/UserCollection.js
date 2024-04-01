@@ -57,7 +57,7 @@ class UserCollection {
     if (_.get(Meteor, 'settings.public.development', false)) {
       const userID = Accounts.createUser({ username, email: username, password: credential });
       Roles.addUsersToRoles(userID, [role]);
-      console.log(`Defining ${role} ${username} with password ${credential}`);
+      console.log(`Defining ${role} ${username} with password ${credential} and id ${userID}`);
       return userID;
     }
     // Otherwise define this user with a Meteor login and randomly generated password.

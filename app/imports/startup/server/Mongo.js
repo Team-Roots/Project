@@ -3,6 +3,7 @@ import { check, Match } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 
@@ -78,6 +79,38 @@ Meteor.methods({
 
     EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
   },
+  'userStats.updateOrgsHelpedData'(email, orgID, eventName, eventDate, hoursOfEvent) {
+    check(email, String);
+    check(orgID, Number);
+    check(eventName, String);
+    check(eventDate, String);
+    check(hoursOfEvent, Number);
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to update orgs helped data.');
+    }
+
+    const userStats = UserStats.findOne({ email });
+    if (!userStats) {
+      throw new Meteor.Error('user-stats-not-found', 'User stats not found.');
+    }
+
+    // Check if there's an entry with matching orgID, eventName, and eventDate
+    const existingOrg = userStats.stats.orgsHelped.find(org => org.orgID === orgID && org.eventName === eventName && org.eventDate === eventDate);
+
+    if (!existingOrg) {
+      // If matching entry not found, add new organization data to orgsHelped array
+      userStats.stats.orgsHelped.push({ orgID, eventName, eventDate, hoursOfEvent });
+    } else {
+      // If matching entry found, update eventName, eventDate, eventID, and hoursOfEvent
+      existingOrg.eventName = eventName;
+      existingOrg.eventDate = eventDate;
+      existingOrg.hoursOfEvent = hoursOfEvent;
+    }
+
+    // Update the user stats document with the modified orgsHelped array
+    UserStats.update(userStats._id, { $set: { 'stats.orgsHelped': userStats.stats.orgsHelped } });
+  },
 });
 
 // Initialize the database with a default data document.
@@ -114,9 +147,6 @@ if (Organizations.count() === 0) {
         organizationOwner: org.organizationOwner,
         visible: org.visible,
         onboarded: org.onboarded,
-        backgroundCheck: org.backgroundCheck,
-        ageRange: org.ageRange,
-        orgID: org.orgID,
       };
       addOrganizationData(newDoc);
     });

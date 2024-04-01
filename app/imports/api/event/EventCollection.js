@@ -1,29 +1,26 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 export const eventPublications = {
   event: 'Event',
-  eventAdmin: 'EventAdmin',
 };
 
 class EventCollection extends BaseCollection {
   constructor() {
     super('Events', new SimpleSchema({
       name: String,
-      eventDate: Date,
       description: String,
-      category: String,
-      location: String,
+      image: String,
+      eventDate: Date,
       startTime: String,
       endTime: String,
-      coordinator: String,
+      location: String,
       amountVolunteersNeeded: Number,
       isOnline: Boolean,
-      image: String,
+      coordinator: String,
       specialInstructions: {
         type: String,
         optional: true,
@@ -32,6 +29,11 @@ class EventCollection extends BaseCollection {
         type: Object,
         optional: true,
         blackbox: true,
+      },
+      backgroundCheck: {
+        type: Boolean,
+        defaultValue: false,
+        required: true,
       },
       ageRange: {
         type: Object,
@@ -49,50 +51,48 @@ class EventCollection extends BaseCollection {
       },
       organizationID: SimpleSchema.Integer,
       creator: String,
-      owner: String,
     }));
   }
 
-  define({ name, eventDate, description, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, isOnline, image, specialInstructions, restrictions, ageRange, organizationID, creator, owner }) {
-    const docID = this._collection.insert({
-      name,
-      eventDate,
-      description,
-      category,
-      location,
-      startTime,
-      endTime,
-      coordinator,
-      amountVolunteersNeeded,
-      isOnline,
-      image,
-      specialInstructions,
-      restrictions,
-      ageRange,
-      organizationID,
-      creator,
-      owner,
-    });
-    return docID;
+  define({ name, description, image, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
+    const existingEvent = this._collection.findOne({ name, eventDate, startTime });
+    if (existingEvent) {
+      throw new Meteor.Error(`Inserting event ${name} failed because ${existingEvent.name} is already an event on ${existingEvent.eventDate} and ${existingEvent.startTime}`);
+    } else {
+      const docID = this._collection.insert({
+        name,
+        description,
+        image, eventDate,
+        startTime, endTime,
+        location,
+        amountVolunteersNeeded,
+        isOnline,
+        coordinator,
+        specialInstructions,
+        restrictions,
+        backgroundCheck,
+        ageRange,
+        organizationID,
+        creator,
+      });
+      return docID;
+    }
   }
 
   // eslint-disable-next-line no-unused-vars
-  update(docID, { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image }) {
+  update(docID, { name, description, image, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
     }
-    if (eventDate) {
-      updateData.eventDate = eventDate;
-    }
     if (description) {
       updateData.description = description;
     }
-    if (category) {
-      updateData.category = category;
+    if (image) {
+      updateData.image = image;
     }
-    if (location) {
-      updateData.location = location;
+    if (eventDate) {
+      updateData.eventDate = eventDate;
     }
     if (startTime) {
       updateData.startTime = startTime;
@@ -100,11 +100,17 @@ class EventCollection extends BaseCollection {
     if (endTime) {
       updateData.endTime = endTime;
     }
-    if (coordinator) {
-      updateData.coordinator = coordinator;
+    if (location) {
+      updateData.location = location;
     }
     if (amountVolunteersNeeded) {
       updateData.amountVolunteersNeeded = amountVolunteersNeeded;
+    }
+    if (isOnline) {
+      updateData.isOnline = isOnline;
+    }
+    if (coordinator) {
+      updateData.coordinator = coordinator;
     }
     if (specialInstructions) {
       updateData.specialInstructions = specialInstructions;
@@ -112,17 +118,20 @@ class EventCollection extends BaseCollection {
     if (restrictions) {
       updateData.restrictions = restrictions;
     }
+    if (backgroundCheck) {
+      updateData.backgroundCheck = backgroundCheck;
+    }
     if (ageRange) {
       updateData.ageRange = ageRange;
-    }
-    if (isOnline) {
-      updateData.isOnline = isOnline;
     }
     if (ageRange) {
       updateData.restrictions = restrictions;
     }
-    if (owner) {
-      updateData.owner = owner;
+    if (organizationID) {
+      updateData.organizationID = organizationID;
+    }
+    if (creator) {
+      updateData.creator = creator;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -143,26 +152,12 @@ class EventCollection extends BaseCollection {
       Meteor.publish(eventPublications.event, function publish() {
         return instance._collection.find();
       });
-
-      Meteor.publish(eventPublications.eventAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
     }
   }
 
   subscribeEvent() {
     if (Meteor.isClient) {
       return Meteor.subscribe(eventPublications.event);
-    }
-    return null;
-  }
-
-  subscribeEventAdmin() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(eventPublications.eventAdmin);
     }
     return null;
   }
@@ -175,21 +170,22 @@ class EventCollection extends BaseCollection {
     const doc = this.findDoc(docID);
     const name = doc.name;
     const description = doc.description;
-    const location = doc.location;
-    const owner = doc.owner;
+    const image = doc.image;
     const eventDate = doc.eventDate;
-    const category = doc.category;
     const startTime = doc.startTime;
     const endTime = doc.endTime;
-    const coordinator = doc.coordinator;
+    const location = doc.location;
     const amountVolunteersNeeded = doc.amountVolunteersNeeded;
+    const isOnline = doc.isOnline;
+    const coordinator = doc.coordinator;
     const specialInstructions = doc.specialInstructions;
     const restrictions = doc.restrictions;
+    const backgroundCheck = doc.backgroundCheck;
     const ageRange = doc.ageRange;
-    const isOnline = doc.isOnline;
-    const image = doc.image;
+    const organizationID = doc.organizationID;
+    const creator = doc.creator;
 
-    return { name, eventDate, description, owner, category, location, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, restrictions, ageRange, isOnline, image };
+    return { name, description, image, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator };
   }
 }
 

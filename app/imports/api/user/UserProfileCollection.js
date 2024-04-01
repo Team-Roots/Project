@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import BaseProfileCollection from './BaseProfileCollection';
 import { ROLE } from '../role/Role';
@@ -7,7 +8,6 @@ import { UserStats } from './UserStatisticsCollection';
 class UserProfileCollection extends BaseProfileCollection {
   constructor() {
     super('UserProfile', new SimpleSchema({
-      isOrgAdmin: Boolean,
     }));
   }
 
@@ -18,47 +18,44 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param firstName The first name.
    * @param lastName The last name.
    * @param completedHours
-   * @param isOrgAdmin
    */
-  define({ email, firstName, lastName, password, completedHours, isOrgAdmin }) {
-    // if (Meteor.isServer) {
-    const username = email;
-    const user = this.findOne({ email, firstName, lastName });
-    if (!user) {
-      const role = ROLE.USER;
-      const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, isOrgAdmin: isOrgAdmin || false, role });
-      const stats = {};
-      // when a user profile is created, stats schema gets populated
-      stats.hoursThisMonth = 0;
-      stats.totalHours = 0;
-      stats.orgsHelped = [];
-      UserStats.define({
-        stats,
-        completedHours: completedHours || [
-          {
-            Jan: 0,
-            Feb: 0,
-            Mar: 0,
-            Apr: 0,
-            May: 0,
-            Jun: 0,
-            Jul: 0,
-            Aug: 0,
-            Sep: 0,
-            Oct: 0,
-            Nov: 0,
-            Dec: 0,
-          },
-        ],
-        email,
-      });
-      // this._collection.update(profileID, { $set: { userID } });
-      return profileID;
+  define({ email, firstName, lastName, password }) {
+    const existingProfile = this.findByEmail(email);
+    if (existingProfile) {
+      throw Meteor.error(`A profile with email ${email} already exists.`);
     }
-    return user._id;
-    // }
-    // return undefined;
+    const username = email;
+    const role = ROLE.USER;
+    const userID = Users.define({ username, role, password });
+    const newProfileID = this._collection.insert({ email, firstName, lastName, userID });
+    const stats = {};
+    // when a user profile is created, stats schema gets populated
+    stats.hoursThisMonth = 0;
+    stats.totalHours = 0;
+    stats.orgsHelped = [];
+    UserStats.define({
+      stats,
+      completedHours: [
+        {
+          year: 2024,
+          Jan: 0,
+          Feb: 0,
+          Mar: 0,
+          Apr: 0,
+          May: 0,
+          Jun: 0,
+          Jul: 0,
+          Aug: 0,
+          Sep: 0,
+          Oct: 0,
+          Nov: 0,
+          Dec: 0,
+        },
+      ],
+      email,
+    });
+    // this._collection.update(profileID, { $set: { userID } });
+    return newProfileID;
   }
 
   /**
@@ -68,7 +65,7 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param lastName new last name (optional).
    * @param isOrgAdmin
    */
-  update(docID, { firstName, lastName, isOrgAdmin }) {
+  update(docID, { firstName, lastName }) {
     this.assertDefined(docID);
     const updateData = {};
     if (firstName) {
@@ -77,7 +74,6 @@ class UserProfileCollection extends BaseProfileCollection {
     if (lastName) {
       updateData.lastName = lastName;
     }
-    updateData.isOrgAdmin = isOrgAdmin || false;
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -113,7 +109,7 @@ class UserProfileCollection extends BaseProfileCollection {
   checkIntegrity() {
     const problems = [];
     this.find().forEach((doc) => {
-      if (doc.role !== ROLE.User) {
+      if (doc.role !== ROLE.USER) {
         problems.push(`UserProfile instance does not have ROLE.USER: ${doc}`);
       }
     });
