@@ -35,6 +35,22 @@ class UserStatsCollection extends BaseCollection {
         type: Object, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
+      'stats.orgsHelped.$.orgID': {
+        type: Number, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventName': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventDate': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.hoursServed': {
+        type: Number, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
       completedHours: {
         type: Array,
         required: true,
@@ -87,7 +103,7 @@ class UserStatsCollection extends BaseCollection {
   define({ stats, completedHours, email }) {
     const defaultCompletedHours = [
       {
-        year: 2024,
+        year: new Date().getFullYear(),
         Jan: 0,
         Feb: 0,
         Mar: 0,
@@ -124,6 +140,65 @@ class UserStatsCollection extends BaseCollection {
     const updateData = {};
     updateData.stats = stats;
     this._collection.update(docID, { $set: updateData });
+  }
+
+  newOrgHelped(docID, orgsHelped) {
+    const userStats = this.findDoc(docID);
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonthIndex = currentDate.getMonth();
+    const currentMonthName = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ][currentMonthIndex];
+
+    const updateData = {
+      $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
+    };
+    const completedHoursIndex = this.FindDate(docID, currentYear);
+    if (completedHoursIndex >= 0) {
+      updateData.$inc = {};
+      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    } else {
+      updateData.$set = {};
+      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    }
+    // console.log(updateData);
+
+    this._collection.update(docID, updateData);
+  }
+
+  FindDate(docID, currentYear) {
+    const userStats = this.findDoc(docID);
+    for (let i = 0; i < userStats.completedHours.length; i++) {
+      if (userStats.completedHours[i].year === currentYear) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  GenerateNewCompletedHours() {
+    const currentDate = new Date();
+    const getYear = currentDate.getFullYear();
+    return {
+      year: getYear,
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
   }
 
   /**
@@ -191,14 +266,15 @@ class UserStatsCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{stats: *, email: *, owner: *}}
+   * @return {{stats: *, email: *, owner: *, orgsHelped: *}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const stats = doc.stats;
     const email = doc.email;
     const completedHours = doc.completedHours;
-    return { stats, email, completedHours };
+    const orgsHelped = doc.stats.orgsHelped;
+    return { stats, email, completedHours, orgsHelped };
   }
 }
 

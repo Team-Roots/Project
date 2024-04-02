@@ -40,7 +40,7 @@ body {
 
 
 .navbar-nav .nav-link:hover {
-  color: white;
+  color: black;
 }
 
 .navbar-link, .my-events, .my-calendar {
@@ -189,7 +189,7 @@ button.tag-button-big.btn.btn-success {
 }
 
 .navbar-nav .nav-link.active {
-  color: white !important;
+  color: black !important;
 }
 
 a#navbar-current-user.dropdown-toggle.show.nav-link {

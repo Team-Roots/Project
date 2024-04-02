@@ -11,6 +11,8 @@ import TableComponent from './UserDashBoard/TableComponent';
 
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents, stat }) => {
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   console.log(stat);
   console.log(stat.stats);
   // const [currentPage, setCurrentPage] = useState(1);
@@ -65,9 +67,10 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   <div style={{ fontSize: 18 }}>
                     <p>Progress Towards 10Hrs/month Goal: </p>
                     <div className="pt-3">
-                      <ProgressBar className="position-relative">
-                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth}% Complete!`}</div>
-                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} />
+                      { /* change min and max values by reading user schema (later) */ }
+                      <ProgressBar className="position-relative" min={0} max={10}>
+                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth * 10}% Complete!`}</div>
+                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={10} />
                       </ProgressBar>
                     </div>
                     <p>
@@ -92,9 +95,9 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                               <TableComponent
                                 key={index}
                                 index={index}
-                                orgName={org.org}
-                                eventID={org.eventID}
-                                hoursOfEvent={org.hoursOfEvent}
+                                orgName={org.orgID}
+                                eventName={org.eventName}
+                                hoursOfEvent={org.hoursServed}
                               />
                             ))
                           ) : (
@@ -170,7 +173,7 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
                   <Col>
                     <Row md={1} lg={2} className="g-4">
-                      {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                      {filteredDate.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
                     </Row>
                   </Col>
                 </FadeInSection>

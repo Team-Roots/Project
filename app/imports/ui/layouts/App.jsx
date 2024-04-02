@@ -33,6 +33,7 @@ import SearchOrganizations from '../pages/organizations/SearchOrganizations';
 import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
 import RegisterOrganization from '../pages/organizations/RegisterOrganization';
+import CommentPage from '../components/CommentPage';
 import ContactUs from '../pages/ContactUs';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
@@ -56,6 +57,8 @@ const App = () => {
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
+          {/* eslint-disable-next-line no-restricted-globals */}
+          <Route path="/comment/:_id" element={<CommentPage owner={event.id} />} />
           <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { MATPCollections } from '../../api/matp/MATPCollections';
 import { Events } from '../../api/event/EventCollection';
+import { Comments } from '../../api/comment/CommentCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { OrganizationAdmin, organizationAdminPublications } from '../../api/organization/OrganizationAdmin';
 import { ROLE } from '../../api/role/Role';
@@ -22,12 +23,25 @@ Meteor.publish(null, function () {
 });
 
 // All-level publication.
-Meteor.publish(Events.event, function () {
-  if (this.userId) {
-    // return Events.collection.find({});
-    // we really dont need anything here (this is causing errors too)
+Meteor.publish(Events.event, function publishEvents() {
+  if (!this.userId) {
+    return this.ready();
   }
-  return this.ready();
+
+  return Events.find();
+});
+
+// eslint-disable-next-line meteor/audit-argument-checks
+Meteor.publish('userComments', function (ownerId) {
+  return Comments.find({ owner: ownerId });
+});
+
+Meteor.publish('userNames', function publishUserNames() {
+  return Meteor.users.find({}, {
+    fields: {
+      username: 1, // Publish only the usernames
+    },
+  });
 });
 
 Meteor.publish(EventsCategories.eventCategories, function () {
