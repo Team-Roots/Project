@@ -4,8 +4,6 @@ import { check } from 'meteor/check';
 // import { _ } from 'meteor/underscore';
 // import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
-import { Organizations } from '../organization/OrganizationCollection';
-import { Events } from './EventCollection';
 import { ROLE } from '../role/Role';
 
 export const eventCategoriesPublications = {
