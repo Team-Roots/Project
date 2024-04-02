@@ -16,7 +16,7 @@ const VolunteerEvents = () => {
     const subscription2 = EventCategories.subscribeEventCategories();
     const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    const eventCategoriesItems = EventCategories.find({}, {}).fetch();
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     console.log(eventCategoriesItems);
     return {
       events: eventItems,
