@@ -16,36 +16,26 @@ class EventCategoriesCollection extends BaseCollection {
   constructor() {
     super('eventCategories', new SimpleSchema({
       categoryName: String,
-      eventInfo: {
-        type: Object,
-        required: true,
-        unique: true,
-      },
-      'eventInfo.organizationID': {
-        type: String,
-        required: true,
-      },
-      'eventInfo.eventName': {
-        type: String,
-        required: true,
-      },
-      'eventInfo.eventDate': {
-        type: String,
-        required: true,
-      },
+      organizationID: SimpleSchema.Integer,
+      eventName: String,
+      eventDate: Date,
     }));
   }
 
   /**
    * Defines a new EventCategoriesCollection object.
-   * @param eventInfo event information object
+   * @param organizationID id of organization
+   * @param eventName name of event
+   * @param eventDate date of event
    * @param categoryName name of the category
    */
-  define({ eventInfo, categoryName }) {
+  define({ organizationID, eventName, eventDate, categoryName }) {
     // error checking if there already exists a eventCategory object with this eventInfo
-    if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, categoryName: categoryName }, {})) {
+    if (!this.findOne({ organizationID: organizationID, eventName: eventName, eventDate: eventDate, categoryName }, {})) {
       const docID = this._collection.insert({
-        eventInfo,
+        organizationID,
+        eventName,
+        eventDate,
         categoryName,
       });
       return docID;
@@ -60,10 +50,16 @@ class EventCategoriesCollection extends BaseCollection {
    * @param eventInfo the object that will update
    * @param categoryName the catergory that will be used in the update
    */
-  update(docID, { eventInfo, categoryName }) {
+  update(docID, { organizationID, eventName, eventDate, categoryName }) {
     const updateData = {};
-    if (eventInfo) {
-      updateData.eventInfo = eventInfo;
+    if (organizationID) {
+      updateData.organizationID = organizationID;
+    }
+    if (eventName) {
+      updateData.eventName = eventName;
+    }
+    if (eventDate) {
+      updateData.eventDate = eventDate;
     }
     if (categoryName) {
       updateData.categoryName = categoryName;
