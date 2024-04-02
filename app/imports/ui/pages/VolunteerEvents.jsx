@@ -16,7 +16,8 @@ const VolunteerEvents = () => {
     const subscription2 = EventCategories.subscribeEventCategories();
     const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    const eventCategoriesItems = EventCategories.find({}, { sort: { name: 1 } }).fetch();
+    const eventCategoriesItems = EventCategories.find({}, {}).fetch();
+    console.log(eventCategoriesItems);
     return {
       events: eventItems,
       eventCategories: eventCategoriesItems,
@@ -133,7 +134,7 @@ const VolunteerEvents = () => {
                 event={event}
                 eventCategory={eventCategories.filter(eventCategory => (eventCategory.eventInfo.organizationID === event.organizationID &&
             eventCategory.eventInfo.eventName === event.name &&
-            eventCategory.eventInfo.eventDate === event.eventDate.toString()
+            eventCategory.eventInfo.eventDate === event.eventDate
                 ))}
               />
               </Col>
