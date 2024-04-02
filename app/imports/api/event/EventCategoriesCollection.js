@@ -16,26 +16,36 @@ class EventCategoriesCollection extends BaseCollection {
   constructor() {
     super('eventCategories', new SimpleSchema({
       categoryName: String,
-      organizationID: SimpleSchema.Integer,
-      eventName: String,
-      eventDate: Date,
+      eventInfo: {
+        type: Object,
+        required: true,
+        unique: true,
+      },
+      'eventInfo.organizationID': {
+        type: SimpleSchema.Integer,
+        required: true,
+      },
+      'eventInfo.eventName': {
+        type: String,
+        required: true,
+      },
+      'eventInfo.eventDate': {
+        type: Date,
+        required: true,
+      },
     }));
   }
 
   /**
    * Defines a new EventCategoriesCollection object.
-   * @param organizationID id of organization
-   * @param eventName name of event
-   * @param eventDate date of event
+   * @param eventInfo event information object
    * @param categoryName name of the category
    */
-  define({ organizationID, eventName, eventDate, categoryName }) {
+  define({ eventInfo, categoryName }) {
     // error checking if there already exists a eventCategory object with this eventInfo
-    if (!this.findOne({ organizationID: organizationID, eventName: eventName, eventDate: eventDate, categoryName }, {})) {
+    if (!this.findOne({ 'eventInfo.organizationID': eventInfo.organizationID, 'eventInfo.eventName': eventInfo.eventName, 'eventInfo.eventDate': eventInfo.eventDate, categoryName: categoryName }, {})) {
       const docID = this._collection.insert({
-        organizationID,
-        eventName,
-        eventDate,
+        eventInfo,
         categoryName,
       });
       return docID;
@@ -50,16 +60,10 @@ class EventCategoriesCollection extends BaseCollection {
    * @param eventInfo the object that will update
    * @param categoryName the catergory that will be used in the update
    */
-  update(docID, { organizationID, eventName, eventDate, categoryName }) {
+  update(docID, { eventInfo, categoryName }) {
     const updateData = {};
-    if (organizationID) {
-      updateData.organizationID = organizationID;
-    }
-    if (eventName) {
-      updateData.eventName = eventName;
-    }
-    if (eventDate) {
-      updateData.eventDate = eventDate;
+    if (eventInfo) {
+      updateData.eventInfo = eventInfo;
     }
     if (categoryName) {
       updateData.categoryName = categoryName;
