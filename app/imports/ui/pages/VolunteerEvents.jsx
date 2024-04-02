@@ -129,15 +129,16 @@ const VolunteerEvents = () => {
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
             {data.map((event) => (
-              <Col key={event._id}><EventCard
-                event={event}
-                eventCategory={eventCategories.find(eventCategory => (
-                  eventCategory.eventInfo.eventName === event.name &&
-                  eventCategory.eventInfo.organizationID === event.organizationID
-                  // TODO: fix eventDates, some reason its not working
-                  // && eventCategory.eventInfo.eventDate === event.eventDate
-                ))}
-              />
+              <Col key={event._id}>
+                <EventCard
+                  event={event}
+                  eventCategory={eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === event.name &&
+                    eventCategory.eventInfo.organizationID === event.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === event.eventDate
+                  ))}
+                />
               </Col>
             ))}
           </Row>
