@@ -10,9 +10,7 @@ import TableComponent from './UserDashBoard/TableComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ events, subbedEvents, stat }) => {
-  const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
   console.log(stat);
   console.log(stat.stats);
   // const [currentPage, setCurrentPage] = useState(1);
@@ -49,6 +47,8 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
   //   };
   // }, []);
   // ideally now will be a value loaded in from a schema
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -141,12 +141,21 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
               <Row md={1} lg={2} className="g-4">
                 {subbedEvents.map((subEvent) => {
                   const matchingEvent = events.find(event => event.name === subEvent.subscriptionInfo.eventName);
+                  const matchingEventCategory = eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === matchingEvent.name &&
+                    eventCategory.eventInfo.organizationID === matchingEvent.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === matchingEvent.eventDate
+                  ));
                   console.log('Matching Event: ', events._id);
                   console.log('Searching for event with ID:', subEvent.subscriptionInfo._id);
                   return (
                     <Col key={subEvent._id}>
                       {matchingEvent ? (
-                        <EventCard event={matchingEvent} />
+                        <EventCard
+                          event={matchingEvent}
+                          eventCategory={matchingEventCategory}
+                        />
                       ) : (
                         <p>Event details not available.</p>
                       )}
@@ -173,7 +182,21 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
                   <Col>
                     <Row md={1} lg={2} className="g-4">
-                      {filteredDate.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                      {filteredDate.map((event) => (
+                        <Col key={event._id}>
+                          <FadeInSection>
+                            <EventCard
+                              event={event}
+                              eventCategory={eventCategories.find(eventCategory => (
+                                eventCategory.eventInfo.eventName === event.name &&
+                                eventCategory.eventInfo.organizationID === event.organizationID
+                                // TODO: fix eventDates, some reason its not working
+                                // && eventCategory.eventInfo.eventDate === event.eventDate
+                              ))}
+                            />
+                          </FadeInSection>
+                        </Col>
+                      ))}
                     </Row>
                   </Col>
                 </FadeInSection>
@@ -272,6 +295,16 @@ LandingPanel.propTypes = {
       ).isRequired,
     }).isRequired,
   }).isRequired,
+  eventCategories: PropTypes.arrayOf(
+    PropTypes.shape({
+      categoryName: PropTypes.string,
+      eventInfo: PropTypes.shape({
+        organizationID: PropTypes.number,
+        eventName: PropTypes.string,
+        eventDate: PropTypes.instanceOf(Date),
+      }),
+    }),
+  ).isRequired,
 };
 
 export default LandingPanel;
