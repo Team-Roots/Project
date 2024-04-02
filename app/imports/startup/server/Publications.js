@@ -6,7 +6,7 @@ import { Comments } from '../../api/comment/CommentCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { OrganizationAdmin, organizationAdminPublications } from '../../api/organization/OrganizationAdmin';
 import { ROLE } from '../../api/role/Role';
-import { eventCategoriesPublications as EventsCategories } from '../../api/event/EventCategoriesCollection';
+import { EventCategories, eventCategoriesPublications } from '../../api/event/EventCategoriesCollection';
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
 
@@ -44,8 +44,8 @@ Meteor.publish('userNames', function publishUserNames() {
   });
 });
 
-Meteor.publish(EventsCategories.eventCategories, function () {
-  return this.ready();
+Meteor.publish(eventCategoriesPublications.eventCategories, function () {
+  return EventCategories.find();
 });
 
 // split organizationAdmin publication exception to avoid circular dependencies

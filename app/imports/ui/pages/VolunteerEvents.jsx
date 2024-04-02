@@ -17,7 +17,6 @@ const VolunteerEvents = () => {
     const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
-    console.log(eventCategoriesItems);
     return {
       events: eventItems,
       eventCategories: eventCategoriesItems,
@@ -132,9 +131,11 @@ const VolunteerEvents = () => {
             {data.map((event) => (
               <Col key={event._id}><EventCard
                 event={event}
-                eventCategory={eventCategories.filter(eventCategory => (eventCategory.eventInfo.organizationID === event.organizationID &&
+                eventCategory={eventCategories.find(eventCategory => (
                   eventCategory.eventInfo.eventName === event.name &&
-                  eventCategory.eventInfo.eventDate === event.eventDate
+                  eventCategory.eventInfo.organizationID === event.organizationID
+                  // TODO: fix eventDates, some reason its not working
+                  // && eventCategory.eventInfo.eventDate === event.eventDate
                 ))}
               />
               </Col>
