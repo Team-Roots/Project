@@ -120,21 +120,7 @@ const BeforeLanding = () => {
               {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
               <Col>
                 <Row md={1} lg={2} className="g-4">
-                  {filteredDate.map((event) => (
-                    <Col key={event._id}>
-                      <FadeInSection>
-                        <EventCard
-                          event={event}
-                          eventCategory={eventCategories.find(eventCategory => (
-                            eventCategory.eventInfo.eventName === event.name &&
-                            eventCategory.eventInfo.organizationID === event.organizationID
-                            // TODO: fix eventDates, some reason its not working
-                            // && eventCategory.eventInfo.eventDate === event.eventDate
-                          ))}
-                        />
-                      </FadeInSection>
-                    </Col>
-                  ))}
+                  {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
                 </Row>
               </Col>
             </FadeInSection>
