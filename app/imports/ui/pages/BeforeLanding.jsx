@@ -32,6 +32,9 @@ const BeforeLanding = () => {
     return <div>Loading...</div>;
   }
 
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+
   return (
     <div id="listPostsPage">
       <Container id="landing-page" fluid>
@@ -103,7 +106,7 @@ const BeforeLanding = () => {
         </Container>
         <Container className="p-5" fluid>
           <Row className="ps-5" id="recent_events">
-            <h1 id="landing-header">RECENT EVENTS</h1>
+            <h1 id="landing-header">UPCOMING EVENTS</h1>
           </Row>
           <Row className="pt-3 px-5">
             <FadeInSection>
@@ -113,7 +116,7 @@ const BeforeLanding = () => {
               {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
               <Col>
                 <Row md={1} lg={2} className="g-4">
-                  {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                  {filteredDate.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
                 </Row>
               </Col>
             </FadeInSection>

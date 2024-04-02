@@ -11,6 +11,8 @@ import TableComponent from './UserDashBoard/TableComponent';
 
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents, stat }) => {
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   console.log(stat);
   console.log(stat.stats);
   // const [currentPage, setCurrentPage] = useState(1);
@@ -171,7 +173,7 @@ const LandingPanel = ({ events, subbedEvents, stat }) => {
                   {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
                   <Col>
                     <Row md={1} lg={2} className="g-4">
-                      {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                      {filteredDate.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
                     </Row>
                   </Col>
                 </FadeInSection>

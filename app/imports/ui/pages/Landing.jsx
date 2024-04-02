@@ -57,12 +57,14 @@ const Landing = () => {
       ready: rdy && rdy2 && rdy3 && rdy4,
     };
   }, []);
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   // console.log(Meteor.user().emails[0].address);
   const loggedin = Meteor.user();
   if (loggedin) {
     return (ready ? (
       <Container id={PAGE_IDS.LANDING}>
-        <LandingPanels orgs={orgs} events={events} subbedEvents={subscribedEvents} stat={stat} />
+        <LandingPanels orgs={orgs} events={filteredDate} subbedEvents={subscribedEvents} stat={stat} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
