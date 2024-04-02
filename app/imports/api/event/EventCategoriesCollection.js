@@ -9,7 +9,7 @@ import { Events } from './EventCollection';
 import { ROLE } from '../role/Role';
 
 export const eventCategoriesPublications = {
-  eventCategories: 'EventCategories',
+  eventCategories: 'EventCategoriesCollection',
 };
 
 class EventCategoriesCollection extends BaseCollection {
