@@ -4,7 +4,7 @@ import { Card, Row, Col, Image, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, eventCategory }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
   const user = Meteor.user();
   const creator = user ? user.username : null;
@@ -24,7 +24,7 @@ const EventCard = ({ event }) => {
         </Row>
         <Row className="my-1">
           <ListGroup horizontal className="justify-content-center align-content-center pb-1">
-            <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{event.category}</ListGroup.Item>
+            <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{eventCategory.categoryName}</ListGroup.Item>
             {event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">Online</ListGroup.Item>}
             {!event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">In-Person</ListGroup.Item>}
             {/* <ListGroup.Item className="rounded-pill m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
@@ -60,6 +60,15 @@ EventCard.propTypes = {
     // restrictions
     // ageRange
     creator: PropTypes.string,
+    organizationID: PropTypes.number,
+  }).isRequired,
+  eventCategory: PropTypes.shape({
+    categoryName: PropTypes.string,
+    eventInfo: PropTypes.shape({
+      organizationID: PropTypes.number,
+      eventName: PropTypes.string,
+      eventDate: PropTypes.instanceOf(Date),
+    }),
   }).isRequired,
 };
 
