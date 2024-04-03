@@ -35,8 +35,8 @@ class UserStatsCollection extends BaseCollection {
         type: Object, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
-      'stats.orgsHelped.$.orgID': {
-        type: Number, // Define the type of items in the array
+      'stats.orgsHelped.$.orgName': {
+        type: String, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
       'stats.orgsHelped.$.eventName': {

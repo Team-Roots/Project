@@ -18,7 +18,7 @@ const RegistrationCard = ({ event }) => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
     const userStatsSubscription = UserStats.subscribeStats();
-    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready;
+    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready();
     if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
@@ -37,7 +37,7 @@ const RegistrationCard = ({ event }) => {
     const foundEventStatistic = UserStats.findOne({
       'stats.orgsHelped': {
         $elemMatch: {
-          orgID: event.organizationID,
+          // orgName: orgName, find a way to do this please
           eventName: event.name,
           eventDate: formattedCalendarDate,
         },

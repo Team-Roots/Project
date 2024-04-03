@@ -95,7 +95,7 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                               <TableComponent
                                 key={index}
                                 index={index}
-                                orgName={org.orgID}
+                                orgName={org.orgName}
                                 eventName={org.eventName}
                                 hoursOfEvent={org.hoursServed}
                               />
@@ -288,7 +288,7 @@ LandingPanel.propTypes = {
       totalHours: PropTypes.number.isRequired,
       orgsHelped: PropTypes.arrayOf(
         PropTypes.shape({
-          orgID: PropTypes.number.isRequired,
+          orgName: PropTypes.string.isRequired,
           eventName: PropTypes.string.isRequired,
           eventDate: PropTypes.string.isRequired,
         }),

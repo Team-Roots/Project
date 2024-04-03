@@ -79,6 +79,17 @@ Meteor.methods({
 
     EventSubscription.unsub({ subscriptionInfo: eventSubscriptionInfo });
   },
+  'organization.getNameFromOrgID'(orgID) {
+    check(orgID, Number);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to update orgs helped data.');
+    }
+    const org = Organizations.findOne({ orgID: orgID });
+    if (!org) {
+      throw new Meteor.Error('org-not-found', 'org not found.');
+    }
+    return org.name;
+  },
   'userStats.updateOrgsHelpedData'(eventInfo) {
     check(eventInfo, {
       email: String,
@@ -90,7 +101,7 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'User must be logged in to update orgs helped data.');
     }
-
+    const org = Organizations.findOne({ orgID: eventInfo.orgID });
     const userStats = UserStats.findOne({ email: eventInfo.email });
     if (!userStats) {
       throw new Meteor.Error('user-stats-not-found', 'User stats not found.');
@@ -108,7 +119,8 @@ Meteor.methods({
     //   existingOrg.eventDate = eventInfo.eventDate;
     //   existingOrg.hoursOfEvent = eventInfo.hoursOfEvent;
     // }
-    const newOrgData = { orgID: eventInfo.orgID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
+    const orgNameViaID = org.name;
+    const newOrgData = { orgName: orgNameViaID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
     UserStats.newOrgHelped(userStats._id, newOrgData);
   },
 });
