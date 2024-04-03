@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
@@ -13,8 +13,9 @@ import { EventCategories } from '../../api/event/EventCategoriesCollection';
 // import PropTypes from 'prop-types';
 
 const MyEvents = () => {
-  // const user = Meteor.user();
-  // const owner = user ? user.username : null;
+  const user = Meteor.user();
+  const creator = user ? user.username : null;
+
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
@@ -48,6 +49,8 @@ const MyEvents = () => {
       </Container>
     );
   }
+
+  const myEventsList = events.filter((event) => event.creator === creator);
 
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -116,7 +119,7 @@ const MyEvents = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} eventCategory={eventCategories} /></Col>))}
+            {myEventsList.map((event) => (<Col key={event._id}><EventCard event={event} eventCategory={eventCategories} /></Col>))}
           </Row>
         </Col>
       </Row>
