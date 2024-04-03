@@ -22,7 +22,9 @@ const EventCard = ({ event, eventCategory }) => {
           <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted robotoText">{event.startTime} - {event.endTime}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted robotoText">{event.location}</Card.Subtitle>
-          <Card.Text className="robotoText">{event.description} <br /></Card.Text>
+          <br />
+          <Card.Text className="robotoText">{event.description}</Card.Text>
+          <br />
         </Row>
         <Row className="my-1">
           <ListGroup horizontal className="justify-content-center align-content-center pb-1">

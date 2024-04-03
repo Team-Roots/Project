@@ -104,7 +104,7 @@
   "defaultEvents": [
     {
       "name":  "Ala Moana Beach Clean Up",
-      "eventDate": "2024-03-04",
+      "eventDate": "2024-04-04",
       "description": "Come down to help clean!",
       "category":  "Clean Up",
       "location":  "1201 Ala Moana Blvd, Honolulu, HI 96814",
@@ -120,7 +120,7 @@
     },
     {
       "name":  "Makai Research Pier Clean Up",
-      "eventDate": "2024-03-11",
+      "eventDate": "2024-04-11",
       "description": "Come down to help clean!",
       "category":  "Clean Up",
       "location":  "41-305 Kalanianaʻole Hwy, Waimanalo, HI 96795",
@@ -163,6 +163,54 @@
       "isOnline": false,
       "image": "https://oahuspca.org/images/logo/OahuSPCA.svg",
       "ageRange": { "min": 18, "max": 99 },
+      "organizationID": 3,
+      "creator": "john@foo.com"
+    },
+    {
+      "name": "Meals on Wheels - Meal Packer",
+      "eventDate": "2024-05-09",
+      "description": "Our meal packers parcel out the meals so they can be easily delivered to individuals with disabilities and seniors.",
+      "category":  "Food Distribution",
+      "location":  "1809 Bachelot St, Honolulu, HI 96817",
+      "startTime":  "8:00 AM",
+      "endTime":  "10:00 AM",
+      "coordinator":  "teastuser1@foo.com",
+      "amountVolunteersNeeded": 10,
+      "isOnline": false,
+      "image": "https://lanakilapacific.org/wp-content/uploads/2023/10/605be8c826af71180432f27c_lanakila-meals-on-wheels-centered.png",
+      "ageRange": { "min": 16, "max": 99 },
+      "organizationID": 4,
+      "creator": "testuser1@foo.com"
+    },
+    {
+      "name":  "Hickam Thrift Shop Volunteer",
+      "eventDate": "2024-04-24",
+      "description": "Helpers needed to help with at Hickam Thrift Shop. All profits made will go back to the community through grants and scholarships in both local and military communities.",
+      "category":  "Charity Shops",
+      "location":  "540 Kuntz Ave, Honolulu, HI 96818",
+      "startTime":  "9:00 AM",
+      "endTime":  "1:00 PM",
+      "coordinator":  "testuser2@foo.com",
+      "amountVolunteersNeeded": 5,
+      "isOnline": false,
+      "image": "https://kanuhawaii.b-cdn.net/wp-content/uploads/2023/03/AF0DDB45-EA8E-4A51-9A3D-4DB9B54BED7B.jpeg",
+      "ageRange": { "min": 5, "max": 99 },
+      "organizationID": 5,
+      "creator": "testuser1@foo.com"
+    },
+    {
+      "name":  "Give Back to Maui",
+      "eventDate": "2024-04-20",
+      "description": "Remove invasive species along a riparian corridor to stabilize our cultural resources. We have simple goals for the day: (1) Have Fun, (2) learn one thing and share it at dinner that evening. ",
+      "category":  "Clean Up",
+      "location":  "17 Kakaalaneo Drive Lahaina Hawaii 96761",
+      "startTime":  "8:00 AM",
+      "endTime":  "1:30 PM",
+      "coordinator":  "john@foo.com",
+      "amountVolunteersNeeded": 5,
+      "isOnline": false,
+      "image": "https://hta.kanuhawaii.org/wp-content/uploads/2023/10/189692605_4217568751598627_5376947711729859059_n-2.jpg",
+      "ageRange": { "min": 18, "max": 99 },
       "organizationID": 2,
       "creator": "john@foo.com"
     }
@@ -179,7 +227,8 @@
     { "category": "Animal Shelter" },
     { "category": "Clean Up" },
     { "category": "Donations" },
-    { "category": "Food Distribution" }
+    { "category": "Food Distribution" },
+    { "category": "Charity Shops" }
   ],
 
   "defaultEventCategories": [
@@ -203,9 +252,27 @@
       }},
     { "categoryName": "Animal Shelter",
       "eventInfo": {
-        "organizationID": 2,
+        "organizationID": 3,
         "eventName": "Oahu SPCA Adoption Event",
         "eventDate":"2024-04-30"
+      }},
+    { "categoryName": "Food Distribution",
+      "eventInfo": {
+        "organizationID": 4,
+        "eventName": "Meals on Wheels - Meal Packer",
+        "eventDate":"2024-05-9"
+      }},
+    { "categoryName": "Charity Shops",
+      "eventInfo": {
+        "organizationID": 5,
+        "eventName": "Hickam Thrift Shop Volunteer",
+        "eventDate":"2024-04-24"
+      }},
+    { "categoryName": "Clean Up",
+      "eventInfo": {
+        "organizationID": 2,
+        "eventName": "Give Back to Maui",
+        "eventDate":"2024-04-20"
       }}
   ],
 
