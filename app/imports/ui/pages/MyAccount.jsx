@@ -66,19 +66,19 @@ const MyAccount = () => {
             <Card.Body>
               <Card.Title className="py-2 pb-5 accountcardtitle">My Interests</Card.Title>
               <div id="Monthly Goal" className="pb-3">
-                <Row>
-                  <Col>
-                    <h3>Monthly Goal</h3>
-                  </Col>
-                  <Col>
-                    { /* DO NOT REMOVE THESE COMMENTS! I AM HIDING IT FOR THE WEDNESDAY PRESENTATION */}
-                    {/* <div style={{ display: 'flex', alignItems: 'center' }}> */}
-                    {/*  <Button onClick={handleGoalEventClick(-1)}>&lt;</Button> */}
-                    {/*  <div style={{ margin: '0 10px' }}>1 hr/month</div> */}
-                    {/*  <Button onClick={handleGoalEventClick(1)}>&gt;</Button> */}
-                    {/* </div> */}
-                  </Col>
-                </Row>
+                {/* <Row> */}
+                {/*  <Col> */}
+                {/*    <h3>Monthly Goal</h3> */}
+                {/*  </Col> */}
+                {/*  <Col> */}
+                {/*    { /* DO NOT REMOVE THESE COMMENTS! I AM HIDING IT FOR THE WEDNESDAY PRESENTATION *!/ */}
+                {/*    /!* <div style={{ display: 'flex', alignItems: 'center' }}> *!/ */}
+                {/*    /!*  <Button onClick={handleGoalEventClick(-1)}>&lt;</Button> *!/ */}
+                {/*    /!*  <div style={{ margin: '0 10px' }}>1 hr/month</div> *!/ */}
+                {/*    /!*  <Button onClick={handleGoalEventClick(1)}>&gt;</Button> *!/ */}
+                {/*    /!* </div> *!/ */}
+                {/*  </Col> */}
+                {/* </Row> */}
               </div>
               <ul className="list-unstyled py-2">
                 <li><h3>Animal Shelter</h3></li>

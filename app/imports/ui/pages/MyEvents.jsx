@@ -31,7 +31,6 @@ const MyEvents = () => {
     }
 
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
-    console.log(eventCategoriesItems);
     return {
       events: eventItems,
       eventCategories: eventCategoriesItems,
