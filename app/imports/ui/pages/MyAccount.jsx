@@ -8,6 +8,7 @@ import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 /* Renders the MyAccount page, displaying all user info */
 const MyAccount = () => {
+  // eslint-disable-next-line no-unused-vars
   const handleGoalEventClick = (value) => {
     // need to make changes to the user profile collection for this to work
     console.log(value);
@@ -70,11 +71,12 @@ const MyAccount = () => {
                     <h3>Monthly Goal</h3>
                   </Col>
                   <Col>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Button onClick={handleGoalEventClick(-1)}>&lt;</Button>
-                      <div style={{ margin: '0 10px' }}>1 hr/month</div>
-                      <Button onClick={handleGoalEventClick(1)}>&gt;</Button>
-                    </div>
+                    { /* DO NOT REMOVE THESE COMMENTS! I AM HIDING IT FOR THE WEDNESDAY PRESENTATION */}
+                    {/* <div style={{ display: 'flex', alignItems: 'center' }}> */}
+                    {/*  <Button onClick={handleGoalEventClick(-1)}>&lt;</Button> */}
+                    {/*  <div style={{ margin: '0 10px' }}>1 hr/month</div> */}
+                    {/*  <Button onClick={handleGoalEventClick(1)}>&gt;</Button> */}
+                    {/* </div> */}
                   </Col>
                 </Row>
               </div>

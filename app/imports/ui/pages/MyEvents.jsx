@@ -9,6 +9,7 @@ import { Events } from '../../api/event/EventCollection'; // Import your EventCo
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 // import PropTypes from 'prop-types';
 
 const MyEvents = () => {
@@ -18,17 +19,22 @@ const MyEvents = () => {
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
-  const { ready, events } = useTracker(() => {
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
-    const rdy = subscription.ready();
+    const subscription2 = EventCategories.subscribeEventCategories();
+    const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    if (!subscription.ready()) {
+    if (!subscription.ready() && !subscription2.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
+
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
+    console.log(eventCategoriesItems);
     return {
       events: eventItems,
+      eventCategories: eventCategoriesItems,
       ready: rdy,
     };
   }, []);
@@ -111,7 +117,7 @@ const MyEvents = () => {
         </Col>
         <Col>
           <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {events.map((event) => (<Col key={event._id}><EventCard event={event} eventCategory={eventCategories} /></Col>))}
           </Row>
         </Col>
       </Row>

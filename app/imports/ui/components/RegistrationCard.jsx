@@ -34,7 +34,7 @@ const RegistrationCard = ({ event }) => {
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
     // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
-    const foundEventStat = UserStats.findOne({
+    const foundEventStatistic = UserStats.findOne({
       'stats.orgsHelped': {
         $elemMatch: {
           orgID: event.organizationID,
@@ -47,7 +47,7 @@ const RegistrationCard = ({ event }) => {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
       foundStats: !!(foundUserStats),
-      foundEventStat: !!(foundEventStat),
+      foundEventStat: !!(foundEventStatistic),
       ready: rdy,
     };
   }, []);
