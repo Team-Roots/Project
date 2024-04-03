@@ -48,6 +48,8 @@ const MyEvents = () => {
       </Container>
     );
   }
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -115,8 +117,20 @@ const MyEvents = () => {
           </FormCheck>
         </Col>
         <Col>
-          <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} eventCategory={eventCategories} /></Col>))}
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {filteredDate.map((event) => (
+              <Col key={event._id}>
+                <EventCard
+                  event={event}
+                  eventCategory={eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === event.name &&
+                    eventCategory.eventInfo.organizationID === event.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === event.eventDate
+                  ))}
+                />
+              </Col>
+            ))}
           </Row>
         </Col>
       </Row>
