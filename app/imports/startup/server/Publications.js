@@ -4,6 +4,9 @@ import { Events } from '../../api/event/EventCollection';
 <<<<<<< HEAD
 =======
 import { Comments } from '../../api/comment/CommentCollection';
+<<<<<<< HEAD
+>>>>>>> parent of 8662d24 (Merge branch 'main' into issue-136)
+=======
 >>>>>>> parent of 8662d24 (Merge branch 'main' into issue-136)
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
@@ -46,5 +49,8 @@ Meteor.publish('userNames', function publishUserNames() {
       username: 1, // Publish only the usernames
     },
   });
+<<<<<<< HEAD
+>>>>>>> parent of 8662d24 (Merge branch 'main' into issue-136)
+=======
 >>>>>>> parent of 8662d24 (Merge branch 'main' into issue-136)
 });
