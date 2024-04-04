@@ -224,11 +224,11 @@
   ],
 
   "defaultCategories": [
-    { "category": "Animal Shelter" },
-    { "category": "Clean Up" },
-    { "category": "Donations" },
-    { "category": "Food Distribution" },
-    { "category": "Charity Shops" }
+    { "categoryName": "Animal Shelter" },
+    { "categoryName": "Clean Up" },
+    { "categoryName": "Donations" },
+    { "categoryName": "Food Distribution" },
+    { "categoryName": "Charity Shops" }
   ],
 
   "defaultEventCategories": [
