@@ -7,7 +7,7 @@ import { Organizations } from '../../api/organization/OrganizationCollection';
 import { OrganizationAdmin, organizationAdminPublications } from '../../api/organization/OrganizationAdmin';
 import { ROLE } from '../../api/role/Role';
 import { EventCategories, eventCategoriesPublications } from '../../api/event/EventCategoriesCollection';
-import { Categories, CategoryPublications } from '../../api/category/CategoryCollection';
+import { Categories, categoryPublications } from '../../api/category/CategoryCollection';
 // Call publish for all the collections.
 MATPCollections.collections.forEach(c => c.publish());
 
@@ -49,7 +49,7 @@ Meteor.publish(eventCategoriesPublications.eventCategories, function () {
   return EventCategories.find();
 });
 
-Meteor.publish(CategoryPublications.category, function () {
+Meteor.publish(categoryPublications.category, function () {
   return Categories.find();
 });
 
