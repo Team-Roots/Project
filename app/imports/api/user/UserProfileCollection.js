@@ -52,6 +52,7 @@ class UserProfileCollection extends BaseProfileCollection {
           Dec: 0,
         },
       ],
+      monthlyGoal: 10,
       email,
     });
     // this._collection.update(profileID, { $set: { userID } });

@@ -123,6 +123,15 @@ Meteor.methods({
     const newOrgData = { orgName: orgNameViaID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
     UserStats.newOrgHelped(userStats._id, newOrgData);
   },
+  'userStats.changeGoal'(value, email) {
+    check(value, Number);
+    check(email, String);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+
+    UserStats.changeGoal(value, email);
+  },
 });
 
 // Initialize the database with a default data document.

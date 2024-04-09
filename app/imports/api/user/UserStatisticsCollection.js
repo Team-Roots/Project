@@ -91,6 +91,12 @@ class UserStatsCollection extends BaseCollection {
         required: true,
         unique: true,
       },
+      monthlyGoal: {
+        type: SimpleSchema.Integer,
+        required: false,
+        optional: true,
+        defaultValue: 10,
+      },
     }));
   }
 
@@ -124,6 +130,15 @@ class UserStatsCollection extends BaseCollection {
       email: email,
     });
     return docID;
+  }
+
+  changeGoal(val, email) {
+    const collection = this._collection.findOne({ email: email });
+    const docID = collection._id;
+    const updateData = {
+      $set: { monthlyGoal: collection.monthlyGoal + val },
+    };
+    this._collection.update(docID, updateData);
   }
 
   /**
