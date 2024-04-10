@@ -125,7 +125,7 @@ class OrganizationCollection extends BaseCollection {
       updateData.website = website;
     }
     if (profit) {
-      updateData.profit = profit === 'For-profit';
+      updateData.profit = profit;
     }
 
     if (location) {

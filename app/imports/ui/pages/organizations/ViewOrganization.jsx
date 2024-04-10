@@ -50,7 +50,7 @@ const VolunteerOrganizations = () => {
                   List of opportunities
                 </Container>
               </>
-            ) : 'No organization found'}
+            ) : <NotFound />}
           </Col>
         </Row>
       </Container>

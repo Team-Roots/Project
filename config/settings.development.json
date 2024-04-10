@@ -15,10 +15,8 @@
       "profit": false,
       "location": "TestUser1 St. HI, 96795",
       "organizationOwner": "testuser1@foo.com",
-      "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "visible": true,
+      "onboarded": false
     },
     {
       "name":  "Example Organization 2",
@@ -26,10 +24,8 @@
       "profit": true,
       "location": "TestUser2 St. HI, 96795",
       "organizationOwner": "testuser2@foo.com",
-      "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "visible": true,
+      "onboarded": false
     },
     {
       "name":  "Example Organization 3",
@@ -38,9 +34,7 @@
       "location": "TestUser3 St. HI, 96795",
       "organizationOwner": "testuser3@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "onboarded": false
     },
     {
       "name":  "Example Organization 4",
@@ -48,7 +42,7 @@
       "profit": false,
       "location": "TestUser4 St. HI, 96795",
       "organizationOwner": "testuser4@foo.com",
-      "visible": false,
+      "visible": true,
       "onboarded": false
     },
     {
@@ -57,7 +51,7 @@
       "profit": true,
       "location": "TestUser5 St. HI, 96795",
       "organizationOwner": "testuser5@foo.com",
-      "visible": false,
+      "visible": true,
       "onboarded": false
     }
   ],
