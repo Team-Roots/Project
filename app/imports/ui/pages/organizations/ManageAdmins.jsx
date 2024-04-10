@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button, Container, Form, Row, Card, Col, ListGroup, Modal, InputGroup } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import SimpleSchema from 'simpl-schema';
-import swal from 'sweetalert';
+import { Button, Container, Form, Row, Col, ListGroup, Modal, InputGroup } from 'react-bootstrap';
 import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router-dom';
 import { PersonFillAdd } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
-import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { ROLE } from '../../../api/role/Role';
 import NotAuthorized from '../NotAuthorized';
@@ -60,7 +55,7 @@ const ManageAdmins = () => {
                   <Form.Label>Add an admin</Form.Label>
                   <InputGroup className="mb-2">
                     <Form.Control placeholder="Email" />
-                    <Button variant="outline-secondary" onClick={(event) => console.log("CLICKED", event)}>Add</Button>
+                    <Button variant="outline-secondary" onClick={(event) => console.log('CLICKED', event)}>Add</Button>
                   </InputGroup>
                 </Form>
               </Modal.Body>
