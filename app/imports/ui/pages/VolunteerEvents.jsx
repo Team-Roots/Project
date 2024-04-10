@@ -5,22 +5,21 @@ import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../components/EventCard';
 import { Events } from '../../api/event/EventCollection';
+// import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 const VolunteerEvents = () => {
-  const { ready, events } = useTracker(() => {
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
-    const rdy = subscription.ready();
+    const subscription2 = EventCategories.subscribeEventCategories();
+    const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    if (!subscription.ready()) {
-      console.log('Subscription is not ready yet.');
-    } else {
-      console.log('Subscription is ready.');
-      console.log(eventItems);
-    }
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
       events: eventItems,
+      eventCategories: eventCategoriesItems,
       ready: rdy,
     };
   }, []);
@@ -129,7 +128,19 @@ const VolunteerEvents = () => {
         </Col>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {data.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+            {data.map((event) => (
+              <Col key={event._id}>
+                <EventCard
+                  event={event}
+                  eventCategory={eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === event.name &&
+                    eventCategory.eventInfo.organizationID === event.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === event.eventDate
+                  ))}
+                />
+              </Col>
+            ))}
           </Row>
         </Col>
       </Row>

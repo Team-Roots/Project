@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
@@ -9,26 +9,32 @@ import { Events } from '../../api/event/EventCollection'; // Import your EventCo
 import EventCard from '../components/EventCard';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 // import PropTypes from 'prop-types';
 
 const MyEvents = () => {
-  // const user = Meteor.user();
-  // const owner = user ? user.username : null;
+  const user = Meteor.user();
+  const creator = user ? user.username : null;
+
   const navigate = useNavigate();
   const handleAddEventClick = () => {
     navigate('/add-event'); // Navigate to the add-event page
   };
-  const { ready, events } = useTracker(() => {
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
-    const rdy = subscription.ready();
+    const subscription2 = EventCategories.subscribeEventCategories();
+    const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    if (!subscription.ready()) {
+    if (!subscription.ready() && !subscription2.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
+
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
       events: eventItems,
+      eventCategories: eventCategoriesItems,
       ready: rdy,
     };
   }, []);
@@ -43,6 +49,8 @@ const MyEvents = () => {
       </Container>
     );
   }
+
+  const myEventsList = events.filter((event) => event.creator === creator);
 
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -110,8 +118,20 @@ const MyEvents = () => {
           </FormCheck>
         </Col>
         <Col>
-          <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {myEventsList.map((event) => (
+              <Col key={event._id}>
+                <EventCard
+                  event={event}
+                  eventCategory={eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === event.name &&
+                    eventCategory.eventInfo.organizationID === event.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === event.eventDate
+                  ))}
+                />
+              </Col>
+            ))}
           </Row>
         </Col>
       </Row>

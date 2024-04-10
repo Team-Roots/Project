@@ -7,15 +7,18 @@ import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
+  const owner = Meteor.user().username;
 
-  const { ready, canSubscribe, eventOrganization } = useTracker(() => {
+  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
-    const rdy = eventSubscription.ready() && organizationSubscription.ready();
+    const userStatsSubscription = UserStats.subscribeStats();
+    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready();
     if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
@@ -29,9 +32,22 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
+    const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
+    const foundEventStatistic = UserStats.findOne({
+      'stats.orgsHelped': {
+        $elemMatch: {
+          // orgName: orgName, find a way to do this please
+          eventName: event.name,
+          eventDate: formattedCalendarDate,
+        },
+      },
+    });
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
+      foundStats: !!(foundUserStats),
+      foundEventStat: !!(foundEventStatistic),
       ready: rdy,
     };
   }, []);
@@ -65,6 +81,24 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
+  const ClaimHours = () => {
+    const subscribeBy = Meteor.user().username;
+    const eventInfo = {};
+    eventInfo.email = subscribeBy;
+    eventInfo.orgID = event.organizationID;
+    eventInfo.eventName = event.name;
+    eventInfo.eventDate = formattedCalendarDate;
+    eventInfo.hoursServed = 2;
+
+    Meteor.call('userStats.updateOrgsHelpedData', eventInfo, (error) => {
+      if (error) {
+        console.error('Error inserting userStats.updateOrgsHelpedData subscription:', error.reason);
+      } else {
+        console.log('Event userStats.updateOrgsHelpedData ran successfully.');
+      }
+    });
+  };
+
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
@@ -83,6 +117,15 @@ const RegistrationCard = ({ event }) => {
             </Card.Header>
             <Card.Body className="text-end">
               <Button
+                variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
+                size="lg"
+                className="mb-3 mx-2"
+                disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
+                onClick={ClaimHours}
+              >
+                {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
+              </Button>
+              <Button
                 variant={canSubscribe ? 'success' : 'danger'}
                 size="lg"
                 className="mb-3 mx-2"
@@ -92,6 +135,18 @@ const RegistrationCard = ({ event }) => {
               </Button>
               <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
                 I Want to Help
+              </Button>
+              <Button
+                as={Link}
+                to={{
+                  pathname: `/comment/${event._id}`,
+                  state: { owner: owner }, // Pass additional state here
+                }}
+                variant="danger"
+                size="lg"
+                className="mb-3"
+              >
+                Chat
               </Button>
               <ListGroup variant="flush" className="text-start">
                 <ListGroup.Item><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
@@ -139,6 +194,7 @@ RegistrationCard.propTypes = {
     // ageRange
     organizationID: PropTypes.string,
     creator: PropTypes.string,
+    owner: PropTypes.string,
   }).isRequired,
 };
 

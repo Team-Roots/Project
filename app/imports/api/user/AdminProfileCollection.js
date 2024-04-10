@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import BaseProfileCollection from './BaseProfileCollection';
 import { ROLE } from '../role/Role';
 import { Users } from './UserCollection';
+import { UserStats } from './UserStatisticsCollection';
 
 class AdminProfileCollection extends BaseProfileCollection {
   constructor() {
@@ -26,11 +27,44 @@ class AdminProfileCollection extends BaseProfileCollection {
         const profileID = this._collection.insert({ email, firstName, lastName, userID: this.getFakeUserId(), role });
         const userID = Users.define({ username, role, password });
         this._collection.update(profileID, { $set: { userID } });
+        this.CreateStats(email);
         return profileID;
       }
+      // when a user profile is created, stats schema gets populated
+      this.CreateStats(email);
       return user._id;
     }
     return undefined;
+  }
+
+  CreateStats(email) {
+    console.log('CREATED ADMIN STATS!');
+    const stats = {};
+    // when a user profile is created, stats schema gets populated
+    stats.hoursThisMonth = 0;
+    stats.totalHours = 0;
+    stats.orgsHelped = [];
+    UserStats.define({
+      stats,
+      completedHours: [
+        {
+          year: 2024,
+          Jan: 0,
+          Feb: 0,
+          Mar: 0,
+          Apr: 0,
+          May: 0,
+          Jun: 0,
+          Jul: 0,
+          Aug: 0,
+          Sep: 0,
+          Oct: 0,
+          Nov: 0,
+          Dec: 0,
+        },
+      ],
+      email,
+    });
   }
 
   /**
