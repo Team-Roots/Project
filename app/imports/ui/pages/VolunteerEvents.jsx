@@ -28,16 +28,29 @@ const VolunteerEvents = () => {
   const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   const [searchInput, setSearchInput] = useState('');
+  const [filterCategory, setFilterCategory] = useState(null);
   const [data, setData] = useState(filteredDate);
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
-  const applySearch = () => {
-    if (!searchInput.trim()) {
+
+  const handleFilterChange = (e) => {
+    setFilterCategory(e.target.value);
+  };
+  const applySearchAndFilter = () => {
+    // nothing is being done
+    if (!searchInput.trim() && filterCategory === null) {
       setData(filteredDate);
       return;
     }
 
+    if (filterCateogry != null) {
+      const chosenEventCategories = eventCategories.find((eventCategory) => (
+        eventCategory.eventInfo.eventName === event.name &&
+        eventCategory.eventInfo.organizationID === event.organizationID));
+    }
+
+    // doing a search
     const filteredData = filteredDate.filter((event) => {
       const fieldsToSearch = ['name', 'organization'];
 
@@ -60,9 +73,9 @@ const VolunteerEvents = () => {
 
   useEffect(() => {
     if (ready) {
-      applySearch();
+      applySearchAndFilter();
     }
-  }, [ready, searchInput, events]);
+  }, [ready, searchInput, events, eventCategories, filterCategory]);
 
   return (ready ? (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
