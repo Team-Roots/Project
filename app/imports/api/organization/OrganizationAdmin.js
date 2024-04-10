@@ -18,6 +18,10 @@ class OrganizationAdminCollection extends BaseCollection {
         type: String,
         required: true,
       },
+      dateAdded: {
+        type: Date,
+        required: true,
+      },
       orgID: {
         type: SimpleSchema.Integer,
         required: true,
@@ -35,6 +39,7 @@ class OrganizationAdminCollection extends BaseCollection {
   define({ orgAdmin, orgID }) {
     const docID = this._collection.insert({
       orgAdmin,
+      dateAdded: new Date(),
       orgID,
     });
     const orgAdminID = Users.getID(orgAdmin);

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Card, Col, Button } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, RadioField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
@@ -24,6 +23,7 @@ const formSchema = new SimpleSchema({
   website: { type: String, optional: true },
   profit: Boolean,
   visible: Boolean,
+  tags: { type: String, required: false },
   location: String,
 });
 
@@ -63,7 +63,6 @@ const EditOrganization = () => {
       });
   };
   if (ready) {
-    console.log(currentUser);
     if (!Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
       return <NotAuthorized />;
     }
@@ -77,7 +76,7 @@ const EditOrganization = () => {
       <Container id={PAGE_IDS.EDIT_ORGANIZATION} className="py-3">
         <Row className="justify-content-center">
           <Col style={{ maxWidth: '50rem' }}>
-            <Col className="text-center"><h2>{thisOrganization.name}</h2></Col>
+            <Col className="text-center"><h2><Link to={`/organizations/${thisOrganization.orgID}`}>{thisOrganization.name}</Link></h2></Col>
             <AutoForm schema={bridge} onSubmit={data => submit(data)} model={thisOrganization}>
               <Card style={{ backgroundColor: 'snow' }} text="black">
                 <Card.Body>
@@ -108,8 +107,10 @@ const EditOrganization = () => {
                     </Col>
                   </Row>
                   <TextField name="location" placeholder="Your organization's location" />
-                  <Card.Subtitle>Tags</Card.Subtitle>
-                  <Card.Text>TestTag1 TestTag2</Card.Text>
+                  <div className="d-flex justify-content-between">
+                    <TextField name="tags" placeholder="TEMPORARY" />
+                    <Link to={`/organizations/edit/${thisOrganization.orgID}/manage-admins`}><Button className="mt-4" variant="outline-danger">Manage Admins</Button></Link>
+                  </div>
                   <div className="d-flex justify-content-between">
                     <SubmitField value="Save Changes" />
                     <Button variant="outline-danger" onClick={() => navigate(-1)}>Cancel</Button>

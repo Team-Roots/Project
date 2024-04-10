@@ -15,14 +15,10 @@ import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
 const OrgManagement = () => {
   const currentUser = useTracker(() => Meteor.user());
   const { userIsAdminOrganizations, ownedOrganization, ownedOrganizationAdmins, ready } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const organizationSubscription = Organizations.subscribeOrg();
     const organizationAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
     // Determine if the subscription is ready
     const rdy = organizationSubscription.ready() && organizationAdminSubscription.ready();
-
     const foundOwnedOrganization = Organizations.findOne({ organizationOwner: currentUser?.username }, {});
     const foundOwnedOrganizationAdmins = OrganizationAdmin.find({ orgID: foundOwnedOrganization?.orgID }, {}).fetch(); // subscribe to the organizationAdmin documents that the user is an admin of or the user owns the organization
     // array of objects {
@@ -41,8 +37,8 @@ const OrgManagement = () => {
   if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
     return ready ? (
       <Container className="py-3">
-        <Row>
-          <Col>
+        <Row className="d-flex justify-content-center">
+          <Col xs={10}>
             {ownedOrganization || userIsAdminOrganizations.length ? (
               <>
                 {ownedOrganization ? (
@@ -52,7 +48,7 @@ const OrgManagement = () => {
                       <Card.Body>
                         <Card.Title className="d-flex justify-content-between">
                           <Link to={`/organizations/${ownedOrganization.orgID}`}>{ownedOrganization.name}</Link>
-                          <Link to={`/organizations/edit/${ownedOrganization.orgID}`} style={{ color: 'black' }}><Gear /></Link>
+                          <Link to={`/organizations/edit/${ownedOrganization.orgID}`} style={{ color: 'black' }}><Gear size="1.25rem" /></Link>
                         </Card.Title>
                         <Card.Text>Admins: {ownedOrganizationAdmins.length}</Card.Text>
                       </Card.Body>
