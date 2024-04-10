@@ -52,7 +52,7 @@ Meteor.publish(eventCategoriesPublications.eventCategories, function () {
 Meteor.publish(organizationAdminPublications.organizationAdmin, function () {
   if (this.userId && Roles.userIsInRole(this.userId, ROLE.ORG_ADMIN)) {
     const username = Meteor.users.findOne(this.userId).username;
-    const ownedOrgID = Organizations.findOne({ organizationOwner: username }, {}).orgID;
+    const ownedOrgID = Organizations.findOne({ organizationOwner: username }, {})?.orgID;
     return OrganizationAdmin.find({ $or: [{ orgAdmin: username }, { orgID: ownedOrgID }] }, {}); // return documents where either the user is an admin or the user owns the organization
   }
   return this.ready();

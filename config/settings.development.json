@@ -2,6 +2,8 @@
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"},
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
+    { "email": "foo@john.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "John" },
+    { "email": "jane@foo.com", "password": "changeme", "role": "USER" , "firstName": "Jane", "lastName": "Doe" },
     { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
     { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
     { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
@@ -55,7 +57,12 @@
       "onboarded": false
     }
   ],
-
+  "defaultOrgAdmins": [
+    {
+      "orgAdmin": "jane@foo.com",
+      "orgID": 1
+    }
+  ],
   "defaultUserProfiles": [
     {
       "email":  "john@foo.com",

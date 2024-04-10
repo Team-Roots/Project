@@ -7,6 +7,7 @@ import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
+import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -144,6 +145,10 @@ function addOrganizationData(data) {
   Organizations.define(data);
 }
 
+function addOrganizationAdminData(data) {
+  OrganizationAdmin.define(data);
+}
+
 function addEventData(data) {
   Events.define(data);
 }
@@ -159,11 +164,11 @@ if (Stuffs.count() === 0) {
   }
 }
 
-if (Organizations.count() === 0) {
+if (Organizations.count() === 0 && OrganizationAdmin.count() === 0) {
   if (Meteor.settings.defaultOrganizations) {
-    console.log('Creating default organizations');
+    console.log('Creating default organizations.');
     Meteor.settings.defaultOrganizations.forEach(org => {
-      const newDoc = {
+      const newOrg = {
         name: org.name,
         website: org.website,
         profit: org.profit,
@@ -172,7 +177,16 @@ if (Organizations.count() === 0) {
         visible: org.visible,
         onboarded: org.onboarded,
       };
-      addOrganizationData(newDoc);
+      addOrganizationData(newOrg);
+    });
+    console.log('Creating default organization admins.');
+    Meteor.settings.defaultOrgAdmins.forEach(orgAdmin => {
+      const newOrgAdmin = {
+        orgAdmin: orgAdmin.orgAdmin,
+        dateAdded: new Date(),
+        orgID: orgAdmin.orgID,
+      };
+      addOrganizationAdminData(newOrgAdmin);
     });
   }
 }

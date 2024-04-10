@@ -30,7 +30,7 @@ const VolunteerOrganizations = () => {
     return (ready ? (
       <Container className="py-3 px-5" id={PAGE_IDS.VIEW_ORGANIZATION}>
         <Row className="justify-content-center">
-          <Col style={{ maxWidth: '50rem' }}>
+          <Col style={{ maxWidth: '60rem' }}>
             {thisOrganization ? (
               <>
                 <Card style={{ backgroundColor: 'snow' }} text="black">
