@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, ButtonGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../components/EventCard';
 import { Events } from '../../api/event/EventCollection';
@@ -77,10 +77,10 @@ const VolunteerEvents = () => {
           />
         </Form>
       </Row>
-      <Row>
-        <ListGroup horizontal className="justify-content-center align-content-center pb-1">
-          {categories.map((category) => <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{category.categoryName}</ListGroup.Item>)}
-        </ListGroup>
+      <Row className="justify-content-center align-content-center pb-1">
+        <ButtonGroup horizontal className="justify-content-center align-content-center pb-1">
+          {categories.map((category) => <Button className="rounded-pill m-1 robotoText eventLG">{category.categoryName}{' '}</Button>)}
+        </ButtonGroup>
       </Row>
       <Row>
         <Col>
