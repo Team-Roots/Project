@@ -36,7 +36,6 @@ const OrgManagement = () => {
       ready: rdy,
     };
   }, []);
-  console.log(ownedOrganizationAdmins);
   if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
     return ready ? (
       <Container className="py-3">
@@ -61,7 +60,7 @@ const OrgManagement = () => {
                 {userIsAdminOrganizations.length ? (
                   <>
                     <h3>Organizations you are a part of</h3>
-                    {userIsAdminOrganizations.map(organization => (<Link to="/">{organization.website}</Link>))}
+                    {userIsAdminOrganizations.map(organization => (<Link to={`/organizations/${organization.orgID}`}>{organization.name}</Link>))}
                     {
                       // TODO: make this look better
                     }
