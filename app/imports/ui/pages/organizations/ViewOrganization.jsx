@@ -20,11 +20,11 @@ const VolunteerOrganizations = () => {
       const orgAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
       const rdy = orgSubscription.ready() && orgAdminSubscription.ready();
       const foundOrganization = Organizations.findOne({ orgID: parsedOrgID }, {});
-      const foundOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: currentUser?.username, orgID: parsedOrgID });
+      const foundOrganizationAdmin = OrganizationAdmin.findOne({ orgAdmin: currentUser?.username, orgID: parsedOrgID }, {});
       return {
         ready: rdy,
         thisOrganization: foundOrganization,
-        isOrgAdmin: !!foundOrgAdmin,
+        isOrgAdmin: !!foundOrganizationAdmin,
       };
     }, [orgID]);
     return (ready ? (
