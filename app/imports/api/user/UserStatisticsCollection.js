@@ -158,7 +158,7 @@ class UserStatsCollection extends BaseCollection {
   }
 
   newOrgHelped(docID, orgsHelped) {
-    const userStats = this.findDoc(docID);
+    // const userStats = this.findDoc(docID);
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
