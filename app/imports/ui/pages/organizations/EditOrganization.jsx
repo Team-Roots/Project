@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Card, Col, Button } from 'react-bootstrap';
@@ -30,6 +31,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 const EditOrganization = () => {
   const currentUser = useTracker(() => Meteor.user());
+  const navigate = useNavigate();
   const { orgID } = useParams();
   const parsedOrgID = parseInt(orgID, 10);
   const { ready, thisOrganization } = useTracker(() => { // display just this requested organization
@@ -42,7 +44,6 @@ const EditOrganization = () => {
     };
   }, [orgID]);
   const submit = (data) => {
-    console.log("this thing", data);
     const { _id, name, mission, description, website, profit, visible, location } = data;
     const collectionName = Organizations.getCollectionName();
     const updateData = {
@@ -111,7 +112,7 @@ const EditOrganization = () => {
                   <Card.Text>TestTag1 TestTag2</Card.Text>
                   <div className="d-flex justify-content-between">
                     <SubmitField value="Save Changes" />
-                    <Link to={`/organizations/${thisOrganization.orgID}`}><Button variant="outline-danger">Cancel</Button></Link>
+                    <Button variant="outline-danger" onClick={() => navigate(-1)}>Cancel</Button>
                   </div>
                   <ErrorsField />
                 </Card.Body>

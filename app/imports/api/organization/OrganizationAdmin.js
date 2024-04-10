@@ -87,18 +87,8 @@ class OrganizationAdminCollection extends BaseCollection {
    * organizationAdminAdmin publication- handles case 3 as it checks if the current user is a site admin or not
    */
   publish() {
-    if (Meteor.isServer) {
-      const instance = this;
-      // normal organizationAdmin publication is in publications.js
-      // the code requires the Organization collection, which would cause a circular dependency if kept here
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
-    }
+    // organizationAdmin publications are in publications.js
+    // the code requires the Organization collection, which would cause a circular dependency if kept here
   }
 
   /**
