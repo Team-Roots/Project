@@ -26,7 +26,9 @@ const OrgManagement = () => {
     //   orgID
     // }
     const foundUserIsAdminOrganizationIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: currentUser?.username }, {}).fetch(), 'orgID');
-    const foundUserIsAdminOrganizations = Organizations.find({ orgID: { $in: foundUserIsAdminOrganizationIDs } }, {}).fetch().filter(org => org.orgID !== foundOwnedOrganization.orgID); // query only for the organizations that the user is an admin of
+    const foundUserIsAdminOrganizations = Organizations.find({
+      orgID: { $in: foundUserIsAdminOrganizationIDs },
+    }, {}).fetch().filter(org => org?.orgID !== foundOwnedOrganization?.orgID); // query only for the organizations that the user is an admin of
     return {
       userIsAdminOrganizations: foundUserIsAdminOrganizations,
       ownedOrganization: foundOwnedOrganization,
@@ -34,6 +36,7 @@ const OrgManagement = () => {
       ready: rdy,
     };
   }, []);
+  console.log(ownedOrganizationAdmins);
   if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
     return ready ? (
       <Container className="py-3">
