@@ -65,12 +65,12 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                 <FadeInSection>
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
-                    <p>Progress Towards 10Hrs/month Goal: </p>
+                    <p>Progress Towards {stat.monthlyGoal}Hrs/month Goal: </p>
                     <div className="pt-3">
                       { /* change min and max values by reading user schema (later) */ }
-                      <ProgressBar className="position-relative" min={0} max={10}>
-                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${stat.stats.hoursThisMonth * 10}% Complete!`}</div>
-                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={10} />
+                      <ProgressBar className="position-relative" min={0} max={stat.monthlyGoal}>
+                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${((stat.stats.hoursThisMonth / stat.monthlyGoal) * 100).toFixed(1)}% Complete!`}</div>
+                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={stat.monthlyGoal} />
                       </ProgressBar>
                     </div>
                     <p>
@@ -294,6 +294,7 @@ LandingPanel.propTypes = {
         }),
       ).isRequired,
     }).isRequired,
+    monthlyGoal: PropTypes.number.isRequired,
   }).isRequired,
   eventCategories: PropTypes.arrayOf(
     PropTypes.shape({

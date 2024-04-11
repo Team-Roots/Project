@@ -2,6 +2,8 @@
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"},
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
+    { "email": "foo@john.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "John" },
+    { "email": "jane@foo.com", "password": "changeme", "role": "USER" , "firstName": "Jane", "lastName": "Doe" },
     { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
     { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
     { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
@@ -15,10 +17,8 @@
       "profit": false,
       "location": "TestUser1 St. HI, 96795",
       "organizationOwner": "testuser1@foo.com",
-      "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "visible": true,
+      "onboarded": false
     },
     {
       "name":  "Example Organization 2",
@@ -26,10 +26,8 @@
       "profit": true,
       "location": "TestUser2 St. HI, 96795",
       "organizationOwner": "testuser2@foo.com",
-      "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "visible": true,
+      "onboarded": false
     },
     {
       "name":  "Example Organization 3",
@@ -38,9 +36,7 @@
       "location": "TestUser3 St. HI, 96795",
       "organizationOwner": "testuser3@foo.com",
       "visible": false,
-      "onboarded": false,
-      "backgroundCheck": false,
-      "ageRange": { "min": 18, "max": 99 }
+      "onboarded": false
     },
     {
       "name":  "Example Organization 4",
@@ -48,7 +44,7 @@
       "profit": false,
       "location": "TestUser4 St. HI, 96795",
       "organizationOwner": "testuser4@foo.com",
-      "visible": false,
+      "visible": true,
       "onboarded": false
     },
     {
@@ -57,11 +53,20 @@
       "profit": true,
       "location": "TestUser5 St. HI, 96795",
       "organizationOwner": "testuser5@foo.com",
-      "visible": false,
+      "visible": true,
       "onboarded": false
     }
   ],
-
+  "defaultOrgAdmins": [
+    {
+      "orgAdmin": "jane@foo.com",
+      "orgID": 1
+    },
+    {
+      "orgAdmin": "foo@john.com",
+      "orgID": 2
+    }
+  ],
   "defaultUserProfiles": [
     {
       "email":  "john@foo.com",
@@ -116,7 +121,7 @@
       "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 1,
-      "creator": "admin@foo.com"
+      "creator": "jane@foo.com"
     },
     {
       "name":  "Makai Research Pier Clean Up",
@@ -132,7 +137,7 @@
       "image": "https://808cleanups.org/wp-content/uploads/2019/06/weblogo01.png",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 1,
-      "creator": "admin@foo.com"
+      "creator": "jane@foo.com"
     },
     {
       "name":  "Hawaii Food Bank Donation Drive",
@@ -148,7 +153,7 @@
       "image": "https://foodbanklogos.blob.core.windows.net/foodbanklogos/FoodBankLogo_36_275w.jpg",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 2,
-      "creator": "john@foo.com"
+      "creator": "foo@john.com"
     },
     {
       "name":  "Oahu SPCA Adoption Event",
@@ -164,7 +169,7 @@
       "image": "https://oahuspca.org/images/logo/OahuSPCA.svg",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 3,
-      "creator": "john@foo.com"
+      "creator": "testuser3@foo.com"
     },
     {
       "name": "Meals on Wheels - Meal Packer",
@@ -180,7 +185,7 @@
       "image": "https://lanakilapacific.org/wp-content/uploads/2023/10/605be8c826af71180432f27c_lanakila-meals-on-wheels-centered.png",
       "ageRange": { "min": 16, "max": 99 },
       "organizationID": 4,
-      "creator": "testuser1@foo.com"
+      "creator": "testuser4@foo.com"
     },
     {
       "name":  "Hickam Thrift Shop Volunteer",
@@ -196,7 +201,7 @@
       "image": "https://kanuhawaii.b-cdn.net/wp-content/uploads/2023/03/AF0DDB45-EA8E-4A51-9A3D-4DB9B54BED7B.jpeg",
       "ageRange": { "min": 5, "max": 99 },
       "organizationID": 5,
-      "creator": "testuser1@foo.com"
+      "creator": "testuser5@foo.com"
     },
     {
       "name":  "Give Back to Maui",
@@ -212,7 +217,7 @@
       "image": "https://hta.kanuhawaii.org/wp-content/uploads/2023/10/189692605_4217568751598627_5376947711729859059_n-2.jpg",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 2,
-      "creator": "john@foo.com"
+      "creator": "foo@john.com"
     }
   ],
 

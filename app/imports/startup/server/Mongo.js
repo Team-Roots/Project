@@ -8,6 +8,7 @@ import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
+import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -124,6 +125,15 @@ Meteor.methods({
     const newOrgData = { orgName: orgNameViaID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
     UserStats.newOrgHelped(userStats._id, newOrgData);
   },
+  'userStats.changeGoal'(value, email) {
+    check(value, Number);
+    check(email, String);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+
+    UserStats.changeGoal(value, email);
+  },
 });
 
 // Initialize the database with a default data document.
@@ -134,6 +144,10 @@ function addData(data) {
 
 function addOrganizationData(data) {
   Organizations.define(data);
+}
+
+function addOrganizationAdminData(data) {
+  OrganizationAdmin.define(data);
 }
 
 function addEventData(data) {
@@ -155,11 +169,11 @@ if (Stuffs.count() === 0) {
   }
 }
 
-if (Organizations.count() === 0) {
+if (Organizations.count() === 0 && OrganizationAdmin.count() === 0) {
   if (Meteor.settings.defaultOrganizations) {
-    console.log('Creating default organizations');
+    console.log('Creating default organizations.');
     Meteor.settings.defaultOrganizations.forEach(org => {
-      const newDoc = {
+      const newOrg = {
         name: org.name,
         website: org.website,
         profit: org.profit,
@@ -168,7 +182,16 @@ if (Organizations.count() === 0) {
         visible: org.visible,
         onboarded: org.onboarded,
       };
-      addOrganizationData(newDoc);
+      addOrganizationData(newOrg);
+    });
+    console.log('Creating default organization admins.');
+    Meteor.settings.defaultOrgAdmins.forEach(orgAdmin => {
+      const newOrgAdmin = {
+        orgAdmin: orgAdmin.orgAdmin,
+        dateAdded: new Date(),
+        orgID: orgAdmin.orgID,
+      };
+      addOrganizationAdminData(newOrgAdmin);
     });
   }
 }
