@@ -16,7 +16,7 @@ const VolunteerEvents = () => {
     const rdy = subscription.ready() && subscription2.ready() && subscription3.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
-    const categoriesItems = Categories.find({}, { sort: { eventInfo: 1 } }).fetch();
+    const categoriesItems = Categories.find({}, { sort: { categoryName: 1 } }).fetch();
     return {
       events: eventItems,
       eventCategories: eventCategoriesItems,
@@ -28,29 +28,44 @@ const VolunteerEvents = () => {
   const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   const [searchInput, setSearchInput] = useState('');
-  const [filterCategory, setFilterCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [data, setData] = useState(filteredDate);
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
 
-  const handleFilterChange = (e) => {
-    setFilterCategory(e.target.value);
+  const handleCategoryFilter = (categoryName) => {
+    if (categoryName === selectedCategory) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(categoryName);
+    }
   };
-  const applySearchAndFilter = () => {
-    // nothing is being done
-    if (!searchInput.trim() && filterCategory === null) {
+
+  const applyFilter = () => {
+    if (selectedCategory === null) {
+      setData(filteredDate);
+      return;
+    }
+    const filteredData = filteredDate.filter((event) => {
+      const selectEventCategory = eventCategories.find(
+        (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
+          eventCategory.eventInfo.organizationID === event.organizationID,
+      );
+
+      return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
+
+    });
+
+    setData(filteredData);
+  };
+
+  const applySearch = () => {
+    if (!searchInput.trim()) {
       setData(filteredDate);
       return;
     }
 
-    if (filterCateogry != null) {
-      const chosenEventCategories = eventCategories.find((eventCategory) => (
-        eventCategory.eventInfo.eventName === event.name &&
-        eventCategory.eventInfo.organizationID === event.organizationID));
-    }
-
-    // doing a search
     const filteredData = filteredDate.filter((event) => {
       const fieldsToSearch = ['name', 'organization'];
 
@@ -73,9 +88,10 @@ const VolunteerEvents = () => {
 
   useEffect(() => {
     if (ready) {
-      applySearchAndFilter();
+      applySearch();
+      applyFilter();
     }
-  }, [ready, searchInput, events, eventCategories, filterCategory]);
+  }, [ready, searchInput, events, eventCategories, selectedCategory]);
 
   return (ready ? (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -91,8 +107,12 @@ const VolunteerEvents = () => {
         </Form>
       </Row>
       <Row className="justify-content-center align-content-center pb-1">
-        <ButtonGroup horizontal className="justify-content-center align-content-center pb-1">
-          {categories.map((category) => <Button className="rounded-pill m-1 robotoText eventLG">{category.categoryName}{' '}</Button>)}
+        <ButtonGroup className="justify-content-center align-content-center pb-1">
+          {categories.map((category) => (
+            <Button onClick={() => handleCategoryFilter(category.categoryName)} className={`rounded-pill m-1 robotoText eventLG ${category.categoryName === selectedCategory ? 'active' : ''}`}>
+              {category.categoryName}{' '}
+            </Button>
+          ))}
         </ButtonGroup>
       </Row>
       <Row>
