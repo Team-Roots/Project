@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
+// import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
@@ -10,7 +10,7 @@ import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import BasicEventDetails from '../../components/BasicEventDetails'; // Adjust the path as needed
 import TimingAndCoordinator from '../../components/TimingAndCoordinator'; // Adjust the path as needed
 import AdditionalInformation from '../../components/AdditionalInformation'; // Adjust the path as needed
-import EventCard from '../../components/EventCard'; // Ensure this path is correct
+// import EventCard from '../../components/EventCard'; // Ensure this path is correct
 import { Events } from '../../../api/event/EventCollection';
 
 // Define your form schema

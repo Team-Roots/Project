@@ -1,25 +1,18 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, FormCheck } from 'react-bootstrap';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../../api/event/EventCollection'; // Import your EventCollection
+import { Events } from '../../../api/event/EventCollection';
 import EventCard from '../../components/EventCard';
 import { PAGE_IDS } from '../../utilities/PageIDs';
-import { COMPONENT_IDS } from '../../utilities/ComponentIDs';
 import { EventCategories } from '../../../api/event/EventCategoriesCollection';
-// import PropTypes from 'prop-types';
 
 const MyEvents = () => {
   const user = Meteor.user();
   const creator = user ? user.username : null;
 
-  const navigate = useNavigate();
-  const handleAddEventClick = () => {
-    navigate('/add-event'); // Navigate to the add-event page
-  };
   const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const subscription2 = EventCategories.subscribeEventCategories();
@@ -54,11 +47,6 @@ const MyEvents = () => {
 
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
-      <Row className="justify-content-center">
-        <Col xs="auto">
-
-        </Col>
-      </Row>
       <Row>
         <Col lg={2}>
           <h3 className="poppinsText">Filter By</h3>
