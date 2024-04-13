@@ -11,9 +11,10 @@ import NotAuthorized from '../NotAuthorized';
 import NotFound from '../NotFound';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
-import Details from '../../components/organizations/edit/EditDetails';
+import EditDetails from '../../components/organizations/edit/EditDetails';
 import EditAdmins from '../../components/organizations/edit/EditAdmins';
 import EditGeneral from '../../components/organizations/edit/EditGeneral';
+import EditWaiver from '../../components/organizations/edit/EditWaiver';
 
 const EditOrganization = () => {
   const currentUser = useTracker(() => Meteor.user());
@@ -37,10 +38,13 @@ const EditOrganization = () => {
     let mainContent;
     switch (tab) {
     case 'details':
-      mainContent = <Details />;
+      mainContent = <EditDetails />;
+      break;
+    case 'waiver':
+      mainContent = <EditWaiver />;
       break;
     case 'admins':
-      mainContent = <EditAdmins />;
+      mainContent = <EditAdmins organization={thisOrganization} />;
       break;
     default:
       mainContent = <EditGeneral organization={thisOrganization} />;
@@ -64,7 +68,6 @@ const EditOrganization = () => {
             >
               <Nav.Link eventKey="general">General</Nav.Link>
               <Nav.Link eventKey="details">Details</Nav.Link>
-              <Nav.Link eventKey="events">Events</Nav.Link>
               <Nav.Link eventKey="waiver">Waiver</Nav.Link>
               <Nav.Link eventKey="admins">Admins</Nav.Link>
             </Nav>

@@ -50,8 +50,12 @@ Meteor.publish(eventCategoriesPublications.eventCategories, function () {
 
 // split organizationAdmin publication exception to avoid circular dependencies
 Meteor.publish(organizationAdminPublications.organizationAdmin, function () {
-  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ORG_ADMIN)) {
+  if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
+    const ownedOrg = Organizations.findOne({ organizationOwner: username }, {});
+    if (ownedOrg) {
+      return OrganizationAdmin.find({ $or: [{ orgAdmin: username }, { orgID: ownedOrg.orgID }] }, {});
+    }
     return OrganizationAdmin.find({ orgAdmin: username }, {}); // return documents where either the user is an admin or the user owns the organization
   }
   return this.ready();
