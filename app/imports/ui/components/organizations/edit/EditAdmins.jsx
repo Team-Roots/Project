@@ -68,10 +68,10 @@ const EditAdmins = ({ organization }) => {
       <div>
         <h3>Add an admin</h3>
         <div className="d-flex">
-          <Form onSubmit={handleSubmit}> {/* Attach handleSubmit function to form submission */}
+          <Form onSubmit={handleSubmit}>
             <InputGroup className="mb-2">
-              <Form.Control placeholder="Email" value={email} onChange={handleEmailChange} /> {/* Controlled input */}
-              <Button type="submit" variant="outline-primary">Add</Button> {/* Use type="submit" to submit the form */}
+              <Form.Control placeholder="Email" value={email} onChange={handleEmailChange} />
+              <Button type="submit" variant="outline-primary">Add</Button>
             </InputGroup>
           </Form>
         </div>

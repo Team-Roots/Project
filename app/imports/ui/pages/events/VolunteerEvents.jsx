@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, ButtonGroup, Button } from 'react-bootstrap'
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../../components/EventCard';
 import { Events } from '../../../api/event/EventCollection';
-// import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { EventCategories } from '../../../api/event/EventCategoriesCollection';
