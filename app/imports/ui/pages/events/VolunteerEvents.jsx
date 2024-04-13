@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, FormCheck, Form } from 'react-bootstrap';
-import FormCheckInput from 'react-bootstrap/FormCheckInput';
-import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
+import { Container, Row, Col, Form, ButtonGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../../components/EventCard';
 import { Events } from '../../../api/event/EventCollection';
@@ -9,17 +7,21 @@ import { Events } from '../../../api/event/EventCollection';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { EventCategories } from '../../../api/event/EventCategoriesCollection';
+import { Categories } from '../../../api/category/CategoryCollection';
 
 const VolunteerEvents = () => {
-  const { ready, events, eventCategories } = useTracker(() => {
+  const { ready, events, eventCategories, categories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const subscription2 = EventCategories.subscribeEventCategories();
-    const rdy = subscription.ready() && subscription2.ready();
+    const subscription3 = Categories.subscribeCategory();
+    const rdy = subscription.ready() && subscription2.ready() && subscription3.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
+    const categoriesItems = Categories.find({}, { sort: { categoryName: 1 } }).fetch();
     return {
       events: eventItems,
       eventCategories: eventCategoriesItems,
+      categories: categoriesItems,
       ready: rdy,
     };
   }, []);
@@ -27,10 +29,38 @@ const VolunteerEvents = () => {
   const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   const [searchInput, setSearchInput] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [data, setData] = useState(filteredDate);
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
+
+  const handleCategoryFilter = (categoryName) => {
+    if (categoryName === selectedCategory) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(categoryName);
+    }
+  };
+
+  const applyFilter = () => {
+    if (selectedCategory === null) {
+      setData(filteredDate);
+      return;
+    }
+    const filteredData = filteredDate.filter((event) => {
+      const selectEventCategory = eventCategories.find(
+        (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
+          eventCategory.eventInfo.organizationID === event.organizationID,
+      );
+
+      return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
+
+    });
+
+    setData(filteredData);
+  };
+
   const applySearch = () => {
     if (!searchInput.trim()) {
       setData(filteredDate);
@@ -38,7 +68,7 @@ const VolunteerEvents = () => {
     }
 
     const filteredData = filteredDate.filter((event) => {
-      const fieldsToSearch = ['name', 'category', 'organization'];
+      const fieldsToSearch = ['name', 'organization'];
 
       return fieldsToSearch.some((field) => {
         const fieldValue = event[field];
@@ -60,8 +90,9 @@ const VolunteerEvents = () => {
   useEffect(() => {
     if (ready) {
       applySearch();
+      applyFilter();
     }
-  }, [ready, searchInput, events]);
+  }, [ready, searchInput, events, eventCategories, selectedCategory]);
 
   return (ready ? (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -76,56 +107,16 @@ const VolunteerEvents = () => {
           />
         </Form>
       </Row>
+      <Row className="justify-content-center align-content-center pb-1">
+        <ButtonGroup className="justify-content-center align-content-center pb-1">
+          {categories.map((category) => (
+            <Button onClick={() => handleCategoryFilter(category.categoryName)} className={`rounded-pill m-1 robotoText eventLG ${category.categoryName === selectedCategory ? 'active' : ''}`}>
+              {category.categoryName}{' '}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Row>
       <Row>
-        <Col lg={2}>
-          <h3 className="poppinsText">Filter By</h3>
-          <h4 className="poppinsText">Location</h4>
-          <FormCheck>
-            <FormCheckInput type="radio" />
-            <FormCheckLabel className="robotoText">Honolulu, HI</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="radio" />
-            <FormCheckLabel className="robotoText">Pearl City, HI</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="radio" />
-            <FormCheckLabel className="robotoText">Waimanalo, HI</FormCheckLabel>
-          </FormCheck>
-          <h4 className="poppinsText">Location Type</h4>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">In-Person</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Online</FormCheckLabel>
-          </FormCheck>
-          <h4 className="poppinsText">Category</h4>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Animal Shelter</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Clean Up</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Donations</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
-          </FormCheck>
-          <br />
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
-            <FormCheckLabel>
-              <h5 className="poppinsText">Background Check Not Needed</h5>
-            </FormCheckLabel>
-          </FormCheck>
-        </Col>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
             {data.map((event) => (

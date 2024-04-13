@@ -7,6 +7,7 @@ import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
+import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 
 Meteor.methods({
@@ -156,6 +157,10 @@ function addEventCategoryData(data) {
   EventCategories.define(data);
 }
 
+function addCategoryData(data) {
+  Categories.define(data);
+}
+
 // Initialize the StuffsCollection if empty.
 if (Stuffs.count() === 0) {
   if (Meteor.settings.defaultData) {
@@ -195,6 +200,13 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
+  }
+}
+
+if (Categories.count() === 0) {
+  if (Meteor.settings.defaultCategories) {
+    console.log('Creating default categories.');
+    Meteor.settings.defaultCategories.forEach(category => addCategoryData(category));
   }
 }
 
