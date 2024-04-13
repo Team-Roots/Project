@@ -77,7 +77,7 @@ const App = () => {
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
-          <Route path="/organizations/edit/:orgID" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
+          <Route path="/organizations/:orgID/edit" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
           <Route path="/organizations/edit/:orgID/manage-admins" element={<ProtectedRoute><ManageAdmins /></ProtectedRoute>} />
           <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />

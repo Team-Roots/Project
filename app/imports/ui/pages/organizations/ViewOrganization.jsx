@@ -1,15 +1,15 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Row, Card, Col, Button } from 'react-bootstrap';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Gear } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
 import NotFound from '../NotFound';
 import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
 import { COMPONENT_IDS } from '../../utilities/ComponentIDs';
+import EditOrgGear from '../../components/organizations/EditOrgGear';
 
 const VolunteerOrganizations = () => {
   const currentUser = useTracker(() => Meteor.user());
@@ -17,7 +17,7 @@ const VolunteerOrganizations = () => {
   const navigate = useNavigate();
   const parsedOrgID = parseInt(orgID, 10);
   if (orgID) { // display just this requested organization
-    const { ready, thisOrganization, isOrgAdmin } = useTracker(() => {
+    const { ready, thisOrganization, allowedToEdit } = useTracker(() => {
       const orgSubscription = Organizations.subscribeOrg();
       const orgAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
       const rdy = orgSubscription.ready() && orgAdminSubscription.ready();
@@ -26,7 +26,7 @@ const VolunteerOrganizations = () => {
       return {
         ready: rdy,
         thisOrganization: foundOrganization,
-        isOrgAdmin: !!foundOrganizationAdmin,
+        allowedToEdit: !!foundOrganizationAdmin,
       };
     }, [orgID]);
     return (ready ? (
@@ -39,7 +39,7 @@ const VolunteerOrganizations = () => {
                   <Card.Body>
                     <div className="d-flex justify-content-between">
                       <Card.Title>{thisOrganization.name}</Card.Title>
-                      {isOrgAdmin && <Link to={`/organizations/edit/${thisOrganization.orgID}`} style={{ color: 'black' }}><Gear size="1.25rem" /></Link>}
+                      {allowedToEdit && <EditOrgGear orgID={thisOrganization.orgID} />}
                     </div>
                     <Card.Subtitle>Mission</Card.Subtitle>
                     <Card.Text>

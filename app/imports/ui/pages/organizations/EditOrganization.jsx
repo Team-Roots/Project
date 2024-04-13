@@ -15,6 +15,7 @@ import { ROLE } from '../../../api/role/Role';
 import NotAuthorized from '../NotAuthorized';
 import NotFound from '../NotFound';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
 
 const formSchema = new SimpleSchema({
   name: String,
@@ -34,12 +35,15 @@ const EditOrganization = () => {
   const navigate = useNavigate();
   const { orgID } = useParams();
   const parsedOrgID = parseInt(orgID, 10);
-  const { ready, thisOrganization } = useTracker(() => { // display just this requested organization
-    const subscription = Organizations.subscribeOrg();
-    const rdy = subscription.ready();
+  const { thisOrganization, allowedToEdit, ready } = useTracker(() => {
+    const orgSubscription = Organizations.subscribeOrg();
+    const orgAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
+    const rdy = orgSubscription.ready() && orgAdminSubscription.ready();
     const foundOrganization = Organizations.findOne({ orgID: parsedOrgID }, {});
+    const foundOrganizationAdmin = OrganizationAdmin.findOne({ orgAdmin: currentUser?.username, orgID: parsedOrgID }, {});
     return {
       thisOrganization: foundOrganization,
+      allowedToEdit: Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]) && !!foundOrganizationAdmin,
       ready: rdy,
     };
   }, [orgID]);
@@ -63,14 +67,11 @@ const EditOrganization = () => {
       });
   };
   if (ready) {
-    if (!Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
+    if (!allowedToEdit) {
       return <NotAuthorized />;
     }
     if (!thisOrganization) {
       return <NotFound />;
-    }
-    if (thisOrganization.organizationOwner !== currentUser?.username) {
-      return <NotAuthorized />;
     }
     return (
       <Container id={PAGE_IDS.EDIT_ORGANIZATION} className="py-3">
@@ -109,7 +110,7 @@ const EditOrganization = () => {
                   <TextField name="location" placeholder="Your organization's location" />
                   <div className="d-flex justify-content-between">
                     <TextField name="tags" placeholder="TEMPORARY" />
-                    <Link to={`/organizations/edit/${thisOrganization.orgID}/manage-admins`}><Button className="mt-4" variant="outline-danger">Manage Admins</Button></Link>
+                    {thisOrganization.organizationOwner === currentUser?.username && <Link to={`/organizations/edit/${thisOrganization.orgID}/manage-admins`}><Button className="mt-4" variant="outline-danger">Manage Admins</Button></Link>}
                   </div>
                   <div className="d-flex justify-content-between">
                     <SubmitField value="Save Changes" />

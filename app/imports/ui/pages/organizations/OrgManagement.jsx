@@ -11,6 +11,7 @@ import NotAuthorized from '../NotAuthorized';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
+import EditOrgGear from '../../components/organizations/EditOrgGear';
 
 const OrgManagement = () => {
   const currentUser = useTracker(() => Meteor.user());
@@ -50,7 +51,7 @@ const OrgManagement = () => {
                       <Card.Body>
                         <Card.Title className="d-flex justify-content-between">
                           <Link to={`/organizations/${ownedOrganization.orgID}`}>{ownedOrganization.name}</Link>
-                          <Link to={`/organizations/edit/${ownedOrganization.orgID}`} style={{ color: 'black' }}><Gear size="1.25rem" /></Link>
+                          <EditOrgGear />
                         </Card.Title>
                         <Card.Text>Admins: {ownedOrganizationAdmins.length}</Card.Text>
                       </Card.Body>
