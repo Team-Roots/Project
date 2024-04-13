@@ -42,11 +42,13 @@ class EventCollection extends BaseCollection {
       'ageRange.min': {
         type: SimpleSchema.Integer,
         required: false,
+        min: 0,
         defaultValue: 1,
       },
       'ageRange.max': {
         type: SimpleSchema.Integer,
         required: false,
+        max: 99,
         defaultValue: 99,
       },
       organizationID: SimpleSchema.Integer,

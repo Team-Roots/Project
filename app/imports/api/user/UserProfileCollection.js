@@ -37,6 +37,7 @@ class UserProfileCollection extends BaseProfileCollection {
       stats,
       completedHours: [
         {
+          year: 2024,
           Jan: 0,
           Feb: 0,
           Mar: 0,
@@ -51,8 +52,10 @@ class UserProfileCollection extends BaseProfileCollection {
           Dec: 0,
         },
       ],
+      monthlyGoal: 10,
       email,
     });
+    // this._collection.update(profileID, { $set: { userID } });
     return newProfileID;
   }
 

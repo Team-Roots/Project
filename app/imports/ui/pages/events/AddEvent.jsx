@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
+// import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
-import BasicEventDetails from '../components/BasicEventDetails'; // Adjust the path as needed
-import TimingAndCoordinator from '../components/TimingAndCoordinator'; // Adjust the path as needed
-import AdditionalInformation from '../components/AdditionalInformation'; // Adjust the path as needed
-import EventCard from '../components/EventCard'; // Ensure this path is correct
-import { Events } from '../../api/event/EventCollection';
+import { defineMethod } from '../../../api/base/BaseCollection.methods';
+import BasicEventDetails from '../../components/BasicEventDetails'; // Adjust the path as needed
+import TimingAndCoordinator from '../../components/TimingAndCoordinator'; // Adjust the path as needed
+import AdditionalInformation from '../../components/AdditionalInformation'; // Adjust the path as needed
+// import EventCard from '../../components/EventCard'; // Ensure this path is correct
+import { Events } from '../../../api/event/EventCollection';
 
 // Define your form schema
 const eventSchema = new SimpleSchema({
   name: String,
-  eventDate: {
-    type: Date,
-    label: 'Event Date', // Ensure the label is defined here
+  description: String,
+  image: {
+    type: String,
+    optional: true,
   },
+  eventDate: Date,
   startTime: String,
   endTime: String,
+  location: String,
+  amountVolunteersNeeded: SimpleSchema.Integer,
+  isOnline: Boolean,
   coordinator: String,
   category: {
     type: String,
-    optional: true,
+    allowedValues: ['Animal Shelter', 'Clean Up', 'Donation', 'Food Distribution', 'Charity'],
   },
   specialInstructions: {
     type: String,
@@ -35,37 +40,36 @@ const eventSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  description: String,
-  amountVolunteersNeeded: SimpleSchema.Integer,
-  isOnline: Boolean,
+  backgroundCheck: Boolean,
   ageRange: Object,
   'ageRange.min': SimpleSchema.Integer,
   'ageRange.max': SimpleSchema.Integer,
-  image: { type: String, optional: true },
 });
 
 const bridge = new SimpleSchema2Bridge(eventSchema);
 
 const AddEvent = () => {
   const [cloudinaryUrl, setCloudinaryUrl] = useState('');
-  // eslint-disable-next-line no-empty-pattern
-  const {} = useTracker(() => {
-    const subscription = Meteor.subscribe('event');
-    return { ready: subscription.ready() };
-  }, []);
+
   const initialFormState = {
     name: '',
+    description: '',
+    image: 'https://via.placeholder.com/150', // Placeholder image URL
     eventDate: new Date(),
-    location: { address: '', latLng: {} },
     startTime: '',
     endTime: '',
-    coordinator: '',
-    description: '',
+    location: '',
     amountVolunteersNeeded: 0,
-    restrictions: '',
-    ageRange: { min: 1, max: 99 },
     isOnline: false,
-    image: 'https://via.placeholder.com/150', // Placeholder image URL
+    coordinator: '',
+    category: '',
+    specialInstructions: '',
+    restrictions: '',
+    backgroundCheck: false,
+    ageRange: {
+      min: 0,
+      max: 99,
+    },
   };
 
   const [eventPreview, setEventPreview] = useState(initialFormState);
@@ -176,9 +180,9 @@ const AddEvent = () => {
         </Col>
 
         {/* Preview Section */}
-        <Col md={6}>
-          <EventCard event={{ ...eventPreview, location: eventPreview.location?.address }} showEditLink={false} />
-        </Col>
+        {/* <Col md={6}> */}
+        {/*  <EventCard event={{ ...eventPreview, location: eventPreview.location?.address }} showEditLink={false} /> */}
+        {/* </Col> */}
       </Row>
     </Container>
   );

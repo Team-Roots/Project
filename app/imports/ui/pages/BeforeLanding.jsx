@@ -7,12 +7,14 @@ import { useTracker } from 'meteor/react-meteor-data'; // Assuming you're using 
 import FadeInSection from '../components/FadeInSection';
 import EventCard from '../components/EventCard';
 import { Events } from '../../api/event/EventCollection';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 const BeforeLanding = () => {
   // Correct use of useTracker hook to manage subscription and fetch data
-  const { events, ready } = useTracker(() => {
+  const { events, ready, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
-    const rdy = subscription.ready();
+    const subscription2 = EventCategories.subscribeEventCategories();
+    const rdy = subscription.ready() && subscription2.ready();
 
     if (!rdy) {
       console.log('Subscription is not ready yet.');
@@ -21,9 +23,11 @@ const BeforeLanding = () => {
     }
 
     const eventItems = rdy ? Events.find({}, { sort: { name: 1 }, limit: 4 }).fetch() : [];
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
 
     return {
       events: eventItems,
+      eventCategories: eventCategoriesItems,
       ready: rdy,
     };
   }, []);
@@ -31,6 +35,9 @@ const BeforeLanding = () => {
   if (!ready) {
     return <div>Loading...</div>;
   }
+
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   return (
     <div id="listPostsPage">
@@ -103,7 +110,7 @@ const BeforeLanding = () => {
         </Container>
         <Container className="p-5" fluid>
           <Row className="ps-5" id="recent_events">
-            <h1 id="landing-header">RECENT EVENTS</h1>
+            <h1 id="landing-header">UPCOMING EVENTS</h1>
           </Row>
           <Row className="pt-3 px-5">
             <FadeInSection>
@@ -113,7 +120,21 @@ const BeforeLanding = () => {
               {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
               <Col>
                 <Row md={1} lg={2} className="g-4">
-                  {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                  {filteredDate.map((event) => (
+                    <Col key={event._id}>
+                      <FadeInSection>
+                        <EventCard
+                          event={event}
+                          eventCategory={eventCategories.find(eventCategory => (
+                            eventCategory.eventInfo.eventName === event.name &&
+                            eventCategory.eventInfo.organizationID === event.organizationID
+                            // TODO: fix eventDates, some reason its not working
+                            // && eventCategory.eventInfo.eventDate === event.eventDate
+                          ))}
+                        />
+                      </FadeInSection>
+                    </Col>
+                  ))}
                 </Row>
               </Col>
             </FadeInSection>

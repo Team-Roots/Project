@@ -32,28 +32,70 @@ class UserStatsCollection extends BaseCollection {
       },
       // $ is kinda like any or declaring some sort of extension
       'stats.orgsHelped.$': {
-        type: String, // Define the type of items in the array
+        type: Object, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
       },
-      completedHours: [
-        {
-          Jan: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Feb: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Mar: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Apr: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          May: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Jun: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Jul: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Aug: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Sep: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Oct: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Nov: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-          Dec: { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'stats.orgsHelped.$.orgName': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventName': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.eventDate': {
+        type: String, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.hoursServed': {
+        type: Number, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      completedHours: {
+        type: Array,
+        required: true,
+        defaultValue: function () {
+          return [{
+            year: new Date().getFullYear(),
+            Jan: 0,
+            Feb: 0,
+            Mar: 0,
+            Apr: 0,
+            May: 0,
+            Jun: 0,
+            Jul: 0,
+            Aug: 0,
+            Sep: 0,
+            Oct: 0,
+            Nov: 0,
+            Dec: 0,
+          }];
         },
-      ],
+      },
+      'completedHours.$': Object,
+      'completedHours.$.year': { type: SimpleSchema.Integer, defaultValue: new Date().getFullYear() },
+      'completedHours.$.Jan': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Feb': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Mar': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Apr': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.May': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Jun': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Jul': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Aug': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Sep': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Oct': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Nov': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Dec': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
       email: {
         type: String,
         required: true,
         unique: true,
+      },
+      monthlyGoal: {
+        type: SimpleSchema.Integer,
+        required: false,
+        optional: true,
+        defaultValue: 10,
       },
     }));
   }
@@ -65,19 +107,45 @@ class UserStatsCollection extends BaseCollection {
    * @return {String} the docID of the new document.
    */
   define({ stats, completedHours, email }) {
+    const defaultCompletedHours = [
+      {
+        year: new Date().getFullYear(),
+        Jan: 0,
+        Feb: 0,
+        Mar: 0,
+        Apr: 0,
+        May: 0,
+        Jun: 0,
+        Jul: 0,
+        Aug: 0,
+        Sep: 0,
+        Oct: 0,
+        Nov: 0,
+        Dec: 0,
+      },
+    ];
     const docID = this._collection.insert({
-      stats,
-      completedHours,
-      email,
+      stats: stats,
+      completedHours: completedHours || defaultCompletedHours,
+      email: email,
     });
     return docID;
+  }
+
+  changeGoal(val, email) {
+    const collection = this._collection.findOne({ email: email });
+    const docID = collection._id;
+    const updateData = {
+      $set: { monthlyGoal: collection.monthlyGoal + val },
+    };
+    this._collection.update(docID, updateData);
   }
 
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param name the new name (optional).
-   * @param waiver the waiver string
+   * @param stats Stat structure
    */
 
   // we dont want users to update : hence the
@@ -87,6 +155,65 @@ class UserStatsCollection extends BaseCollection {
     const updateData = {};
     updateData.stats = stats;
     this._collection.update(docID, { $set: updateData });
+  }
+
+  newOrgHelped(docID, orgsHelped) {
+    // const userStats = this.findDoc(docID);
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonthIndex = currentDate.getMonth();
+    const currentMonthName = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ][currentMonthIndex];
+
+    const updateData = {
+      $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
+    };
+    const completedHoursIndex = this.FindDate(docID, currentYear);
+    if (completedHoursIndex >= 0) {
+      updateData.$inc = {};
+      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    } else {
+      updateData.$set = {};
+      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
+      updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    }
+    // console.log(updateData);
+
+    this._collection.update(docID, updateData);
+  }
+
+  FindDate(docID, currentYear) {
+    const userStats = this.findDoc(docID);
+    for (let i = 0; i < userStats.completedHours.length; i++) {
+      if (userStats.completedHours[i].year === currentYear) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  GenerateNewCompletedHours() {
+    const currentDate = new Date();
+    const getYear = currentDate.getFullYear();
+    return {
+      year: getYear,
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
   }
 
   /**
@@ -107,13 +234,13 @@ class UserStatsCollection extends BaseCollection {
    */
   publish() {
     if (Meteor.isServer) {
-      // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(userStatsPublications.userStats, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          console.log(username);
+          return instance._collection.find({ email: username });
         }
         return this.ready();
       });
@@ -154,13 +281,15 @@ class UserStatsCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{stats: *, email: *, owner: *}}
+   * @return {{stats: *, email: *, owner: *, orgsHelped: *}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const waiver = doc.stats;
-    const orgID = doc.email;
-    return { waiver, orgID };
+    const stats = doc.stats;
+    const email = doc.email;
+    const completedHours = doc.completedHours;
+    const orgsHelped = doc.stats.orgsHelped;
+    return { stats, email, completedHours, orgsHelped };
   }
 }
 

@@ -9,9 +9,11 @@ import { Organizations } from '../../api/organization/OrganizationCollection';
 import AboutUs from './AboutUs';
 import { Events } from '../../api/event/EventCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+import { UserStats } from '../../api/user/UserStatisticsCollection';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 
 const Landing = () => {
-  const { ready, subscribedEvents, orgs, events } = useTracker(() => {
+  const { ready, subscribedEvents, orgs, events, stat, eventCategories } = useTracker(() => {
     const subscription = Organizations.subscribeOrg();
     const rdy = subscription.ready();
     if (!subscription.ready()) {
@@ -38,18 +40,37 @@ const Landing = () => {
     }
     const eventSubscription = EventSubscription.find({}, { sort: { subscriptionInfo: 1 } }).fetch();
 
+    const subscription4 = UserStats.subscribeStats();
+    const rdy4 = subscription4.ready();
+    if (!subscription4.ready()) {
+      console.log('subscription4 is not ready yet.');
+    } else {
+      console.log('subscription4 is ready.');
+    }
+    const currentUserEmail = Meteor.user() ? Meteor.user().emails[0].address : '';
+    const stats = UserStats.findOne({}, { email: currentUserEmail });
+    console.log(stats);
+
+    const subscription5 = EventCategories.subscribeEventCategories();
+    const rdy5 = subscription5.ready();
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
       events: eventItems,
       subscribedEvents: eventSubscription,
       orgs: orgItems,
-      ready: rdy && rdy2 && rdy3,
+      stat: stats,
+      eventCategories: eventCategoriesItems,
+      ready: rdy && rdy2 && rdy3 && rdy4 && rdy5,
     };
   }, []);
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  // console.log(Meteor.user().emails[0].address);
   const loggedin = Meteor.user();
   if (loggedin) {
     return (ready ? (
       <Container id={PAGE_IDS.LANDING}>
-        <LandingPanels orgs={orgs} events={events} subbedEvents={subscribedEvents} />
+        <LandingPanels orgs={orgs} events={filteredDate} subbedEvents={subscribedEvents} stat={stat} eventCategories={eventCategories} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

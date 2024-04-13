@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Footer from '../components/Footer';
 import BeforeLanding from '../pages/BeforeLanding';
 import Landing from '../pages/Landing';
-import AddEvent from '../pages/AddEvent';
-import EditEvent from '../pages/EditEvent';
+import AddEvent from '../pages/events/AddEvent';
+import EditEvent from '../pages/events/EditEvent';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
@@ -18,21 +18,24 @@ import NotAuthorized from '../pages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ManageDatabase from '../pages/ManageDatabase';
-import ListEvent from '../pages/ListEvent';
-import MyEvents from '../pages/MyEvents';
-import Registration from '../pages/Registration';
-import RegistrationForm from '../pages/RegistrationForm';
+import ListEvent from '../pages/events/ListEvent';
+import MyEvents from '../pages/events/MyEvents';
+import Registration from '../pages/events/Registration';
+import RegistrationForm from '../pages/events/RegistrationForm';
 import MyAccount from '../pages/MyAccount';
 import AboutUs from '../pages/AboutUs';
 import OrgManagement from '../pages/organizations/OrgManagement';
-import VolunteerEvents from '../pages/VolunteerEvents';
+import VolunteerEvents from '../pages/events/VolunteerEvents';
 import FrequentlyAskedQuestions from '../pages/FrequentlyAskedQuestions';
 import CommunityGroups from '../pages/CommunityGroups';
-import SubscribedEvents from '../pages/SubscribedEvents';
+import SubscribedEvents from '../pages/events/SubscribedEvents';
 import SearchOrganizations from '../pages/organizations/SearchOrganizations';
 import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
 import RegisterOrganization from '../pages/organizations/RegisterOrganization';
+import CommentPage from '../components/CommentPage';
+import ContactUs from '../pages/ContactUs';
+import EditOrganization from '../pages/organizations/EditOrganization';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -53,7 +56,10 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
+          {/* eslint-disable-next-line no-restricted-globals */}
+          <Route path="/comment/:_id" element={<CommentPage owner={event.id} />} />
           <Route path="/dashboard" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><BeforeLanding /></ProtectedRoute>} />
           <Route path="/events/:_id" element={<ProtectedRoute><Registration /></ProtectedRoute>} />
@@ -70,6 +76,7 @@ const App = () => {
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
+          <Route path="/organizations/:orgID/edit" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
           <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />

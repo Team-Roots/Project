@@ -1,34 +1,33 @@
 import React from 'react';
-// import { Meteor } from 'meteor/meteor';
-import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+import { Container, Row, Col, FormCheck } from 'react-bootstrap';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection'; // Import your EventCollection
-import EventCard from '../components/EventCard';
-import { PAGE_IDS } from '../utilities/PageIDs';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-// import PropTypes from 'prop-types';
+import { Events } from '../../../api/event/EventCollection';
+import EventCard from '../../components/EventCard';
+import { PAGE_IDS } from '../../utilities/PageIDs';
+import { EventCategories } from '../../../api/event/EventCategoriesCollection';
 
 const MyEvents = () => {
-  // const user = Meteor.user();
-  // const owner = user ? user.username : null;
-  const navigate = useNavigate();
-  const handleAddEventClick = () => {
-    navigate('/add-event'); // Navigate to the add-event page
-  };
-  const { ready, events } = useTracker(() => {
+  const user = Meteor.user();
+  const creator = user ? user.username : null;
+
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
-    const rdy = subscription.ready();
+    const subscription2 = EventCategories.subscribeEventCategories();
+    const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    if (!subscription.ready()) {
+    if (!subscription.ready() && !subscription2.ready()) {
       console.log('Subscription is not ready yet.');
     } else {
       console.log('Subscription is ready.');
     }
+
+    const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
       events: eventItems,
+      eventCategories: eventCategoriesItems,
       ready: rdy,
     };
   }, []);
@@ -44,21 +43,10 @@ const MyEvents = () => {
     );
   }
 
+  const myEventsList = events.filter((event) => event.creator === creator);
+
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
-      <Row className="justify-content-center">
-        <Col xs="auto">
-          <Button
-            variant="primary"
-            className="rounded-circle d-flex justify-content-center align-items-center"
-            style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
-            onClick={handleAddEventClick}
-            id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
-          >
-            <i className="fas fa-plus" />
-          </Button>
-        </Col>
-      </Row>
       <Row>
         <Col lg={2}>
           <h3 className="poppinsText">Filter By</h3>
@@ -110,8 +98,20 @@ const MyEvents = () => {
           </FormCheck>
         </Col>
         <Col>
-          <Row md={1} lg={2} className="g-4">
-            {events.map((event) => (<Col key={event._id}><EventCard event={event} /></Col>))}
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {myEventsList.map((event) => (
+              <Col key={event._id}>
+                <EventCard
+                  event={event}
+                  eventCategory={eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === event.name &&
+                    eventCategory.eventInfo.organizationID === event.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === event.eventDate
+                  ))}
+                />
+              </Col>
+            ))}
           </Row>
         </Col>
       </Row>

@@ -6,12 +6,13 @@ import BarGraph from './BarGraph';
 import FadeInSection from './FadeInSection';
 import EventCard from './EventCard';
 import WeeklyCalendarComponent from './Calendar/WeeklyCalendarComponent';
+import TableComponent from './UserDashBoard/TableComponent';
 // import OrganizationCard from './OrganizationCard';
 
 // ignore eslint for orgs, I will probably use it later
-const LandingPanel = ({ events, subbedEvents }) => {
-  console.log(subbedEvents);
-  console.log(events._id);
+const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
+  console.log(stat);
+  console.log(stat.stats);
   // const [currentPage, setCurrentPage] = useState(1);
   // const cardsPerPage = 1;
   //
@@ -46,7 +47,8 @@ const LandingPanel = ({ events, subbedEvents }) => {
   //   };
   // }, []);
   // ideally now will be a value loaded in from a schema
-  const now = 7 * 10;
+  const currentDate = new Date();
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -63,9 +65,13 @@ const LandingPanel = ({ events, subbedEvents }) => {
                 <FadeInSection>
                   <h2>Your Volunteer Stats</h2>
                   <div style={{ fontSize: 18 }}>
-                    <p>Progress Towards 10Hrs/month Goal: </p>
+                    <p>Progress Towards {stat.monthlyGoal}Hrs/month Goal: </p>
                     <div className="pt-3">
-                      <ProgressBar now={now} label={`${now}% of this months goal!`} />
+                      { /* change min and max values by reading user schema (later) */ }
+                      <ProgressBar className="position-relative" min={0} max={stat.monthlyGoal}>
+                        <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${((stat.stats.hoursThisMonth / stat.monthlyGoal) * 100).toFixed(1)}% Complete!`}</div>
+                        <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={stat.monthlyGoal} />
+                      </ProgressBar>
                     </div>
                     <p>
                       <br />
@@ -84,18 +90,21 @@ const LandingPanel = ({ events, subbedEvents }) => {
                         { /* later I will create a component that will load a <tr> depending on */}
                         { /* what is in the user schema */}
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Test Organization</td>
-                            <td>Beach Clean Up</td>
-                            <td>5 hrs</td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Test Organization</td>
-                            <td>Feeding Homeless</td>
-                            <td>2 hrs</td>
-                          </tr>
+                          {stat.stats.orgsHelped.length > 0 ? (
+                            stat.stats.orgsHelped.map((org, index) => (
+                              <TableComponent
+                                key={index}
+                                index={index}
+                                orgName={org.orgName}
+                                eventName={org.eventName}
+                                hoursOfEvent={org.hoursServed}
+                              />
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="4" style={{ textAlign: 'center' }}>None</td>
+                            </tr>
+                          )}
                         </tbody>
                       </Table>
                     </div>
@@ -104,7 +113,7 @@ const LandingPanel = ({ events, subbedEvents }) => {
               </Col>
               <Col className="align-content-start">
                 <FadeInSection>
-                  <BarGraph fluid />
+                  <BarGraph fluid userStats={stat} />
                 </FadeInSection>
               </Col>
             </Row>
@@ -132,12 +141,21 @@ const LandingPanel = ({ events, subbedEvents }) => {
               <Row md={1} lg={2} className="g-4">
                 {subbedEvents.map((subEvent) => {
                   const matchingEvent = events.find(event => event.name === subEvent.subscriptionInfo.eventName);
+                  const matchingEventCategory = eventCategories.find(eventCategory => (
+                    eventCategory.eventInfo.eventName === matchingEvent.name &&
+                    eventCategory.eventInfo.organizationID === matchingEvent.organizationID
+                    // TODO: fix eventDates, some reason its not working
+                    // && eventCategory.eventInfo.eventDate === matchingEvent.eventDate
+                  ));
                   console.log('Matching Event: ', events._id);
                   console.log('Searching for event with ID:', subEvent.subscriptionInfo._id);
                   return (
                     <Col key={subEvent._id}>
                       {matchingEvent ? (
-                        <EventCard event={matchingEvent} />
+                        <EventCard
+                          event={matchingEvent}
+                          eventCategory={matchingEventCategory}
+                        />
                       ) : (
                         <p>Event details not available.</p>
                       )}
@@ -164,7 +182,21 @@ const LandingPanel = ({ events, subbedEvents }) => {
                   {/* {events.map((event) => <EventCard key={event._id} event={event} />)} */}
                   <Col>
                     <Row md={1} lg={2} className="g-4">
-                      {events.map((event) => (<Col> <FadeInSection> <EventCard key={event._id} event={event} /> </FadeInSection> </Col>))}
+                      {filteredDate.map((event) => (
+                        <Col key={event._id}>
+                          <FadeInSection>
+                            <EventCard
+                              event={event}
+                              eventCategory={eventCategories.find(eventCategory => (
+                                eventCategory.eventInfo.eventName === event.name &&
+                                eventCategory.eventInfo.organizationID === event.organizationID
+                                // TODO: fix eventDates, some reason its not working
+                                // && eventCategory.eventInfo.eventDate === event.eventDate
+                              ))}
+                            />
+                          </FadeInSection>
+                        </Col>
+                      ))}
                     </Row>
                   </Col>
                 </FadeInSection>
@@ -231,6 +263,47 @@ LandingPanel.propTypes = {
   subbedEvents: PropTypes.arrayOf(
     PropTypes.shape({
       subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
+    }),
+  ).isRequired,
+  stat: PropTypes.shape({
+    completedHours: PropTypes.arrayOf(
+      PropTypes.shape({
+        year: PropTypes.number.isRequired,
+        Jan: PropTypes.number.isRequired,
+        Feb: PropTypes.number.isRequired,
+        Mar: PropTypes.number.isRequired,
+        Apr: PropTypes.number.isRequired,
+        May: PropTypes.number.isRequired,
+        Jun: PropTypes.number.isRequired,
+        Jul: PropTypes.number.isRequired,
+        Aug: PropTypes.number.isRequired,
+        Sep: PropTypes.number.isRequired,
+        Oct: PropTypes.number.isRequired,
+        Nov: PropTypes.number.isRequired,
+        Dec: PropTypes.number.isRequired,
+      }).isRequired,
+    ).isRequired,
+    stats: PropTypes.shape({
+      hoursThisMonth: PropTypes.number.isRequired,
+      totalHours: PropTypes.number.isRequired,
+      orgsHelped: PropTypes.arrayOf(
+        PropTypes.shape({
+          orgName: PropTypes.string.isRequired,
+          eventName: PropTypes.string.isRequired,
+          eventDate: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+    }).isRequired,
+    monthlyGoal: PropTypes.number.isRequired,
+  }).isRequired,
+  eventCategories: PropTypes.arrayOf(
+    PropTypes.shape({
+      categoryName: PropTypes.string,
+      eventInfo: PropTypes.shape({
+        organizationID: PropTypes.number,
+        eventName: PropTypes.string,
+        eventDate: PropTypes.instanceOf(Date),
+      }),
     }),
   ).isRequired,
 };
