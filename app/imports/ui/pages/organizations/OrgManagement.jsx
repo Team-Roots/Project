@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { _ } from 'meteor/underscore';
 import { Card, Container, Row, Col } from 'react-bootstrap';
-import { Gear } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { ROLE } from '../../../api/role/Role';

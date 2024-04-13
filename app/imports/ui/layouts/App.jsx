@@ -36,7 +36,6 @@ import RegisterOrganization from '../pages/organizations/RegisterOrganization';
 import CommentPage from '../components/CommentPage';
 import ContactUs from '../pages/ContactUs';
 import EditOrganization from '../pages/organizations/EditOrganization';
-import EditAdmins from '../components/organizations/edit/EditAdmins';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {

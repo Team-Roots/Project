@@ -79,9 +79,9 @@ class OrganizationAdminCollection extends BaseCollection {
     const toRemoveOrgAdmin = this.findDoc(name);
     check(toRemoveOrgAdmin, Object);
     this._collection.remove(toRemoveOrgAdmin._id);
-    if (!this._collection.findOne(toRemoveOrgAdmin.orgAdmin)) {
-      const toRemoveOrgAdminID = Users.getID(toRemoveOrgAdmin);
-      Roles._removeUserFromRole(toRemoveOrgAdminID, ROLE.ORG_ADMIN, {});
+    if (!this._collection.findOne({ orgAdmin: toRemoveOrgAdmin.orgAdmin })) {
+      const toRemoveOrgAdminID = Users.getID(toRemoveOrgAdmin.orgAdmin);
+      Roles.removeUsersFromRoles([toRemoveOrgAdminID], [ROLE.ORG_ADMIN]);
     }
     return true;
   }

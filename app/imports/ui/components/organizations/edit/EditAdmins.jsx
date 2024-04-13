@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button, Container, Form, Row, Col, ListGroup, Modal, InputGroup } from 'react-bootstrap';
-import { Roles } from 'meteor/alanning:roles';
+import { Button, Container, Form, ListGroup, InputGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useParams } from 'react-router-dom';
-import { PersonFillAdd } from 'react-bootstrap-icons';
-import { PAGE_IDS } from '../../../utilities/PageIDs';
-import { Organizations } from '../../../../api/organization/OrganizationCollection';
+import swal from 'sweetalert';
 import LoadingSpinner from '../../LoadingSpinner';
-import { ROLE } from '../../../../api/role/Role';
-import NotAuthorized from '../../../pages/NotAuthorized';
-import NotFound from '../../../pages/NotFound';
 import { OrganizationAdmin } from '../../../../api/organization/OrganizationAdmin';
 import OrganizationPropTypes from './OrganizationPropTypes';
-import { AutoForm, SubmitField, TextField } from 'uniforms-bootstrap5';
-import SimpleSchema from 'simpl-schema';
-import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { defineMethod } from '../../../../api/base/BaseCollection.methods';
-import swal from 'sweetalert';
+import { defineMethod, removeItMethod } from '../../../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../../../api/user/UserProfileCollection';
 
 const EditAdmins = ({ organization }) => {
@@ -65,6 +54,15 @@ const EditAdmins = ({ organization }) => {
         swal('Success', 'Admin added successfully', 'success');
       });
   };
+  const handleRemove = (orgAdmin) => {
+    console.log(orgAdmin);
+    const collectionName = OrganizationAdmin.getCollectionName();
+    removeItMethod.callPromise({ collectionName, instance: orgAdmin })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => {
+        swal('Success', 'Admin removed successfully', 'success');
+      });
+  };
   return ready ? (
     <Container>
       <div>
@@ -88,7 +86,7 @@ const EditAdmins = ({ organization }) => {
                 Date added: {orgAdmin.dateAdded.toLocaleDateString()}
               </div>
               <div>
-                <Button variant="danger">Remove</Button>
+                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}>Remove</Button>
               </div>
             </div>
           </ListGroup.Item>
