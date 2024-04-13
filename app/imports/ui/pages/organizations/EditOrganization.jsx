@@ -11,9 +11,9 @@ import NotAuthorized from '../NotAuthorized';
 import NotFound from '../NotFound';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
-import Details from '../../components/organizations/edit-tabs/EditDetails';
-import EditAdmins from '../../components/organizations/edit-tabs/EditAdmins';
-import EditGeneral from '../../components/organizations/edit-tabs/EditGeneral';
+import Details from '../../components/organizations/edit/EditDetails';
+import EditAdmins from '../../components/organizations/edit/EditAdmins';
+import EditGeneral from '../../components/organizations/edit/EditGeneral';
 
 const EditOrganization = () => {
   const currentUser = useTracker(() => Meteor.user());
@@ -62,12 +62,10 @@ const EditOrganization = () => {
               defaultActiveKey="general"
               onSelect={eventKey => setTab(eventKey)}
             >
-              <Nav.Link
-                eventKey="general"
-              >
-                General
-              </Nav.Link>
+              <Nav.Link eventKey="general">General</Nav.Link>
               <Nav.Link eventKey="details">Details</Nav.Link>
+              <Nav.Link eventKey="events">Events</Nav.Link>
+              <Nav.Link eventKey="waiver">Waiver</Nav.Link>
               <Nav.Link eventKey="admins">Admins</Nav.Link>
             </Nav>
           </Col>

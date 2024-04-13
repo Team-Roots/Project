@@ -6,9 +6,9 @@ import { AutoForm, ErrorsField, LongTextField, SelectField, SubmitField, TextFie
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
-import PropTypes from 'prop-types';
 import { Organizations } from '../../../../api/organization/OrganizationCollection';
 import { updateMethod } from '../../../../api/base/BaseCollection.methods';
+import OrganizationPropTypes from './OrganizationPropTypes';
 
 const formSchema = new SimpleSchema({
   name: String,
@@ -82,10 +82,6 @@ const EditGeneral = ({ organization }) => {
   );
 };
 
-EditGeneral.propTypes = {
-  organization: PropTypes.shape({
-    name: PropTypes.string,
-  }).isRequired,
-};
+EditGeneral.propTypes = OrganizationPropTypes;
 
 export default EditGeneral;
