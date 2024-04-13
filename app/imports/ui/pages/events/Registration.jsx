@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection';
-import LoadingSpinner from '../components/LoadingSpinner';
-import RegistrationFormCard from '../components/RegistrationFormCard';
+import { useParams } from 'react-router-dom';
+import { Container, Row } from 'react-bootstrap';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import RegistrationCard from '../../components/RegistrationCard';
+import { Events } from '../../../api/event/EventCollection';
 
-const RegistrationForm = () => {
+const Registration = () => {
   const { _id } = useParams();
   const { events, ready } = useTracker(() => {
     const subscription = Events.subscribeEvent();
@@ -21,10 +21,10 @@ const RegistrationForm = () => {
   return ready ? (
     <Container>
       <Row>
-        <RegistrationFormCard event={events} />
+        <RegistrationCard event={events} />
       </Row>
     </Container>
   ) : <LoadingSpinner />;
 };
 
-export default RegistrationForm;
+export default Registration;

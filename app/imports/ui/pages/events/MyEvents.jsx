@@ -1,21 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, FormCheck, Form } from 'react-bootstrap';
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { Container, Row, Col, FormCheck, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { useTracker } from 'meteor/react-meteor-data';
-import EventCard from '../components/EventCard';
-import { Events } from '../../api/event/EventCollection';
-// import { EventCategories } from '../../api/event/EventCategoriesCollection';
-import { PAGE_IDS } from '../utilities/PageIDs';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { EventCategories } from '../../api/event/EventCategoriesCollection';
+import { Events } from '../../../api/event/EventCollection'; // Import your EventCollection
+import EventCard from '../../components/EventCard';
+import { PAGE_IDS } from '../../utilities/PageIDs';
+import { COMPONENT_IDS } from '../../utilities/ComponentIDs';
+import { EventCategories } from '../../../api/event/EventCategoriesCollection';
+// import PropTypes from 'prop-types';
 
-const VolunteerEvents = () => {
+const MyEvents = () => {
+  const user = Meteor.user();
+  const creator = user ? user.username : null;
+
+  const navigate = useNavigate();
+  const handleAddEventClick = () => {
+    navigate('/add-event'); // Navigate to the add-event page
+  };
   const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const subscription2 = EventCategories.subscribeEventCategories();
     const rdy = subscription.ready() && subscription2.ready();
     const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
+    if (!subscription.ready() && !subscription2.ready()) {
+      console.log('Subscription is not ready yet.');
+    } else {
+      console.log('Subscription is ready.');
+    }
+
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
       events: eventItems,
@@ -23,58 +38,26 @@ const VolunteerEvents = () => {
       ready: rdy,
     };
   }, []);
-  const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  if (!ready) {
+    return (
+      <Container id={PAGE_IDS.LIST_EVENT} className="py-3">
+        <Row className="justify-content-center">
+          <Col md={8}>
+            <div>Loading Events...</div>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
-  const [searchInput, setSearchInput] = useState('');
-  const [data, setData] = useState(filteredDate);
-  const handleSearchChange = (e) => {
-    setSearchInput(e.target.value);
-  };
-  const applySearch = () => {
-    if (!searchInput.trim()) {
-      setData(filteredDate);
-      return;
-    }
+  const myEventsList = events.filter((event) => event.creator === creator);
 
-    const filteredData = filteredDate.filter((event) => {
-      const fieldsToSearch = ['name', 'category', 'organization'];
-
-      return fieldsToSearch.some((field) => {
-        const fieldValue = event[field];
-        if (Array.isArray(fieldValue)) {
-          return fieldValue.some(
-            (element) => typeof element === 'string' &&
-              element.toLowerCase().includes(searchInput.toLowerCase()),
-          );
-        } if (typeof fieldValue === 'string') {
-          return fieldValue.toLowerCase().includes(searchInput.toLowerCase());
-        }
-        return false;
-      });
-    });
-
-    setData(filteredData);
-  };
-
-  useEffect(() => {
-    if (ready) {
-      applySearch();
-    }
-  }, [ready, searchInput, events]);
-
-  return (ready ? (
+  return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
-      <Row className="pb-3">
-        <Form>
-          <Form.Control
-            type="text"
-            name="search"
-            placeholder="Search Events"
-            value={searchInput}
-            onChange={handleSearchChange}
-          />
-        </Form>
+      <Row className="justify-content-center">
+        <Col xs="auto">
+
+        </Col>
       </Row>
       <Row>
         <Col lg={2}>
@@ -95,7 +78,11 @@ const VolunteerEvents = () => {
           <h4 className="poppinsText">Location Type</h4>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">In-Person</FormCheckLabel>
+            <FormCheckLabel className="robotoText">Indoors</FormCheckLabel>
+          </FormCheck>
+          <FormCheck>
+            <FormCheckInput type="checkbox" />
+            <FormCheckLabel className="robotoText">Outdoors</FormCheckLabel>
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
@@ -112,23 +99,19 @@ const VolunteerEvents = () => {
           </FormCheck>
           <FormCheck>
             <FormCheckInput type="checkbox" />
-            <FormCheckLabel className="robotoText">Donations</FormCheckLabel>
-          </FormCheck>
-          <FormCheck>
-            <FormCheckInput type="checkbox" />
             <FormCheckLabel className="robotoText">Food Distribution</FormCheckLabel>
           </FormCheck>
           <br />
           <FormCheck>
             <FormCheckInput type="checkbox" />
             <FormCheckLabel>
-              <h5 className="poppinsText">Background Check Not Needed</h5>
+              <h5 className="poppinsText">Need Background Check</h5>
             </FormCheckLabel>
           </FormCheck>
         </Col>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {data.map((event) => (
+            {myEventsList.map((event) => (
               <Col key={event._id}>
                 <EventCard
                   event={event}
@@ -145,7 +128,7 @@ const VolunteerEvents = () => {
         </Col>
       </Row>
     </Container>
-  ) : <LoadingSpinner />);
+  );
 };
 
-export default VolunteerEvents;
+export default MyEvents;

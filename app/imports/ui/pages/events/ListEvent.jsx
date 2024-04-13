@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection';
-import EventItem from '../components/EventItem';
-import { PAGE_IDS } from '../utilities/PageIDs';
+import { Events } from '../../../api/event/EventCollection';
+import EventItem from '../../components/EventItem';
+import { PAGE_IDS } from '../../utilities/PageIDs';
 
 const ListEvent = () => {
   const { ready, events } = useTracker(() => {

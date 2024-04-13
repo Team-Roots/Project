@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Events } from '../../api/event/EventCollection';
-import LoadingSpinner from '../components/LoadingSpinner';
-import EventCard from '../components/EventCard';
-import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+import { Events } from '../../../api/event/EventCollection';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import EventCard from '../../components/EventCard';
+import { EventSubscription } from '../../../api/event/EventSubscriptionCollection';
 
 const SubscribedEvents = () => {
   const { events, subs, ready } = useTracker(() => {
