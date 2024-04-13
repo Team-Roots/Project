@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
@@ -9,6 +11,7 @@ import { OrganizationWaiver } from './OrganizationWaiver';
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
   organization: 'Organization',
+  organizationAdmin: 'OrganizationAdmin',
 };
 
 class OrganizationCollection extends BaseCollection {
@@ -169,7 +172,15 @@ class OrganizationCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
-        return instance._collection.find();
+        if (this.userId) {
+          if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
+            const username = Meteor.users.findOne(this.userId).name;
+            const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
+            return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
+          }
+          return instance._collection.find({ visible: true });
+        }
+        return this.ready();
       });
 
     }
