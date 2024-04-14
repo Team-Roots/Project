@@ -1,30 +1,48 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import { Container } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { PAGE_IDS } from '../utilities/PageIDs';
-import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Stuffs } from '../../api/stuff/StuffCollection';
+import StuffItemAdmin from '../components/StuffItemAdmin';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { PAGE_IDS } from '../utilities/PageIDs';
 
+/* Renders a table containing all of the Stuff documents. Use <StuffItemAdmin> to render each row. */
 const Admin = () => {
-
-  const { ready, email } = useTracker(() => {
-    // Ensure that minimongo is populated with all collections prior to running render().
-    const sub1 = AdminProfiles.subscribe();
+  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  const { stuffs, ready } = useTracker(() => {
+    // Get access to Stuff documents.
+    const subscription = Stuffs.subscribeStuffAdmin();
+    // Determine if the subscription is ready
+    const rdy = subscription.ready();
+    // Get the Stuff documents
+    const items = Stuffs.find({}).fetch();
     return {
-      ready: sub1.ready(),
-      email: Meteor.user()?.username,
+      stuffs: items,
+      ready: rdy,
     };
   }, []);
-  const profile = AdminProfiles.findOne({ email });
-  return ready ? (
-    <Container id={PAGE_IDS.ADMIN_PAGE} className="py-3">
-      <h1>Admin Profile</h1>
-      <p><strong>Email:</strong> {profile.email}</p>
-      <p><strong>First Name:</strong> {profile.firstName}</p>
-      <p><strong>Last Name:</strong> {profile.lastName}</p>
-      <p><strong>Phone Number:</strong> {profile.phoneNumber}</p>
+  return (ready ? (
+    <Container id={PAGE_IDS.LIST_STUFF_ADMIN} className="py-3">
+      <Row className="justify-content-center">
+        <Col md={7}>
+          <Col className="text-center"><h2>List Stuff (Admin)</h2></Col>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Name1</th>
+                <th>Quantity</th>
+                <th>Condition</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stuffs.map((stuff) => <StuffItemAdmin key={stuff._id} stuff={stuff} />)}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
     </Container>
-  ) : <LoadingSpinner />;
+  ) : <LoadingSpinner />);
 };
+
 export default Admin;
