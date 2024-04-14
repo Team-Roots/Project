@@ -99,6 +99,11 @@ const RegistrationCard = ({ event }) => {
     });
   };
 
+  const openGoogleMaps = (address) => {
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    window.open(mapsUrl, '_blank');
+  };
+
   return (ready ? (
     <Container>
       <Row className="mb-3 button-small-fixed-size">
@@ -133,9 +138,6 @@ const RegistrationCard = ({ event }) => {
               >
                 {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
               </Button>
-              <Button as={Link} to={`/registrationform/${event._id}`} variant="danger" size="lg" className="mb-3">
-                I Want to Help
-              </Button>
               <Button
                 as={Link}
                 to={{
@@ -144,12 +146,12 @@ const RegistrationCard = ({ event }) => {
                 }}
                 variant="danger"
                 size="lg"
-                className="mb-3"
+                className="mb-3 mx-2"
               >
                 Chat
               </Button>
               <ListGroup variant="flush" className="text-start">
-                <ListGroup.Item><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
+                <ListGroup.Item onClick={() => openGoogleMaps(event.location)}><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
                 <ListGroup.Item><strong>START TIME: </strong>{event.startTime}</ListGroup.Item>
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
