@@ -37,6 +37,8 @@ import CommentPage from '../components/CommentPage';
 import ContactUs from '../pages/ContactUs';
 import EditOrganization from '../pages/organizations/EditOrganization';
 import VoluntreeSubscriptionPlans from '../pages/VoluntreeSubscriptionPlans';
+import Admin from '../pages/organizations/Admin';
+
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -57,6 +59,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="/adminpage" element={<Admin />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
           {/* eslint-disable-next-line no-restricted-globals */}
