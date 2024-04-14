@@ -9,6 +9,7 @@ import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
+import { VoluntreeSubscriptions } from '../../api/subscription/VoluntreeSubscriptionCollection';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -141,22 +142,21 @@ function addData(data) {
   console.log(`  Adding: ${data.name} (${data.owner})`);
   Stuffs.define(data);
 }
-
+function addVoluntreeSubscriptionData(data) {
+  VoluntreeSubscriptions.define(data);
+}
 function addOrganizationData(data) {
   Organizations.define(data);
 }
-
 function addOrganizationAdminData(data) {
   OrganizationAdmin.define(data);
 }
-
 function addEventData(data) {
   Events.define(data);
 }
 function addEventCategoryData(data) {
   EventCategories.define(data);
 }
-
 function addCategoryData(data) {
   Categories.define(data);
 }
@@ -182,6 +182,10 @@ if (Organizations.count() === 0 && OrganizationAdmin.count() === 0) {
         visible: org.visible,
         onboarded: org.onboarded,
       };
+      const newVoluntreeSubscription = {
+        email: newOrg.organizationOwner,
+      };
+      addVoluntreeSubscriptionData(newVoluntreeSubscription);
       addOrganizationData(newOrg);
     });
     console.log('Creating default organization admins.');

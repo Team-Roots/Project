@@ -69,7 +69,7 @@ const EditOrganization = () => {
               <Nav.Link eventKey="general">General</Nav.Link>
               <Nav.Link eventKey="details">Details</Nav.Link>
               <Nav.Link eventKey="waiver">Waiver</Nav.Link>
-              <Nav.Link eventKey="admins">Admins</Nav.Link>
+              {currentUser?.username === thisOrganization.organizationOwner && <Nav.Link eventKey="admins">Admins</Nav.Link>}
             </Nav>
           </Col>
           <Col xs={8}>

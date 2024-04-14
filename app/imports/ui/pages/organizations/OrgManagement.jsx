@@ -52,7 +52,7 @@ const OrgManagement = () => {
                           <Link to={`/organizations/${ownedOrganization.orgID}`}>{ownedOrganization.name}</Link>
                           <EditOrgGear orgID={ownedOrganization.orgID} />
                         </Card.Title>
-                        <Card.Text>Admins: {ownedOrganizationAdmins.length}</Card.Text>
+                        <Card.Text>Admins: {ownedOrganizationAdmins.length - 1}</Card.Text>
                       </Card.Body>
                     </Card>
                   </>

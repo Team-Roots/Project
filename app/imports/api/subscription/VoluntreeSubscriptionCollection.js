@@ -5,15 +5,22 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const SubscriptionPublications = {
-  Subscription: 'Subscription',
-  SubscriptionAdmin: 'SubscriptionAdmin',
+export const voluntreeSubscriptionPublications = {
+  VoluntreeSubscription: 'VoluntreeSubscription',
+  VoluntreeSubscriptionAdmin: 'VoluntreeSubscriptionAdmin',
 };
 
-class SubscriptionCollection extends BaseCollection {
+class VoluntreeSubscriptionCollection extends BaseCollection {
   constructor() {
-    super('Subscriptions', new SimpleSchema({
-      userEmail: String,
+    super('VoluntreeSubscriptions', new SimpleSchema({
+      email: String,
+      dateSubscribed: Date,
+      orgID: {
+        type: SimpleSchema.Integer,
+        required: false,
+        unique: true,
+      },
+      active: Boolean,
     }));
   }
 
@@ -22,14 +29,16 @@ class SubscriptionCollection extends BaseCollection {
    * @param userEmail the email of the user of the subscription.
    * @return {String} the docID of the new document.
    */
-  define({ userEmail }) {
-    if (!this._collection.findOne(userEmail)) {
-      const docID = this._collection.insert({
-        userEmail,
-      });
-      return docID;
+  define({ email }) {
+    if (this._collection.findOne({ email })) {
+      throw new Meteor.Error(`${email} already has an account.`);
     }
-    throw new Meteor.Error('This user already has an email.');
+    const docID = this._collection.insert({
+      email,
+      dateSubscribed: new Date(),
+      active: true,
+    });
+    return docID;
   }
 
   /**
@@ -39,10 +48,19 @@ class SubscriptionCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { userEmail }) {
+  update(docID, { email, dateSubscribed, orgID, active }) {
     const updateData = {};
-    if (userEmail) {
-      updateData.userEmail = userEmail;
+    if (email) {
+      updateData.email = email;
+    }
+    if (dateSubscribed) {
+      updateData.dateSubscribed = dateSubscribed;
+    }
+    if (orgID) {
+      updateData.orgID = orgID;
+    }
+    if (active) {
+      updateData.active = active;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -65,23 +83,23 @@ class SubscriptionCollection extends BaseCollection {
    */
   publish() {
     if (Meteor.isServer) {
-      // get the SubscriptionCollection instance.
+      // get the VoluntreeSubscriptionCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(SubscriptionPublications.Subscription, function publish() {
+      Meteor.publish(voluntreeSubscriptionPublications.VoluntreeSubscription, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ userEmail: username });
+          return instance._collection.find({ email: username });
         }
-        return this.ready();
+        return true;
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(SubscriptionPublications.SubscriptionAdmin, function publish() {
+      Meteor.publish(voluntreeSubscriptionPublications.VoluntreeSubscriptionAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
-        return this.ready();
+        return true;
       });
     }
   }
@@ -89,9 +107,9 @@ class SubscriptionCollection extends BaseCollection {
   /**
    * Subscription method for Subscription owned by the current user.
    */
-  subscribeSubscription() {
+  subscribeVoluntreeSubscription() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(SubscriptionPublications.Subscription);
+      return Meteor.subscribe(voluntreeSubscriptionPublications.VoluntreeSubscription);
     }
     return null;
   }
@@ -100,9 +118,9 @@ class SubscriptionCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeSubscriptionAdmin() {
+  subscribeVoluntreeSubscriptionAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(SubscriptionPublications.SubscriptionAdmin);
+      return Meteor.subscribe(voluntreeSubscriptionPublications.VoluntreeSubscriptionAdmin);
     }
     return null;
   }
@@ -132,4 +150,4 @@ class SubscriptionCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Subscriptions = new SubscriptionCollection();
+export const VoluntreeSubscriptions = new VoluntreeSubscriptionCollection();

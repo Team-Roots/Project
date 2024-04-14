@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Container, Form, ListGroup, InputGroup } from 'react-bootstrap';
+import { X } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import LoadingSpinner from '../../LoadingSpinner';
@@ -86,7 +87,7 @@ const EditAdmins = ({ organization }) => {
                 Date added: {orgAdmin.dateAdded.toLocaleDateString()}
               </div>
               <div>
-                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}>Remove</Button>
+                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}><X /></Button>
               </div>
             </div>
           </ListGroup.Item>
