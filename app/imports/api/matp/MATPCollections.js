@@ -9,7 +9,7 @@ import { UserStats } from '../user/UserStatisticsCollection';
 import { OrganizationAdmin } from '../organization/OrganizationAdmin';
 import { OrganizationWaiver } from '../organization/OrganizationWaiver';
 import { EventSubscription } from '../event/EventSubscriptionCollection';
-import { VoluntreeSubscriptions } from '../subscription/VoluntreeSubscriptionCollection';
+import { VoluntreeSubscriptions } from '../voluntreesubscription/VoluntreeSubscriptionCollection';
 
 class MATPClass {
   collections;

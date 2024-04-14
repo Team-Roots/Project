@@ -9,7 +9,7 @@ import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
-import { VoluntreeSubscriptions } from '../../api/subscription/VoluntreeSubscriptionCollection';
+import { VoluntreeSubscriptions } from '../../api/voluntreesubscription/VoluntreeSubscriptionCollection';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {

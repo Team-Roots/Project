@@ -91,7 +91,7 @@ class VoluntreeSubscriptionCollection extends BaseCollection {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ email: username });
         }
-        return true;
+        return this.ready();
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
@@ -99,7 +99,7 @@ class VoluntreeSubscriptionCollection extends BaseCollection {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
-        return true;
+        return this.ready();
       });
     }
   }

@@ -7,7 +7,7 @@ import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
 import { OrganizationWaiver } from './OrganizationWaiver';
-import { VoluntreeSubscriptions } from '../subscription/VoluntreeSubscriptionCollection';
+import { VoluntreeSubscriptions } from '../voluntreesubscription/VoluntreeSubscriptionCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
@@ -186,7 +186,6 @@ class OrganizationCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
-        console.log('publishing to orgs');
         if (this.userId) {
           if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
             const username = Meteor.users.findOne(this.userId).name;
