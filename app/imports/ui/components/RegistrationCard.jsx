@@ -3,6 +3,7 @@ import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-boots
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link, useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
@@ -121,37 +122,50 @@ const RegistrationCard = ({ event }) => {
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
-              <Button
-                variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
-                size="lg"
-                className="mb-3 mx-2"
-                disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
-                onClick={ClaimHours}
-              >
-                {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
-              </Button>
-              <Button
-                variant={canSubscribe ? 'success' : 'danger'}
-                size="lg"
-                className="mb-3 mx-2"
-                onClick={subscribeEvent}
-              >
-                {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
-              </Button>
-              <Button
-                as={Link}
-                to={{
-                  pathname: `/comment/${event._id}`,
-                  state: { owner: owner }, // Pass additional state here
-                }}
-                variant="danger"
-                size="lg"
-                className="mb-3 mx-2"
-              >
-                Chat
-              </Button>
+              <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
+                <Button
+                  variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
+                  size="lg"
+                  className="mb-3 mx-2"
+                  disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
+                  onClick={ClaimHours}
+                >
+                  {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
+                </Button>
+              </Tooltip>
+              <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
+                <Button
+                  variant={canSubscribe ? 'success' : 'danger'}
+                  size="lg"
+                  className="mb-3 mx-2"
+                  onClick={subscribeEvent}
+                >
+                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
+                </Button>
+              </Tooltip>
+              <Tooltip title="Chat with the organizer." placement="bottom">
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `/comment/${event._id}`,
+                    state: { owner: owner }, // Pass additional state here
+                  }}
+                  variant="danger"
+                  size="lg"
+                  className="mb-3 mx-2"
+                >
+                  Chat
+                </Button>
+              </Tooltip>
               <ListGroup variant="flush" className="text-start">
-                <ListGroup.Item onClick={() => openGoogleMaps(event.location)}><strong>EVENT LOCATION: </strong>{event.location}</ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>EVENT LOCATION: </strong>
+                  <Tooltip title="View in Google Maps." placement="bottom">
+                    <container style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
+                      {event.location}
+                    </container>
+                  </Tooltip>
+                </ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
                 <ListGroup.Item><strong>START TIME: </strong>{event.startTime}</ListGroup.Item>
                 <ListGroup.Item><strong>END TIME: </strong>{event.endTime}</ListGroup.Item>
