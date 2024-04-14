@@ -1,25 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
+import { Container } from 'react-bootstrap';
+import { useTracker } from 'meteor/react-meteor-data';
+import { PAGE_IDS } from '../utilities/PageIDs';
+import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import LoadingSpinner from '../components/LoadingSpinner';
 
-/** Renders a single row in the List Stuff (Admin) table. See pages/ListStuffAdmin.jsx. */
-const Admin = ({ stuff }) => (
-  <tr>
-    <td>{stuff.name}</td>
-    <td>{stuff.quantity}</td>
-    <td>{stuff.condition}</td>
-    <td>{stuff.owner}</td>
-  </tr>
-);
+const Admin = () => {
 
-// Require a document to be passed to this component.
-Admin.propTypes = {
-  stuff: PropTypes.shape({
-    name: PropTypes.string,
-    quantity: PropTypes.number,
-    condition: PropTypes.string,
-    _id: PropTypes.string,
-    owner: PropTypes.string,
-  }).isRequired,
+  const { ready, email } = useTracker(() => {
+    // Ensure that minimongo is populated with all collections prior to running render().
+    const sub1 = AdminProfiles.subscribe();
+    return {
+      ready: sub1.ready(),
+      email: Meteor.user()?.username,
+    };
+  }, []);
+  const profile = AdminProfiles.findOne({ email });
+  return ready ? (
+    <Container id={PAGE_IDS.ADMIN_PAGE} className="py-3">
+      <h1>Admin Profile</h1>
+      <p><strong>Email:</strong> {profile.email}</p>
+      <p><strong>First Name:</strong> {profile.firstName}</p>
+      <p><strong>Last Name:</strong> {profile.lastName}</p>
+      <p><strong>Phone Number:</strong> {profile.phoneNumber}</p>
+    </Container>
+  ) : <LoadingSpinner />;
 };
-
 export default Admin;
