@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import swal from 'sweetalert';
 import { VoluntreeSubscriptions } from '../../api/subscription/VoluntreeSubscriptionCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /** Render a Not Found page if the user enters a URL that doesn't match any route. */
 const VoluntreeSubscriptionPlans = () => {
@@ -14,18 +16,33 @@ const VoluntreeSubscriptionPlans = () => {
     const vSubSubscription = VoluntreeSubscriptions.subscribeVoluntreeSubscription();
     const rdy = vSubSubscription.ready();
     const foundExistingSubscription = VoluntreeSubscriptions.findOne({ email: currentUser?.username }, {});
-    console.log(vSubSubscription);
     return {
-      existingSubscription: !!foundExistingSubscription,
+      existingSubscription: foundExistingSubscription,
       ready: rdy,
     };
   });
   const handlePurchaseClick = () => {
     if (!currentUser) {
       navigate('/signup');
-    } else {
-
+      return;
     }
+    if (existingSubscription) {
+      console.log('something');
+      swal('Error', 'You already have a Voluntree subscription.', 'error');
+      return;
+    }
+    const collectionName = VoluntreeSubscriptions.getCollectionName();
+    const definitionData = {
+      email: currentUser.username,
+    };
+    defineMethod.callPromise({ collectionName, definitionData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => {
+        swal('Success', 'Thank you for purchasing a Voluntree subscription!', 'success')
+          .then(() => {
+            navigate('/organizations/register');
+          });
+      });
   };
   return ready ? (
     <Container>

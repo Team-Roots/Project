@@ -31,7 +31,7 @@ class VoluntreeSubscriptionCollection extends BaseCollection {
    */
   define({ email }) {
     if (this._collection.findOne({ email })) {
-      throw new Meteor.Error(`${email} already has an account.`);
+      throw new Meteor.Error(`${email} already has a subscription.`);
     }
     const docID = this._collection.insert({
       email,
