@@ -5,7 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import LoadingSpinner from '../../LoadingSpinner';
 import { OrganizationAdmin } from '../../../../api/organization/OrganizationAdmin';
-import OrganizationPropTypes from './OrganizationPropTypes';
+import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 import { defineMethod, removeItMethod } from '../../../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../../../api/user/UserProfileCollection';
 

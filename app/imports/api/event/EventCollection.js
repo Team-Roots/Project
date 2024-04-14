@@ -13,12 +13,15 @@ class EventCollection extends BaseCollection {
     super('Events', new SimpleSchema({
       name: String,
       description: String,
-      image: String,
+      image: {
+        type: String,
+        optional: true,
+      },
       eventDate: Date,
       startTime: String,
       endTime: String,
       location: String,
-      amountVolunteersNeeded: Number,
+      amountVolunteersNeeded: SimpleSchema.Integer,
       isOnline: Boolean,
       coordinator: String,
       specialInstructions: {

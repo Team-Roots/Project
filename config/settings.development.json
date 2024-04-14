@@ -4,6 +4,7 @@
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
     { "email": "foo@john.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "John" },
     { "email": "jane@foo.com", "password": "changeme", "role": "USER" , "firstName": "Jane", "lastName": "Doe" },
+    { "email": "foo@jane.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "Jane" },
     { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
     { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
     { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
@@ -63,16 +64,8 @@
       "orgID": 1
     },
     {
-      "orgAdmin": "foo@john.com",
+      "orgAdmin": "foo@jane.com",
       "orgID": 2
-    }
-  ],
-  "defaultUserProfiles": [
-    {
-      "email":  "john@foo.com",
-      "password": "changeme",
-      "firstName": "John",
-      "lastName": "Foo"
     }
   ],
 
