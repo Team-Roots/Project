@@ -20,9 +20,9 @@ const EventCard = ({ event, eventCategory }) => {
           <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted robotoText">{event.startTime} - {event.endTime}</Card.Subtitle>
           <Card.Subtitle className="mb-2 text-muted robotoText">{event.location}</Card.Subtitle>
-          <br />
-          <Card.Text className="robotoText">{event.description}</Card.Text>
-          <br />
+        </Row>
+        <Row style={{ height: '20%' }} className="py-3">
+          <Card.Text className="robotoText textContain">{event.description}</Card.Text>
         </Row>
         <Row className="my-1">
           <ListGroup horizontal className="justify-content-center align-content-center pb-1">
