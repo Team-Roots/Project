@@ -1,47 +1,48 @@
 import React from 'react';
-import { Container, Row, Col, Card, Image } from 'react-bootstrap';
-import { Meteor } from 'meteor/meteor';
+import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
+/* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const Admin = () => {
-  const { ready, adminProfile } = useTracker(() => {
-    const currentUser = Meteor.users.findOne({ _id: Meteor.userId() }); // Retrieve the current user
-    const subscription = currentUser ? AdminProfiles.subscribeSingleUser(currentUser._id) : null; // Subscribe to adminProfile publication for the current user
-    const profile = currentUser ? AdminProfiles.findOne({ userID: currentUser._id }) : null; // Query admin profile for the current user
+  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+  const { ready, stuffs } = useTracker(() => {
+    // Note that this subscription will get cleaned up
+    // when your component is unmounted or deps change.
+    // Get access to Stuff documents.
+    const subscription = Stuffs.subscribeStuff();
+    // Determine if the subscription is ready
+    const rdy = subscription.ready();
+    // Get the Stuff documents
+    const stuffItems = Stuffs.find({}, { sort: { name: 1 } }).fetch();
     return {
-      ready: subscription ? subscription.ready() : false,
-      adminProfile: profile,
+      stuffs: stuffItems,
+      ready: rdy,
     };
-  });
-
-  return (
-    ready ? (
-      <Container>
-        <Card>
-          <Card.Header>
-            <h2>Admin Overview</h2>
-          </Card.Header>
-          <Card.Body className="d-flex flex-column align-items-start">
-            <Row>
-              <Col>
-                <Image src="path_to_admin_placeholder_image.png" alt="Admin Image" style={{ width: '150px', height: '150px', borderRadius: '50%' }} /> {/* Add placeholder profile image */}
-              </Col>
-              <Col>
-                <h4>{adminProfile.firstName} {adminProfile.lastName}</h4>
-              </Col>
-            </Row>
-          </Card.Body>
-          <Card.Footer className="d-flex justify-content-end p-2" />
-        </Card>
-      </Container>
-    ) : (
-      <Container className="p-2">
-        <LoadingSpinner />
-      </Container>
-    )
-  );
+  }, []);
+  return (ready ? (
+    <Container id={PAGE_IDS.LIST_STUFF} className="py-3">
+      <Row className="justify-content-center">
+        <Col md={7}>
+          <Col className="text-center">
+            <h2>List Stuff</h2>
+          </Col>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Condition</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stuffs.map((stuff) => <StuffItem key={stuff._id} stuff={stuff} />)}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </Container>
+  ) : <LoadingSpinner message="Loading Stuff" />);
 };
 
 export default Admin;

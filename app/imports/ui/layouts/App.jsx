@@ -59,7 +59,6 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
-          <Route path="/adminpage" element={<Admin />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
           {/* eslint-disable-next-line no-restricted-globals */}
