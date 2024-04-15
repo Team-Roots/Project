@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, ButtonGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import EventCard from '../../components/EventCard';
 import { Events } from '../../../api/event/EventCollection';
@@ -9,7 +9,7 @@ import { EventCategories } from '../../../api/event/EventCategoriesCollection';
 import { Categories } from '../../../api/category/CategoryCollection';
 
 const VolunteerEvents = () => {
-  const { ready, events, eventCategories, categories } = useTracker(() => {
+  const { ready, events, eventCategories } = useTracker(() => {
     const subscription = Events.subscribeEvent();
     const subscription2 = EventCategories.subscribeEventCategories();
     const subscription3 = Categories.subscribeCategory();
@@ -28,37 +28,37 @@ const VolunteerEvents = () => {
   const filteredDate = events.filter((event) => event.eventDate >= currentDate);
 
   const [searchInput, setSearchInput] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  // const [selectedCategory, setSelectedCategory] = useState(null);
   const [data, setData] = useState(filteredDate);
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };
 
-  const handleCategoryFilter = (categoryName) => {
-    if (categoryName === selectedCategory) {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(categoryName);
-    }
-  };
+  // const handleCategoryFilter = (categoryName) => {
+  //   if (categoryName === selectedCategory) {
+  //     setSelectedCategory(null);
+  //   } else {
+  //     setSelectedCategory(categoryName);
+  //   }
+  // };
 
-  const applyFilter = () => {
-    if (selectedCategory === null) {
-      setData(filteredDate);
-      return;
-    }
-    const filteredData = filteredDate.filter((event) => {
-      const selectEventCategory = eventCategories.find(
-        (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
-          eventCategory.eventInfo.organizationID === event.organizationID,
-      );
-
-      return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
-
-    });
-
-    setData(filteredData);
-  };
+  // const applyFilter = () => {
+  //   if (selectedCategory === null) {
+  //     setData(filteredDate);
+  //     return;
+  //   }
+  //   const filteredData = filteredDate.filter((event) => {
+  //     const selectEventCategory = eventCategories.find(
+  //       (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
+  //         eventCategory.eventInfo.organizationID === event.organizationID,
+  //     );
+  //
+  //     return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
+  //
+  //   });
+  //
+  //   setData(filteredData);
+  // };
 
   const applySearch = () => {
     if (!searchInput.trim()) {
@@ -89,9 +89,11 @@ const VolunteerEvents = () => {
   useEffect(() => {
     if (ready) {
       applySearch();
-      applyFilter();
+      // applyFilter();
     }
-  }, [ready, searchInput, events, eventCategories, selectedCategory]);
+  }, [ready, searchInput, events,
+    // , eventCategories, selectedCategory
+  ]);
 
   return (ready ? (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -106,15 +108,15 @@ const VolunteerEvents = () => {
           />
         </Form>
       </Row>
-      <Row className="justify-content-center align-content-center pb-1">
-        <ButtonGroup className="justify-content-center align-content-center pb-1">
-          {categories.map((category) => (
-            <Button onClick={() => handleCategoryFilter(category.categoryName)} className={`rounded-pill m-1 robotoText eventLG ${category.categoryName === selectedCategory ? 'active' : ''}`}>
-              {category.categoryName}{' '}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </Row>
+      {/* <Row className="justify-content-center align-content-center pb-1"> */}
+      {/*  <ButtonGroup className="justify-content-center align-content-center pb-1"> */}
+      {/*    {categories.map((category) => ( */}
+      {/*      <Button onClick={() => handleCategoryFilter(category.categoryName)} className={`rounded-pill m-1 robotoText eventLG ${category.categoryName === selectedCategory ? 'active' : ''}`}> */}
+      {/*        {category.categoryName}{' '} */}
+      {/*      </Button> */}
+      {/*    ))} */}
+      {/*  </ButtonGroup> */}
+      {/* </Row> */}
       <Row>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
