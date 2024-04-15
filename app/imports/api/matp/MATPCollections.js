@@ -9,6 +9,7 @@ import { UserStats } from '../user/UserStatisticsCollection';
 import { OrganizationAdmin } from '../organization/OrganizationAdmin';
 import { OrganizationWaiver } from '../organization/OrganizationWaiver';
 import { EventSubscription } from '../event/EventSubscriptionCollection';
+import { VoluntreeSubscriptions } from '../voluntreesubscription/VoluntreeSubscriptionCollection';
 
 class MATPClass {
   collections;
@@ -30,6 +31,7 @@ class MATPClass {
       Skills,
       UserStats,
       EventSubscription,
+      VoluntreeSubscriptions,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -45,6 +47,7 @@ class MATPClass {
       UserStats,
       Events,
       EventSubscription,
+      VoluntreeSubscriptions,
     ];
 
     /*

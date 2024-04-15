@@ -7,6 +7,7 @@ import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
 import { OrganizationWaiver } from './OrganizationWaiver';
+import { VoluntreeSubscriptions } from '../voluntreesubscription/VoluntreeSubscriptionCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
@@ -33,6 +34,7 @@ class OrganizationCollection extends BaseCollection {
       },
       website: {
         type: String,
+        optional: true,
         defaultValue: 'Change Me!',
       },
       profit: {
@@ -86,24 +88,31 @@ class OrganizationCollection extends BaseCollection {
     const existingOrg = this._collection.findOne({ organizationOwner: organizationOwner });
     if (existingOrg) {
       throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
-    } else {
-      const orgID = this.newGlobalID();
-      const docID = this._collection.insert({
-        name,
-        website,
-        profit,
-        location,
-        organizationOwner,
-        visible,
-        onboarded,
-        orgID,
-      });
-      const waiverDoc = { waiver: 'test', orgID };
-      OrganizationWaiver.define(waiverDoc);
-      const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
-      OrganizationAdmin.define(orgAdminDoc);
-      return docID;
     }
+    const existingSubscription = VoluntreeSubscriptions.findOne({ email: organizationOwner }, {});
+    if (!existingSubscription) {
+      throw new Meteor.Error(`${organizationOwner} does not yet have a Voluntree subscription.`);
+    }
+    if (!existingSubscription.active) {
+      throw new Meteor.Error(`${organizationOwner}'s subscription is not active.`);
+    }
+    const orgID = this.newGlobalID();
+    const docID = this._collection.insert({
+      name,
+      website,
+      profit,
+      location,
+      organizationOwner,
+      visible,
+      onboarded,
+      orgID,
+    });
+    const waiverDoc = { waiver: 'test', orgID };
+    OrganizationWaiver.define(waiverDoc);
+    const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
+    OrganizationAdmin.define(orgAdminDoc);
+    VoluntreeSubscriptions.update(existingSubscription._id, { orgID });
+    return docID;
   }
   // I need to come back to this after I talk to truman
   /**
@@ -118,12 +127,17 @@ class OrganizationCollection extends BaseCollection {
    * @param backgroundCheck check if org has a background check
    */
 
-  update(docID, { name, website, profit, location, organizationOwner, visible, onboarded }) {
+  update(docID, { name, missionStatement, description, website, profit, location, organizationOwner, visible, onboarded }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
     }
-
+    if (missionStatement) {
+      updateData.missionStatement = missionStatement;
+    }
+    if (description) {
+      updateData.description = description;
+    }
     if (website) {
       updateData.website = website;
     }

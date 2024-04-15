@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Card, Row, Col, Image, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { CalendarFill, ClockFill, PinMapFill } from 'react-bootstrap-icons';
 
 const EventCard = ({ event, eventCategory }) => {
   const formattedDate = event.eventDate ? event.eventDate.toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'Date not set';
@@ -17,12 +18,21 @@ const EventCard = ({ event, eventCategory }) => {
           <Card.Title className="poppinsText">{event.name}</Card.Title>
         </Row>
         <Row>
-          <Card.Subtitle className="mb-2 text-muted robotoText">{formattedDate}</Card.Subtitle>
-          <Card.Subtitle className="mb-2 text-muted robotoText">{event.startTime} - {event.endTime}</Card.Subtitle>
-          <Card.Subtitle className="mb-2 text-muted robotoText">{event.location}</Card.Subtitle>
-          <br />
-          <Card.Text className="robotoText">{event.description}</Card.Text>
-          <br />
+          <Card.Subtitle className="mb-2 text-muted robotoText">
+            <CalendarFill className="me-2" />
+            {formattedDate}
+          </Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted robotoText">
+            <ClockFill className="me-2" />
+            {event.startTime} - {event.endTime}
+          </Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted robotoText">
+            <PinMapFill className="me-2" />
+            {event.location}
+          </Card.Subtitle>
+        </Row>
+        <Row style={{ height: '20%' }} className="py-3">
+          <Card.Text className="robotoText textContain">{event.description}</Card.Text>
         </Row>
         <Row className="my-1">
           <ListGroup horizontal className="justify-content-center align-content-center pb-1">

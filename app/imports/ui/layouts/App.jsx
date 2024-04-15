@@ -36,6 +36,7 @@ import RegisterOrganization from '../pages/organizations/RegisterOrganization';
 import CommentPage from '../components/CommentPage';
 import ContactUs from '../pages/ContactUs';
 import EditOrganization from '../pages/organizations/EditOrganization';
+import VoluntreeSubscriptionPlans from '../pages/VoluntreeSubscriptionPlans';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
           <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
+          <Route path="/plans" element={<VoluntreeSubscriptionPlans />} />
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />

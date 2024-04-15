@@ -48,6 +48,7 @@ const NavBar = () => {
                   // <NavDropdown.Item as={NavLink} to="/opportunities" key="opportunities">Opportunities</NavDropdown.Item>
                   // TODO: implement opportunities and then uncomment this navlink
                 }
+                <NavDropdown.Item as={NavLink} to="/plans" key="recruit-volunteers">Recruit Volunteers</NavDropdown.Item>
               </NavDropdown>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
               <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN} title="My Account">
