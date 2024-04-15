@@ -18,6 +18,10 @@ class OrganizationAdminCollection extends BaseCollection {
         type: String,
         required: true,
       },
+      dateAdded: {
+        type: Date,
+        required: true,
+      },
       orgID: {
         type: SimpleSchema.Integer,
         required: true,
@@ -33,8 +37,13 @@ class OrganizationAdminCollection extends BaseCollection {
    * @return {String} the docID of the new document.
    */
   define({ orgAdmin, orgID }) {
+    const userExists = Users.isDefined(orgAdmin);
+    if (!userExists) {
+      throw Meteor.error('This user is does not have an account.');
+    }
     const docID = this._collection.insert({
       orgAdmin,
+      dateAdded: new Date(),
       orgID,
     });
     const orgAdminID = Users.getID(orgAdmin);
@@ -70,9 +79,9 @@ class OrganizationAdminCollection extends BaseCollection {
     const toRemoveOrgAdmin = this.findDoc(name);
     check(toRemoveOrgAdmin, Object);
     this._collection.remove(toRemoveOrgAdmin._id);
-    if (!this._collection.findOne(toRemoveOrgAdmin.orgAdmin)) {
-      const toRemoveOrgAdminID = Users.getID(toRemoveOrgAdmin);
-      Roles._removeUserFromRole(toRemoveOrgAdminID, ROLE.ORG_ADMIN, {});
+    if (!this._collection.findOne({ orgAdmin: toRemoveOrgAdmin.orgAdmin })) {
+      const toRemoveOrgAdminID = Users.getID(toRemoveOrgAdmin.orgAdmin);
+      Roles.removeUsersFromRoles([toRemoveOrgAdminID], [ROLE.ORG_ADMIN]);
     }
     return true;
   }
@@ -87,18 +96,8 @@ class OrganizationAdminCollection extends BaseCollection {
    * organizationAdminAdmin publication- handles case 3 as it checks if the current user is a site admin or not
    */
   publish() {
-    if (Meteor.isServer) {
-      const instance = this;
-      // normal organizationAdmin publication is in publications.js
-      // the code requires the Organization collection, which would cause a circular dependency if kept here
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
-          return instance._collection.find();
-        }
-        return this.ready();
-      });
-    }
+    // organizationAdmin publications are in publications.js
+    // the code requires the Organization collection, which would cause a circular dependency if kept here
   }
 
   /**

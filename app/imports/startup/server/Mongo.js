@@ -7,6 +7,9 @@ import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
+import { Categories } from '../../api/category/CategoryCollection';
+import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
+import { VoluntreeSubscriptions } from '../../api/voluntreesubscription/VoluntreeSubscriptionCollection';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -128,16 +131,23 @@ function addData(data) {
   console.log(`  Adding: ${data.name} (${data.owner})`);
   Stuffs.define(data);
 }
-
+function addVoluntreeSubscriptionData(data) {
+  VoluntreeSubscriptions.define(data);
+}
 function addOrganizationData(data) {
   Organizations.define(data);
 }
-
+function addOrganizationAdminData(data) {
+  OrganizationAdmin.define(data);
+}
 function addEventData(data) {
   Events.define(data);
 }
 function addEventCategoryData(data) {
   EventCategories.define(data);
+}
+function addCategoryData(data) {
+  Categories.define(data);
 }
 
 // Initialize the StuffsCollection if empty.
@@ -148,11 +158,11 @@ if (Stuffs.count() === 0) {
   }
 }
 
-if (Organizations.count() === 0) {
+if (Organizations.count() === 0 && OrganizationAdmin.count() === 0) {
   if (Meteor.settings.defaultOrganizations) {
-    console.log('Creating default organizations');
+    console.log('Creating default organizations.');
     Meteor.settings.defaultOrganizations.forEach(org => {
-      const newDoc = {
+      const newOrg = {
         name: org.name,
         website: org.website,
         profit: org.profit,
@@ -161,7 +171,20 @@ if (Organizations.count() === 0) {
         visible: org.visible,
         onboarded: org.onboarded,
       };
-      addOrganizationData(newDoc);
+      const newVoluntreeSubscription = {
+        email: newOrg.organizationOwner,
+      };
+      addVoluntreeSubscriptionData(newVoluntreeSubscription);
+      addOrganizationData(newOrg);
+    });
+    console.log('Creating default organization admins.');
+    Meteor.settings.defaultOrgAdmins.forEach(orgAdmin => {
+      const newOrgAdmin = {
+        orgAdmin: orgAdmin.orgAdmin,
+        dateAdded: new Date(),
+        orgID: orgAdmin.orgID,
+      };
+      addOrganizationAdminData(newOrgAdmin);
     });
   }
 }
@@ -170,6 +193,13 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
+  }
+}
+
+if (Categories.count() === 0) {
+  if (Meteor.settings.defaultCategories) {
+    console.log('Creating default categories.');
+    Meteor.settings.defaultCategories.forEach(category => addCategoryData(category));
   }
 }
 

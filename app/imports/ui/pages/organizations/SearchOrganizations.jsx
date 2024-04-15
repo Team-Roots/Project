@@ -12,7 +12,7 @@ const SearchOrganizations = () => {
   const { ready, organizations } = useTracker(() => {
     const subscription = Organizations.subscribeOrg();
     const rdy = subscription.ready();
-    const foundOrganizations = Organizations.find({}, {}).fetch();
+    const foundOrganizations = Organizations.find({ visible: true }, {}).fetch();
     return {
       organizations: foundOrganizations,
       ready: rdy,

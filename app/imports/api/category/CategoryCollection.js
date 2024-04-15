@@ -1,4 +1,4 @@
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 // import { _ } from 'meteor/underscore';
@@ -6,7 +6,7 @@ import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const CategoryPublications = {
+export const categoryPublications = {
   category: 'Category',
 };
 
@@ -72,6 +72,22 @@ class CategoryCollection extends BaseCollection {
     const doc = this.findDoc(docID);
     const categoryName = doc.categoryName;
     return { categoryName };
+  }
+
+  publish() {
+    if (Meteor.isServer) {
+      const instance = this;
+      Meteor.publish(categoryPublications.category, function publish() {
+        return instance._collection.find();
+      });
+    }
+  }
+
+  subscribeCategory() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(categoryPublications.category);
+    }
+    return null;
   }
 }
 

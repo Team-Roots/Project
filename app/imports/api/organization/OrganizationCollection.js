@@ -1,14 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 import { OrganizationAdmin } from './OrganizationAdmin';
 import { OrganizationWaiver } from './OrganizationWaiver';
+import { VoluntreeSubscriptions } from '../voluntreesubscription/VoluntreeSubscriptionCollection';
 
 // export const organizationConditions = ['excellent', 'good', 'fair', 'poor'];
 export const organizationPublications = {
   organization: 'Organization',
+  organizationAdmin: 'OrganizationAdmin',
 };
 
 class OrganizationCollection extends BaseCollection {
@@ -18,8 +22,19 @@ class OrganizationCollection extends BaseCollection {
         type: String,
         defaultValue: 'John Doe Save The Turtles INC',
       },
+      missionStatement: {
+        type: String,
+        optional: true,
+        defaultValue: '',
+      },
+      description: {
+        type: String,
+        optional: true,
+        defaultValue: '',
+      },
       website: {
         type: String,
+        optional: true,
         defaultValue: 'Change Me!',
       },
       profit: {
@@ -73,24 +88,31 @@ class OrganizationCollection extends BaseCollection {
     const existingOrg = this._collection.findOne({ organizationOwner: organizationOwner });
     if (existingOrg) {
       throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
-    } else {
-      const orgID = this.newGlobalID();
-      const docID = this._collection.insert({
-        name,
-        website,
-        profit,
-        location,
-        organizationOwner,
-        visible,
-        onboarded,
-        orgID,
-      });
-      const waiverDoc = { waiver: 'test', orgID };
-      OrganizationWaiver.define(waiverDoc);
-      const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
-      OrganizationAdmin.define(orgAdminDoc);
-      return docID;
     }
+    const existingSubscription = VoluntreeSubscriptions.findOne({ email: organizationOwner }, {});
+    if (!existingSubscription) {
+      throw new Meteor.Error(`${organizationOwner} does not yet have a Voluntree subscription.`);
+    }
+    if (!existingSubscription.active) {
+      throw new Meteor.Error(`${organizationOwner}'s subscription is not active.`);
+    }
+    const orgID = this.newGlobalID();
+    const docID = this._collection.insert({
+      name,
+      website,
+      profit,
+      location,
+      organizationOwner,
+      visible,
+      onboarded,
+      orgID,
+    });
+    const waiverDoc = { waiver: 'test', orgID };
+    OrganizationWaiver.define(waiverDoc);
+    const orgAdminDoc = { orgAdmin: organizationOwner, orgID };
+    OrganizationAdmin.define(orgAdminDoc);
+    VoluntreeSubscriptions.update(existingSubscription._id, { orgID });
+    return docID;
   }
   // I need to come back to this after I talk to truman
   /**
@@ -105,17 +127,22 @@ class OrganizationCollection extends BaseCollection {
    * @param backgroundCheck check if org has a background check
    */
 
-  update(docID, { name, website, profit, location, organizationOwner, visible, onboarded }) {
+  update(docID, { name, missionStatement, description, website, profit, location, organizationOwner, visible, onboarded }) {
     const updateData = {};
     if (name) {
       updateData.name = name;
     }
-
+    if (missionStatement) {
+      updateData.missionStatement = missionStatement;
+    }
+    if (description) {
+      updateData.description = description;
+    }
     if (website) {
       updateData.website = website;
     }
     if (profit) {
-      updateData.profit = profit === 'For-profit';
+      updateData.profit = profit;
     }
 
     if (location) {
@@ -159,7 +186,15 @@ class OrganizationCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
-        return instance._collection.find();
+        if (this.userId) {
+          if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
+            const username = Meteor.users.findOne(this.userId).name;
+            const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
+            return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
+          }
+          return instance._collection.find({ visible: true });
+        }
+        return this.ready();
       });
 
     }

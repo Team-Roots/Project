@@ -26,8 +26,6 @@ const RegisterOrganization = () => {
     const profit = type === 'For-profit';
     const visible = false;
     const onBoarded = true;
-    const backgroundCheck = false;
-    const ageRange = { min: 18, max: 99 };
     const collectionName = Organizations.getCollectionName();
     const definitionData = {
       name,
@@ -37,8 +35,6 @@ const RegisterOrganization = () => {
       organizationOwner,
       visible,
       onBoarded,
-      backgroundCheck,
-      ageRange,
     };
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
@@ -57,7 +53,7 @@ const RegisterOrganization = () => {
                 <TextField name="name" placeholder="Your organization's name" />
                 <TextField name="website" placeholder="Your organization's website" />
                 <SelectField name="type" placeholder="Is your organization for-profit or non-profit?" />
-                <TextField name="location" />
+                <TextField name="location" placeholder="Your organization's location" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </Card.Body>
