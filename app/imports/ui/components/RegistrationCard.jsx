@@ -81,6 +81,11 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
+  const SignOut = () => {
+    const curDateTime = new Date();
+    console.log(curDateTime);
+  };
+
   const ClaimHours = () => {
     const subscribeBy = Meteor.user().username;
     const eventInfo = {};
@@ -88,7 +93,8 @@ const RegistrationCard = ({ event }) => {
     eventInfo.orgID = event.organizationID;
     eventInfo.eventName = event.name;
     eventInfo.eventDate = formattedCalendarDate;
-    eventInfo.hoursServed = 2;
+    eventInfo.startTime = new Date();
+    eventInfo.endTime = eventInfo.startTime;
 
     Meteor.call('userStats.updateOrgsHelpedData', eventInfo, (error) => {
       if (error) {

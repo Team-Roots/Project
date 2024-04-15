@@ -47,8 +47,12 @@ class UserStatsCollection extends BaseCollection {
         type: String, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
-      'stats.orgsHelped.$.hoursServed': {
-        type: Number, // Define the type of items in the array
+      'stats.orgsHelped.$.signUpTime': {
+        type: Date, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.signOutTime': {
+        type: Date, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
       completedHours: {
@@ -158,7 +162,7 @@ class UserStatsCollection extends BaseCollection {
   }
 
   newOrgHelped(docID, orgsHelped) {
-    const userStats = this.findDoc(docID);
+    // const userStats = this.findDoc(docID);
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -174,12 +178,12 @@ class UserStatsCollection extends BaseCollection {
     const completedHoursIndex = this.FindDate(docID, currentYear);
     if (completedHoursIndex >= 0) {
       updateData.$inc = {};
-      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.hoursServed;
-      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.signUpTime.getHours() - orgsHelped.signOutTime.getHours();
+      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.signUpTime.getHours() - orgsHelped.signOutTime.getHours();
     } else {
       updateData.$set = {};
-      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
-      updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.signUpTime.getHours() - orgsHelped.signOutTime.getHours();
+      updateData.$set['stats.hoursThisMonth'] = 0;
     }
     // console.log(updateData);
 

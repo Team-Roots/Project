@@ -97,7 +97,8 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                                 index={index}
                                 orgName={org.orgName}
                                 eventName={org.eventName}
-                                hoursOfEvent={org.hoursServed}
+                                startTime={org.startTime}
+                                endTime={org.endTime}
                               />
                             ))
                           ) : (
@@ -291,6 +292,8 @@ LandingPanel.propTypes = {
           orgName: PropTypes.string.isRequired,
           eventName: PropTypes.string.isRequired,
           eventDate: PropTypes.string.isRequired,
+          signUpTime: PropTypes.instanceOf(Date),
+          signOutTime: PropTypes.instanceOf(Date),
         }),
       ).isRequired,
     }).isRequired,
