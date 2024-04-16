@@ -10,6 +10,7 @@ import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 import { VoluntreeSubscriptions } from '../../api/voluntreesubscription/VoluntreeSubscriptionCollection';
+import VoluntreeCategories from '../../api/category/VoluntreeCategories';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -161,6 +162,10 @@ function addCategoryData(data) {
   Categories.define(data);
 }
 
+if (Categories.count() === 0) {
+  VoluntreeCategories.map(category => addCategoryData({ categoryName: category }));
+}
+
 // Initialize the StuffsCollection if empty.
 if (Stuffs.count() === 0) {
   if (Meteor.settings.defaultData) {
@@ -204,13 +209,6 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
-  }
-}
-
-if (Categories.count() === 0) {
-  if (Meteor.settings.defaultCategories) {
-    console.log('Creating default categories.');
-    Meteor.settings.defaultCategories.forEach(category => addCategoryData(category));
   }
 }
 

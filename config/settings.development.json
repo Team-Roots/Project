@@ -221,14 +221,6 @@
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
 
-  "defaultCategories": [
-    { "categoryName": "Animal Shelter" },
-    { "categoryName": "Clean Up" },
-    { "categoryName": "Donations" },
-    { "categoryName": "Food Distribution" },
-    { "categoryName": "Charity Shops" }
-  ],
-
   "defaultEventCategories": [
     { "categoryName": "Clean Up",
       "eventInfo": {

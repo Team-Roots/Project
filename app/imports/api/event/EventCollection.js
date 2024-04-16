@@ -67,8 +67,10 @@ class EventCollection extends BaseCollection {
       const docID = this._collection.insert({
         name,
         description,
-        image, eventDate,
-        startTime, endTime,
+        image,
+        eventDate,
+        startTime,
+        endTime,
         location,
         amountVolunteersNeeded,
         isOnline,
