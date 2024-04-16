@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-// import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
+import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
@@ -59,18 +59,20 @@ const bridge = new SimpleSchema2Bridge(eventSchema);
 
 const AddEvent = () => {
   const currentUser = useTracker(() => Meteor.user());
-  const { allowedToEdit, categories, organizations, ready } = useTracker(() => {
+  const { orgID } = useParams();
+  const parsedOrgID = parseInt(orgID, 10);
+  const { allowedToEdit, categories, thisOrganization, ready } = useTracker(() => {
     const categorySubscription = Categories.subscribeCategory();
     const organizationSubscription = Organizations.subscribeOrg();
     const orgAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
     const rdy = categorySubscription.ready() && organizationSubscription.ready() && orgAdminSubscription.ready();
     const foundCategories = Categories.find({}, {}).fetch();
-    const foundOrgAdmins = _.pluck(OrganizationAdmin.find({ orgAdmin: currentUser?.username }, {}).fetch(), 'orgID');
-    const foundOrganizations = Organizations.find({ orgID: { $in: foundOrgAdmins } }, {}).fetch();
+    const foundOrganization = Organizations.findOne({ orgID: parsedOrgID }, {});
+    const foundOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: currentUser?.username, orgID: parsedOrgID });
     return {
-      allowedToEdit: foundOrgAdmins.length > 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]),
+      allowedToEdit: !!foundOrgAdmin && Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]),
       categories: foundCategories,
-      organizations: foundOrganizations,
+      thisOrganization: foundOrganization,
       ready: rdy,
     };
   });
@@ -96,6 +98,7 @@ const AddEvent = () => {
       min: 0,
       max: 99,
     },
+    organizationID: 0,
   };
 
   const [eventPreview, setEventPreview] = useState(initialFormState);
@@ -149,6 +152,7 @@ const AddEvent = () => {
       specialInstructions,
       ageRange,
       creator: Meteor.user().username,
+      organizationID: parsedOrgID,
       category,
     };
 
@@ -176,7 +180,12 @@ const AddEvent = () => {
             <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
               <Card.Body>
                 <h3>Basic Event Details</h3>
-                <BasicEventDetails categoryOptions={categoryOptions} onAddressSelect={handleSelectAddress} onChange={handleChange} />
+                <BasicEventDetails
+                  categoryOptions={categoryOptions}
+                  organizationName={thisOrganization.name}
+                  onAddressSelect={handleSelectAddress}
+                  onChange={handleChange}
+                />
               </Card.Body>
             </Card>
 

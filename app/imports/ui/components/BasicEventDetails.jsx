@@ -3,8 +3,9 @@ import { TextField, SelectField, NumField, BoolField } from 'uniforms-bootstrap5
 import PropTypes from 'prop-types';
 import CustomDateField from './CustomDateField';
 import AddressInput from './AddressInput'; // Ensure this is correctly imported
+import OrganizationPropTypes from '../../api/organization/OrganizationPropTypes';
 
-const BasicEventDetails = ({ categoryOptions, onAddressSelect, onChange }) => (
+const BasicEventDetails = ({ categoryOptions, organizationName, onAddressSelect, onChange }) => (
   <div className="form-group" style={{ display: 'flex', flexDirection: 'column' }}>
     <TextField name="name" placeholder="Event Name" label="Event Name" />
     <CustomDateField onChange={onChange} placeholder="Event Date" />
@@ -26,6 +27,7 @@ BasicEventDetails.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })).isRequired,
+  organizationName: PropTypes.string.isRequired,
   onAddressSelect: PropTypes.func.isRequired, // Ensure this line is added
   onChange: PropTypes.func.isRequired,
 };

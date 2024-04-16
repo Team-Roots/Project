@@ -63,7 +63,7 @@ const VolunteerOrganizations = () => {
                         variant="primary"
                         className="rounded-circle d-flex justify-content-center align-items-center"
                         style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
-                        onClick={() => navigate('/add-event')}
+                        onClick={() => navigate(`/organizations/${thisOrganization.orgID}/add-event`)}
                         id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
                       >
                         <i className="fas fa-plus" />
