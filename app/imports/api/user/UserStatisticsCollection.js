@@ -190,6 +190,30 @@ class UserStatsCollection extends BaseCollection {
     this._collection.update(docID, updateData);
   }
 
+  SignOut(docID, endTime, email, eventName, eventDate) {
+    /*
+      steps:
+        1) find a match in the orgshelped array
+        2) set end time to (endTime)
+        3) run update
+     */
+    // Find the index of the orgsHelped entry that matches the event name and event date
+    const userStats = this.findDoc(docID);
+    const orgsHelpedIndex = userStats.stats.orgsHelped.findIndex(entry => entry.eventName === eventName && entry.eventDate === eventDate);
+
+    // If the entry is found, update the signOutTime
+    if (orgsHelpedIndex !== -1) {
+      const updateData = {
+        $set: {
+          [`stats.orgsHelped.${orgsHelpedIndex}.signOutTime`]: endTime,
+        },
+      };
+      this._collection.update(docID, updateData);
+    } else {
+      console.error('Organization helped entry not found for the provided event name and event date.');
+    }
+  }
+
   FindDate(docID, currentYear) {
     const userStats = this.findDoc(docID);
     for (let i = 0; i < userStats.completedHours.length; i++) {

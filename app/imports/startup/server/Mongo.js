@@ -124,6 +124,17 @@ Meteor.methods({
 
     UserStats.changeGoal(value, email);
   },
+  'userStats.claimHours'(endTime, email, eventName, eventDate) {
+    check(endTime, Date);
+    check(email, String);
+    check(eventName, String);
+    check(eventDate, String);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+    const userStats = UserStats.findOne({ email: email });
+    UserStats.SignOut(userStats._id, endTime, email, eventName, eventDate);
+  },
 });
 
 // Initialize the database with a default data document.
