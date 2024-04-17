@@ -3,7 +3,6 @@ import { TextField, SelectField, NumField, BoolField } from 'uniforms-bootstrap5
 import PropTypes from 'prop-types';
 import CustomDateField from './CustomDateField';
 import AddressInput from './AddressInput'; // Ensure this is correctly imported
-import OrganizationPropTypes from '../../api/organization/OrganizationPropTypes';
 
 const BasicEventDetails = ({ categoryOptions, organizationName, onAddressSelect, onChange }) => (
   <div className="form-group" style={{ display: 'flex', flexDirection: 'column' }}>
