@@ -58,15 +58,17 @@ const VolunteerOrganizations = () => {
                 <Container className="py-3">
                   <div className="d-flex justify-content-between">
                     <h3>Upcoming events</h3>
-                    <Button
-                      variant="primary"
-                      className="rounded-circle d-flex justify-content-center align-items-center"
-                      style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
-                      onClick={() => navigate('/add-event')}
-                      id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
-                    >
-                      <i className="fas fa-plus" />
-                    </Button>
+                    {allowedToEdit && (
+                      <Button
+                        variant="primary"
+                        className="rounded-circle d-flex justify-content-center align-items-center"
+                        style={{ width: '40px', height: '40px', marginLeft: '170px', marginBottom: '10px' }} // Adjust the pixel value as needed
+                        onClick={() => navigate(`/organizations/${thisOrganization.orgID}/add-event`)}
+                        id={COMPONENT_IDS.NAVBAR_ADD_EVENT}
+                      >
+                        <i className="fas fa-plus" />
+                      </Button>
+                    )}
                   </div>
                   Horizontal scroll of events
                 </Container>

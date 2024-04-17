@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-// import { useTracker } from 'meteor/react-meteor-data';
+import { _ } from 'meteor/underscore';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { AutoForm, SubmitField, ErrorsField } from 'uniforms-bootstrap5';
+import { useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Roles } from 'meteor/alanning:roles';
 import { defineMethod } from '../../../api/base/BaseCollection.methods';
 import BasicEventDetails from '../../components/BasicEventDetails'; // Adjust the path as needed
 import TimingAndCoordinator from '../../components/TimingAndCoordinator'; // Adjust the path as needed
 import AdditionalInformation from '../../components/AdditionalInformation'; // Adjust the path as needed
 // import EventCard from '../../components/EventCard'; // Ensure this path is correct
 import { Events } from '../../../api/event/EventCollection';
+import { Categories } from '../../../api/category/CategoryCollection';
+import { Organizations } from '../../../api/organization/OrganizationCollection';
+import { OrganizationAdmin } from '../../../api/organization/OrganizationAdmin';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { ROLE } from '../../../api/role/Role';
+import NotAuthorized from '../NotAuthorized';
 
 // Define your form schema
 const eventSchema = new SimpleSchema({
@@ -30,7 +39,6 @@ const eventSchema = new SimpleSchema({
   coordinator: String,
   category: {
     type: String,
-    allowedValues: ['Animal Shelter', 'Clean Up', 'Donation', 'Food Distribution', 'Charity'],
   },
   specialInstructions: {
     type: String,
@@ -44,11 +52,31 @@ const eventSchema = new SimpleSchema({
   ageRange: Object,
   'ageRange.min': SimpleSchema.Integer,
   'ageRange.max': SimpleSchema.Integer,
+  organizationID: SimpleSchema.Integer,
 });
 
 const bridge = new SimpleSchema2Bridge(eventSchema);
 
 const AddEvent = () => {
+  const currentUser = useTracker(() => Meteor.user());
+  const { orgID } = useParams();
+  const parsedOrgID = parseInt(orgID, 10);
+  const { allowedToEdit, categories, thisOrganization, ready } = useTracker(() => {
+    const categorySubscription = Categories.subscribeCategory();
+    const organizationSubscription = Organizations.subscribeOrg();
+    const orgAdminSubscription = OrganizationAdmin.subscribeOrgAdmin();
+    const rdy = categorySubscription.ready() && organizationSubscription.ready() && orgAdminSubscription.ready();
+    const foundCategories = Categories.find({}, {}).fetch();
+    const foundOrganization = Organizations.findOne({ orgID: parsedOrgID }, {});
+    const foundOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: currentUser?.username, orgID: parsedOrgID });
+    return {
+      allowedToEdit: !!foundOrgAdmin && Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]),
+      categories: foundCategories,
+      thisOrganization: foundOrganization,
+      ready: rdy,
+    };
+  });
+
   const [cloudinaryUrl, setCloudinaryUrl] = useState('');
 
   const initialFormState = {
@@ -70,26 +98,18 @@ const AddEvent = () => {
       min: 0,
       max: 99,
     },
+    organizationID: parsedOrgID,
   };
 
   const [eventPreview, setEventPreview] = useState(initialFormState);
 
-  const categoryOptions = [
-    { label: 'Community Cleanup', value: 'community_cleanup' },
-    { label: 'Food Drive', value: 'food_drive' },
-    { label: 'Charity Run/Walk', value: 'charity_run_walk' },
-    { label: 'Tree Planting', value: 'tree_planting' },
-    { label: 'Animal Welfare', value: 'animal_welfare' },
-    { label: 'Educational Tutoring', value: 'educational_tutoring' },
-    { label: 'Elderly Assistance', value: 'elderly_assistance' },
-    { label: 'Environmental Conservation', value: 'environmental_conservation' },
-    { label: 'Healthcare Support', value: 'healthcare_support' },
-    { label: 'Arts and Culture', value: 'arts_and_culture' },
-    { label: 'Sports and Recreation', value: 'sports_and_recreation' },
-    { label: 'Disaster Relief', value: 'disaster_relief' },
-    { label: 'Technology and Innovation', value: 'technology_innovation' },
-    { label: 'Legal Aid and Human Rights', value: 'legal_aid_human_rights' },
-  ];
+  // convert each category to all lower case and replace each space with an underscore
+  const categoryOptions = [];
+  _.each(categories, category => {
+    categoryOptions.push({
+      label: category.categoryName,
+      value: category.categoryName.toLocaleLowerCase().replaceAll(' ', '_') });
+  });
 
   const handleSetImageUrl = (url) => {
     setCloudinaryUrl(url); // Ensure you're setting the Cloudinary URL correctly for submission
@@ -114,25 +134,28 @@ const AddEvent = () => {
 
   const submit = (data) => {
     // Include new fields in the submission data structure
-    const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, isOnline, ageRange } = data;
+    const { name, description, image, category, eventDate, startTime, endTime, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange } = data;
     const imageUrl = cloudinaryUrl || image;
 
     // Construct the submission object with new fields
     const definitionData = {
       name,
-      eventDate,
       description,
-      category,
-      location: eventPreview.location.address,
+      image: imageUrl,
+      categoryName: category,
+      eventDate,
       startTime,
       endTime,
-      coordinator,
+      location: eventPreview.location.address,
       amountVolunteersNeeded,
-      specialInstructions,
-      image: imageUrl,
       isOnline,
+      coordinator,
+      specialInstructions,
+      restrictions,
+      backgroundCheck,
       ageRange,
-      owner: Meteor.user().username,
+      creator: Meteor.user().username,
+      organizationID: parsedOrgID,
     };
 
     // Call to defineMethod with updated definitionData
@@ -143,7 +166,12 @@ const AddEvent = () => {
       })
       .catch(error => swal('Error', error.message, 'error'));
   };
-
+  if (!ready) {
+    return <LoadingSpinner />;
+  }
+  if (!allowedToEdit) {
+    return <NotAuthorized />;
+  }
   return (
     <Container>
       <Row>
@@ -154,7 +182,12 @@ const AddEvent = () => {
             <Card className="mb-3" style={{ backgroundColor: '#22ba97' }}>
               <Card.Body>
                 <h3>Basic Event Details</h3>
-                <BasicEventDetails categoryOptions={categoryOptions} onAddressSelect={handleSelectAddress} onChange={handleChange} />
+                <BasicEventDetails
+                  categoryOptions={categoryOptions}
+                  organizationName={thisOrganization.name}
+                  onAddressSelect={handleSelectAddress}
+                  onChange={handleChange}
+                />
               </Card.Body>
             </Card>
 

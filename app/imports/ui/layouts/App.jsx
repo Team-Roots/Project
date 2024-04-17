@@ -75,11 +75,11 @@ const App = () => {
           <Route path="/eventopportunities" element={<VolunteerEvents />} />
           <Route path="/events" element={<ProtectedRoute><VolunteerEvents /></ProtectedRoute>} />
           <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
-          <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/plans" element={<VoluntreeSubscriptionPlans />} />
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
+          <Route path="/organizations/:orgID/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
           <Route path="/organizations/:orgID/edit" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
           <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
