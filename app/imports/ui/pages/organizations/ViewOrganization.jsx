@@ -42,9 +42,7 @@ const VolunteerOrganizations = () => {
                       {allowedToEdit && <EditOrgGear orgID={thisOrganization.orgID} />}
                     </div>
                     <Card.Subtitle>Mission</Card.Subtitle>
-                    <Card.Text>
-                      Test mission test mission test mission test mission
-                    </Card.Text>
+                    <Card.Text>{thisOrganization.missionStatement}</Card.Text>
                     <Card.Subtitle>
                       Description
                     </Card.Subtitle>

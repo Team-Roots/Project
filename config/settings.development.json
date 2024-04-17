@@ -18,7 +18,8 @@
       "location": "5475 Kalanianaʻole Hwy, Honolulu, HI 96821",
       "organizationOwner": "nodarisitchinava@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "#Clean Hawaii is a Gen Z run organization striving for a cleaner state."
     },
     {
       "name":  "UH Mānoa Cares",
