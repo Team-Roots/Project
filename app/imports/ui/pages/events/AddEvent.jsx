@@ -134,7 +134,7 @@ const AddEvent = () => {
 
   const submit = (data) => {
     // Include new fields in the submission data structure
-    const { name, eventDate, description, category, startTime, endTime, coordinator, amountVolunteersNeeded, specialInstructions, image, isOnline, ageRange } = data;
+    const { name, description, image, category, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator } = data;
     const imageUrl = cloudinaryUrl || image;
 
     // Construct the submission object with new fields
@@ -142,6 +142,7 @@ const AddEvent = () => {
       name,
       description,
       image: imageUrl,
+      categoryName: category,
       eventDate,
       startTime,
       endTime,
@@ -153,7 +154,6 @@ const AddEvent = () => {
       ageRange,
       creator: Meteor.user().username,
       organizationID: parsedOrgID,
-      category,
     };
 
     // Call to defineMethod with updated definitionData

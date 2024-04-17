@@ -3,6 +3,8 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { Categories } from '../category/CategoryCollection';
+import { EventCategories } from './EventCategoriesCollection';
 
 export const eventPublications = {
   event: 'Event',
@@ -59,7 +61,7 @@ class EventCollection extends BaseCollection {
     }));
   }
 
-  define({ name, description, image, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
+  define({ name, description, image, categoryName, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
     const existingEvent = this._collection.findOne({ name, eventDate, startTime });
     if (existingEvent) {
       throw new Meteor.Error(`Inserting event ${name} failed because ${existingEvent.name} is already an event on ${existingEvent.eventDate} and ${existingEvent.startTime}`);
@@ -81,6 +83,14 @@ class EventCollection extends BaseCollection {
         ageRange,
         organizationID,
         creator,
+      });
+      EventCategories.insert({
+        categoryName,
+        eventInfo: {
+          organizationID,
+          eventName: name,
+          eventDate,
+        },
       });
       return docID;
     }
