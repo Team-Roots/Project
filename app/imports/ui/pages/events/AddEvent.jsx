@@ -39,7 +39,6 @@ const eventSchema = new SimpleSchema({
   coordinator: String,
   category: {
     type: String,
-    allowedValues: ['Animal Shelter', 'Clean Up', 'Donation', 'Food Distribution', 'Charity'],
   },
   specialInstructions: {
     type: String,
@@ -53,6 +52,7 @@ const eventSchema = new SimpleSchema({
   ageRange: Object,
   'ageRange.min': SimpleSchema.Integer,
   'ageRange.max': SimpleSchema.Integer,
+  organizationID: SimpleSchema.Integer,
 });
 
 const bridge = new SimpleSchema2Bridge(eventSchema);
@@ -98,7 +98,7 @@ const AddEvent = () => {
       min: 0,
       max: 99,
     },
-    organizationID: 0,
+    organizationID: parsedOrgID,
   };
 
   const [eventPreview, setEventPreview] = useState(initialFormState);

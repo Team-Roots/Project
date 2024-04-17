@@ -19,6 +19,7 @@ const BasicEventDetails = ({ categoryOptions, organizationName, onAddressSelect,
       <NumField name="ageRange.min" label="Minimum Age" />
       <NumField name="ageRange.max" label="Maximum Age" />
     </div>
+    <SelectField name="organizationID" disabled label="Organization" options={{ label: organizationName }} />
   </div>
 );
 
