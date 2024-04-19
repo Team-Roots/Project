@@ -64,16 +64,8 @@
       "orgID": 1
     },
     {
-      "orgAdmin": "foo@john.com",
+      "orgAdmin": "foo@jane.com",
       "orgID": 2
-    }
-  ],
-  "defaultUserProfiles": [
-    {
-      "email":  "john@foo.com",
-      "password": "changeme",
-      "firstName": "John",
-      "lastName": "Foo"
     }
   ],
 
@@ -227,14 +219,6 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
-  "defaultCategories": [
-    { "categoryName": "Animal Shelter" },
-    { "categoryName": "Clean Up" },
-    { "categoryName": "Donations" },
-    { "categoryName": "Food Distribution" },
-    { "categoryName": "Charity Shops" }
   ],
 
   "defaultEventCategories": [
