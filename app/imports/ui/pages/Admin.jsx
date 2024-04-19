@@ -54,7 +54,6 @@ const Admin = () => {
                 <th>Event Name</th>
                 <th>Date</th>
                 <th>Category</th>
-                // Add more columns as needed
               </tr>
             </thead>
             <tbody>
