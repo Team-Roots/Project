@@ -155,9 +155,6 @@ function addOrganizationAdminData(data) {
 function addEventData(data) {
   Events.define(data);
 }
-function addEventCategoryData(data) {
-  EventCategories.define(data);
-}
 function addCategoryData(data) {
   Categories.define(data);
 }
@@ -209,18 +206,5 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
-  }
-}
-
-if (EventCategories.count() === 0) {
-  if (Meteor.settings.defaultEventCategories) {
-    console.log('Creating default event categories.');
-    Meteor.settings.defaultEventCategories.forEach(data => {
-      const newDoc = {
-        eventInfo: data.eventInfo,
-        categoryName: data.categoryName,
-      };
-      addEventCategoryData(newDoc);
-    });
   }
 }
