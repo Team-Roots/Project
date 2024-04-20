@@ -60,7 +60,7 @@ class EventCollection extends BaseCollection {
     }));
   }
 
-  define({ name, description, image, categoryName, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
+  define({ name, description, image, category, eventDate, startTime, endTime, location, amountVolunteersNeeded, isOnline, coordinator, specialInstructions, restrictions, backgroundCheck, ageRange, organizationID, creator }) {
     const existingEvent = this._collection.findOne({ name, eventDate, startTime });
     if (existingEvent) {
       throw new Meteor.Error(`Inserting event ${name} failed because ${existingEvent.name} is already an event on ${existingEvent.eventDate} and ${existingEvent.startTime}`);
@@ -83,8 +83,8 @@ class EventCollection extends BaseCollection {
         organizationID,
         creator,
       });
-      EventCategories.insert({
-        categoryName,
+      EventCategories.define({
+        categoryName: category,
         eventInfo: {
           organizationID,
           eventName: name,

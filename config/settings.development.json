@@ -152,7 +152,7 @@
       "name":  "Oahu SPCA Adoption Event",
       "eventDate": "2024-04-30",
       "description": "Helpers needed to help with the adoption event.",
-      "category":  "Animal Shelter",
+      "category":  "Animal Welfare",
       "location":  "1134 Kuala St, Pearl City, HI 96782",
       "startTime":  "10:00 AM",
       "endTime":  "2:00 PM",
@@ -219,51 +219,6 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
-  "defaultEventCategories": [
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 1,
-        "eventName": "Ala Moana Beach Clean Up",
-        "eventDate":"2024-03-04"
-      }},
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 1,
-        "eventName": "Makai Research Pier Clean Up",
-        "eventDate":"2024-03-11"
-      }},
-    { "categoryName": "Donations",
-      "eventInfo": {
-        "organizationID": 2,
-        "eventName": "Hawaii Food Bank Donation Drive",
-        "eventDate":"2024-03-04"
-      }},
-    { "categoryName": "Animal Shelter",
-      "eventInfo": {
-        "organizationID": 3,
-        "eventName": "Oahu SPCA Adoption Event",
-        "eventDate":"2024-04-30"
-      }},
-    { "categoryName": "Food Distribution",
-      "eventInfo": {
-        "organizationID": 4,
-        "eventName": "Meals on Wheels - Meal Packer",
-        "eventDate":"2024-05-9"
-      }},
-    { "categoryName": "Charity Shops",
-      "eventInfo": {
-        "organizationID": 5,
-        "eventName": "Hickam Thrift Shop Volunteer",
-        "eventDate":"2024-04-24"
-      }},
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 2,
-        "eventName": "Give Back to Maui",
-        "eventDate":"2024-04-20"
-      }}
   ],
 
   "public": {
