@@ -36,24 +36,21 @@ const EditGeneral = ({ organization }) => {
       });
   };
   return (
-    <>
-      <h3>{organization.name}</h3>
-      <AutoForm schema={bridge} onSubmit={data => submit(data)} model={organization}>
-        <Row>
-          <Col>
-            <TextField name="name" />
-          </Col>
-          <Col>
-            <TextField name="website" />
-          </Col>
-        </Row>
-        <TextField name="mission" placeholder="Your organization's mission statement" />
-        <LongTextField name="description" placeholder="Describe your organization" />
-        <TextField name="tags" placeholder="TEMPORARY" />
-        <SubmitField value="Save Changes" />
-        <ErrorsField />
-      </AutoForm>
-    </>
+    <AutoForm schema={bridge} onSubmit={data => submit(data)} model={organization}>
+      <Row>
+        <Col>
+          <TextField name="name" />
+        </Col>
+        <Col>
+          <TextField name="website" />
+        </Col>
+      </Row>
+      <TextField name="mission" placeholder="Your organization's mission statement" />
+      <LongTextField name="description" placeholder="Describe your organization" />
+      <TextField name="tags" placeholder="TEMPORARY" />
+      <SubmitField value="Save Changes" />
+      <ErrorsField />
+    </AutoForm>
   );
 };
 

@@ -82,10 +82,10 @@ const EditAdmins = ({ organization }) => {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 {orgAdmin.orgAdmin} <br />
-                Date added: {orgAdmin.dateAdded.toLocaleDateString()}
+                Added: {orgAdmin.dateAdded.toLocaleDateString()}
               </div>
               <div>
-                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}><X /></Button>
+                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}><X fontSize="25px" /></Button>
               </div>
             </div>
           </ListGroup.Item>

@@ -53,7 +53,7 @@ const RegisterOrganization = () => {
                 <TextField name="name" placeholder="Your organization's name" />
                 <TextField name="website" placeholder="Your organization's website" />
                 <SelectField name="type" placeholder="Is your organization for-profit or non-profit?" />
-                <TextField name="location" placeholder="Your organization's location" />
+                <TextField name="location" placeholder="The location your organization is based in" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </Card.Body>
