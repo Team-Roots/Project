@@ -39,7 +39,7 @@ class OrganizationAdminCollection extends BaseCollection {
   define({ orgAdmin, orgID }) {
     const userExists = Users.isDefined(orgAdmin);
     if (!userExists) {
-      throw Meteor.error('This user is does not have an account.');
+      throw new Meteor.Error(`${orgAdmin} does not have an account.`);
     }
     const docID = this._collection.insert({
       orgAdmin,

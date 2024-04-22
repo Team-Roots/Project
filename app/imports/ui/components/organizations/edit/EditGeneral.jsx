@@ -13,17 +13,14 @@ const formSchema = new SimpleSchema({
   mission: { type: String, optional: true },
   description: { type: String, optional: true },
   website: { type: String, optional: true },
-  profit: Boolean,
-  visible: Boolean,
   tags: { type: String, required: false },
-  location: String,
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 const EditGeneral = ({ organization }) => {
   const submit = (data) => {
-    const { _id, name, mission, description, website, profit, visible, location } = data;
+    const { _id, name, mission, description, website } = data;
     const collectionName = Organizations.getCollectionName();
     const updateData = {
       id: _id,
@@ -31,9 +28,6 @@ const EditGeneral = ({ organization }) => {
       missionStatement: mission,
       description,
       website,
-      profit,
-      location,
-      visible,
     };
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
@@ -55,23 +49,6 @@ const EditGeneral = ({ organization }) => {
         </Row>
         <TextField name="mission" placeholder="Your organization's mission statement" />
         <LongTextField name="description" placeholder="Describe your organization" />
-        <Row>
-          <Col>
-            <SelectField
-              name="profit"
-              label="Type"
-              options={{ true: 'For-profit', false: 'Non-profit' }}
-              placeholder="Is your organization for-profit or non-profit?"
-            />
-          </Col>
-          <Col>
-            <SelectField
-              name="visible"
-              options={{ true: 'Yes', false: 'No' }}
-            />
-          </Col>
-        </Row>
-        <TextField name="location" placeholder="Your organization's location" />
         <TextField name="tags" placeholder="TEMPORARY" />
         <SubmitField value="Save Changes" />
         <ErrorsField />

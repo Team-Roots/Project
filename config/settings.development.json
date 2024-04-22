@@ -4,6 +4,7 @@
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
     { "email": "foo@john.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "John" },
     { "email": "jane@foo.com", "password": "changeme", "role": "USER" , "firstName": "Jane", "lastName": "Doe" },
+    { "email": "foo@jane.com", "password": "changeme", "role": "USER" , "firstName": "Foo", "lastName": "Jane" },
     { "email": "cammoore@foo.com", "password": "changeme", "role": "USER" , "firstName": "Cam", "lastName": "Moore" },
     { "email": "davidconner@foo.com", "password": "changeme", "role": "USER" , "firstName": "David", "lastName": "Conner" },
     { "email": "kyungimbaek@foo.com", "password": "changeme", "role": "USER" , "firstName": "Kyungim", "lastName": "Baek" },

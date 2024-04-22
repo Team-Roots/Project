@@ -37,11 +37,12 @@ const EditOrganization = () => {
   if (ready) {
     let mainContent;
     switch (tab) {
-    case 'details':
-      mainContent = <EditDetails />;
+      case 'details':
+      console.log('from edit', thisOrganization);
+      mainContent = <EditDetails organizaation={thisOrganization} />;
       break;
     case 'waiver':
-      mainContent = <EditWaiver />;
+      mainContent = <EditWaiver organization={thisOrganization} />;
       break;
     case 'admins':
       mainContent = <EditAdmins organization={thisOrganization} />;
