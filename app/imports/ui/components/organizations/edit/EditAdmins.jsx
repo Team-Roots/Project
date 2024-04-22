@@ -34,7 +34,6 @@ const EditAdmins = ({ organization }) => {
       return;
     }
     const userExists = UserProfiles.findOne({ email }, {});
-    console.log(userExists);
     if (!userExists) {
       swal('Error', 'This user does not yet have an account.', 'error');
       return;
@@ -56,7 +55,6 @@ const EditAdmins = ({ organization }) => {
       });
   };
   const handleRemove = (orgAdmin) => {
-    console.log(orgAdmin);
     const collectionName = OrganizationAdmin.getCollectionName();
     removeItMethod.callPromise({ collectionName, instance: orgAdmin })
       .catch(error => swal('Error', error.message, 'error'))
