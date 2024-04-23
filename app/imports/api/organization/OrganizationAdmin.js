@@ -60,11 +60,17 @@ class OrganizationAdminCollection extends BaseCollection {
   // we dont want users to update : hence the
   // eslint blockage
   // eslint-disable-next-line no-empty-pattern
-  update(docID, { newEmail }) {
+  update(docID, { orgAdmin, dateAdded, orgID }) {
     const updateData = {};
 
-    if (newEmail) {
-      updateData.newEmail = newEmail;
+    if (orgAdmin) {
+      updateData.orgAdmin = orgAdmin;
+    }
+    if (dateAdded) {
+      updateData.dateAdded = dateAdded;
+    }
+    if (orgID) {
+      updateData.orgID = orgID;
     }
 
     this._collection.update(docID, { $set: updateData });

@@ -5,12 +5,12 @@ import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
-import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 import { VoluntreeSubscriptions } from '../../api/voluntreesubscription/VoluntreeSubscriptionCollection';
 import VoluntreeCategories from '../../api/category/VoluntreeCategories';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -93,6 +93,28 @@ Meteor.methods({
       throw new Meteor.Error('org-not-found', 'org not found.');
     }
     return org.name;
+  },
+  'organization.transferOwnership'(transferInfo) {
+    console.log(transferInfo);
+    check(transferInfo, Object);
+    const { orgID, newOwner } = transferInfo;
+    check(orgID, Number);
+    check(newOwner, String);
+    const org = Organizations.findOne({ orgID: orgID });
+    if (!org) {
+      throw new Meteor.Error(`No organization found with orgID ${orgID}.`);
+    }
+    const newOwnerUser = UserProfiles.findOne({ email: newOwner });
+    if (!newOwnerUser) {
+      throw new Meteor.Error(`${newOwner} does not yet have an account.`);
+    }
+    const oldOwnerOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: org.organizationOwner, orgID: orgID });
+    const newOwnerOrgAdmin = Organizations.findOne({ orgAdmin: newOwner, orgID: orgID });
+    console.log('old: ', oldOwnerOrgAdmin);
+    console.log('new: ', newOwnerOrgAdmin);
+    const now = new Date();
+    OrganizationAdmin.update(oldOwnerOrgAdmin._id, { dateAdded: now });
+    OrganizationAdmin.update(newOwnerOrgAdmin._id, { dateAdded: now });
   },
   'userStats.updateOrgsHelpedData'(eventInfo) {
     check(eventInfo, {
