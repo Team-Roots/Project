@@ -46,9 +46,7 @@ const VolunteerOrganizations = () => {
                     <Card.Subtitle>
                       Description
                     </Card.Subtitle>
-                    <Card.Text>
-                      Test description test description test description test description test description test description test description test description test description test description test description test description test description
-                    </Card.Text>
+                    <Card.Text>{thisOrganization.description}</Card.Text>
                     <Card.Subtitle>Tags</Card.Subtitle>
                     <Card.Text>TestTag1 TestTag2</Card.Text>
                   </Card.Body>

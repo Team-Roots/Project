@@ -205,6 +205,8 @@ if (Organizations.count() === 0 && OrganizationAdmin.count() === 0) {
         organizationOwner: org.organizationOwner,
         visible: org.visible,
         onboarded: org.onboarded,
+        missionStatement: org.missionStatement,
+        description: org.description,
       };
       const newVoluntreeSubscription = {
         email: newOrg.organizationOwner,

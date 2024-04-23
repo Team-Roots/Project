@@ -20,7 +20,8 @@
       "organizationOwner": "nodarisitchinava@foo.com",
       "visible": true,
       "onboarded": false,
-      "missionStatement": "#Clean Hawaii is a Gen Z run organization striving for a cleaner state."
+      "missionStatement": "#Clean Hawaii is a Gen Z run organization striving for a cleaner state.",
+      "description": "#Clean Hawaii works around the state, where volunteers are able to find events in their home island. We aim to clean beaches, parks, hiking trails, highways, and many other parts of the state to ensure cleanliness throughout."
     },
     {
       "name":  "UH Mānoa Cares",
@@ -29,7 +30,8 @@
       "location": "2465 Campus Rd, Honolulu, HI 96822",
       "organizationOwner": "davidconner@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "UH Mānoa Cares is an organization on the UH Mānoa campus aiming to help not only the student body, but also the surrounding community."
     },
     {
       "name":  "Team Animals",
@@ -38,7 +40,8 @@
       "location": "2700 Waialae Ave, Honolulu, HI 96826",
       "organizationOwner": "cammoore@foo.com",
       "visible": false,
-      "onboarded": false
+      "onboarded": false,
+      "description": "Team Animals is an organization that connects animal lovers to volunteer events centered around animals. We partner with local animal shelters around the state to help with taking care of animals and working at animal adoption events. We aim to finda home for every animal, and give them a loving and comfortable stay at shelters."
     },
     {
       "name":  "Food For All",
@@ -47,7 +50,8 @@
       "location": "2465 Campus Rd, Honolulu, HI 96822",
       "organizationOwner": "kyungimbaek@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "Helping to provide an important resource for all."
     },
     {
       "name":  "Fashion for the Island",
@@ -56,7 +60,9 @@
       "location": "711 Ke’eaumoku St, Honolulu, HI 96814",
       "organizationOwner": "depengli@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "Providing access to clothes for everyone.",
+      "description": "Clothing is an essential for everyone. Through events to gather clothes from the community through donation drives, we partner with shelters in order to help those in need."
     }
   ],
   "defaultOrgAdmins": [
