@@ -11,41 +11,6 @@ import TableComponent from './UserDashBoard/TableComponent';
 
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
-  console.log(stat);
-  console.log(stat.stats);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const cardsPerPage = 1;
-  //
-  // const totalCards = orgs.length;
-  // const totalPages = Math.ceil(totalCards / cardsPerPage);
-  //
-  // const orgsPerPage = (page) => {
-  //   const startIndex = (page - 1) * cardsPerPage;
-  //   const endIndex = startIndex + cardsPerPage;
-  //   return orgs.slice(startIndex, endIndex);
-  // };
-  //
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const sections = document.querySelectorAll('.landing-section');
-  //     const scrollTop = window.scrollY;
-  //
-  //     sections.forEach((section, index) => {
-  //       const sectionTop = section.offsetTop;
-  //       const sectionBottom = sectionTop + section.offsetHeight;
-  //
-  //       if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
-  //         setCurrentPage(index + 1);
-  //       }
-  //     });
-  //   };
-  //
-  //   window.addEventListener('scroll', handleScroll);
-  //
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
   // ideally now will be a value loaded in from a schema
   const currentDate = new Date();
   const filteredDate = events.filter((event) => event.eventDate >= currentDate);
@@ -97,8 +62,8 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                                 index={index}
                                 orgName={org.orgName}
                                 eventName={org.eventName}
-                                startTime={org.startTime}
-                                endTime={org.endTime}
+                                startTime={org.signUpTime}
+                                endTime={org.signOutTime}
                               />
                             ))
                           ) : (

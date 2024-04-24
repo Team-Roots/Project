@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Col, Row, Image, Card, Button, ListGroup, Alert } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,13 +9,12 @@ import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
-import signOut from '../pages/SignOut';
 
 const RegistrationCard = ({ event }) => {
+  const [show, setShow] = useState(false);
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
-
   const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
@@ -98,6 +97,10 @@ const RegistrationCard = ({ event }) => {
     // console.log(curDateTime);
   };
 
+  const CloseAlert = () => {
+    setShow(false);
+  };
+
   const SignIn = () => {
     const subscribeBy = Meteor.user().username;
     const eventInfo = {};
@@ -139,13 +142,28 @@ const RegistrationCard = ({ event }) => {
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
+              <Alert show={show} variant="success" className="text-start">
+                <Alert.Heading>Are you sure you want to sign out?</Alert.Heading>
+                <p>
+                  Once you sign out of the event, you can not sign back in. Are you sure you want to continue?
+                </p>
+                <hr />
+                <div className="d-flex justify-content-end">
+                  <Button variant="outline-success" onClick={() => SignOut()}>
+                    Yes
+                  </Button>
+                  <Button variant="outline-success" onClick={() => CloseAlert()}>
+                    No
+                  </Button>
+                </div>
+              </Alert>
               <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
                 <Button
                   variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
                   size="lg"
                   className="mb-3 mx-2"
-                  disabled={(!(foundStats && !canSubscribe)) || !foundEventStat}
-                  onClick={() => SignOut()}
+                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show))}
+                  onClick={() => setShow(true)}
                 >
                   {foundEventStat ? 'Sign Out' : 'Signed Out!'}
                 </Button>
