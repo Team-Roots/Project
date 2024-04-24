@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Row, Card, Col, Button } from 'react-bootstrap';
+import { Container, Row, Card, Col, Button, Image } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../../utilities/PageIDs';

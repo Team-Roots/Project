@@ -5,6 +5,7 @@ import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
+import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
