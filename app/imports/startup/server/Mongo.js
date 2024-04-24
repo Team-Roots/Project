@@ -5,11 +5,11 @@ import { Events } from '../../api/event/EventCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
-import { EventCategories } from '../../api/event/EventCategoriesCollection';
 import { Comments } from '../../api/comment/CommentCollection';
 import { Categories } from '../../api/category/CategoryCollection';
 import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 import { VoluntreeSubscriptions } from '../../api/voluntreesubscription/VoluntreeSubscriptionCollection';
+import VoluntreeCategories from '../../api/category/VoluntreeCategories';
 
 Meteor.methods({
   'comments.fetch'(filter = {}) {
@@ -154,11 +154,12 @@ function addOrganizationAdminData(data) {
 function addEventData(data) {
   Events.define(data);
 }
-function addEventCategoryData(data) {
-  EventCategories.define(data);
-}
 function addCategoryData(data) {
   Categories.define(data);
+}
+
+if (Categories.count() === 0) {
+  VoluntreeCategories.map(category => addCategoryData({ categoryName: category }));
 }
 
 // Initialize the StuffsCollection if empty.
@@ -204,25 +205,5 @@ if (Events.count() === 0) {
   if (Meteor.settings.defaultEvents) {
     console.log('Creating default events.');
     Meteor.settings.defaultEvents.forEach(event => addEventData(event));
-  }
-}
-
-if (Categories.count() === 0) {
-  if (Meteor.settings.defaultCategories) {
-    console.log('Creating default categories.');
-    Meteor.settings.defaultCategories.forEach(category => addCategoryData(category));
-  }
-}
-
-if (EventCategories.count() === 0) {
-  if (Meteor.settings.defaultEventCategories) {
-    console.log('Creating default event categories.');
-    Meteor.settings.defaultEventCategories.forEach(data => {
-      const newDoc = {
-        eventInfo: data.eventInfo,
-        categoryName: data.categoryName,
-      };
-      addEventCategoryData(newDoc);
-    });
   }
 }

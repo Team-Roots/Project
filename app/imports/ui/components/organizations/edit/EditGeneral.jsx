@@ -6,7 +6,7 @@ import SimpleSchema from 'simpl-schema';
 import swal from 'sweetalert';
 import { Organizations } from '../../../../api/organization/OrganizationCollection';
 import { updateMethod } from '../../../../api/base/BaseCollection.methods';
-import OrganizationPropTypes from './OrganizationPropTypes';
+import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 
 const formSchema = new SimpleSchema({
   name: String,

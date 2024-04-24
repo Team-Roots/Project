@@ -27,7 +27,14 @@ const NavBar = () => {
               <>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/">Home</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus" key="navbar-about-us">About Us</Nav.Link>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/eventopportunities" key="navbar-events">Events</Nav.Link>
+                <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LIST_EVENTS} as={NavLink} to="/events" key="events">Events</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="/organizations" key="organizations">Organizations</NavDropdown.Item>
+                  {
+                    // <NavDropdown.Item as={NavLink} to="/opportunities" key="opportunities">Opportunities</NavDropdown.Item>
+                    // TODO: implement opportunities and then uncomment this navlink
+                  }
+                </NavDropdown>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups">Community Groups</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
                 <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help" key="navbar-help-dropdown">

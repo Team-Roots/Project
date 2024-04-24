@@ -22,6 +22,9 @@ class CategoryCollection extends BaseCollection {
    * @param categoryName the name of the item.
    */
   define({ categoryName }) {
+    if (this._collection.findOne({ categoryName }, {})) {
+      throw new Meteor.Error(`${categoryName} is already in the category collection.`);
+    }
     const docID = this._collection.insert({
       categoryName,
     });

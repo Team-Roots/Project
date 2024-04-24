@@ -37,6 +37,8 @@ import CommentPage from '../components/CommentPage';
 import ContactUs from '../pages/ContactUs';
 import EditOrganization from '../pages/organizations/EditOrganization';
 import VoluntreeSubscriptionPlans from '../pages/VoluntreeSubscriptionPlans';
+// import ListStuffAdmin from '../pages/ListStuffAdmin';
+import Admin from '../pages/Admin';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -57,6 +59,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/calendar" element={<CalendarView />} />
           {/* eslint-disable-next-line no-restricted-globals */}
@@ -72,11 +75,11 @@ const App = () => {
           <Route path="/eventopportunities" element={<VolunteerEvents />} />
           <Route path="/events" element={<ProtectedRoute><VolunteerEvents /></ProtectedRoute>} />
           <Route path="/communitygroups" element={<ProtectedRoute><CommunityGroups /></ProtectedRoute>} />
-          <Route path="/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/edit-event/:_id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
           <Route path="/plans" element={<VoluntreeSubscriptionPlans />} />
           <Route path="/organizations" element={<ProtectedRoute><SearchOrganizations /></ProtectedRoute>} />
           <Route path="/organizations/:orgID" element={<ProtectedRoute><ViewOrganization /></ProtectedRoute>} />
+          <Route path="/organizations/:orgID/add-event" element={<ProtectedRoute><AddEvent /></ProtectedRoute>} />
           <Route path="/organizations/register" element={<ProtectedRoute><RegisterOrganization /></ProtectedRoute>} />
           <Route path="/organizations/:orgID/edit" element={<ProtectedRoute><EditOrganization /></ProtectedRoute>} />
           <Route path="/organization-management" element={<ProtectedRoute><OrgManagement /></ProtectedRoute>} />
