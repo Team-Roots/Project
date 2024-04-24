@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
@@ -58,7 +58,11 @@ const EditOrganization = () => {
     }
     return (
       <Container id={PAGE_IDS.EDIT_ORGANIZATION} className="py-3">
-        <h2 className="text-center">{thisOrganization.name} Settings</h2>
+        <Row className="justify-content-center align-items-end">
+          <Col xs={3} />
+          <Col xs={4}><h2 className="text-center">{thisOrganization.name} Settings</h2></Col>
+          <Col xs={3} className="text-end"><Link to={`/organizations/${thisOrganization.orgID}`}>View organization</Link></Col>
+        </Row>
         <Row className="justify-content-center">
           <Col xs={2}>
             <Nav
