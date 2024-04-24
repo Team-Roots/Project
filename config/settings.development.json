@@ -39,7 +39,7 @@
       "profit": false,
       "location": "2700 Waialae Ave, Honolulu, HI 96826",
       "organizationOwner": "cammoore@foo.com",
-      "visible": false,
+      "visible": true,
       "onboarded": false,
       "description": "Team Animals is an organization that connects animal lovers to volunteer events centered around animals. We partner with local animal shelters around the state to help with taking care of animals and working at animal adoption events. We aim to finda home for every animal, and give them a loving and comfortable stay at shelters."
     },
