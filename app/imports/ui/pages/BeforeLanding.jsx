@@ -22,7 +22,7 @@ const BeforeLanding = () => {
       console.log('Subscription is ready.');
     }
 
-    const eventItems = rdy ? Events.find({}, { sort: { name: 1 }, limit: 4 }).fetch() : [];
+    const eventItems = rdy ? Events.find({}, { sort: { name: 1 } }).fetch() : [];
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
 
     return {
