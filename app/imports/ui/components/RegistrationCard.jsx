@@ -161,9 +161,9 @@ const RegistrationCard = ({ event }) => {
                 <ListGroup.Item>
                   <strong>EVENT LOCATION: </strong>
                   <Tooltip title="View in Google Maps." placement="bottom">
-                    <container style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
+                    <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
                       {event.location}
-                    </container>
+                    </contaianer>
                   </Tooltip>
                 </ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
