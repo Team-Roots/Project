@@ -89,7 +89,7 @@ const VolunteerOrganizations = () => {
                 </div>
                 <div className="d-flex flex-row overflow-x-auto">
                   {events.map(event => (
-                    <Col key={event._id} xs={4} className="me-3">
+                    <Col key={event._id} xs={4} className="me-4">
                       <EventCard
                         event={event}
                         eventCategory={eventCategories.find(eventCategory => (

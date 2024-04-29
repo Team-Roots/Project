@@ -31,18 +31,18 @@ const EventCard = ({ event, eventCategory }) => {
             {event.location}
           </Card.Subtitle>
         </Row>
-        <Row style={{ height: '20%' }} className="py-3">
+        <Row className="pt-3">
           <Card.Text className="robotoText textContain">{event.description}</Card.Text>
         </Row>
-        <Row className="my-1">
-          <ListGroup horizontal className="justify-content-center align-content-center pb-1">
-            <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{eventCategory.categoryName}</ListGroup.Item>
-            {event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">Online</ListGroup.Item>}
-            {!event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">In-Person</ListGroup.Item>}
-            {/* <ListGroup.Item className="rounded-pill m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
-          </ListGroup>
-        </Row>
       </Card.Body>
+      <div>
+        <ListGroup horizontal className="align-bottom justify-content-center pb-4">
+          <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">{eventCategory.categoryName}</ListGroup.Item>
+          {event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">Online</ListGroup.Item>}
+          {!event.isOnline && <ListGroup.Item className="rounded-pill m-1 robotoText eventLG">In-Person</ListGroup.Item>}
+          {/* <ListGroup.Item className="rounded-pill m-1 robotoText">{event.needBackgroundCheck}</ListGroup.Item> */}
+        </ListGroup>
+      </div>
       <Card.Footer>
         <Row>
           <Col><Link to={`/events/${event._id}`} className="btn btn-primary mx-1 robotoText edit">More Details</Link></Col>

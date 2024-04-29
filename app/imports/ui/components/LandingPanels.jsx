@@ -11,44 +11,9 @@ import TableComponent from './UserDashBoard/TableComponent';
 
 // ignore eslint for orgs, I will probably use it later
 const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
-  console.log(stat);
-  console.log(stat.stats);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const cardsPerPage = 1;
-  //
-  // const totalCards = orgs.length;
-  // const totalPages = Math.ceil(totalCards / cardsPerPage);
-  //
-  // const orgsPerPage = (page) => {
-  //   const startIndex = (page - 1) * cardsPerPage;
-  //   const endIndex = startIndex + cardsPerPage;
-  //   return orgs.slice(startIndex, endIndex);
-  // };
-  //
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const sections = document.querySelectorAll('.landing-section');
-  //     const scrollTop = window.scrollY;
-  //
-  //     sections.forEach((section, index) => {
-  //       const sectionTop = section.offsetTop;
-  //       const sectionBottom = sectionTop + section.offsetHeight;
-  //
-  //       if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
-  //         setCurrentPage(index + 1);
-  //       }
-  //     });
-  //   };
-  //
-  //   window.addEventListener('scroll', handleScroll);
-  //
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
   // ideally now will be a value loaded in from a schema
   const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate).slice(0, 4);
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -97,7 +62,8 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                                 index={index}
                                 orgName={org.orgName}
                                 eventName={org.eventName}
-                                hoursOfEvent={org.hoursServed}
+                                startTime={org.signUpTime}
+                                endTime={org.signOutTime}
                               />
                             ))
                           ) : (
@@ -262,7 +228,12 @@ LandingPanel.propTypes = {
   ).isRequired,
   subbedEvents: PropTypes.arrayOf(
     PropTypes.shape({
-      subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
+      subscriptionInfo: PropTypes.objectOf(PropTypes.shape({
+        email: String,
+        orgID: PropTypes.number,
+        eventName: String,
+        eventDate: String,
+      })),
     }),
   ).isRequired,
   stat: PropTypes.shape({
@@ -291,6 +262,8 @@ LandingPanel.propTypes = {
           orgName: PropTypes.string.isRequired,
           eventName: PropTypes.string.isRequired,
           eventDate: PropTypes.string.isRequired,
+          signUpTime: PropTypes.instanceOf(Date),
+          signOutTime: PropTypes.instanceOf(Date),
         }),
       ).isRequired,
     }).isRequired,

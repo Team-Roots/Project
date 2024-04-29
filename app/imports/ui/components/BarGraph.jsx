@@ -11,7 +11,7 @@ const BarChart = ({ userStats }) => {
   const currentYearData = userStats.completedHours ? userStats.completedHours.find(
     (entry) => entry.year === currentYear,
   ) : {};
-
+  console.log(currentYearData.Apr.toFixed(1));
   const options = {
     title: {
       text: `Community Service Hours ${currentYear}`,
@@ -23,18 +23,18 @@ const BarChart = ({ userStats }) => {
         // Change type to "doughnut", "line", "splineArea", etc.
         type: 'column',
         dataPoints: [
-          { label: 'Jan', y: currentYearData.Jan || 0 }, // Use 0 as default value if Jan is undefined
-          { label: 'Feb', y: currentYearData.Feb || 0 },
-          { label: 'Mar', y: currentYearData.Mar || 0 },
-          { label: 'Apr', y: currentYearData.Apr || 0 },
-          { label: 'May', y: currentYearData.May || 0 },
-          { label: 'Jun', y: currentYearData.Jun || 0 },
-          { label: 'Jul', y: currentYearData.Jul || 0 },
-          { label: 'Aug', y: currentYearData.Aug || 0 },
-          { label: 'Sep', y: currentYearData.Sep || 0 },
-          { label: 'Oct', y: currentYearData.Oct || 0 },
-          { label: 'Nov', y: currentYearData.Nov || 0 },
-          { label: 'Dec', y: currentYearData.Dec || 0 },
+          { label: 'Jan', y: Number(currentYearData.Jan.toFixed(1)) || 0.0 }, // Use 0 as default value if Jan is undefined
+          { label: 'Feb', y: Number(currentYearData.Feb.toFixed(1)) || 0.0 },
+          { label: 'Mar', y: Number(currentYearData.Mar.toFixed(1)) || 0.0 },
+          { label: 'Apr', y: Number(currentYearData.Apr.toFixed(1)) || 0.0 },
+          { label: 'May', y: Number(currentYearData.May.toFixed(1)) || 0.0 },
+          { label: 'Jun', y: Number(currentYearData.Jun.toFixed(1)) || 0.0 },
+          { label: 'Jul', y: Number(currentYearData.Jul.toFixed(1)) || 0.0 },
+          { label: 'Aug', y: Number(currentYearData.Aug.toFixed(1)) || 0.0 },
+          { label: 'Sep', y: Number(currentYearData.Sep.toFixed(1)) || 0.0 },
+          { label: 'Oct', y: Number(currentYearData.Oct.toFixed(1)) || 0.0 },
+          { label: 'Nov', y: Number(currentYearData.Nov.toFixed(1)) || 0.0 },
+          { label: 'Dec', y: Number(currentYearData.Dec.toFixed(1)) || 0.0 },
         ],
       },
     ],
