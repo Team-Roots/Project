@@ -59,7 +59,7 @@ const NavBar = () => {
               </NavDropdown>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
               <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN} title="My Account">
-                <Nav.Link className="" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
+                <Nav.Link className="dropdown-item" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
                 <Nav.Link className="my-events" id={COMPONENT_IDS.NAVBAR_MY_EVENTS} as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
                 <Nav.Link className="my-calendar" as={NavLink} to="/calendar" key="my-calendar">My Calendar</Nav.Link>
               </NavDropdown>,
