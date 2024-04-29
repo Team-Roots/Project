@@ -25,9 +25,9 @@ const NavBar = () => {
           <Nav className="me-auto justify-content-end robotoText">
             {!currentUser && (
               <>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/">Home</Nav.Link>
+                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="home">Home</Nav.Link>
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus" key="navbar-about-us">About Us</Nav.Link>
-                <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
+                <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LIST_EVENTS} as={NavLink} to="/events" key="events">Events</NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to="/organizations" key="organizations">Organizations</NavDropdown.Item>
                   {
@@ -48,7 +48,7 @@ const NavBar = () => {
             {currentUser ? ([
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/dashboard" key="navbar-dashboard">Dashboard</Nav.Link>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_ABOUT_US} as={NavLink} to="/aboutus">About Us</Nav.Link>,
-              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
+              <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_GIVE_HELP_DROPDOWN} title="Explore">
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LIST_EVENTS} as={NavLink} to="/events" key="events">Events</NavDropdown.Item>
                 <NavDropdown.Item as={NavLink} to="/organizations" key="organizations">Organizations</NavDropdown.Item>
                 {
@@ -58,12 +58,12 @@ const NavBar = () => {
                 <NavDropdown.Item as={NavLink} to="/plans" key="recruit-volunteers">Recruit Volunteers</NavDropdown.Item>
               </NavDropdown>,
               <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_COMMUNITY_GROUPS} as={NavLink} to="/communitygroups">Community Groups</Nav.Link>,
-              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN} title="My Account">
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
-                <Nav.Link className="my-events" id={COMPONENT_IDS.NAVBAR_MY_EVENTS} as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
-                <Nav.Link className="my-calendar" as={NavLink} to="/calendar" key="my-calendar">My Calendar</Nav.Link>
+              <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT_DROPDOWN} title="My Account">
+                <Nav.Link className="dropdown-item" id={COMPONENT_IDS.NAVBAR_MY_ACCOUNT} as={NavLink} to="/myaccount" key="list">Profile</Nav.Link>
+                <Nav.Link className="dropdown-item" id={COMPONENT_IDS.NAVBAR_MY_EVENTS} as={NavLink} to="/my-events" key="my-events">My Events</Nav.Link>
+                <Nav.Link className="dropdown-item" as={NavLink} to="/calendar" key="my-calendar">My Calendar</Nav.Link>
               </NavDropdown>,
-              <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
+              <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_HELP_DROPDOWN} title="Help">
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} key="faq" to="/faq">
                   FAQ
                 </NavDropdown.Item>
@@ -75,7 +75,7 @@ const NavBar = () => {
             {/* eslint-disable-next-line no-undef */}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
               [<Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,
-                <NavDropdown className="navbar-link" id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN} title="Manage" key="manage-dropdown">
+                <NavDropdown className="navbar-dropdown" id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN} title="Manage" key="manage-dropdown">
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE} key="manage-database" as={NavLink} to="/manage-database"><CloudDownload /> Database</NavDropdown.Item>
                 </NavDropdown>]
             ) : ''}
