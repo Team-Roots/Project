@@ -189,17 +189,13 @@ class OrganizationCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
-        if (this.userId) {
-          if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
-            const username = Meteor.users.findOne(this.userId).name;
-            const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
-            return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
-          }
-          return instance._collection.find({ visible: true });
+        if (this.userId && Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
+          const username = Meteor.users.findOne(this.userId).name;
+          const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
+          return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
         }
-        return this.ready();
+        return instance._collection.find({ visible: true });
       });
-
     }
   }
 
