@@ -13,7 +13,7 @@ import TableComponent from './UserDashBoard/TableComponent';
 const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
   // ideally now will be a value loaded in from a schema
   const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate).slice(0, 4);
   return (
     <div id={PAGE_IDS.LANDING} className="py-1 m-auto">
       <div>
@@ -228,7 +228,12 @@ LandingPanel.propTypes = {
   ).isRequired,
   subbedEvents: PropTypes.arrayOf(
     PropTypes.shape({
-      subscriptionInfo: PropTypes.objectOf(PropTypes.shape()),
+      subscriptionInfo: PropTypes.objectOf(PropTypes.shape({
+        email: String,
+        orgID: PropTypes.number,
+        eventName: String,
+        eventDate: String,
+      })),
     }),
   ).isRequired,
   stat: PropTypes.shape({

@@ -44,6 +44,7 @@ const RegistrationCard = ({ event }) => {
         },
       },
     });
+    console.log(foundEventStatistic);
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
@@ -94,7 +95,7 @@ const RegistrationCard = ({ event }) => {
         console.log('signout ran successfully.');
       }
     });
-    // console.log(curDateTime);
+    setShow(false);
   };
 
   const CloseAlert = () => {
@@ -162,23 +163,29 @@ const RegistrationCard = ({ event }) => {
                   variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
                   size="lg"
                   className="mb-3 mx-2"
-                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show))}
-                  onClick={() => setShow(true)}
+                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show)) || foundEventStat.stats.orgsHelped}
+                  onClick={() => {
+                    if (foundEventStat) {
+                      setShow(true); // If foundEventStat is true, open the Sign Out modal
+                    } else {
+                      SignIn(); // If foundEventStat is false, perform Sign In action
+                    }
+                  }}
                 >
-                  {foundEventStat ? 'Sign Out' : 'Signed Out!'}
+                  {!foundEventStat ? 'Sign In' : 'Sign Out!'}
                 </Button>
               </Tooltip>
-              <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
-                <Button
-                  variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
-                  size="lg"
-                  className="mb-3 mx-2"
-                  disabled={(!(foundStats && !canSubscribe)) || foundEventStat}
-                  onClick={() => SignIn()}
-                >
-                  {!foundEventStat ? 'Sign In' : 'Signed In!'}
-                </Button>
-              </Tooltip>
+              {/* <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom"> */}
+              {/*  <Button */}
+              {/*    variant={(foundStats && !canSubscribe) ? 'success' : 'danger'} */}
+              {/*    size="lg" */}
+              {/*    className="mb-3 mx-2" */}
+              {/*    disabled={(!(foundStats && !canSubscribe)) || foundEventStat} */}
+              {/*    onClick={() => SignIn()} */}
+              {/*  > */}
+              {/*    {!foundEventStat ? 'Sign In' : 'Signed In!'} */}
+              {/*  </Button> */}
+              {/* </Tooltip> */}
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
                 <Button
                   variant={canSubscribe ? 'success' : 'danger'}
