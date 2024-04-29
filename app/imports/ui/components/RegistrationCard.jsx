@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Col, Row, Image, Card, Button, ListGroup, Alert } from 'react-bootstrap';
+import { Container, Col, Row, Image, Card, Button, ListGroup, Alert, Table } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
-  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
+  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat, userStat } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
     const userStatsSubscription = UserStats.subscribeStats();
@@ -34,6 +34,16 @@ const RegistrationCard = ({ event }) => {
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    const allStatsMatchingEvent = UserStats.find({
+      'stats.orgsHelped': {
+        $elemMatch: {
+          // orgName: orgName, find a way to do this please
+          eventName: event.name,
+          eventDate: formattedCalendarDate,
+        },
+      },
+    }).fetch();
+    console.log(allStatsMatchingEvent);
     // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
     const foundEventStatistic = UserStats.findOne({
       'stats.orgsHelped': {
@@ -44,12 +54,21 @@ const RegistrationCard = ({ event }) => {
         },
       },
     });
-    console.log(foundEventStatistic);
+    let found;
+    if (rdy && foundEventStatistic) {
+      console.log(`FOUND STORED EVENT: ${foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName)}`);
+      found = foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName);
+      console.log(found && (found.signUpTime.getTime() !== found.signOutTime.getTime()));
+    }
+
+    console.log(!!(foundEventStatistic));
+
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
       foundStats: !!(foundUserStats),
       foundEventStat: !!(foundEventStatistic),
+      userStat: found,
       ready: rdy,
     };
   }, []);
@@ -163,7 +182,7 @@ const RegistrationCard = ({ event }) => {
                   variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
                   size="lg"
                   className="mb-3 mx-2"
-                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show)) || foundEventStat.stats.orgsHelped}
+                  disabled={((!(foundStats && !canSubscribe)) || (userStat && userStat.signUpTime.getTime() !== userStat.signOutTime.getTime()))}
                   onClick={() => {
                     if (foundEventStat) {
                       setShow(true); // If foundEventStat is true, open the Sign Out modal
@@ -234,6 +253,22 @@ const RegistrationCard = ({ event }) => {
           </Card>
         </Col>
       </Row>
+      <Table striped bordered hover className="mt-5">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Recorded Hours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{1}</td>
+            <td>TestName</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </Table>
     </Container>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
