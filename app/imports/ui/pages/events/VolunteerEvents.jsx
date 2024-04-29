@@ -119,7 +119,7 @@ const VolunteerEvents = () => {
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
             {data.map((event) => (
-              <Col key={event._id}>
+              <Col key={event._id} xs={4}>
                 <EventCard
                   event={event}
                   eventCategory={eventCategories.find(eventCategory => (
