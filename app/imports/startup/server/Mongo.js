@@ -123,7 +123,8 @@ Meteor.methods({
       orgID: Number,
       eventName: String,
       eventDate: String,
-      hoursServed: Number,
+      startTime: Date,
+      endTime: Date,
     });
     if (!this.userId) {
       throw new Meteor.Error('not-authorized', 'User must be logged in to update orgs helped data.');
@@ -134,20 +135,8 @@ Meteor.methods({
       throw new Meteor.Error('user-stats-not-found', 'User stats not found.');
     }
 
-    // Check if there's an entry with matching orgID, eventName, and eventDate
-    // const existingOrg = userStats.stats.orgsHelped.find(org => org.orgID === eventInfo.orgID && org.eventName === eventInfo.eventName && org.eventDate === eventInfo.eventDate);
-
-    // if (!existingOrg) {
-    //   // If matching entry not found, add new organization data to orgsHelped array
-    //   userStats.stats.orgsHelped.push({ orgID: eventInfo.orgID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hours: eventInfo.hoursOfEvent });
-    // } else {
-    //   // If matching entry found, update eventName, eventDate, eventID, and hoursOfEvent
-    //   existingOrg.eventName = eventInfo.eventName;
-    //   existingOrg.eventDate = eventInfo.eventDate;
-    //   existingOrg.hoursOfEvent = eventInfo.hoursOfEvent;
-    // }
     const orgNameViaID = org.name;
-    const newOrgData = { orgName: orgNameViaID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, hoursServed: eventInfo.hoursServed };
+    const newOrgData = { orgName: orgNameViaID, eventName: eventInfo.eventName, eventDate: eventInfo.eventDate, signUpTime: eventInfo.startTime, signOutTime: eventInfo.endTime };
     UserStats.newOrgHelped(userStats._id, newOrgData);
   },
   'userStats.changeGoal'(value, email) {
@@ -158,6 +147,17 @@ Meteor.methods({
     }
 
     UserStats.changeGoal(value, email);
+  },
+  'userStats.claimHours'(endTime, email, eventName, eventDate) {
+    check(endTime, Date);
+    check(email, String);
+    check(eventName, String);
+    check(eventDate, String);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized', 'User must be logged in to unsubscribe to events.');
+    }
+    const userStats = UserStats.findOne({ email: email });
+    UserStats.SignOut(userStats._id, endTime, email, eventName, eventDate);
   },
 });
 

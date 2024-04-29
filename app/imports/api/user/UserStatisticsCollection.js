@@ -16,12 +16,12 @@ class UserStatsCollection extends BaseCollection {
         required: true,
       },
       'stats.hoursThisMonth': {
-        type: SimpleSchema.Integer,
+        type: Number,
         required: true,
         defaultValue: 0,
       },
       'stats.totalHours': {
-        type: SimpleSchema.Integer,
+        type: Number,
         required: true,
         defaultValue: 0,
       },
@@ -47,8 +47,12 @@ class UserStatsCollection extends BaseCollection {
         type: String, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
-      'stats.orgsHelped.$.hoursServed': {
-        type: Number, // Define the type of items in the array
+      'stats.orgsHelped.$.signUpTime': {
+        type: Date, // Define the type of items in the array
+        // this will be (not reference, but a copy of event subscription at the time of completion
+      },
+      'stats.orgsHelped.$.signOutTime': {
+        type: Date, // Define the type of items in the array
         // this will be (not reference, but a copy of event subscription at the time of completion
       },
       completedHours: {
@@ -57,35 +61,35 @@ class UserStatsCollection extends BaseCollection {
         defaultValue: function () {
           return [{
             year: new Date().getFullYear(),
-            Jan: 0,
-            Feb: 0,
-            Mar: 0,
-            Apr: 0,
-            May: 0,
-            Jun: 0,
-            Jul: 0,
-            Aug: 0,
-            Sep: 0,
-            Oct: 0,
-            Nov: 0,
-            Dec: 0,
+            Jan: 0.0,
+            Feb: 0.0,
+            Mar: 0.0,
+            Apr: 0.0,
+            May: 0.0,
+            Jun: 0.0,
+            Jul: 0.0,
+            Aug: 0.0,
+            Sep: 0.0,
+            Oct: 0.0,
+            Nov: 0.0,
+            Dec: 0.0,
           }];
         },
       },
       'completedHours.$': Object,
       'completedHours.$.year': { type: SimpleSchema.Integer, defaultValue: new Date().getFullYear() },
-      'completedHours.$.Jan': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Feb': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Mar': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Apr': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.May': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Jun': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Jul': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Aug': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Sep': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Oct': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Nov': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
-      'completedHours.$.Dec': { type: SimpleSchema.Integer, defaultValue: 0, min: 0 },
+      'completedHours.$.Jan': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Feb': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Mar': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Apr': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.May': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Jun': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Jul': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Aug': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Sep': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Oct': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Nov': { type: Number, defaultValue: 0.0, min: 0.0 },
+      'completedHours.$.Dec': { type: Number, defaultValue: 0.0, min: 0.0 },
       email: {
         type: String,
         required: true,
@@ -110,18 +114,18 @@ class UserStatsCollection extends BaseCollection {
     const defaultCompletedHours = [
       {
         year: new Date().getFullYear(),
-        Jan: 0,
-        Feb: 0,
-        Mar: 0,
-        Apr: 0,
-        May: 0,
-        Jun: 0,
-        Jul: 0,
-        Aug: 0,
-        Sep: 0,
-        Oct: 0,
-        Nov: 0,
-        Dec: 0,
+        Jan: 0.0,
+        Feb: 0.0,
+        Mar: 0.0,
+        Apr: 0.0,
+        May: 0.0,
+        Jun: 0.0,
+        Jul: 0.0,
+        Aug: 0.0,
+        Sep: 0.0,
+        Oct: 0.0,
+        Nov: 0.0,
+        Dec: 0.0,
       },
     ];
     const docID = this._collection.insert({
@@ -159,7 +163,41 @@ class UserStatsCollection extends BaseCollection {
 
   newOrgHelped(docID, orgsHelped) {
     // const userStats = this.findDoc(docID);
+    const updateData = {
+      $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
+    };
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonthIndex = currentDate.getMonth();
+    const currentMonthName = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ][currentMonthIndex];
+    const completedHoursIndex = this.FindDate(docID, currentYear);
+    if (completedHoursIndex >= 0) {
+      updateData.$inc = {};
+      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = (orgsHelped.signUpTime.getHours() + (orgsHelped.signUpTime.getMinutes() / 60)) - (orgsHelped.signOutTime.getHours() + (orgsHelped.signOutTime.getMinutes() / 60));
+      updateData.$inc['stats.hoursThisMonth'] = (orgsHelped.signUpTime.getHours() + (orgsHelped.signUpTime.getMinutes() / 60)) - (orgsHelped.signOutTime.getHours() + (orgsHelped.signOutTime.getMinutes() / 60));
+    } else {
+      updateData.$set = {};
+      updateData.$set[`completedHours.0.${currentMonthName}`] = (orgsHelped.signUpTime.getHours() + (orgsHelped.signUpTime.getMinutes() / 60)) - (orgsHelped.signOutTime.getHours() + (orgsHelped.signOutTime.getMinutes() / 60));
+      updateData.$set['stats.hoursThisMonth'] = 0;
+    }
+    // console.log(updateData);
 
+    this._collection.update(docID, updateData);
+  }
+
+  SignOut(docID, endTime, email, eventName, eventDate) {
+    /*
+      steps:
+        1) find a match in the orgshelped array
+        2) set end time to (endTime)
+        3) run update
+     */
+    // Find the index of the orgsHelped entry that matches the event name and event date
+    const userStats = this.findDoc(docID);
+    const orgsHelpedIndex = userStats.stats.orgsHelped.findIndex(entry => entry.eventName === eventName && entry.eventDate === eventDate);
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonthIndex = currentDate.getMonth();
@@ -168,22 +206,30 @@ class UserStatsCollection extends BaseCollection {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ][currentMonthIndex];
 
-    const updateData = {
-      $push: { 'stats.orgsHelped': orgsHelped }, // Push new orgsHelped data
-    };
-    const completedHoursIndex = this.FindDate(docID, currentYear);
-    if (completedHoursIndex >= 0) {
-      updateData.$inc = {};
-      updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = orgsHelped.hoursServed;
-      updateData.$inc['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+    // If the entry is found, update the signOutTime
+    if (orgsHelpedIndex !== -1) {
+      const updateData = {
+        $set: {
+          [`stats.orgsHelped.${orgsHelpedIndex}.signOutTime`]: endTime,
+        },
+      };
+      const orgHelped = userStats.stats.orgsHelped[orgsHelpedIndex];
+      const totalTime = Math.abs((orgHelped.signUpTime.getHours() + (orgHelped.signUpTime.getMinutes() / 60)) - (endTime.getHours() + (endTime.getMinutes() / 60)));
+      console.log(`Completed Time: ${totalTime}`);
+      const completedHoursIndex = this.FindDate(docID, currentYear);
+      if (completedHoursIndex >= 0) {
+        updateData.$inc = {};
+        updateData.$inc[`completedHours.${completedHoursIndex}.${currentMonthName}`] = totalTime;
+        updateData.$inc['stats.hoursThisMonth'] = totalTime;
+      } else {
+        updateData.$set = {};
+        updateData.$set[`completedHours.0.${currentMonthName}`] = totalTime;
+        updateData.$set['stats.hoursThisMonth'] = totalTime;
+      }
+      this._collection.update(docID, updateData);
     } else {
-      updateData.$set = {};
-      updateData.$set[`completedHours.0.${currentMonthName}`] = orgsHelped.hoursServed;
-      updateData.$set['stats.hoursThisMonth'] = orgsHelped.hoursServed;
+      console.error('Organization helped entry not found for the provided event name and event date.');
     }
-    // console.log(updateData);
-
-    this._collection.update(docID, updateData);
   }
 
   FindDate(docID, currentYear) {
