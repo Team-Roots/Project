@@ -9,8 +9,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
-import { FaHeart, FaRegHeart, FaRegBookmark } from "react-icons/fa";
-import { FaBookmark } from "react-icons/fa6";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const RegistrationCard = ({ event }) => {
