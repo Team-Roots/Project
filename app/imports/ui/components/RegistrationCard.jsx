@@ -9,7 +9,10 @@ import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa6";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+
 
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
@@ -131,7 +134,7 @@ const RegistrationCard = ({ event }) => {
                   disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
                   onClick={ClaimHours}
                 >
-                  {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
+                  {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Claim Hours</>: <><FaBookmark className="mr-2" /> Hours claimed</>}
                 </Button>
               </Tooltip>
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
@@ -155,7 +158,7 @@ const RegistrationCard = ({ event }) => {
                   size="lg"
                   className="mb-3 mx-2"
                 >
-                  Chat
+                  <><IoChatboxEllipsesOutline className="mr-2" /> Chat</>
                 </Button>
               </Tooltip>
               <ListGroup variant="flush" className="text-start">
