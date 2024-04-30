@@ -6,9 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { FaHeart, FaRegHeart, FaRegBookmark } from "react-icons/fa";
-import { FaBookmark } from "react-icons/fa6";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { FaHeart, FaRegHeart, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark } from 'react-icons/fa6';
+import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
@@ -175,7 +175,7 @@ const RegistrationCard = ({ event }) => {
                     }
                   }}
                 >
-                  {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Sign In</>: <><FaBookmark className="mr-2" /> Sign Out!</>}
+                  {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Sign In</> : <><FaBookmark className="mr-2" /> Sign Out!</>}
                 </Button>
               </Tooltip>
               {/* <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom"> */}
