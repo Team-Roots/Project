@@ -134,7 +134,7 @@ const RegistrationCard = ({ event }) => {
                   disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
                   onClick={ClaimHours}
                 >
-                  {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Claim Hours</>: <><FaBookmark className="mr-2" /> Hours claimed</>}
+                  {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
                 </Button>
               </Tooltip>
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
