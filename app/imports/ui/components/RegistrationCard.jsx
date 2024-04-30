@@ -9,6 +9,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
@@ -140,7 +141,7 @@ const RegistrationCard = ({ event }) => {
                   className="mb-3 mx-2"
                   onClick={subscribeEvent}
                 >
-                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
+                  {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
                 </Button>
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
