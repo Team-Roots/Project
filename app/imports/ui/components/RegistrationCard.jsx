@@ -9,6 +9,9 @@ import Spinner from 'react-bootstrap/Spinner';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
+import { FaHeart, FaRegHeart, FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa6";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const RegistrationCard = ({ event }) => {
   const [show, setShow] = useState(false);
@@ -193,7 +196,7 @@ const RegistrationCard = ({ event }) => {
                   className="mb-3 mx-2"
                   onClick={() => subscribeEvent()}
                 >
-                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
+                  {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
                 </Button>
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
@@ -207,7 +210,7 @@ const RegistrationCard = ({ event }) => {
                   size="lg"
                   className="mb-3 mx-2"
                 >
-                  Chat
+                  <><IoChatboxEllipsesOutline className="mr-2" /> Chat</>
                 </Button>
               </Tooltip>
               <ListGroup variant="flush" className="text-start">
