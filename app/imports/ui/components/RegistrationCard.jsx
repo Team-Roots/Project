@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -11,8 +11,6 @@ import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const RegistrationCard = ({ event }) => {
-  const [volunteersNeeded, setVolunteersNeeded] = useState(event.amountVolunteersNeeded);
-
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
@@ -98,16 +96,6 @@ const RegistrationCard = ({ event }) => {
         console.error('Error inserting userStats.updateOrgsHelpedData subscription:', error.reason);
       } else {
         console.log('Event userStats.updateOrgsHelpedData ran successfully.');
-        console.log('result:--------', event.amountVolunteersNeeded);
-
-        Meteor.call('events.decrementVolunteers', event._id, (err) => {
-          if (err) {
-            console.error('Error decrementing volunteers needed:', err);
-          } else {
-            console.log('Volunteers needed decremented successfully.');
-            setVolunteersNeeded(volunteersNeeded - 1);
-          }
-        });
       }
     });
   };
@@ -143,13 +131,6 @@ const RegistrationCard = ({ event }) => {
                   onClick={ClaimHours}
                 >
                   {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
-                </Button>
-                <Button
-                  size="lg"
-                  className="mb-3 mx-2"
-                  onClick={ClaimHours}
-                >
-                  claimed
                 </Button>
               </Tooltip>
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
@@ -191,7 +172,7 @@ const RegistrationCard = ({ event }) => {
                 <ListGroup.Item><strong>DESCRIPTION: </strong>{event.description}</ListGroup.Item>
                 <ListGroup.Item><strong>COORDINATOR: </strong>{event.coordinator}</ListGroup.Item>
                 <ListGroup.Item><strong>ORGANIZATION: </strong><a href={`/organizations/${event.organizationID}`}>{eventOrganization.name}</a></ListGroup.Item>
-                <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{volunteersNeeded}</ListGroup.Item>
+                <ListGroup.Item><strong>VOLUNTEERS NEEDED: </strong>{event.amountVolunteersNeeded}</ListGroup.Item>
                 {event.specialInstructions && <ListGroup.Item><strong>SPECIAL INSTRUCTIONS: </strong>{event.specialInstructions}</ListGroup.Item>}
                 {/* {event.restrictions && <ListGroup.Item><strong>RESTRICTIONS: </strong>{event.restrictions}</ListGroup.Item>}
                 {event.ageRange && <ListGroup.Item><strong>AGE RANGE: </strong>{event.ageRange}</ListGroup.Item>} */}
