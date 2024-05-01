@@ -31,7 +31,6 @@ const EventItem = ({ event, onDelete }) => {
       <td>
         <div className="btn-group" role="group">
           <Link className={`btn btn-sm btn-primary ${COMPONENT_IDS.LIST_EVENT_EDIT}`} to={`/edit-event/${event._id}`}>Edit</Link>
-          {/* eslint-disable-next-line react/button-has-type */}
           <button className="btn btn-sm btn-danger" onClick={handleDelete} style={{ marginLeft: '5px' }}>Delete</button>
         </div>
       </td>
