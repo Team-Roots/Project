@@ -81,10 +81,11 @@ class OrganizationCollection extends BaseCollection {
    * @param location the location of the organization
    * @param backgroundCheck check if org has a background check
    * @param name org name
+   * @param missionStatement org's mission statement
    * @return {String} the docID of the new document.
    */
   define({ name, website, profit, location, organizationOwner,
-    visible, onboarded }) {
+    visible, onboarded, missionStatement, description }) {
     const existingOrg = this._collection.findOne({ organizationOwner: organizationOwner });
     if (existingOrg) {
       throw new Meteor.Error(`Inserting organization ${name} failed because ${organizationOwner} already owns organization ${existingOrg.name}`);
@@ -106,6 +107,8 @@ class OrganizationCollection extends BaseCollection {
       visible,
       onboarded,
       orgID,
+      missionStatement,
+      description,
     });
     const waiverDoc = { waiver: 'test', orgID };
     OrganizationWaiver.define(waiverDoc);
@@ -186,17 +189,13 @@ class OrganizationCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(organizationPublications.organization, function publish() {
-        if (this.userId) {
-          if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
-            const username = Meteor.users.findOne(this.userId).name;
-            const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
-            return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
-          }
-          return instance._collection.find({ visible: true });
+        if (this.userId && Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN])) {
+          const username = Meteor.users.findOne(this.userId).name;
+          const orgAdminOrgIDs = _.pluck(OrganizationAdmin.find({ orgAdmin: username }, {}).fetch(), 'orgID'); // orgIDs of all orgs this user is an orgAdmin of
+          return instance._collection.find({ $or: [{ visible: true }, { orgID: { $in: orgAdminOrgIDs } }] });
         }
-        return this.ready();
+        return instance._collection.find({ visible: true });
       });
-
     }
   }
 
@@ -223,7 +222,7 @@ class OrganizationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{ name, website, profit, location, organizationOwner, visible, onboarded, orgID }}
+   * @return {{ name, website, profit, location, organizationOwner, visible, onboarded, orgID, missionStatement, description }}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -235,7 +234,9 @@ class OrganizationCollection extends BaseCollection {
     const visible = doc.visible;
     const onboarded = doc.onboarded;
     const orgID = doc.orgID;
-    return { name, website, profit, location, organizationOwner, visible, onboarded, orgID };
+    const missionStatement = doc.missionStatement;
+    const description = doc.defaultValue;
+    return { name, website, profit, location, organizationOwner, visible, onboarded, orgID, missionStatement, description };
   }
 }
 

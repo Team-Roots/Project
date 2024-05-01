@@ -134,3 +134,8 @@ body {
 .progress-bar-text{
   color: black;
 }
+
+.navbar .navbar-nav .nav-link, .navbar .navbar-nav .dropdown-toggle {
+  font-family: 'Roboto', sans-serif;
+  color: black; /* Default color for all nav items */
+}

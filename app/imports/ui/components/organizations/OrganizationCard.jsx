@@ -31,6 +31,7 @@ OrganizationCard.propTypes = {
     organizationOwner: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     ageRange: PropTypes.instanceOf(Object).isRequired,
+    missionStatement: PropTypes.string,
   }).isRequired,
 };
 export default OrganizationCard;

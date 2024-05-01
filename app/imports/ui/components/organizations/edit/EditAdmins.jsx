@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
 import LoadingSpinner from '../../LoadingSpinner';
 import { OrganizationAdmin } from '../../../../api/organization/OrganizationAdmin';
-import OrganizationPropTypes from './OrganizationPropTypes';
+import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 import { defineMethod, removeItMethod } from '../../../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../../../api/user/UserProfileCollection';
 
@@ -34,7 +34,6 @@ const EditAdmins = ({ organization }) => {
       return;
     }
     const userExists = UserProfiles.findOne({ email }, {});
-    console.log(userExists);
     if (!userExists) {
       swal('Error', 'This user does not yet have an account.', 'error');
       return;
@@ -56,7 +55,6 @@ const EditAdmins = ({ organization }) => {
       });
   };
   const handleRemove = (orgAdmin) => {
-    console.log(orgAdmin);
     const collectionName = OrganizationAdmin.getCollectionName();
     removeItMethod.callPromise({ collectionName, instance: orgAdmin })
       .catch(error => swal('Error', error.message, 'error'))
@@ -84,10 +82,10 @@ const EditAdmins = ({ organization }) => {
             <div className="d-flex justify-content-between align-items-center">
               <div>
                 {orgAdmin.orgAdmin} <br />
-                Date added: {orgAdmin.dateAdded.toLocaleDateString()}
+                Added: {orgAdmin.dateAdded.toLocaleDateString()}
               </div>
               <div>
-                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}><X /></Button>
+                <Button variant="danger" onClick={() => handleRemove(orgAdmin)}><X fontSize="25px" /></Button>
               </div>
             </div>
           </ListGroup.Item>

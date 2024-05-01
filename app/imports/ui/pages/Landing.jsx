@@ -29,7 +29,7 @@ const Landing = () => {
     } else {
       console.log('Subscription 2 is ready.');
     }
-    const eventItems = Events.find({}, { sort: { name: 1 }, limit: 4 }).fetch(); // Assuming the sort field is `name`
+    const eventItems = Events.find({}, { sort: { eventDate: 1 } }).fetch();
 
     const subscription3 = EventSubscription.subscribeEvent();
     const rdy3 = subscription3.ready();
@@ -54,6 +54,7 @@ const Landing = () => {
     const subscription5 = EventCategories.subscribeEventCategories();
     const rdy5 = subscription5.ready();
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
+    console.log(eventSubscription);
     return {
       events: eventItems,
       subscribedEvents: eventSubscription,
@@ -63,14 +64,14 @@ const Landing = () => {
       ready: rdy && rdy2 && rdy3 && rdy4 && rdy5,
     };
   }, []);
-  const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  // const currentDate = new Date();
+  // const filteredDate = events.filter((event) => event.eventDate >= currentDate);
   // console.log(Meteor.user().emails[0].address);
   const loggedin = Meteor.user();
   if (loggedin) {
     return (ready ? (
       <Container id={PAGE_IDS.LANDING}>
-        <LandingPanels orgs={orgs} events={filteredDate} subbedEvents={subscribedEvents} stat={stat} eventCategories={eventCategories} />
+        <LandingPanels orgs={orgs} events={events} subbedEvents={subscribedEvents} stat={stat} eventCategories={eventCategories} />
       </Container>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

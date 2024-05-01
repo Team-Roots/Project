@@ -1,20 +1,23 @@
-import React from 'react';
-import { Container, Col, Row, Image, Card, Button, ListGroup } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Col, Row, Image, Card, Button, ListGroup, Alert } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
+import { FaHeart, FaRegHeart, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark } from 'react-icons/fa6';
+import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const RegistrationCard = ({ event }) => {
+  const [show, setShow] = useState(false);
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
-
   const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
     const eventSubscription = EventSubscription.subscribeEvent();
     const organizationSubscription = Organizations.subscribeOrg();
@@ -44,6 +47,7 @@ const RegistrationCard = ({ event }) => {
         },
       },
     });
+    console.log(foundEventStatistic);
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
@@ -82,20 +86,40 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
-  const ClaimHours = () => {
+  const SignOut = () => {
+    const email = Meteor.user().username;
+    const curDateTime = new Date();
+    const eventName = event.name;
+    const eventDate = formattedCalendarDate;
+    Meteor.call('userStats.claimHours', curDateTime, email, eventName, eventDate, (error) => {
+      if (error) {
+        console.error('Error inserting signout data:', error.reason);
+      } else {
+        console.log('signout ran successfully.');
+      }
+    });
+    setShow(false);
+  };
+
+  const CloseAlert = () => {
+    setShow(false);
+  };
+
+  const SignIn = () => {
     const subscribeBy = Meteor.user().username;
     const eventInfo = {};
     eventInfo.email = subscribeBy;
     eventInfo.orgID = event.organizationID;
     eventInfo.eventName = event.name;
     eventInfo.eventDate = formattedCalendarDate;
-    eventInfo.hoursServed = 2;
+    eventInfo.startTime = new Date();
+    eventInfo.endTime = eventInfo.startTime;
 
     Meteor.call('userStats.updateOrgsHelpedData', eventInfo, (error) => {
       if (error) {
-        console.error('Error inserting userStats.updateOrgsHelpedData subscription:', error.reason);
+        console.error('Error inserting sign-in data: ', error.reason);
       } else {
-        console.log('Event userStats.updateOrgsHelpedData ran successfully.');
+        console.log('signin ran successfully.');
       }
     });
   };
@@ -122,25 +146,57 @@ const RegistrationCard = ({ event }) => {
               <h1>{event.name}</h1>
             </Card.Header>
             <Card.Body className="text-end">
+              <Alert show={show} variant="success" className="text-start">
+                <Alert.Heading>Are you sure you want to sign out?</Alert.Heading>
+                <p>
+                  Once you sign out of the event, you can not sign back in. Are you sure you want to continue?
+                </p>
+                <hr />
+                <div className="d-flex justify-content-end">
+                  <Button variant="outline-success" onClick={() => SignOut()}>
+                    Yes
+                  </Button>
+                  <Button variant="outline-success" onClick={() => CloseAlert()}>
+                    No
+                  </Button>
+                </div>
+              </Alert>
               <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
                 <Button
                   variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
                   size="lg"
                   className="mb-3 mx-2"
-                  disabled={(!(foundStats && !canSubscribe) || foundEventStat)}
-                  onClick={ClaimHours}
+                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show)) || foundEventStat.stats.orgsHelped}
+                  onClick={() => {
+                    if (foundEventStat) {
+                      setShow(true); // If foundEventStat is true, open the Sign Out modal
+                    } else {
+                      SignIn(); // If foundEventStat is false, perform Sign In action
+                    }
+                  }}
                 >
-                  {!foundEventStat ? 'Claim Hours' : 'Hours claimed'}
+                  {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Sign In</> : <><FaBookmark className="mr-2" /> Sign Out!</>}
                 </Button>
               </Tooltip>
+              {/* <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom"> */}
+              {/*  <Button */}
+              {/*    variant={(foundStats && !canSubscribe) ? 'success' : 'danger'} */}
+              {/*    size="lg" */}
+              {/*    className="mb-3 mx-2" */}
+              {/*    disabled={(!(foundStats && !canSubscribe)) || foundEventStat} */}
+              {/*    onClick={() => SignIn()} */}
+              {/*  > */}
+              {/*    {!foundEventStat ? 'Sign In' : 'Signed In!'} */}
+              {/*  </Button> */}
+              {/* </Tooltip> */}
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
                 <Button
                   variant={canSubscribe ? 'success' : 'danger'}
                   size="lg"
                   className="mb-3 mx-2"
-                  onClick={subscribeEvent}
+                  onClick={() => subscribeEvent()}
                 >
-                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
+                  {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
                 </Button>
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
@@ -154,16 +210,16 @@ const RegistrationCard = ({ event }) => {
                   size="lg"
                   className="mb-3 mx-2"
                 >
-                  Chat
+                  <><IoChatboxEllipsesOutline className="mr-2" /> Chat</>
                 </Button>
               </Tooltip>
               <ListGroup variant="flush" className="text-start">
                 <ListGroup.Item>
                   <strong>EVENT LOCATION: </strong>
                   <Tooltip title="View in Google Maps." placement="bottom">
-                    <container style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
+                    <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
                       {event.location}
-                    </container>
+                    </contaianer>
                   </Tooltip>
                 </ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>

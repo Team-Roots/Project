@@ -1,5 +1,10 @@
 import React from 'react';
+import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 // TODO
-const EditDetails = () => <h3>edit waiver</h3>;
+const EditWaiver = ({ organization }) => {
+  return <h3>edit waiver</h3>;
+};
 
-export default EditDetails;
+EditWaiver.propTypes = OrganizationPropTypes;
+
+export default EditWaiver;

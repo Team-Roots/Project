@@ -39,7 +39,7 @@ class OrganizationAdminCollection extends BaseCollection {
   define({ orgAdmin, orgID }) {
     const userExists = Users.isDefined(orgAdmin);
     if (!userExists) {
-      throw Meteor.error('This user is does not have an account.');
+      throw new Meteor.Error(`${orgAdmin} does not have an account.`);
     }
     const docID = this._collection.insert({
       orgAdmin,
@@ -60,11 +60,17 @@ class OrganizationAdminCollection extends BaseCollection {
   // we dont want users to update : hence the
   // eslint blockage
   // eslint-disable-next-line no-empty-pattern
-  update(docID, { newEmail }) {
+  update(docID, { orgAdmin, dateAdded, orgID }) {
     const updateData = {};
 
-    if (newEmail) {
-      updateData.newEmail = newEmail;
+    if (orgAdmin) {
+      updateData.orgAdmin = orgAdmin;
+    }
+    if (dateAdded) {
+      updateData.dateAdded = dateAdded;
+    }
+    if (orgID) {
+      updateData.orgID = orgID;
     }
 
     this._collection.update(docID, { $set: updateData });

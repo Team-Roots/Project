@@ -22,7 +22,7 @@ const BeforeLanding = () => {
       console.log('Subscription is ready.');
     }
 
-    const eventItems = rdy ? Events.find({}, { sort: { name: 1 }, limit: 4 }).fetch() : [];
+    const eventItems = rdy ? Events.find({}, { sort: { eventDate: 1 } }).fetch() : [];
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
 
     return {
@@ -37,7 +37,7 @@ const BeforeLanding = () => {
   }
 
   const currentDate = new Date();
-  const filteredDate = events.filter((event) => event.eventDate >= currentDate);
+  const filteredDate = events.filter((event) => event.eventDate >= currentDate).slice(0, 4);
 
   return (
     <div id="listPostsPage">

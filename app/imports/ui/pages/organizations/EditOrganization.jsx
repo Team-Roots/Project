@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { Organizations } from '../../../api/organization/OrganizationCollection';
@@ -38,10 +38,10 @@ const EditOrganization = () => {
     let mainContent;
     switch (tab) {
     case 'details':
-      mainContent = <EditDetails />;
+      mainContent = <EditDetails organization={thisOrganization} />;
       break;
     case 'waiver':
-      mainContent = <EditWaiver />;
+      mainContent = <EditWaiver organization={thisOrganization} />;
       break;
     case 'admins':
       mainContent = <EditAdmins organization={thisOrganization} />;
@@ -58,6 +58,11 @@ const EditOrganization = () => {
     }
     return (
       <Container id={PAGE_IDS.EDIT_ORGANIZATION} className="py-3">
+        <Row className="justify-content-center align-items-end">
+          <Col xs={3} />
+          <Col xs={4}><h2 className="text-center">{thisOrganization.name} Settings</h2></Col>
+          <Col xs={3} className="text-end"><Link to={`/organizations/${thisOrganization.orgID}`}>View organization</Link></Col>
+        </Row>
         <Row className="justify-content-center">
           <Col xs={2}>
             <Nav
@@ -68,7 +73,7 @@ const EditOrganization = () => {
             >
               <Nav.Link eventKey="general">General</Nav.Link>
               <Nav.Link eventKey="details">Details</Nav.Link>
-              <Nav.Link eventKey="waiver">Waiver</Nav.Link>
+              {/* <Nav.Link eventKey="waiver">Waiver</Nav.Link> */}
               {currentUser?.username === thisOrganization.organizationOwner && <Nav.Link eventKey="admins">Admins</Nav.Link>}
             </Nav>
           </Col>

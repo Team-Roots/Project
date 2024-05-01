@@ -4,57 +4,65 @@
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe" },
     { "email": "foo@john.com", "password": "changeme", "role": "USER" , "firstName": "Doe", "lastName": "John" },
     { "email": "jane@foo.com", "password": "changeme", "role": "USER" , "firstName": "Jane", "lastName": "Doe" },
-    { "email": "testuser1@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User1" },
-    { "email": "testuser2@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User2" },
-    { "email": "testuser3@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User3" },
-    { "email": "testuser4@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User4" },
-    { "email": "testuser5@foo.com", "password": "changeme", "role": "USER" , "firstName": "Test", "lastName": "User5" }
+    { "email": "foo@jane.com", "password": "changeme", "role": "USER" , "firstName": "Foo", "lastName": "Jane" },
+    { "email": "cammoore@foo.com", "password": "changeme", "role": "USER" , "firstName": "Cam", "lastName": "Moore" },
+    { "email": "davidconner@foo.com", "password": "changeme", "role": "USER" , "firstName": "David", "lastName": "Conner" },
+    { "email": "kyungimbaek@foo.com", "password": "changeme", "role": "USER" , "firstName": "Kyungim", "lastName": "Baek" },
+    { "email": "depengli@foo.com", "password": "changeme", "role": "USER" , "firstName": "Depeng", "lastName": "Li" },
+    { "email": "nodarisitchinava@foo.com", "password": "changeme", "role": "USER" , "firstName": "Nodari", "lastName": "Sitchinava" }
   ],
   "defaultOrganizations": [
     {
-      "name":  "Example Organization 1",
-      "website": "exampleorg1.org",
+      "name":  "#Clean Hawaii",
+      "website": "cleanhawaii.org",
       "profit": false,
-      "location": "TestUser1 St. HI, 96795",
-      "organizationOwner": "testuser1@foo.com",
+      "location": "5475 Kalanianaʻole Hwy, Honolulu, HI 96821",
+      "organizationOwner": "nodarisitchinava@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "#Clean Hawaii is a Gen Z run organization striving for a cleaner state.",
+      "description": "#Clean Hawaii works around the state, where volunteers are able to find events in their home island. We aim to clean beaches, parks, hiking trails, highways, and many other parts of the state to ensure cleanliness throughout."
     },
     {
-      "name":  "Example Organization 2",
-      "website": "exampleorg2.org",
+      "name":  "UH Mānoa Cares",
+      "website": "uhmanoacares.org",
       "profit": true,
-      "location": "TestUser2 St. HI, 96795",
-      "organizationOwner": "testuser2@foo.com",
+      "location": "2465 Campus Rd, Honolulu, HI 96822",
+      "organizationOwner": "davidconner@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "UH Mānoa Cares is an organization on the UH Mānoa campus aiming to help not only the student body, but also the surrounding community."
     },
     {
-      "name":  "Example Organization 3",
-      "website": "exampleorg3.org",
+      "name":  "Team Animals",
+      "website": "teamanimals.org",
       "profit": false,
-      "location": "TestUser3 St. HI, 96795",
-      "organizationOwner": "testuser3@foo.com",
-      "visible": false,
-      "onboarded": false
-    },
-    {
-      "name":  "Example Organization 4",
-      "website": "exampleorg4.org",
-      "profit": false,
-      "location": "TestUser4 St. HI, 96795",
-      "organizationOwner": "testuser4@foo.com",
+      "location": "2700 Waialae Ave, Honolulu, HI 96826",
+      "organizationOwner": "cammoore@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "description": "Team Animals is an organization that connects animal lovers to volunteer events centered around animals. We partner with local animal shelters around the state to help with taking care of animals and working at animal adoption events. We aim to finda home for every animal, and give them a loving and comfortable stay at shelters."
     },
     {
-      "name":  "Example Organization 5",
-      "website": "exampleorg5.org",
+      "name":  "Food For All",
+      "website": "foodforall.org",
+      "profit": false,
+      "location": "2465 Campus Rd, Honolulu, HI 96822",
+      "organizationOwner": "kyungimbaek@foo.com",
+      "visible": true,
+      "onboarded": false,
+      "missionStatement": "Helping to provide an important resource for all."
+    },
+    {
+      "name":  "Fashion for the Island",
+      "website": "fashionfortheisland.org",
       "profit": true,
-      "location": "TestUser5 St. HI, 96795",
-      "organizationOwner": "testuser5@foo.com",
+      "location": "711 Ke’eaumoku St, Honolulu, HI 96814",
+      "organizationOwner": "depengli@foo.com",
       "visible": true,
-      "onboarded": false
+      "onboarded": false,
+      "missionStatement": "Providing access to clothes for everyone.",
+      "description": "Clothing is an essential for everyone. Through events to gather clothes from the community through donation drives, we partner with shelters in order to help those in need."
     }
   ],
   "defaultOrgAdmins": [
@@ -63,16 +71,8 @@
       "orgID": 1
     },
     {
-      "orgAdmin": "foo@john.com",
+      "orgAdmin": "foo@jane.com",
       "orgID": 2
-    }
-  ],
-  "defaultUserProfiles": [
-    {
-      "email":  "john@foo.com",
-      "password": "changeme",
-      "firstName": "John",
-      "lastName": "Foo"
     }
   ],
 
@@ -109,7 +109,7 @@
   "defaultEvents": [
     {
       "name":  "Ala Moana Beach Clean Up",
-      "eventDate": "2024-04-04",
+      "eventDate": "2024-05-04",
       "description": "Come down to help clean!",
       "category":  "Clean Up",
       "location":  "1201 Ala Moana Blvd, Honolulu, HI 96814",
@@ -125,7 +125,7 @@
     },
     {
       "name":  "Makai Research Pier Clean Up",
-      "eventDate": "2024-04-11",
+      "eventDate": "2024-06-11",
       "description": "Come down to help clean!",
       "category":  "Clean Up",
       "location":  "41-305 Kalanianaʻole Hwy, Waimanalo, HI 96795",
@@ -141,7 +141,7 @@
     },
     {
       "name":  "Hawaii Food Bank Donation Drive",
-      "eventDate": "2024-04-24",
+      "eventDate": "2024-05-03",
       "description": "Food donation drive! Donate!",
       "category":  "Donations",
       "location":  "2465 Campus Rd, Honolulu, HI 96822",
@@ -159,7 +159,7 @@
       "name":  "Oahu SPCA Adoption Event",
       "eventDate": "2024-04-30",
       "description": "Helpers needed to help with the adoption event.",
-      "category":  "Animal Shelter",
+      "category":  "Animal Welfare",
       "location":  "1134 Kuala St, Pearl City, HI 96782",
       "startTime":  "10:00 AM",
       "endTime":  "2:00 PM",
@@ -189,7 +189,7 @@
     },
     {
       "name":  "Hickam Thrift Shop Volunteer",
-      "eventDate": "2024-04-24",
+      "eventDate": "2024-06-24",
       "description": "Helpers needed to help with at Hickam Thrift Shop. All profits made will go back to the community through grants and scholarships in both local and military communities.",
       "category":  "Charity Shops",
       "location":  "540 Kuntz Ave, Honolulu, HI 96818",
@@ -205,7 +205,7 @@
     },
     {
       "name":  "Give Back to Maui",
-      "eventDate": "2024-04-20",
+      "eventDate": "2024-06-20",
       "description": "Remove invasive species along a riparian corridor to stabilize our cultural resources. We have simple goals for the day: (1) Have Fun, (2) learn one thing and share it at dinner that evening. ",
       "category":  "Clean Up",
       "location":  "17 Kakaalaneo Drive Lahaina Hawaii 96761",
@@ -226,59 +226,6 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
-  "defaultCategories": [
-    { "categoryName": "Animal Shelter" },
-    { "categoryName": "Clean Up" },
-    { "categoryName": "Donations" },
-    { "categoryName": "Food Distribution" },
-    { "categoryName": "Charity Shops" }
-  ],
-
-  "defaultEventCategories": [
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 1,
-        "eventName": "Ala Moana Beach Clean Up",
-        "eventDate":"2024-03-04"
-      }},
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 1,
-        "eventName": "Makai Research Pier Clean Up",
-        "eventDate":"2024-03-11"
-      }},
-    { "categoryName": "Donations",
-      "eventInfo": {
-        "organizationID": 2,
-        "eventName": "Hawaii Food Bank Donation Drive",
-        "eventDate":"2024-03-04"
-      }},
-    { "categoryName": "Animal Shelter",
-      "eventInfo": {
-        "organizationID": 3,
-        "eventName": "Oahu SPCA Adoption Event",
-        "eventDate":"2024-04-30"
-      }},
-    { "categoryName": "Food Distribution",
-      "eventInfo": {
-        "organizationID": 4,
-        "eventName": "Meals on Wheels - Meal Packer",
-        "eventDate":"2024-05-9"
-      }},
-    { "categoryName": "Charity Shops",
-      "eventInfo": {
-        "organizationID": 5,
-        "eventName": "Hickam Thrift Shop Volunteer",
-        "eventDate":"2024-04-24"
-      }},
-    { "categoryName": "Clean Up",
-      "eventInfo": {
-        "organizationID": 2,
-        "eventName": "Give Back to Maui",
-        "eventDate":"2024-04-20"
-      }}
   ],
 
   "public": {
