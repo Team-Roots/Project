@@ -28,7 +28,7 @@ const BarChart = ({ userStats }) => {
     (entry) => entry.year === currentYear,
   ) : {};
   console.log(currentYearData.Apr.toFixed(1));
-  const screenWidth = window.innerWidth;
+  // const screenWidth = window.innerWidth;
   const options = {
     title: {
       text: `Community Service Hours ${currentYear}`,
