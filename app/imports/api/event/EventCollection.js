@@ -55,6 +55,15 @@ class EventCollection extends BaseCollection {
         max: 99,
         defaultValue: 99,
       },
+      password: {
+        type: String,
+        regEx: /^\d{4}$/,
+        autoValue() {
+          // Generate a random 4-digit password
+          return Math.floor(1000 + Math.random() * 9000).toString();
+        },
+        optional: true,
+      },
       organizationID: SimpleSchema.Integer,
       creator: String,
     }));

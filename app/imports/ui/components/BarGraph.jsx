@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 import PropTypes from 'prop-types';
 
@@ -6,17 +6,34 @@ const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const BarChart = ({ userStats }) => {
   console.log(userStats);
+  const [chartWidth, setChartWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    // Function to update chart width when window is resized
+    const handleResize = () => {
+      setChartWidth(window.innerWidth);
+    };
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const currentYear = new Date().getFullYear();
   // Check if userStats.completedHours is defined before accessing it
   const currentYearData = userStats.completedHours ? userStats.completedHours.find(
     (entry) => entry.year === currentYear,
   ) : {};
   console.log(currentYearData.Apr.toFixed(1));
+  // const screenWidth = window.innerWidth;
   const options = {
     title: {
       text: `Community Service Hours ${currentYear}`,
     },
-    width: 450,
+    width: 1300 + (chartWidth / 1300),
     height: 350,
     data: [
       {

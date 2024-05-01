@@ -33,59 +33,62 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                     <p>Progress Towards {stat.monthlyGoal}Hrs/month Goal: </p>
                     <div className="pt-3">
                       { /* change min and max values by reading user schema (later) */ }
-                      <ProgressBar className="position-relative" min={0} max={stat.monthlyGoal}>
+                      <ProgressBar className="position-relative mx-1" min={0} max={stat.monthlyGoal}>
                         <div className="position-absolute d-flex justify-content-center w-100 progress-bar-text">{`${((stat.stats.hoursThisMonth / stat.monthlyGoal) * 100).toFixed(1)}% Complete!`}</div>
                         <ProgressBar now={stat.stats.hoursThisMonth} key={1} min={0} max={stat.monthlyGoal} />
                       </ProgressBar>
                     </div>
-                    <p>
-                      <br />
-                      Organizations Helped This Month: <br />
-                    </p>
-                    <div>
-                      <Table striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Organization</th>
-                            <th>Volunteer Service</th>
-                            <th>Hours Served</th>
-                          </tr>
-                        </thead>
-                        { /* later I will create a component that will load a <tr> depending on */}
-                        { /* what is in the user schema */}
-                        <tbody>
-                          {stat.stats.orgsHelped.length > 0 ? (
-                            stat.stats.orgsHelped.map((org, index) => (
-                              <TableComponent
-                                key={index}
-                                index={index}
-                                orgName={org.orgName}
-                                eventName={org.eventName}
-                                startTime={org.signUpTime}
-                                endTime={org.signOutTime}
-                              />
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="4" style={{ textAlign: 'center' }}>None</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </Table>
-                    </div>
                   </div>
                 </FadeInSection>
               </Col>
-              <Col className="align-content-start">
+            </Row>
+            <Row className="mt-4 mb-4">
+              <Col className="align-content-center">
                 <FadeInSection>
                   <BarGraph fluid userStats={stat} />
                 </FadeInSection>
               </Col>
             </Row>
+            <Row>
+              <h2>
+                <br />Organizations Helped This Month: <br />
+              </h2>
+              <Table striped bordered hover className="mx-3">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Organization</th>
+                    <th>Volunteer Service</th>
+                    <th>Hours Served</th>
+                  </tr>
+                </thead>
+                { /* later I will create a component that will load a <tr> depending on */}
+                { /* what is in the user schema */}
+                <tbody>
+                  {stat.stats.orgsHelped.length > 0 ? (
+                    stat.stats.orgsHelped
+                      .filter(org => org.signUpTime.getTime() !== org.signOutTime.getTime()) // Filter out entries with equal start and end times
+                      .map((org, index) => (
+                        <TableComponent
+                          key={index}
+                          index={index}
+                          orgName={org.orgName}
+                          eventName={org.eventName}
+                          startTime={org.signUpTime}
+                          endTime={org.signOutTime}
+                        />
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center' }}>None</td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </Row>
           </Container>
         </div>
-        <Container id="CalenderSection">
+        <Container id="CalenderSection" className="mt-2 mb-2">
           <FadeInSection>
             <h2>Your Upcoming Events</h2>
             <WeeklyCalendarComponent subbedEvents={subbedEvents} events={events} />
@@ -93,14 +96,14 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
               variant="primary"
               size="lg"
               href="/calendar"
-              className="edit robotoText"
+              className="edit robotoText mb-2 mt-4"
               style={{ marginTop: 5, marginLeft: 12 }}
             >
               Go to monthly calendar
             </Button>
           </FadeInSection>
         </Container>
-        <Container id="SubscribedEventsSection">
+        <Container id="SubscribedEventsSection" className="mt-2 mb-2">
           <FadeInSection>
             <h2>Your Subscribed Events</h2>
             {subbedEvents.length > 0 ? (

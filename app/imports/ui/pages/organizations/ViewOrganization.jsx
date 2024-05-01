@@ -42,6 +42,10 @@ const VolunteerOrganizations = () => {
         eventCategories: foundEventCategories,
       };
     }, [orgID]);
+    const openGoogleMaps = (address) => {
+      const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+      window.open(mapsUrl, '_blank');
+    };
     return (ready ? (
       <Container className="py-3 px-5" id={PAGE_IDS.VIEW_ORGANIZATION}>
         <Row className="justify-content-center">
@@ -54,14 +58,19 @@ const VolunteerOrganizations = () => {
                       <Card.Title>{thisOrganization.name}</Card.Title>
                       {allowedToEdit && <EditOrgGear orgID={thisOrganization.orgID} />}
                     </div>
-                    <Card.Subtitle>Mission</Card.Subtitle>
-                    <Card.Text>{thisOrganization.missionStatement}</Card.Text>
-                    <Card.Subtitle>
-                      Description
-                    </Card.Subtitle>
-                    <Card.Text>{thisOrganization.description}</Card.Text>
-                    <Card.Subtitle>Tags</Card.Subtitle>
-                    <Card.Text>TestTag1 TestTag2</Card.Text>
+                    {thisOrganization.profit ? 'For-profit' : 'Non-profit'}<br />
+                    <container>Location: </container>
+                    <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(thisOrganization.location)}>
+                      {thisOrganization.location}<br />
+                    </contaianer>
+                    Website: {thisOrganization.website}<br />
+                    <hr />
+                    {thisOrganization.missionStatement && <Card.Subtitle>Mission</Card.Subtitle>}
+                    {thisOrganization.missionStatement && <Card.Text>{thisOrganization.missionStatement}</Card.Text>}
+                    {thisOrganization.description && <Card.Subtitle>Description</Card.Subtitle>}
+                    {thisOrganization.description && <Card.Text>{thisOrganization.description}</Card.Text>}
+                    {/* <Card.Subtitle>Tags</Card.Subtitle> */}
+                    {/* <Card.Text>TestTag1 TestTag2</Card.Text> */}
                   </Card.Body>
                 </Card>
                 <div className="d-flex justify-content-between mt-3">

@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
-import { Container, Col, Row, Image, Card, Button, ListGroup, Alert } from 'react-bootstrap';
+import { Container, Col, Row, Image, Card, Button, ListGroup, Alert, Table } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Roles } from 'meteor/alanning:roles';
 import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
+import { FaHeart, FaRegHeart, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark } from 'react-icons/fa6';
+import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
+import { ROLE } from '../../api/role/Role';
+import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 
 const RegistrationCard = ({ event }) => {
+  const [passwordInput, setPasswordInput] = useState('');
   const [show, setShow] = useState(false);
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
-  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat } = useTracker(() => {
-    const eventSubscription = EventSubscription.subscribeEvent();
+  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat, userStat, allSubscribers } = useTracker(() => {
+    // const eventSubscription = EventSubscription.subscribeEvent();
+    const eventSubscriptionAdmin = EventSubscription.subscribeEventAdmin();
     const organizationSubscription = Organizations.subscribeOrg();
     const userStatsSubscription = UserStats.subscribeStats();
-    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready();
+    const getAdmins = OrganizationAdmin.subscribeOrgAdmin();
+    const rdy = organizationSubscription.ready() && userStatsSubscription.ready() && getAdmins.ready() && eventSubscriptionAdmin.ready();
     if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
@@ -33,7 +42,20 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
+    console.log(subscriptionExists);
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    console.log(foundUserStats);
+    // eslint-disable-next-line no-unused-vars
+    const allStatsMatchingEvent = UserStats.find({
+      'stats.orgsHelped': {
+        $elemMatch: {
+          // orgName: orgName, find a way to do this please
+          eventName: event.name,
+          eventDate: formattedCalendarDate,
+        },
+      },
+    }).fetch();
+    // console.log(allStatsMatchingEvent);
     // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
     const foundEventStatistic = UserStats.findOne({
       'stats.orgsHelped': {
@@ -44,12 +66,29 @@ const RegistrationCard = ({ event }) => {
         },
       },
     });
-    console.log(foundEventStatistic);
+    let found;
+    if (rdy && foundEventStatistic) {
+      // console.log(`FOUND STORED EVENT: ${foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName)}`);
+      found = foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName);
+      // console.log(found && (found.signUpTime.getTime() !== found.signOutTime.getTime()));
+    }
+    const adminList = OrganizationAdmin.find({ orgID: event.organizationID }).fetch();
+    console.log(adminList.length);
+    let allSubs;
+    if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]) && rdy && adminList.length > 0) {
+      allSubs = EventSubscription.find({ 'subscriptionInfo.eventName': eventSubscriptionInfo.eventName }).fetch();
+      console.log(allSubs);
+    }
+
+    // console.log(!!(foundEventStatistic));
+
     return {
       eventOrganization: foundEventOrganization,
       canSubscribe: !(subscriptionExists),
       foundStats: !!(foundUserStats),
       foundEventStat: !!(foundEventStatistic),
+      userStat: found,
+      allSubscribers: allSubs,
       ready: rdy,
     };
   }, []);
@@ -83,7 +122,12 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
-  const SignOut = () => {
+  const SignOut = (password) => {
+    if (password !== event.password) {
+      alert('Incorrect password');
+      return;
+    }
+
     const email = Meteor.user().username;
     const curDateTime = new Date();
     const eventName = event.name;
@@ -146,34 +190,43 @@ const RegistrationCard = ({ event }) => {
               <Alert show={show} variant="success" className="text-start">
                 <Alert.Heading>Are you sure you want to sign out?</Alert.Heading>
                 <p>
-                  Once you sign out of the event, you can not sign back in. Are you sure you want to continue?
+                  Once you sign out of the event, you can not sign back in. To sign out and claim hours, please fill in the password provided at the event.
                 </p>
                 <hr />
-                <div className="d-flex justify-content-end">
-                  <Button variant="outline-success" onClick={() => SignOut()}>
-                    Yes
+                <div className="d-flex justify-content-start">
+                  <input
+                    type="text"
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    maxLength={4}
+                    placeholder="Enter 4-digit password"
+                  />
+                  <Button className="mx-3" variant="outline-success" onClick={() => SignOut(passwordInput)}>
+                    Confirm
                   </Button>
                   <Button variant="outline-success" onClick={() => CloseAlert()}>
-                    No
+                    Back
                   </Button>
                 </div>
               </Alert>
               <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
-                <Button
-                  variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
-                  size="lg"
-                  className="mb-3 mx-2"
-                  disabled={((!(foundStats && !canSubscribe)) || (!foundEventStat || show)) || foundEventStat.stats.orgsHelped}
-                  onClick={() => {
-                    if (foundEventStat) {
-                      setShow(true); // If foundEventStat is true, open the Sign Out modal
-                    } else {
-                      SignIn(); // If foundEventStat is false, perform Sign In action
-                    }
-                  }}
-                >
-                  {!foundEventStat ? 'Sign In' : 'Sign Out!'}
-                </Button>
+                {((foundStats && !canSubscribe) && (!userStat || userStat.signUpTime.getTime() === userStat.signOutTime.getTime())) && (
+                  <Button
+                    variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
+                    size="lg"
+                    className="mb-3 mx-2"
+                    onClick={() => {
+                      if (foundEventStat) {
+                        setShow(true); // If foundEventStat is true, open the Sign Out modal
+                      } else {
+                        SignIn(); // If foundEventStat is false, perform Sign In action
+                      }
+                    }}
+                  >
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Sign In</> : <><FaBookmark className="mr-2" /> Sign Out!</>}
+                  </Button>
+                )}
               </Tooltip>
               {/* <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom"> */}
               {/*  <Button */}
@@ -187,14 +240,16 @@ const RegistrationCard = ({ event }) => {
               {/*  </Button> */}
               {/* </Tooltip> */}
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
-                <Button
-                  variant={canSubscribe ? 'success' : 'danger'}
-                  size="lg"
-                  className="mb-3 mx-2"
-                  onClick={() => subscribeEvent()}
-                >
-                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
-                </Button>
+                {(!userStat || userStat.signUpTime.getTime() === userStat.signOutTime.getTime()) && (
+                  <Button
+                    variant={canSubscribe ? 'success' : 'danger'}
+                    size="lg"
+                    className="mb-3 mx-2"
+                    onClick={() => subscribeEvent()}
+                  >
+                    {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
+                  </Button>
+                )}
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
                 <Button
@@ -207,16 +262,16 @@ const RegistrationCard = ({ event }) => {
                   size="lg"
                   className="mb-3 mx-2"
                 >
-                  Chat
+                  <><IoChatboxEllipsesOutline className="mr-2" /> Chat</>
                 </Button>
               </Tooltip>
               <ListGroup variant="flush" className="text-start">
                 <ListGroup.Item>
                   <strong>EVENT LOCATION: </strong>
                   <Tooltip title="View in Google Maps." placement="bottom">
-                    <container style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
+                    <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
                       {event.location}
-                    </container>
+                    </contaianer>
                   </Tooltip>
                 </ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>
@@ -234,6 +289,30 @@ const RegistrationCard = ({ event }) => {
           </Card>
         </Col>
       </Row>
+      <h5 className="mb-5">Event Password: {event.password}</h5>
+      {allSubscribers && allSubscribers.length > 0 && ( // Add this conditional rendering
+        <>
+          <h5>Subscriber List</h5>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Edit Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allSubscribers.map((subscriber, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{subscriber.subscriptionInfo.email}</td>
+                  <td><Button>Change Recorded Hours</Button></td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </>
+      )}
     </Container>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -263,6 +342,7 @@ RegistrationCard.propTypes = {
     // ageRange
     organizationID: PropTypes.string,
     creator: PropTypes.string,
+    password: PropTypes.string,
     owner: PropTypes.string,
   }).isRequired,
 };

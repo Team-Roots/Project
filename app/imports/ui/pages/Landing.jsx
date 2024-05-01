@@ -29,7 +29,7 @@ const Landing = () => {
     } else {
       console.log('Subscription 2 is ready.');
     }
-    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch(); // Assuming the sort field is `name`
+    const eventItems = Events.find({}, { sort: { eventDate: 1 } }).fetch();
 
     const subscription3 = EventSubscription.subscribeEvent();
     const rdy3 = subscription3.ready();

@@ -82,8 +82,12 @@ class EventSubscriptionCollection extends BaseCollection {
       });
 
       Meteor.publish(eventSubscriptionPublications.eventSubscriptionAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+        if (this.userId && (Roles.userIsInRole(this.userId, ROLE.ADMIN) || Roles.userIsInRole(this.userId, [ROLE.ORG_ADMIN]))) {
           return instance._collection.find();
+        }
+        if (this.userId) {
+          const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find({ 'subscriptionInfo.email': username });
         }
         return this.ready();
       });
