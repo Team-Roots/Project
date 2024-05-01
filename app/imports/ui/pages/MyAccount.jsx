@@ -37,11 +37,11 @@ const MyAccount = () => {
     }
     // Get the Account documents
     const user = Meteor.user();
+    console.log(user);
     const email = Meteor.user().username;
+    console.log(email);
     const accountItems = UserProfiles.findOne({ email: email });
     const userStats = UserStats.findOne({ email: email });
-    console.log(email);
-    console.log(user);
     console.log(accountItems);
     console.log(userStats);
     return {
@@ -69,10 +69,17 @@ const MyAccount = () => {
                 roundedCircle
                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
               />
-              <Card.Title className="pt-3 accountcardtitle">{account.firstName}</Card.Title>
-              <Card.Title className="pb-3 accountcardtitle">{account.lastName}</Card.Title>
+              {account ? (
+                <>
+                  <Card.Title className="pt-3 accountcardtitle">{account.firstName}</Card.Title>
+                  <Card.Title className="pb-3 accountcardtitle">{account.lastName}</Card.Title>
+                </>
+              ) : null}
               <Card.Subtitle className="py-2 accountcardsubtitle">(808)123-4567</Card.Subtitle>
-              <Card.Subtitle className="py-2 accountcardsubtitle">johndoe@gmail.com</Card.Subtitle>
+              {Meteor.user().username ? (
+                <Card.Subtitle className="py-2 accountcardsubtitle">{Meteor.user().username}</Card.Subtitle>
+              ) :
+                <Card.Subtitle className="py-2 accountcardsubtitle">Admin</Card.Subtitle> }
               <Button className="align-bottom accountbutton">Edit Profile</Button>
             </Card.Body>
           </Card>

@@ -34,7 +34,7 @@ const NavBar = () => {
                     // TODO: implement opportunities and then uncomment this navlink
                   }
                 </NavDropdown>
-                <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups">Community Groups</Nav.Link>
+                { /* <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_LIST_EVENT} as={NavLink} to="/communitygroups" key="navbar-community-groups">Community Groups</Nav.Link> */ }
                 <Nav.Link className="navbar-link" id={COMPONENT_IDS.NAVBAR_FAQ} as={NavLink} to="/faq">FAQ</Nav.Link>
                 <NavDropdown className="navbar-dropdown" id="login-dropdown" title="Help" key="navbar-help-dropdown">
                   <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/questions" />
