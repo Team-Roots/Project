@@ -52,7 +52,7 @@ const Admin = () => {
     <Container id={PAGE_IDS.LIST_STUFF_ADMIN} className="py-3">
       <Row className="justify-content-center">
         <Col md={12}>
-          <h2 className="text-center">List Stuff (Admin)</h2>
+          <h2 className="text-center">Admin Stuff </h2>
           <Table striped bordered hover>
             <thead>
               <tr>
