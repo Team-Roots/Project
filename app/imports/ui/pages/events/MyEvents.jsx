@@ -8,21 +8,30 @@ import { Events } from '../../../api/event/EventCollection';
 import EventCard from '../../components/EventCard';
 import { PAGE_IDS } from '../../utilities/PageIDs';
 import { EventCategories } from '../../../api/event/EventCategoriesCollection';
+import { EventSubscription } from '../../../api/event/EventSubscriptionCollection';
 
 const MyEvents = () => {
-  const user = Meteor.user();
-  const creator = user ? user.username : null;
+  const currentUser = useTracker(() => Meteor.user());
 
   const { ready, events, eventCategories } = useTracker(() => {
-    const subscription = Events.subscribeEvent();
-    const subscription2 = EventCategories.subscribeEventCategories();
-    const rdy = subscription.ready() && subscription2.ready();
-    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
-    if (!subscription.ready() && !subscription2.ready()) {
-      console.log('Subscription is not ready yet.');
-    } else {
-      console.log('Subscription is ready.');
-    }
+    const eventsSubscription = Events.subscribeEvent();
+    const eventCategoriesSubscription = EventCategories.subscribeEventCategories();
+    const eventSubSubscription = EventSubscription.subscribeEvent();
+
+    const rdy = eventsSubscription.ready() && eventCategoriesSubscription.ready() && eventSubSubscription.ready();
+    const eventSubItems = EventSubscription.find({ 'subscriptionInfo.email': currentUser?.username }, {}).fetch();
+
+    const eventNames = eventSubItems.map(item => item.subscriptionInfo.eventName);
+    const eventDates = eventSubItems.map(item => new Date(item.subscriptionInfo.eventDate));
+    const eventOrgIDs = eventSubItems.map(item => item.subscriptionInfo.orgID);
+
+    const eventItems = Events.find({
+      $and: [
+        { name: { $in: eventNames } },
+        { eventDate: { $in: eventDates } },
+        { organizationID: { $in: eventOrgIDs } },
+      ],
+    }, { sort: { name: 1 } }).fetch();
 
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     return {
@@ -42,8 +51,6 @@ const MyEvents = () => {
       </Container>
     );
   }
-
-  const myEventsList = events.filter((event) => event.creator === creator);
 
   return (
     <Container className="py-3" id={PAGE_IDS.LIST_EVENT}>
@@ -99,7 +106,7 @@ const MyEvents = () => {
         </Col>
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {myEventsList.map((event) => (
+            {events.map((event) => (
               <Col key={event._id}>
                 <EventCard
                   event={event}

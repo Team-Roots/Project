@@ -33,7 +33,7 @@ import SearchOrganizations from '../pages/organizations/SearchOrganizations';
 import ViewOrganization from '../pages/organizations/ViewOrganization';
 import CalendarView from '../pages/Calendar_Page/Calendar';
 import RegisterOrganization from '../pages/organizations/RegisterOrganization';
-import CommentPage from '../components/CommentPage';
+import CommentPage from '../pages/CommentPage';
 import ContactUs from '../pages/ContactUs';
 import EditOrganization from '../pages/organizations/EditOrganization';
 import VoluntreeSubscriptionPlans from '../pages/VoluntreeSubscriptionPlans';

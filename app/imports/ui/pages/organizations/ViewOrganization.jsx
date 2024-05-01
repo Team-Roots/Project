@@ -63,7 +63,7 @@ const VolunteerOrganizations = () => {
                     <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(thisOrganization.location)}>
                       {thisOrganization.location}<br />
                     </contaianer>
-                    Website: {thisOrganization.website}<br />
+                    Website: <a href={`http://${thisOrganization.website}`}>{thisOrganization.website}</a><br />
                     <hr />
                     {thisOrganization.missionStatement && <Card.Subtitle>Mission</Card.Subtitle>}
                     {thisOrganization.missionStatement && <Card.Text>{thisOrganization.missionStatement}</Card.Text>}

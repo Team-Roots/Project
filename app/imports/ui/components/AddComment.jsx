@@ -22,7 +22,6 @@ const AddComment = ({ owner }) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
-          swal('Success', 'Comment added successfully', 'success');
           setComment(''); // Clear the input field after successful submission
         }
       });

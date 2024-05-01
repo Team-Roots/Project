@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container, Row, Card } from 'react-bootstrap';
-import AddComment from './AddComment';
+import AddComment from '../components/AddComment';
 import { Comments } from '/imports/api/comment/CommentCollection';
 
 const CommentPage = () => {

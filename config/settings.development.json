@@ -169,7 +169,7 @@
       "image": "https://oahuspca.org/images/logo/OahuSPCA.svg",
       "ageRange": { "min": 18, "max": 99 },
       "organizationID": 3,
-      "creator": "testuser3@foo.com"
+      "creator": "kyungimbaek@foo.com"
     },
     {
       "name": "Meals on Wheels - Meal Packer",
@@ -179,13 +179,13 @@
       "location":  "1809 Bachelot St, Honolulu, HI 96817",
       "startTime":  "8:00 AM",
       "endTime":  "10:00 AM",
-      "coordinator":  "teastuser1@foo.com",
+      "coordinator":  "cammoore@foo.com",
       "amountVolunteersNeeded": 10,
       "isOnline": false,
       "image": "https://lanakilapacific.org/wp-content/uploads/2023/10/605be8c826af71180432f27c_lanakila-meals-on-wheels-centered.png",
       "ageRange": { "min": 16, "max": 99 },
       "organizationID": 4,
-      "creator": "testuser4@foo.com"
+      "creator": "depengli@foo.com"
     },
     {
       "name":  "Hickam Thrift Shop Volunteer",
@@ -195,13 +195,13 @@
       "location":  "540 Kuntz Ave, Honolulu, HI 96818",
       "startTime":  "9:00 AM",
       "endTime":  "1:00 PM",
-      "coordinator":  "testuser2@foo.com",
+      "coordinator":  "davidconner@foo.com",
       "amountVolunteersNeeded": 5,
       "isOnline": false,
       "image": "https://kanuhawaii.b-cdn.net/wp-content/uploads/2023/03/AF0DDB45-EA8E-4A51-9A3D-4DB9B54BED7B.jpeg",
       "ageRange": { "min": 5, "max": 99 },
       "organizationID": 5,
-      "creator": "testuser5@foo.com"
+      "creator": "nodarisitchinava@foo.com"
     },
     {
       "name":  "Give Back to Maui",

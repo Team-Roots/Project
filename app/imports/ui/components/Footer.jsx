@@ -21,7 +21,7 @@ const Footer = () => (
           <ul>
             <li><Link to="/" style={{ color: 'white' }}>Home</Link></li>
             <li><Link to="/eventopportunities" style={{ color: 'white' }}>Volunteer</Link></li>
-            <li><Link to="/post-event" style={{ color: 'white' }}>Post an Event</Link></li>
+            <li><Link to="/plans" style={{ color: 'white' }}>Recruit Volunteers</Link></li>
             <li><Link to="/community-groups" style={{ color: 'white' }}>Community Groups</Link></li>
           </ul>
         </Col>
