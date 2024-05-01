@@ -1,27 +1,37 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/StuffCollection';
-import { Events } from '../../api/event/EventCollection'; // Make sure this path is correct
+import { Events } from '../../api/event/EventCollection';
 import StuffItemAdmin from '../components/StuffItemAdmin';
-import EventItem from '../components/EventItem'; // Ensure this component is correctly imported
+import EventItem from '../components/EventItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const Admin = () => {
   const { stuffs, events, ready } = useTracker(() => {
     const stuffSubscription = Stuffs.subscribeStuffAdmin();
-    const eventSubscription = Events.subscribeEvent(); // Assuming you have a similar function in your Events collection
+    const eventSubscription = Events.subscribeEvent();
     const stuffItems = Stuffs.find({}).fetch();
-    const eventItems = Events.find({}).fetch(); // Adjust according to your actual query
+    const eventItems = Events.find({}).fetch();
 
-    // Make sure both subscriptions are ready
     return {
       stuffs: stuffItems,
       events: eventItems,
       ready: stuffSubscription.ready() && eventSubscription.ready(),
     };
   }, []);
+
+  const handleDeleteEvent = (eventId) => {
+    Meteor.call('events.remove', eventId, (error) => {
+      if (error) {
+        alert('Error deleting event:', error.reason);
+      } else {
+        alert('Event deleted successfully!');
+      }
+    });
+  };
 
   if (!ready) {
     return <LoadingSpinner />;
@@ -54,11 +64,11 @@ const Admin = () => {
                 <th>Event Name</th>
                 <th>Date</th>
                 <th>Category</th>
-                // Add more columns as needed
+                <th>Actions</th>  {/* Added column for actions */}
               </tr>
             </thead>
             <tbody>
-              {events.map((event) => <EventItem key={event._id} event={event} />)}
+              {events.map((event) => <EventItem key={event._id} event={event} onDelete={handleDeleteEvent} />)}
             </tbody>
           </Table>
         </Col>
