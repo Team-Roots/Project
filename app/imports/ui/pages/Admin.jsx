@@ -57,7 +57,7 @@ const Admin = () => {
           </Table>
         </Col>
         <Col md={12}>
-          <h2 className="text-center">List Events</h2>
+          <h2 className="text-center">Admin Events</h2>
           <Table striped bordered hover>
             <thead>
               <tr>
