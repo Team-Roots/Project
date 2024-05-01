@@ -96,7 +96,6 @@ Meteor.methods({
     return org.name;
   },
   'organization.transferOwnership'(transferInfo) {
-    console.log('transferInfo: ', transferInfo);
     check(transferInfo, {
       orgID: Number,
       oldOwner: String,
@@ -108,12 +107,12 @@ Meteor.methods({
     if (!org) {
       throw new Meteor.Error(`No organization found with orgID ${orgID}.`);
     }
-    const oldOwnerUser = UserProfiles.findOne({ email: oldOwner });
-    const newOwnerUser = UserProfiles.findOne({ email: newOwner });
-    if (!oldOwnerUser) {
+    const oldOwnerProfile = UserProfiles.findOne({ email: oldOwner });
+    const newOwnerProfile = UserProfiles.findOne({ email: newOwner });
+    if (!oldOwnerProfile) {
       throw new Meteor.Error(`${oldOwner} does not yet have an account.`);
     }
-    if (!newOwnerUser) {
+    if (!newOwnerProfile) {
       throw new Meteor.Error(`${newOwner} does not yet have an account.`);
     }
 
@@ -129,6 +128,30 @@ Meteor.methods({
     OrganizationAdmin.update(oldOwnerAdmin._id, { dateAdded: now });
     OrganizationAdmin.update(newOwnerAdmin._id, { dateAdded: now });
     Organizations.update(org._id, { organizationOwner: newOwner });
+  },
+  'organization.delete'(deleteInfo) {
+    check(deleteInfo, {
+      orgID: Number,
+      deleter: String,
+    });
+    console.log(deleteInfo);
+    const { orgID, deleter } = deleteInfo;
+
+    const org = Organizations.findOne({ orgID: orgID });
+    if (!org) {
+      throw new Meteor.Error(`No organization found with orgID ${orgID}.`);
+    }
+    const deleterProfile = UserProfiles.findOne({ email: deleter });
+    if (!deleterProfile) {
+      throw new Meteor.Error(`${deleter} does not have an account so ${deleter} cannot delete ${org.name}.`);
+    }
+    const events = Events.find({ organizationID: orgID }).fetch();
+    events.forEach(event => Events._collection.remove(event._id));
+
+    const eventCategories = EventCategories.find({ 'eventInfo.organizationID': orgID }).fetch();
+    eventCategories.forEach(eventCategory => EventCategories._collection.remove(eventCategory._id));
+
+    Organizations._collection.remove({ orgID: org.orgID });
   },
   'userStats.updateOrgsHelpedData'(eventInfo) {
     check(eventInfo, {

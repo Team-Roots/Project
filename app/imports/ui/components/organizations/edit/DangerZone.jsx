@@ -4,13 +4,15 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ExclamationTriangle } from 'react-bootstrap-icons';
 import { Button, Col, FormCheck, ListGroup, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 import LoadingSpinner from '../../LoadingSpinner';
 import { OrganizationAdmin } from '../../../../api/organization/OrganizationAdmin';
 import { Organizations } from '../../../../api/organization/OrganizationCollection';
 import { updateMethod } from '../../../../api/base/BaseCollection.methods';
-// TODO
+
 const DangerZone = ({ organization }) => {
+  const navigate = useNavigate();
   const [showVisibilityModal, setShowVisibilityModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -58,6 +60,20 @@ const DangerZone = ({ organization }) => {
       }
     });
   };
+  const handleDeleteConfirm = () => {
+    const deleteInfo = {
+      orgID: organization.orgID,
+      deleter: Meteor.user().username,
+    };
+    Meteor.call('organization.delete', deleteInfo, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Success', 'Organization deleted successfully', 'success');
+        navigate('/organizations');
+      }
+    });
+  };
 
   return (
     <>
@@ -67,7 +83,14 @@ const DangerZone = ({ organization }) => {
           <div className="fw-bold">Visibility</div>
           <div>Your organization is currently {organization.visible ? 'public' : 'private'}.</div>
         </Col>
-        <Col className="text-end"><Button onClick={() => setShowVisibilityModal(true)}>Change to {organization.visible ? 'private' : 'public'}</Button></Col>
+        <Col className="text-end">
+          <Button
+            onClick={() => setShowVisibilityModal(true)}
+            variant="danger"
+          >
+            Change to {organization.visible ? 'private' : 'public'}
+          </Button>
+        </Col>
       </Row>
       <Modal
         show={showVisibilityModal}
@@ -80,21 +103,27 @@ const DangerZone = ({ organization }) => {
         <Modal.Body>
           Are you sure you want to change your organization&apos;s visibility?
           {organization.visible ? (
-            ' By clicking yes, your organization and any events under it will no longer be visible on Voluntree. '
+            ' By confirming, your organization and any events under it will no longer be visible on Voluntree. '
           ) : (
-            ' By clicking yes, your organization and any events under it will be visible on Voluntree. '
+            ' By confirming, your organization and any events under it will be visible on Voluntree. '
           )}
           You can change this back at any time.
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => {
-            handleVisibilityConfirm(!organization.visible);
-            setShowVisibilityModal(false);
-          }}
+          <Button
+            onClick={() => {
+              handleVisibilityConfirm(!organization.visible);
+              setShowVisibilityModal(false);
+            }}
+            variant="danger"
           >
-            Yes
+            Confirm
           </Button>
-          <Button onClick={() => setShowVisibilityModal(false)}>No</Button>
+          <Button
+            onClick={() => setShowVisibilityModal(false)}
+          >
+            Cancel
+          </Button>
         </Modal.Footer>
       </Modal>
       <Row className="my-2 align-items-center">
@@ -102,7 +131,14 @@ const DangerZone = ({ organization }) => {
           <div className="fw-bold">Transfer ownership</div>
           <div>You are the current owner of this organization.</div>
         </Col>
-        <Col className="text-end"><Button onClick={() => setShowTransferModal(true)}>Transfer Ownership</Button></Col>
+        <Col className="text-end">
+          <Button
+            onClick={() => setShowTransferModal(true)}
+            variant="danger"
+          >
+            Transfer ownership
+          </Button>
+        </Col>
       </Row>
       <Modal
         show={showTransferModal}
@@ -135,6 +171,7 @@ const DangerZone = ({ organization }) => {
           <Button
             disabled={!(acknowledgedTransfer && transferAdmin)}
             onClick={() => handleTransferConfirm()}
+            variant="danger"
           >
             Transfer
           </Button>
@@ -145,8 +182,35 @@ const DangerZone = ({ organization }) => {
           <div className="fw-bold">Delete organization</div>
           <div>This cannot be undone.</div>
         </Col>
-        <Col className="text-end"><Button>Delete organization</Button></Col>
+        <Col className="text-end">
+          <Button
+            onClick={() => setShowDeleteModal(true)}
+            variant="danger"
+          >
+            Delete organization
+          </Button>
+        </Col>
       </Row>
+      <Modal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete {organization.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this organization? All events under this organization will be deleted as well.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleDeleteConfirm}>
+            Confirm
+          </Button>
+          <Button onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
