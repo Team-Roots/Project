@@ -14,6 +14,7 @@ import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
 
 const RegistrationCard = ({ event }) => {
+  const [passwordInput, setPasswordInput] = useState('');
   const [show, setShow] = useState(false);
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
@@ -105,7 +106,12 @@ const RegistrationCard = ({ event }) => {
     }
   };
 
-  const SignOut = () => {
+  const SignOut = (password) => {
+    if (password !== event.password) {
+      alert('Incorrect password');
+      return;
+    }
+
     const email = Meteor.user().username;
     const curDateTime = new Date();
     const eventName = event.name;
@@ -168,15 +174,22 @@ const RegistrationCard = ({ event }) => {
               <Alert show={show} variant="success" className="text-start">
                 <Alert.Heading>Are you sure you want to sign out?</Alert.Heading>
                 <p>
-                  Once you sign out of the event, you can not sign back in. Are you sure you want to continue?
+                  Once you sign out of the event, you can not sign back in. To sign out and claim hours, please fill in the password provided at the event.
                 </p>
                 <hr />
-                <div className="d-flex justify-content-end">
-                  <Button variant="outline-success" onClick={() => SignOut()}>
-                    Yes
+                <div className="d-flex justify-content-start">
+                  <input
+                    type="text"
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    maxLength={4}
+                    placeholder="Enter 4-digit password"
+                  />
+                  <Button className="mx-3" variant="outline-success" onClick={() => SignOut(passwordInput)}>
+                    Confirm
                   </Button>
                   <Button variant="outline-success" onClick={() => CloseAlert()}>
-                    No
+                    Back
                   </Button>
                 </div>
               </Alert>
@@ -260,6 +273,7 @@ const RegistrationCard = ({ event }) => {
           </Card>
         </Col>
       </Row>
+      <h5>Event Password: {event.password}</h5>
       <Table striped bordered hover className="mt-5">
         <thead>
           <tr>
@@ -305,6 +319,7 @@ RegistrationCard.propTypes = {
     // ageRange
     organizationID: PropTypes.string,
     creator: PropTypes.string,
+    password: PropTypes.string,
     owner: PropTypes.string,
   }).isRequired,
 };
