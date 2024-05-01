@@ -178,21 +178,23 @@ const RegistrationCard = ({ event }) => {
                 </div>
               </Alert>
               <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
-                <Button
-                  variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
-                  size="lg"
-                  className="mb-3 mx-2"
-                  disabled={((!(foundStats && !canSubscribe)) || (userStat && userStat.signUpTime.getTime() !== userStat.signOutTime.getTime()))}
-                  onClick={() => {
-                    if (foundEventStat) {
-                      setShow(true); // If foundEventStat is true, open the Sign Out modal
-                    } else {
-                      SignIn(); // If foundEventStat is false, perform Sign In action
-                    }
-                  }}
-                >
-                  {!foundEventStat ? 'Sign In' : 'Sign Out!'}
-                </Button>
+                {((foundStats && !canSubscribe) && (!userStat || userStat.signUpTime.getTime() === userStat.signOutTime.getTime())) && (
+                  <Button
+                    variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}
+                    size="lg"
+                    className="mb-3 mx-2"
+                    onClick={() => {
+                      if (foundEventStat) {
+                        setShow(true); // If foundEventStat is true, open the Sign Out modal
+                      } else {
+                        SignIn(); // If foundEventStat is false, perform Sign In action
+                      }
+                    }}
+                  >
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {foundEventStat ? (show ? 'Sign Out' : 'Signed Out!') : 'Sign In'}
+                  </Button>
+                )}
               </Tooltip>
               {/* <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom"> */}
               {/*  <Button */}
