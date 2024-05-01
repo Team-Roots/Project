@@ -6,6 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
+import { FaHeart, FaRegHeart, FaRegBookmark } from 'react-icons/fa';
+import { FaBookmark } from 'react-icons/fa6';
+import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
@@ -214,7 +217,7 @@ const RegistrationCard = ({ event }) => {
                   className="mb-3 mx-2"
                   onClick={() => subscribeEvent()}
                 >
-                  {canSubscribe ? 'Subscribe' : 'Unsubscribe'}
+                  {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
                 </Button>
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
@@ -228,16 +231,16 @@ const RegistrationCard = ({ event }) => {
                   size="lg"
                   className="mb-3 mx-2"
                 >
-                  Chat
+                  <><IoChatboxEllipsesOutline className="mr-2" /> Chat</>
                 </Button>
               </Tooltip>
               <ListGroup variant="flush" className="text-start">
                 <ListGroup.Item>
                   <strong>EVENT LOCATION: </strong>
                   <Tooltip title="View in Google Maps." placement="bottom">
-                    <container style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
+                    <contaianer style={{ color: 'rgba(var(--bs-link-color-rgb)' }} onClick={() => openGoogleMaps(event.location)}>
                       {event.location}
-                    </container>
+                    </contaianer>
                   </Tooltip>
                 </ListGroup.Item>
                 <ListGroup.Item><strong>DATE: </strong>{formattedDate}</ListGroup.Item>

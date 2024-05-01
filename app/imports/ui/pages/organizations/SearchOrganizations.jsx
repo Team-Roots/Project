@@ -76,7 +76,6 @@ const SearchOrganizations = () => {
               {organization.profit ? 'For-profit' : 'Non-profit'}<br />
               Location: {organization.location}<br />
               Website: {organization.website}<br />
-              Categories
             </Container>
           ))}
         </Col>

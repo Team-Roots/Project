@@ -14,7 +14,7 @@ const VolunteerEvents = () => {
     const subscription2 = EventCategories.subscribeEventCategories();
     const subscription3 = Categories.subscribeCategory();
     const rdy = subscription.ready() && subscription2.ready() && subscription3.ready();
-    const eventItems = Events.find({}, { sort: { name: 1 } }).fetch();
+    const eventItems = Events.find({}, { sort: { eventDate: 1 } }).fetch();
     const eventCategoriesItems = EventCategories.find({}, { sort: { eventInfo: 1 } }).fetch();
     const categoriesItems = Categories.find({}, { sort: { categoryName: 1 } }).fetch();
     return {
@@ -119,7 +119,7 @@ const VolunteerEvents = () => {
         <Col>
           <Row xs={1} md={2} lg={3} className="g-4">
             {data.map((event) => (
-              <Col key={event._id}>
+              <Col key={event._id} xs={4}>
                 <EventCard
                   event={event}
                   eventCategory={eventCategories.find(eventCategory => (
