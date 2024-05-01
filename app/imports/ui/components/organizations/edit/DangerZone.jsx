@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 import { ExclamationTriangle } from 'react-bootstrap-icons';
 import { Button, Col, FormCheck, ListGroup, Modal, Row } from 'react-bootstrap';
+import swal from 'sweetalert';
+import OrganizationPropTypes from '../../../../api/organization/OrganizationPropTypes';
 import LoadingSpinner from '../../LoadingSpinner';
 import { OrganizationAdmin } from '../../../../api/organization/OrganizationAdmin';
 import { Organizations } from '../../../../api/organization/OrganizationCollection';
 import { updateMethod } from '../../../../api/base/BaseCollection.methods';
-import swal from 'sweetalert';
 // TODO
 const DangerZone = ({ organization }) => {
   const [showVisibilityModal, setShowVisibilityModal] = useState(false);

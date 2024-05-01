@@ -96,7 +96,7 @@ Meteor.methods({
     return org.name;
   },
   'organization.transferOwnership'(transferInfo) {
-    console.log(transferInfo);
+    console.log('transferInfo: ', transferInfo);
     check(transferInfo, Object);
     const { orgID, newOwner } = transferInfo;
     check(orgID, Number);
@@ -109,13 +109,15 @@ Meteor.methods({
     if (!newOwnerUser) {
       throw new Meteor.Error(`${newOwner} does not yet have an account.`);
     }
-    const oldOwnerOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: org.organizationOwner, orgID: orgID });
-    const newOwnerOrgAdmin = Organizations.findOne({ orgAdmin: newOwner, orgID: orgID });
-    console.log('old: ', oldOwnerOrgAdmin);
-    console.log('new: ', newOwnerOrgAdmin);
-    const now = new Date();
-    OrganizationAdmin.update(oldOwnerOrgAdmin._id, { dateAdded: now });
-    OrganizationAdmin.update(newOwnerOrgAdmin._id, { dateAdded: now });
+    console.log('org: ', org);
+    console.log('newOwnerUser: ', newOwnerUser);
+    // const oldOwnerOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: org.organizationOwner, orgID: orgID });
+    // const newOwnerOrgAdmin = Organizations.findOne({ orgAdmin: newOwner, orgID: orgID });
+    // console.log('old: ', oldOwnerOrgAdmin);
+    // console.log('new: ', newOwnerOrgAdmin);
+    // const now = new Date();
+    // OrganizationAdmin.update(oldOwnerOrgAdmin._id, { dateAdded: now });
+    // OrganizationAdmin.update(newOwnerOrgAdmin._id, { dateAdded: now });
   },
   'userStats.updateOrgsHelpedData'(eventInfo) {
     check(eventInfo, {
