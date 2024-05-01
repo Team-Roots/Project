@@ -56,16 +56,18 @@ const LandingPanel = ({ events, subbedEvents, stat, eventCategories }) => {
                         { /* what is in the user schema */}
                         <tbody>
                           {stat.stats.orgsHelped.length > 0 ? (
-                            stat.stats.orgsHelped.map((org, index) => (
-                              <TableComponent
-                                key={index}
-                                index={index}
-                                orgName={org.orgName}
-                                eventName={org.eventName}
-                                startTime={org.signUpTime}
-                                endTime={org.signOutTime}
-                              />
-                            ))
+                            stat.stats.orgsHelped
+                              .filter(org => org.signUpTime.getTime() !== org.signOutTime.getTime()) // Filter out entries with equal start and end times
+                              .map((org, index) => (
+                                <TableComponent
+                                  key={index}
+                                  index={index}
+                                  orgName={org.orgName}
+                                  eventName={org.eventName}
+                                  startTime={org.signUpTime}
+                                  endTime={org.signOutTime}
+                                />
+                              ))
                           ) : (
                             <tr>
                               <td colSpan="4" style={{ textAlign: 'center' }}>None</td>

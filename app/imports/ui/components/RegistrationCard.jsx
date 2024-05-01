@@ -195,7 +195,7 @@ const RegistrationCard = ({ event }) => {
                     }}
                   >
                     {/* eslint-disable-next-line no-nested-ternary */}
-                    {foundEventStat ? (show ? 'Sign Out' : 'Signed Out!') : 'Sign In'}
+                    {!foundEventStat ? <><FaRegBookmark className="mr-2" /> Sign In</> : <><FaBookmark className="mr-2" /> Sign Out!</>}
                   </Button>
                 )}
               </Tooltip>
@@ -211,14 +211,16 @@ const RegistrationCard = ({ event }) => {
               {/*  </Button> */}
               {/* </Tooltip> */}
               <Tooltip title="Reserve a volunteer spot to this event." placement="bottom">
-                <Button
-                  variant={canSubscribe ? 'success' : 'danger'}
-                  size="lg"
-                  className="mb-3 mx-2"
-                  onClick={() => subscribeEvent()}
-                >
-                  {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
-                </Button>
+                {(!userStat || userStat.signUpTime.getTime() === userStat.signOutTime.getTime()) && (
+                  <Button
+                    variant={canSubscribe ? 'success' : 'danger'}
+                    size="lg"
+                    className="mb-3 mx-2"
+                    onClick={() => subscribeEvent()}
+                  >
+                    {canSubscribe ? <><FaRegHeart className="mr-2" /> Subscribe</> : <><FaHeart className="mr-2" /> Unsubscribe</>}
+                  </Button>
+                )}
               </Tooltip>
               <Tooltip title="Chat with the organizer." placement="bottom">
                 <Button
