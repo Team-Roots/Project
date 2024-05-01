@@ -47,6 +47,7 @@ const DangerZone = ({ organization }) => {
   const handleTransferConfirm = () => {
     const transferInfo = {
       orgID: organization.orgID,
+      oldOwner: organization.organizationOwner,
       newOwner: transferAdmin,
     };
     Meteor.call('organization.transferOwnership', transferInfo, (error) => {

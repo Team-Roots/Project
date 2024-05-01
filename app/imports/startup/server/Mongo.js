@@ -97,27 +97,38 @@ Meteor.methods({
   },
   'organization.transferOwnership'(transferInfo) {
     console.log('transferInfo: ', transferInfo);
-    check(transferInfo, Object);
-    const { orgID, newOwner } = transferInfo;
-    check(orgID, Number);
-    check(newOwner, String);
+    check(transferInfo, {
+      orgID: Number,
+      oldOwner: String,
+      newOwner: String,
+    });
+
+    const { orgID, oldOwner, newOwner } = transferInfo;
     const org = Organizations.findOne({ orgID: orgID });
     if (!org) {
       throw new Meteor.Error(`No organization found with orgID ${orgID}.`);
     }
+    const oldOwnerUser = UserProfiles.findOne({ email: oldOwner });
     const newOwnerUser = UserProfiles.findOne({ email: newOwner });
+    if (!oldOwnerUser) {
+      throw new Meteor.Error(`${oldOwner} does not yet have an account.`);
+    }
     if (!newOwnerUser) {
       throw new Meteor.Error(`${newOwner} does not yet have an account.`);
     }
-    console.log('org: ', org);
-    console.log('newOwnerUser: ', newOwnerUser);
-    // const oldOwnerOrgAdmin = OrganizationAdmin.findOne({ orgAdmin: org.organizationOwner, orgID: orgID });
-    // const newOwnerOrgAdmin = Organizations.findOne({ orgAdmin: newOwner, orgID: orgID });
-    // console.log('old: ', oldOwnerOrgAdmin);
-    // console.log('new: ', newOwnerOrgAdmin);
-    // const now = new Date();
-    // OrganizationAdmin.update(oldOwnerOrgAdmin._id, { dateAdded: now });
-    // OrganizationAdmin.update(newOwnerOrgAdmin._id, { dateAdded: now });
+
+    if (oldOwner !== org.organizationOwner) {
+      throw new Meteor.Error(`${oldOwner} is not the owner of ${org.name}.`);
+    }
+    const oldOwnerAdmin = OrganizationAdmin.findOne({ orgAdmin: oldOwner, orgID: orgID });
+    const newOwnerAdmin = OrganizationAdmin.findOne({ orgAdmin: newOwner, orgID: orgID });
+    if (!newOwnerAdmin) {
+      throw new Meteor.Error(`${newOwner} is not an admin of ${org.name}.`);
+    }
+    const now = new Date();
+    OrganizationAdmin.update(oldOwnerAdmin._id, { dateAdded: now });
+    OrganizationAdmin.update(newOwnerAdmin._id, { dateAdded: now });
+    Organizations.update(org._id, { organizationOwner: newOwner });
   },
   'userStats.updateOrgsHelpedData'(eventInfo) {
     check(eventInfo, {
