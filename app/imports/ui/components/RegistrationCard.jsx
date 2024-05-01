@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Image, Card, Button, ListGroup, Alert, Table } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Roles } from 'meteor/alanning:roles';
 import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
@@ -12,6 +13,8 @@ import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { EventSubscription } from '../../api/event/EventSubscriptionCollection';
 import { Organizations } from '../../api/organization/OrganizationCollection';
 import { UserStats } from '../../api/user/UserStatisticsCollection';
+import { ROLE } from '../../api/role/Role';
+import { OrganizationAdmin } from '../../api/organization/OrganizationAdmin';
 
 const RegistrationCard = ({ event }) => {
   const [passwordInput, setPasswordInput] = useState('');
@@ -19,11 +22,13 @@ const RegistrationCard = ({ event }) => {
   const formattedCalendarDate = event.eventDate ? event.eventDate.toISOString().slice(0, 10)
     : 'Date not set';
   const owner = Meteor.user().username;
-  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat, userStat } = useTracker(() => {
-    const eventSubscription = EventSubscription.subscribeEvent();
+  const { ready, canSubscribe, eventOrganization, foundStats, foundEventStat, userStat, allSubscribers } = useTracker(() => {
+    // const eventSubscription = EventSubscription.subscribeEvent();
+    const eventSubscriptionAdmin = EventSubscription.subscribeEventAdmin();
     const organizationSubscription = Organizations.subscribeOrg();
     const userStatsSubscription = UserStats.subscribeStats();
-    const rdy = eventSubscription.ready() && organizationSubscription.ready() && userStatsSubscription.ready();
+    const getAdmins = OrganizationAdmin.subscribeOrgAdmin();
+    const rdy = organizationSubscription.ready() && userStatsSubscription.ready() && getAdmins.ready() && eventSubscriptionAdmin.ready();
     if (!rdy) {
       console.log('Subscription is not ready yet.');
     } else {
@@ -37,7 +42,10 @@ const RegistrationCard = ({ event }) => {
     eventSubscriptionInfo.eventDate = formattedCalendarDate;
     const foundEventOrganization = Organizations.findOne({ orgID: event.organizationID }, {});
     const subscriptionExists = EventSubscription.findOne({ subscriptionInfo: eventSubscriptionInfo });
+    console.log(subscriptionExists);
     const foundUserStats = UserStats.findOne({ email: subscribeBy });
+    console.log(foundUserStats);
+    // eslint-disable-next-line no-unused-vars
     const allStatsMatchingEvent = UserStats.find({
       'stats.orgsHelped': {
         $elemMatch: {
@@ -47,7 +55,7 @@ const RegistrationCard = ({ event }) => {
         },
       },
     }).fetch();
-    console.log(allStatsMatchingEvent);
+    // console.log(allStatsMatchingEvent);
     // $elemMatch is a query operator that allows matching documents that contain an array field with at least one element that matches all the specified query criteria.
     const foundEventStatistic = UserStats.findOne({
       'stats.orgsHelped': {
@@ -60,12 +68,19 @@ const RegistrationCard = ({ event }) => {
     });
     let found;
     if (rdy && foundEventStatistic) {
-      console.log(`FOUND STORED EVENT: ${foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName)}`);
+      // console.log(`FOUND STORED EVENT: ${foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName)}`);
       found = foundEventStatistic.stats.orgsHelped.find(({ eventName }) => eventName === eventSubscriptionInfo.eventName);
-      console.log(found && (found.signUpTime.getTime() !== found.signOutTime.getTime()));
+      // console.log(found && (found.signUpTime.getTime() !== found.signOutTime.getTime()));
+    }
+    const adminList = OrganizationAdmin.find({ orgID: event.organizationID }).fetch();
+    console.log(adminList.length);
+    let allSubs;
+    if (Roles.userIsInRole(Meteor.userId(), [ROLE.ORG_ADMIN]) && rdy && adminList.length > 0) {
+      allSubs = EventSubscription.find({ 'subscriptionInfo.eventName': eventSubscriptionInfo.eventName }).fetch();
+      console.log(allSubs);
     }
 
-    console.log(!!(foundEventStatistic));
+    // console.log(!!(foundEventStatistic));
 
     return {
       eventOrganization: foundEventOrganization,
@@ -73,6 +88,7 @@ const RegistrationCard = ({ event }) => {
       foundStats: !!(foundUserStats),
       foundEventStat: !!(foundEventStatistic),
       userStat: found,
+      allSubscribers: allSubs,
       ready: rdy,
     };
   }, []);
@@ -273,23 +289,30 @@ const RegistrationCard = ({ event }) => {
           </Card>
         </Col>
       </Row>
-      <h5>Event Password: {event.password}</h5>
-      <Table striped bordered hover className="mt-5">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>User</th>
-            <th>Recorded Hours</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{1}</td>
-            <td>TestName</td>
-            <td>0</td>
-          </tr>
-        </tbody>
-      </Table>
+      <h5 className="mb-5">Event Password: {event.password}</h5>
+      {allSubscribers && allSubscribers.length > 0 && ( // Add this conditional rendering
+        <>
+          <h5>Subscriber List</h5>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Edit Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allSubscribers.map((subscriber, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{subscriber.subscriptionInfo.email}</td>
+                  <td><Button>Change Recorded Hours</Button></td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </>
+      )}
     </Container>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

@@ -67,7 +67,7 @@ Meteor.publish(organizationAdminPublications.organizationAdmin, function () {
 });
 
 Meteor.publish(organizationAdminPublications.organizationAdminAdmin, function () {
-  if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+  if (this.userId && (Roles.userIsInRole(this.userId, ROLE.ADMIN))) {
     return OrganizationAdmin._collection.find();
   }
   return this.ready();
