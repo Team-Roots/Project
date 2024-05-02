@@ -209,7 +209,7 @@ const RegistrationCard = ({ event }) => {
                   </Button>
                 </div>
               </Alert>
-              <Tooltip title="If you have attended the event, claim your volunteer hours here." placement="bottom">
+              <Tooltip title="Sign in and sign out to the event" placement="bottom">
                 {((foundStats && !canSubscribe) && (!userStat || userStat.signUpTime.getTime() === userStat.signOutTime.getTime())) && (
                   <Button
                     variant={(foundStats && !canSubscribe) ? 'success' : 'danger'}

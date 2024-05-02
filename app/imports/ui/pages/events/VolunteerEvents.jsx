@@ -41,55 +41,47 @@ const VolunteerEvents = () => {
       setSelectedCategory(categoryName);
     }
   };
+  const applyFilters = () => {
+    let filteredData = filteredDate;
 
-  const applyFilter = () => {
-    if (selectedCategory === null) {
-      setData(filteredDate);
-      return;
-    }
-    const filteredData = filteredDate.filter((event) => {
-      const selectEventCategory = eventCategories.find(
-        (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
-          eventCategory.eventInfo.organizationID === event.organizationID,
-      );
+    if (selectedCategory !== null) {
+      filteredData = filteredData.filter((event) => {
+        const selectEventCategory = eventCategories.find(
+          (eventCategory) => eventCategory.eventInfo.eventName === event.name &&
+            eventCategory.eventInfo.organizationID === event.organizationID,
+        );
 
-      return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
-
-    });
-
-    setData(filteredData);
-  };
-
-  const applySearch = () => {
-    if (!searchInput.trim()) {
-      setData(filteredDate);
-      return;
-    }
-
-    const filteredData = filteredDate.filter((event) => {
-      const fieldsToSearch = ['name', 'organization'];
-
-      return fieldsToSearch.some((field) => {
-        const fieldValue = event[field];
-        if (Array.isArray(fieldValue)) {
-          return fieldValue.some(
-            (element) => typeof element === 'string' &&
-              element.toLowerCase().includes(searchInput.toLowerCase()),
-          );
-        } if (typeof fieldValue === 'string') {
-          return fieldValue.toLowerCase().includes(searchInput.toLowerCase());
-        }
-        return false;
+        return selectEventCategory && selectEventCategory.categoryName === selectedCategory;
       });
-    });
+    }
+
+    if (searchInput.trim() !== '') {
+      const searchResults = filteredData.filter((event) => {
+        const fieldsToSearch = ['name', 'organization'];
+
+        return fieldsToSearch.some((field) => {
+          const fieldValue = event[field];
+          if (Array.isArray(fieldValue)) {
+            return fieldValue.some(
+              (element) => typeof element === 'string' &&
+                element.toLowerCase().includes(searchInput.toLowerCase()),
+            );
+          } if (typeof fieldValue === 'string') {
+            return fieldValue.toLowerCase().includes(searchInput.toLowerCase());
+          }
+          return false;
+        });
+      });
+
+      filteredData = searchResults;
+    }
 
     setData(filteredData);
   };
 
   useEffect(() => {
     if (ready) {
-      applySearch();
-      applyFilter();
+      applyFilters();
     }
   }, [ready, searchInput, events, eventCategories, selectedCategory]);
 
